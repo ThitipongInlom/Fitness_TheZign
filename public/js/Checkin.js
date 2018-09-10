@@ -12,6 +12,9 @@ $(document).ready(function() {
 	setTimeout(function() {
 	DisplayTable();	
 	}, 200);
+	setTimeout(function() {
+	TablePane();
+	}, 100);
 });
 
 var searchinguse = function searchinguse() {
@@ -111,6 +114,10 @@ var DisplayTable = function DisplayTable() {
 			$('[data-toggle="tooltip"]').tooltip(); 
 		}
 	});
+}
+
+var TablePane = function TablePane() {
+	console.log('TT');
 }
 
 var Edit_Number = function Edit_Number(e) {
