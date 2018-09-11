@@ -139,6 +139,12 @@ class Checkin extends Controller
     	]);   
     }
 
+    public function FunctionName()
+    {
+        date_default_timezone_set("Asia/Bangkok");
+        $today = now();
+    }
+
     public function TableDisplay()
     {
     	$Code = Input::post('Code');
@@ -168,6 +174,12 @@ class Checkin extends Controller
         if ($DataDisplay->Fake_itemcodetype == 'P') {
             //Piece
             $Itemtypcode = 'ผืน';
+        }elseif ($DataDisplay->Fake_itemcodetype == 'C') {
+            //Bottle
+            $Itemtypcode = 'ขวด';
+        }elseif ($DataDisplay->Fake_itemcodetype == 'T') {
+            //Time
+            $Itemtypcode = 'ชั่วโมง';
         }else{
             // Null
             $Itemtypcode = '';
@@ -178,7 +190,7 @@ class Checkin extends Controller
     	<td>$i</td>
     	<td>$DataDisplay->Fake_itemcode</td>
     	<td>$DataDisplay->Fake_itemname</td>
-    	<td>$DataDisplay->Fake_price ฿</td>   	
+    	<td>".number_format($DataDisplay->Fake_price)." ฿</td>   	
     	<td>$DataDisplay->Fake_sum $Itemtypcode</td> 
     	<td>";
         if ($CounMainOnline == '0') {
@@ -202,8 +214,7 @@ class Checkin extends Controller
     	<tr class='bg-primary'>
     	<td colspan='5' align='right'><b>ราคารวม:</b></td>
     	<td align='center'>$SumPrice  <b>฿</b></td>
-    	</tr>
-    	";
+    	</tr>";
     	$Data .= '</tbody></table>';
     	// Have Data
     	if ($CounCheckNull > 0) {  
@@ -216,8 +227,7 @@ class Checkin extends Controller
         $Data .= '
         <div align="center">
         <span class="badge badge-danger">ลูกค้า กำลังใช้งาน อยู่</span>
-        </div>
-        ';    
+        </div>';    
         }
     	}else{
     	$Data .= '
@@ -233,7 +243,162 @@ class Checkin extends Controller
 
     public function TablePane()
     {
-        print_r($_POST);
+        $Code = Input::post('Code');
+        $Item = DB::table('item')->get();
+        $CounMainOnline = DB::table('main_table')->where('Code', $Code)->where('Status', 'IN')->count();
+        if ($CounMainOnline == '0') {
+        //Nav tab
+        $Navtab = '
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="general-tab" data-toggle="tab" href="#general" role="tab" aria-controls="general" aria-selected="true">ทั่วไป</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="cose-tab" data-toggle="tab" href="#cose" role="tab" aria-controls="cose" aria-selected="false">ซื้อคอส</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Contact</a>
+            </li>
+        </ul>';
+        //Tab pane
+        $Navtab .= '
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="general" role="tabpanel" aria-labelledby="general-tab">
+                <table class="table table-bordered table-sm table-hover">
+                    <thead>
+                    <tr align="center" class="bg-primary">
+                        <th>ชื่อรายการ</th>
+                        <th>จำนวน</th>
+                        <th>ราคา</th>
+                        <th>ตัวช่วย</th>
+                    </tr>
+                    </thead>
+                    <tbody>';
+                    foreach ($Item as $Item_Free) {
+                    if ($Item_Free->item_type == "L") {
+                        $Navtab .= "
+                        <tr item_codetype='$Item_Free->item_code_type' item_code='$Item_Free->item_code' item_name='$Item_Free->item_name' item_price='$Item_Free->item_price' item_type='$Item_Free->item_type' item_setnumber='$Item_Free->item_setnumber' ondblclick='Item_To_Disktop(this)'>
+                            <td><b>$Item_Free->item_name</b></td>
+                            <td align='center'>$Item_Free->item_setnumber</td>
+                            <td align='center'>".number_format($Item_Free->item_price)."</td>
+                            <td align='center'><button item_codetype='$Item_Free->item_code_type' item_code='$Item_Free->item_code' item_name='$Item_Free->item_name' item_price='$Item_Free->item_price' item_type='$Item_Free->item_type' item_setnumber='$Item_Free->item_setnumber' onclick='Item_To_Disktop(this)' class='btn btn-sm btn-primary'><i class='far fa-check-square'></i></button></td>
+                        </tr>";
+                    }
+                    }
+        //Nav tab
+        $Navtab .= '        
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane fade" id="cose" role="tabpanel" aria-labelledby="cose-tab">
+                <table class="table table-bordered table-sm table-hover">
+                    <thead>
+                        <tr align="center" class="bg-primary">
+                            <th>ชื่อรายการ</th>
+                            <th>จำนวน</th>
+                            <th>ราคา</th>
+                            <th>ตัวช่วย</th>
+                        </tr>
+                    </thead>
+                    <tbody>';
+                    foreach ($Item as $Item_Free) {
+                    if ($Item_Free->item_type == "C") {
+                        $Navtab .= "
+                        <tr item_codetype='$Item_Free->item_code_type' item_code='$Item_Free->item_code' item_name='$Item_Free->item_name' item_price='$Item_Free->item_price' item_type='$Item_Free->item_type' item_setnumber='$Item_Free->item_setnumber' ondblclick='Item_To_Disktop(this)'>
+                            <td><b>$Item_Free->item_name</b></td>
+                            <td align='center'>$Item_Free->item_setnumber</td>
+                            <td align='center'>".number_format($Item_Free->item_price)."</td>
+                            <td align='center'><button item_codetype='$Item_Free->item_code_type' item_code='$Item_Free->item_code' item_name='$Item_Free->item_name' item_price='$Item_Free->item_price' item_type='$Item_Free->item_type' item_setnumber='$Item_Free->item_setnumber' onclick='Item_To_Disktop(this)' class='btn btn-sm btn-primary'><i class='far fa-check-square'></i></button></td>
+                        </tr>";
+                    }
+                    }    
+        //Nav tab
+        $Navtab .= '                         
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
+        </div>';   
+        }else{
+        //Nav tab
+        $Navtab = '
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="general-tab" data-toggle="tab" href="#general" role="tab" aria-controls="general" aria-selected="true">ทั่วไป</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="cose-tab" data-toggle="tab" href="#cose" role="tab" aria-controls="cose" aria-selected="false">ซื้อคอส</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Contact</a>
+            </li>
+        </ul>';
+        //Tab pane
+        $Navtab .= '
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="general" role="tabpanel" aria-labelledby="general-tab">
+                <table class="table table-bordered table-sm table-hover">
+                    <thead>
+                    <tr align="center" class="bg-primary">
+                        <th>ชื่อรายการ</th>
+                        <th>จำนวน</th>
+                        <th>ราคา</th>
+                        <th>ตัวช่วย</th>
+                    </tr>
+                    </thead>
+                    <tbody>';
+                    foreach ($Item as $Item_Free) {
+                    if ($Item_Free->item_type == "L") {
+                        $Navtab .= "
+                        <tr item_codetype='$Item_Free->item_code_type' item_code='$Item_Free->item_code' item_name='$Item_Free->item_name' item_price='$Item_Free->item_price' item_type='$Item_Free->item_type'>
+                            <td><b>$Item_Free->item_name</b></td>
+                            <td align='center'>$Item_Free->item_setnumber</td>
+                            <td align='center'>".number_format($Item_Free->item_price)."</td>
+                            <td align='center'><span class='badge badge-primary'>ลูกค้ากำลังใช้งาน</span></td>
+                        </tr>";
+                    }
+                    }
+        //Nav tab
+        $Navtab .= '        
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane fade" id="cose" role="tabpanel" aria-labelledby="cose-tab">
+                <table class="table table-bordered table-sm table-hover">
+                    <thead>
+                        <tr align="center" class="bg-primary">
+                            <th>ชื่อรายการ</th>
+                            <th>จำนวน</th>
+                            <th>ราคา</th>
+                            <th>ตัวช่วย</th>
+                        </tr>
+                    </thead>
+                    <tbody>';
+                    foreach ($Item as $Item_Free) {
+                    if ($Item_Free->item_type == "C") {
+                        $Navtab .= "
+                        <tr item_codetype='$Item_Free->item_code_type' item_code='$Item_Free->item_code' item_name='$Item_Free->item_name' item_price='$Item_Free->item_price' item_type='$Item_Free->item_type'>
+                            <td><b>$Item_Free->item_name</b></td>
+                            <td align='center'>$Item_Free->item_setnumber</td>
+                            <td align='center'>".number_format($Item_Free->item_price)."</td>
+                            <td align='center'><span class='badge badge-primary'>ลูกค้ากำลังใช้งาน</span></td>
+                        </tr>";
+                    }
+                    }    
+        //Nav tab
+        $Navtab .= '                         
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
+        </div>';
+
+        }
+
+        // Show Json
+        $array = array('Navtab' => $Navtab);
+        $json = json_encode($array);
+        echo $json;            
     }
 
     public function EditNumber()
@@ -265,8 +430,7 @@ class Checkin extends Controller
         <hr>
         <button class='btn btn-primary' Fake_table_id='$Fake_table_id' onclick='Foronchangenum(this);'>ยืนยันเปลี่ยนจำนวน</button>
         </div>
-        </div>
-        ";
+        </div>";
         // Show Json
         $array = array('From' => $From);
         $json = json_encode($array);
@@ -296,5 +460,10 @@ class Checkin extends Controller
                     ->where('id', $Fake_table_id)
                     ->update(['Fake_sum' => $NewNum, 'Fake_price' => $totalprice]);                
         }       
+    }
+
+    public function History()
+    {
+        print_r($_POST);
     }
 }

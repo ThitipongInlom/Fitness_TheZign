@@ -19,6 +19,9 @@ var OnlineTable = function OnlineTable() {
 			var res = jQuery.parseJSON(callback);
 			$("#TableOnline").html(res.Table);	
 		}
+	})
+	.fail(function() {
+		OnlineTable();
 	});
 }
 
@@ -30,6 +33,9 @@ var TableYesterday = function TableYesterday() {
 			var res = jQuery.parseJSON(callback);
 			$("#TableYesterday").html(res.Table);	
 		}
+	})
+	.fail(function() {
+		TableYesterday();
 	});
 }
 
@@ -41,6 +47,9 @@ var TableToday = function TableToday() {
 			var res = jQuery.parseJSON(callback);
 			$("#TableToday").html(res.Table);	
 		}
+	})
+	.fail(function() {
+		TableToday();
 	});
 }
 
@@ -58,7 +67,10 @@ var ShowViewData = function ShowViewData(e) {
 			var res = jQuery.parseJSON(callback);
 			$("#Show_view_Data_Table").html(res.Table);
 		}
-	});
+	})
+	.fail(function() {
+		ShowViewData();
+	});	
 }
 
 var ShowViewDataMain = function ShowViewDataMain(e) {
@@ -75,5 +87,8 @@ var ShowViewDataMain = function ShowViewDataMain(e) {
 			var res = jQuery.parseJSON(callback);
 			$("#Show_view_Data_Table").html(res.Table);
 		}
-	});
+	})
+	.fail(function() {
+		ShowViewDataMain();
+	});		
 }

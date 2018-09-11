@@ -11,10 +11,10 @@ $(document).ready(function() {
 	// Ajax Get Data TO Fake Data
 	setTimeout(function() {
 	DisplayTable();	
-	}, 200);
+	}, 400);
 	setTimeout(function() {
 	TablePane();
-	}, 100);
+	}, 200);
 });
 
 var searchinguse = function searchinguse() {
@@ -78,6 +78,7 @@ var Item_To_Disktop = function Item_To_Disktop(e) {
 	var Item_name = $(e).attr('item_name');
 	var Item_price= $(e).attr('item_price');
 	var Item_codetype = $(e).attr('item_codetype');
+	var Item_setnumber = $(e).attr('item_setnumber');
 	// Type L
 	if (Item_type == 'L') {
 	$.ajax({
@@ -88,7 +89,7 @@ var Item_To_Disktop = function Item_To_Disktop(e) {
 	}
 	// Type C
 	if (Item_type == 'C') {
-	console.log('C');
+	console.log(Item_setnumber);
 	}
 	// Display Hide
 	$("#DisplayItemList").addClass("flipOutX");
@@ -117,7 +118,19 @@ var DisplayTable = function DisplayTable() {
 }
 
 var TablePane = function TablePane() {
-	console.log('TT');
+	// Check Code
+	var Code = $("#codehidden").val();
+	var csrf = $('meta[name="csrf-token"]').attr('content');
+	// Ajax Get Data TO Fake Data
+	$.ajax({
+		url: 'TablePane',
+		type: 'POST',
+		data: {_token: csrf, Code: Code},
+		success:function (callback) {
+			var res = jQuery.parseJSON(callback);
+			$("#PaneItem").html(res.Navtab);
+		}
+	});
 }
 
 var Edit_Number = function Edit_Number(e) {
@@ -173,5 +186,27 @@ var Foronchangenum = function Foronchangenum(e) {
 			}, 10);
 		}
 	});
+}
+
+var History = function History() {
+	// Get Code
+	var Code = $("#codehidden").val();
+	var csrf = $('meta[name="csrf-token"]').attr('content');
+	// Modal Show
+	$('#History').modal('show');	
+	// Ajax Get Data To Table
+	$.ajax({
+		url: 'History',
+		type: 'POST',
+		data: {_token: csrf,Code: Code},
+		success: function (callback) {
+			console.log(callback);
+			$("#History_display").html(Code);
+		}
+	})
+	.fail(function() {
+		History();
+	});
+	
 }
 
