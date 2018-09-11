@@ -30,13 +30,16 @@
 						      </div>
 						      <input type="text" id="inputcode" class="form-control" name="inputcode" placeholder="Code" @if(empty($_POST)) autofocus  @endif>
 						      &nbsp;&nbsp;&nbsp;
-						      <a href="{{ url('MainCheck') }}" class="btn btn-outline-danger" role="button" aria-pressed="true" data-toggle="tooltip" data-placement="bottom" title="ย้อนกลับหน้า เลือก รายการ"><i class="fas fa-arrow-left"></i></a>
-						      &nbsp;&nbsp;&nbsp;
 						      <button type="button" class="btn btn-outline-info" data-toggle="tooltip" data-placement="bottom" title="สแกน Barcode"><i class="fas fa-barcode"></i></button>
 						    </div>
 						  </form>					   	
 						</div>
 						<div class="float-right">  
+						    <a href="{{ url('MainCheck') }}" class="btn btn-outline-danger" role="button" aria-pressed="true" data-toggle="tooltip" data-placement="bottom" title="ย้อนกลับหน้า เลือก รายการ"><i class="fas fa-arrow-left"></i></a>							
+				            @if (empty($_POST))
+				            @else			
+				            <button class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="ประวัติย้อนหลัง" onclick="History();">ประวัติย้อนหลัง</button>
+				            @endif				
 						    <button class="btn btn-primary" data-toggle="modal" data-target="#Find_the_name" data-toggle="tooltip" data-placement="bottom" title="ค้นหารายชื่อลูกค้า">ค้นหาชื่อ</button>
 					    </div>
 					 </div>			  		
@@ -103,71 +106,9 @@
 
 				<div class="card card-info card-outline">
 	              <div class="card-body">
-					<ul class="nav nav-tabs" id="myTab" role="tablist">
-					  <li class="nav-item">
-					    <a class="nav-link active" id="general-tab" data-toggle="tab" href="#general" role="tab" aria-controls="general" aria-selected="true">ทั่วไป</a>
-					  </li>
-					  <li class="nav-item">
-					    <a class="nav-link" id="cose-tab" data-toggle="tab" href="#cose" role="tab" aria-controls="cose" aria-selected="false">ซื้อคอส</a>
-					  </li>
-					  <li class="nav-item">
-					    <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Contact</a>
-					  </li>
-					</ul>
-					<div class="tab-content" id="myTabContent">
-					  <div class="tab-pane fade show active" id="general" role="tabpanel" aria-labelledby="general-tab">
-					  	<table class="table table-bordered table-sm table-hover">
-					  		<thead>
-					  			<tr align="center" class="bg-primary">
-					  				<th>ชื่อรายการ</th>
-					  				<th>จำนวน</th>
-					  				<th>ราคา</th>
-					  				<th>ตัวช่วย</th>
-					  			</tr>
-					  		</thead>
-					  		<tbody>
-						    @foreach ($Item as $Item_Free)
-						    @if ($Item_Free->item_type == 'L')
-					  			<tr item_codetype="{{ $Item_Free->item_code_type }}" item_code="{{ $Item_Free->item_code }}" item_name="{{ $Item_Free->item_name }}" item_price="{{ $Item_Free->item_price }}" item_type="{{ $Item_Free->item_type }}" ondblclick="Item_To_Disktop(this)">
-					  				<td><b>{{ $Item_Free->item_name }}</b></td>
-					  				<td align="center">{{ $Item_Free->item_setnumber }}</td>
-					  				<td align="center">{{ $Item_Free->item_price }}</td>
-					  				<td align="center"><button item_codetype="{{ $Item_Free->item_code_type }}" item_code="{{ $Item_Free->item_code }}" item_name="{{ $Item_Free->item_name }}" item_price="{{ $Item_Free->item_price }}" item_type="{{ $Item_Free->item_type }}" onclick="Item_To_Disktop(this)" class="btn btn-sm btn-primary"><i class="far fa-check-square"></i></button></td>
-					  			</tr>
-						    @endif
-						    @endforeach
-					  		</tbody>
-					  	</table>
-					  </div>
-					  <div class="tab-pane fade" id="cose" role="tabpanel" aria-labelledby="cose-tab">
-					  	<table class="table table-bordered table-sm table-hover">
-					  		<thead>
-					  			<tr align="center" class="bg-primary">
-					  				<th>ชื่อรายการ</th>
-					  				<th>จำนวน</th>
-					  				<th>ราคา</th>
-					  				<th>ตัวช่วย</th>
-					  			</tr>
-					  		</thead>
-					  		<tbody>
-						    @foreach ($Item as $Item_Free)
-						    @if ($Item_Free->item_type == 'C')
-					  			<tr item_codetype="{{ $Item_Free->item_code_type }}" item_code="{{ $Item_Free->item_code }}" item_name="{{ $Item_Free->item_name }}" item_price="{{ $Item_Free->item_price }}" item_type="{{ $Item_Free->item_type }}" ondblclick="Item_To_Disktop(this)">
-					  				<td><b>{{ $Item_Free->item_name }}</b></td>
-					  				<td align="center">{{ $Item_Free->item_setnumber }}</td>
-					  				<td align="center">{{ $Item_Free->item_price }}</td>
-					  				<td align="center"><button item_codetype="{{ $Item_Free->item_code_type }}" item_code="{{ $Item_Free->item_code }}" item_name="{{ $Item_Free->item_name }}" item_price="{{ $Item_Free->item_price }}" item_type="{{ $Item_Free->item_type }}" onclick="Item_To_Disktop(this)" class="btn btn-sm btn-primary"><i class="far fa-check-square"></i></button></td>
-					  			</tr>
-						    @endif
-						    @endforeach
-					  		</tbody>
-					  	</table>
-					</div>
-					  <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
-					</div>
+					<div id="PaneItem"></div>
 	              </div>
 	            </div>
-	            
            	</div>
            </div>
            @else
@@ -283,6 +224,23 @@
 	    </div>
 	  </div>
 	</div>	 
+
+	<!-- Modal -->
+	<div class="modal fade" id="History" tabindex="-1" role="dialog" aria-labelledby="History_Label" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header bg-primary">
+	        <h5 class="modal-title" id="History_Label">ประวัติย้อนหลัง</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	      	 <div id="History_display"></div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
 
     </body>
     <!-- All Js -->

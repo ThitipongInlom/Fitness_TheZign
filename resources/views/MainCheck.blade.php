@@ -11,7 +11,7 @@
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet" type="text/css">
         <!-- animate -->
-        <link rel="stylesheet" type="text/css" href="{{ url('css/animate.css') }}">              
+        <link rel="stylesheet" type="text/css" href="{{ url('css/animate.css') }}">
     </head>
     <body class="login-page">
         @include('Head')      

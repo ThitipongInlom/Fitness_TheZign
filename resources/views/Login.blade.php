@@ -8,8 +8,6 @@
         <title>Login</title>
         <!-- All Css -->
         <link rel="stylesheet" type="text/css" href="{{ url('css/app.css') }}">
-        <!-- Img Setting -->
-        <link rel="stylesheet" type="text/css" href="{{ url('css/set_img.css') }}">
         <!-- animate -->
         <link rel="stylesheet" type="text/css" href="{{ url('css/animate.css') }}">
         <!-- Icheck-2 -->

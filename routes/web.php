@@ -50,3 +50,5 @@ Route::post('/Edit_Number', 'Checkin@EditNumber');
 Route::post('/Delete_item', 'Checkin@Delete_item');
 // Foronchangenum 
 Route::post('/Foronchangenum', 'Checkin@Foronchangenum');
+// History
+Route::post('/History', 'Checkin@History');
