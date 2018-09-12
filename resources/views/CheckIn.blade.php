@@ -77,17 +77,20 @@
 					    </tr>
 					    <tr class="bg-info" align="center">
 					      <td><b>วันที่เริ่มใช้งาน:</b></td>
-					      <td>{{ date('d-m-Y', strtotime($user->start)) }}</td>
+					      <td>{{ date('d/m/Y', strtotime($user->start)) }}</td>
 					      <td><b>วันที่สิ้นสุดใช้งาน:</b></td>
-					      <td>{{ date('d-m-Y', strtotime($user->expire)) }}</td>
+					      <td>{{ date('d/m/Y', strtotime($user->expire)) }}</td>
 					      <td><b>วันเกิด</b></td>
-					      <td>@if ($user->birthday == '0000-00-00' OR $user->birthday == '1970-01-01') {{ '-' }} @else {{ date('d-m-Y', strtotime($user->birthday)) }} @endif</td>
+					      <td>@if ($user->birthday == '0000-00-00' OR $user->birthday == '1970-01-01') {{ '-' }} @else {{ date('d/m/Y', strtotime($user->birthday)) }} @endif</td>
 					    </tr>
 					    @endforeach
 					  </tbody>
 					</table>
-				  </div>
+				<!-- DisplayPackage -->
+				<div id="DisplayPackage"></div>
 				</div>
+				</div>
+				<!-- DisplatItemList -->
 				<div class="card card-info card-outline">
 	              <div class="card-header">
 	                <h3 class="card-title">รายการต่างๆ</h3>
@@ -98,12 +101,15 @@
 	            </div>
            	</div>
            	<div class="col-md-4">
+           		<!-- Img -->
 				<div class="card card-info card-outline">
 	              <div class="card-body">
 						Img
 	              </div>
 	            </div> 
-
+	            <!-- Package -->
+	            <div id="PackageItem"></div>
+	            <!-- Item -->
 				<div class="card card-info card-outline">
 	              <div class="card-body">
 					<div id="PaneItem"></div>

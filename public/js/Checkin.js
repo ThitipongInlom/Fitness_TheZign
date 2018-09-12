@@ -11,10 +11,16 @@ $(document).ready(function() {
 	// Ajax Get Data TO Fake Data
 	setTimeout(function() {
 	DisplayTable();	
-	}, 400);
+	}, 100);
 	setTimeout(function() {
 	TablePane();
 	}, 200);
+	setTimeout(function() {
+	DisplayPackage();
+	}, 300);
+	setTimeout(function() {
+	PackageItem();
+	}, 400);
 });
 
 var searchinguse = function searchinguse() {
@@ -35,10 +41,20 @@ var searchingname = function searchingname(e) {
 	var name = $("#namesearching").val();
 	var status = $("#namesearching").attr("status");
 	var csrf = $('meta[name="csrf-token"]').attr('content');
+	// Create From Data
+	var Data = new FormData();
+	// Data Put Array
+	Data.append('_token', csrf);
+	Data.append('name', name);
+	Data.append('status', status);
 	$.ajax({
 		url: 'Namesearching',
 		type: 'POST',
-		data: {_token: csrf, name: name, status: status},
+		dataType: 'text',
+        cache: false,
+        contentType: false,
+        processData: false,		
+		data: Data,
 		success: function (callback) {
 			var res = jQuery.parseJSON(callback);
 			$("#table_find_name").html(res.Table);
@@ -79,17 +95,45 @@ var Item_To_Disktop = function Item_To_Disktop(e) {
 	var Item_price= $(e).attr('item_price');
 	var Item_codetype = $(e).attr('item_codetype');
 	var Item_setnumber = $(e).attr('item_setnumber');
-	// Type L
+	// Create From Data
+	var Data = new FormData();
+	// Data Put Array
+	Data.append('_token', csrf);	
+	Data.append('Code', Code);
+	Data.append('Item_code', Item_code);
+	Data.append('Item_type', Item_type);
+	Data.append('Item_name', Item_name);
+	Data.append('Item_price', Item_price);
+	Data.append('Item_codetype', Item_codetype);
+	Data.append('Item_setnumber', Item_setnumber);
+	// Type L   == General
 	if (Item_type == 'L') {
 	$.ajax({
 		url: 'Insert_type_L',
 		type: 'POST',
-		data: {_token: csrf, Code: Code, Item_code: Item_code, Item_type: Item_type, Item_name: Item_name,Item_price: Item_price,Item_codetype:Item_codetype},
+		dataType: 'text',
+        cache: false,
+        contentType: false,
+        processData: false,		
+		data: Data,
 	});
 	}
-	// Type C
+	// Type C  == Course
 	if (Item_type == 'C') {
-	console.log(Item_setnumber);
+	console.log(Data);
+	}
+	// Type P  == Package
+	if (Item_type == 'P') {
+	$.ajax({
+		url: 'Insert_type_P',
+		type: 'POST',
+		dataType: 'text',
+        cache: false,
+        contentType: false,
+        processData: false,		
+		data: Data,
+	});
+	
 	}
 	// Display Hide
 	$("#DisplayItemList").addClass("flipOutX");
@@ -97,6 +141,8 @@ var Item_To_Disktop = function Item_To_Disktop(e) {
 	// Ajax Get Data TO Fake Data
 	setTimeout(function() {
 	DisplayTable();	
+	DisplayPackage();
+	PackageItem();
 	}, 200);
 }
 
@@ -104,16 +150,28 @@ var DisplayTable = function DisplayTable() {
 	// Check Code
 	var Code = $("#codehidden").val();
 	var csrf = $('meta[name="csrf-token"]').attr('content');
+	// Create From Data
+	var Data = new FormData();
+	// Data Put Array
+	Data.append('_token', csrf);	
+	Data.append('Code', Code);	
 	// Ajax Get Data TO Fake Data	
 	$.ajax({
 		url: 'TableDisplay',
 		type: 'POST',
-		data: {_token: csrf, Code: Code},
+		dataType: 'text',
+        cache: false,
+        contentType: false,
+        processData: false,		
+		data: Data,
 		success: function (callback) {
 			var res = jQuery.parseJSON(callback);
 			$("#DisplayItemList").html(res.Table);	
 			$('[data-toggle="tooltip"]').tooltip(); 
 		}
+	})
+	.fail(function() {
+		DisplayTable();
 	});
 }
 
@@ -121,15 +179,27 @@ var TablePane = function TablePane() {
 	// Check Code
 	var Code = $("#codehidden").val();
 	var csrf = $('meta[name="csrf-token"]').attr('content');
+	// Create From Data
+	var Data = new FormData();
+	// Data Put Array
+	Data.append('_token', csrf);	
+	Data.append('Code', Code);		
 	// Ajax Get Data TO Fake Data
 	$.ajax({
 		url: 'TablePane',
 		type: 'POST',
-		data: {_token: csrf, Code: Code},
+		dataType: 'text',
+        cache: false,
+        contentType: false,
+        processData: false,		
+		data: Data,
 		success:function (callback) {
 			var res = jQuery.parseJSON(callback);
 			$("#PaneItem").html(res.Navtab);
 		}
+	})
+	.fail(function() {
+		TablePane();
 	});
 }
 
@@ -139,11 +209,20 @@ var Edit_Number = function Edit_Number(e) {
 	// Data SetToSend
 	var Fake_table_id = $(e).attr('fake_table_id');
 	var csrf = $('meta[name="csrf-token"]').attr('content');
+	// Create From Data
+	var Data = new FormData();
+	// Data Put Array
+	Data.append('_token', csrf);	
+	Data.append('Fake_table_id', Fake_table_id);	
 	// Ajax To Send
 	$.ajax({
 		url: 'Edit_Number',
 		type: 'POST',
-		data: {_token: csrf,Fake_table_id: Fake_table_id},
+		dataType: 'text',
+        cache: false,
+        contentType: false,
+        processData: false,		
+		data: Data,
 		success: function (callback) {
 			var res = jQuery.parseJSON(callback);
 			$("#edit_number_display").html(res.From);
@@ -155,14 +234,51 @@ var Delete_item = function Delete_item(e) {
 	// Data SetToSend
 	var Fake_table_id = $(e).attr('fake_table_id');
 	var csrf = $('meta[name="csrf-token"]').attr('content');
+	// Create From Data
+	var Data = new FormData();
+	// Data Put Array
+	Data.append('_token', csrf);	
+	Data.append('Fake_table_id', Fake_table_id);	
 	// Ajax To Send
 	$.ajax({
 		url: 'Delete_item',
 		type: 'POST',
-		data: {_token: csrf,Fake_table_id: Fake_table_id},
+		dataType: 'text',
+        cache: false,
+        contentType: false,
+        processData: false,		
+		data: Data,
 		success: function (callback) {
 			setTimeout(function() {
 			DisplayTable();	
+			}, 10);
+		}
+	});
+}
+
+var Delete_item_time = function Delete_item_time(e) {
+	// Data SetToSend
+	var Fake_table_id = $(e).attr('fake_table_id');
+	var csrf = $('meta[name="csrf-token"]').attr('content');
+	// Create From Data
+	var Data = new FormData();
+	// Data Put Array
+	Data.append('_token', csrf);	
+	Data.append('Fake_table_id', Fake_table_id);	
+	// Ajax To Send
+	$.ajax({
+		url: 'Delete_item_time',
+		type: 'POST',
+		dataType: 'text',
+        cache: false,
+        contentType: false,
+        processData: false,		
+		data: Data,
+		success: function (callback) {
+			setTimeout(function() {
+			DisplayTable();	
+			DisplayPackage();
+			PackageItem();
 			}, 10);
 		}
 	});
@@ -173,11 +289,21 @@ var Foronchangenum = function Foronchangenum(e) {
 	var NewNum = $('#newnumitem').val();
 	var Fake_table_id = $(e).attr('Fake_table_id');
 	var csrf = $('meta[name="csrf-token"]').attr('content');
+	// Create From Data
+	var Data = new FormData();
+	// Data Put Array
+	Data.append('_token', csrf);	
+	Data.append('Fake_table_id', Fake_table_id);
+	Data.append('NewNum', NewNum);	
 	// Ajax To Send
 	$.ajax({
 		url: 'Foronchangenum',
 		type: 'POST',
-		data: {_token: csrf,Fake_table_id: Fake_table_id,NewNum: NewNum},
+		dataType: 'text',
+        cache: false,
+        contentType: false,
+        processData: false,		
+		data: Data,
 		success: function (callback) {
 			setTimeout(function() {
 			// Modal Hide
@@ -192,21 +318,84 @@ var History = function History() {
 	// Get Code
 	var Code = $("#codehidden").val();
 	var csrf = $('meta[name="csrf-token"]').attr('content');
+	// Create From Data
+	var Data = new FormData();
+	// Data Put Array
+	Data.append('_token', csrf);	
+	Data.append('Code', Code);	
 	// Modal Show
 	$('#History').modal('show');	
 	// Ajax Get Data To Table
 	$.ajax({
 		url: 'History',
 		type: 'POST',
-		data: {_token: csrf,Code: Code},
+		dataType: 'text',
+        cache: false,
+        contentType: false,
+        processData: false,		
+		data: Data,
 		success: function (callback) {
-			console.log(callback);
 			$("#History_display").html(Code);
 		}
 	})
 	.fail(function() {
 		History();
 	});
-	
+}
+
+var DisplayPackage = function DisplayPackage() {
+	// Get Code
+	var Code = $("#codehidden").val();
+	var csrf = $('meta[name="csrf-token"]').attr('content');
+	// Create From Data
+	var Data = new FormData();
+	// Data Put Array
+	Data.append('_token', csrf);	
+	Data.append('Code', Code);	
+	// Ajax Send Data
+	$.ajax({
+		url: 'DisplayPackage',
+		type: 'POST',
+		dataType: 'text',
+        cache: false,
+        contentType: false,
+        processData: false,		
+		data: Data,
+		success: function (callback) {
+			var res = jQuery.parseJSON(callback);
+			$("#DisplayPackage").html(res.Table);
+		}
+	})
+	.fail(function() {
+		DisplayPackage();
+	});
+}
+
+var PackageItem = function PackageItem() {
+	// Get Code
+	var Code = $("#codehidden").val();
+	var csrf = $('meta[name="csrf-token"]').attr('content');
+	// Create From Data
+	var Data = new FormData();
+	// Data Put Array
+	Data.append('_token', csrf);	
+	Data.append('Code', Code);		
+	// Ajax Send Data
+	$.ajax({
+		url: 'PackageItem',
+		type: 'POST',
+		dataType: 'text',
+        cache: false,
+        contentType: false,
+        processData: false,		
+		data: Data,
+		success: function (callback) {
+			var res = jQuery.parseJSON(callback);
+			$("#PackageItem").html(res.Data);
+		}
+	})
+	.fail(function() {
+		PackageItem();
+	});
 }
 

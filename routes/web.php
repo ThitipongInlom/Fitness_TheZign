@@ -26,6 +26,8 @@ Route::post('/TableDisplay', 'Checkin@TableDisplay');
 Route::post('/TablePane', 'Checkin@TablePane');
 // Insert Type L
 Route::post('/Insert_type_L', 'Checkin@Insert_type_L');
+// Insert Type P
+Route::post('/Insert_type_P', 'Checkin@Insert_type_P');
 // CheckInOnline
 Route::post('/CheckInOnline', 'Checkin@CheckInOnline');
 // Table Online
@@ -48,7 +50,13 @@ Route::post('/Dologout', 'Checkout@Dologout');
 Route::post('/Edit_Number', 'Checkin@EditNumber');
 // Delete_item
 Route::post('/Delete_item', 'Checkin@Delete_item');
+// Delete_item_time
+Route::post('/Delete_item_time', 'Checkin@Delete_item_time');
 // Foronchangenum 
 Route::post('/Foronchangenum', 'Checkin@Foronchangenum');
 // History
 Route::post('/History', 'Checkin@History');
+// DisplayPackage
+Route::post('/DisplayPackage', 'Checkin@DisplayPackage');
+// PackageItem
+Route::post('/PackageItem', 'Checkin@PackageItem');

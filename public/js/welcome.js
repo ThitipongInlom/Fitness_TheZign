@@ -59,10 +59,23 @@ var ShowViewData = function ShowViewData(e) {
 	var Guset_in = $(e).attr('Guset_in');
 	var Main_id  = $(e).attr('main_id');
 	var csrf = $('meta[name="csrf-token"]').attr('content');
+	// Create From Data
+	var Data = new FormData();
+	// Data Put Array
+	Data.append('_token', csrf);	
+	Data.append('Code', Code);
+	Data.append('Name', Name);
+	Data.append('Guset_in', Guset_in);
+	Data.append('Main_id', Main_id);
+	// Ajax Send Data	
 	$.ajax({
 		url: 'ShowViewData',
 		type: 'POST',
-		data: {_token: csrf,Code: Code,Name: Name,Guset_in: Guset_in,Main_id: Main_id},
+		dataType: 'text',
+        cache: false,
+        contentType: false,
+        processData: false,		
+		data: Data,
 		success: function (callback) {
 			var res = jQuery.parseJSON(callback);
 			$("#Show_view_Data_Table").html(res.Table);
@@ -79,10 +92,23 @@ var ShowViewDataMain = function ShowViewDataMain(e) {
 	var Guset_in = $(e).attr('Guset_in');
 	var Main_id  = $(e).attr('main_id');
 	var csrf = $('meta[name="csrf-token"]').attr('content');
+	// Create From Data
+	var Data = new FormData();
+	// Data Put Array
+	Data.append('_token', csrf);	
+	Data.append('Code', Code);
+	Data.append('Name', Name);
+	Data.append('Guset_in', Guset_in);
+	Data.append('Main_id', Main_id);
+	// Ajax Send Data	
 	$.ajax({
 		url: 'ShowViewDataMain',
 		type: 'POST',
-		data: {_token: csrf,Code: Code,Name: Name,Guset_in: Guset_in,Main_id: Main_id},
+		dataType: 'text',
+        cache: false,
+        contentType: false,
+        processData: false,		
+		data: Data,
 		success: function (callback) {
 			var res = jQuery.parseJSON(callback);
 			$("#Show_view_Data_Table").html(res.Table);

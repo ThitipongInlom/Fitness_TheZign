@@ -103,17 +103,18 @@ class Checkin extends Controller
     	$Code = Input::post('Code');
     	$Data = DB::table('member')->where('code', $Code)->get();
     	foreach ($Data as $key => $row) {
-	        // Insert Data Online
+	    // Insert Data Online
 	    $id = DB::table('main_table')->insertGetId([
 	    	'Code' => $row->code, 
 	    	'Name' => $row->name,
 	    	'Guset_in' => $today,
 	    	'Status' => 'IN',
             'date' => $date]); 
+        // Update Main Id
         DB::table('fake_table')
             ->where('Fake_code', $Code)
-            ->update(['main_id' => $id]);
-    	}
+            ->update(['main_id' => $id]);    
+        }   
     }
 
     public function Insert_type_L()
@@ -126,7 +127,7 @@ class Checkin extends Controller
         $itemname = Input::post('Item_name');
         $itemprice= Input::post('Item_price');
         $itemcodetype = Input::post('Item_codetype');
-        // Insert Data
+        // Insert Data Fake Table
         DB::table('fake_table')->insert([
     	'Fake_code' => $code, 
     	'Fake_datetime' => $today,
@@ -139,10 +140,142 @@ class Checkin extends Controller
     	]);   
     }
 
-    public function FunctionName()
+    public function Insert_type_P()
     {
         date_default_timezone_set("Asia/Bangkok");
         $today = now();
+        $date = date("Y-m-d");
+        $code = Input::post('Code');
+        $itemcode = Input::post('Item_code');
+        $itemtype = Input::post('Item_type');
+        $itemname = Input::post('Item_name');
+        $itemprice= Input::post('Item_price');
+        $itemcodetype = Input::post('Item_codetype');
+        $itemsetnumber = Input::post('Item_setnumber');         
+        // Insert Data Package Fake  
+        $fake_package = DB::table('fake_package')->insertGetId([
+        'fake_code' => $code, 
+        'fake_datetime' => $today,
+        'fake_itemcode' => $itemcode,
+        'fake_typeitemcode' => $itemcodetype,
+        'fake_typeitem' => $itemtype,
+        'fake_itemname' => $itemname,
+        'fake_price'    => $itemprice,
+        'fake_sum'      => $itemsetnumber,
+        ]);  
+        // Insert Data Package Main  
+        $package_detail_id = DB::table('package_detail')->insertGetId([
+        'fake_code' => $code, 
+        'fake_datetime' => $today,
+        'fake_itemcode' => $itemcode,
+        'fake_typeitemcode' => $itemcodetype,
+        'fake_typeitem' => $itemtype,
+        'fake_itemname' => $itemname,
+        'fake_price'    => $itemprice,
+        'fake_sum'      => $itemsetnumber,
+        ]); 
+        // Insert Package Main
+        $idpackage = DB::table('main_package')->insertGetId([
+        'main_package_id' => $package_detail_id,
+        'Code' => $code,
+        'date' => $date,
+        'Status' => 'Active',
+        'name_package' => $itemname,
+        'total_sum' => $itemsetnumber,
+        'have_sum' => $itemsetnumber]);             
+        // Update Main Id
+        DB::table('fake_package')
+            ->where('fake_code', $code)
+            ->where('fake_package_id', $fake_package)
+            ->update(['main_package_id' => $idpackage]);    
+        // Update Package Main
+        DB::table('package_detail')
+            ->where('fake_code', $code)
+            ->where('package_id', $package_detail_id)
+            ->update(['main_package_id' => $idpackage]);                  
+        // Insert Data Fake Table
+        $fake_id = DB::table('fake_table')->insertGetId([
+        'Fake_code' => $code, 
+        'Fake_datetime' => $today,
+        'Fake_itemcode' => $itemcode,
+        'Fake_itemcodetype' => $itemcodetype,
+        'Fake_itemtype' => $itemtype,
+        'Fake_itemname' => $itemname,
+        'Fake_price'    => $itemprice,
+        'Fake_sum'      => $itemsetnumber,
+        ]); 
+        // Update Fake Id
+        DB::table('fake_package')
+            ->where('Fake_code', $code)
+            ->where('fake_package_id', $fake_package)
+            ->update(['fake_table_id' => $fake_id]);
+    }
+
+    public function DisplayPackage()
+    {
+        date_default_timezone_set("Asia/Bangkok");
+        $today = now();
+        $Code = Input::post('Code'); 
+        $Datajoin = DB::table('main_package')
+                        ->select('*')
+                        ->where('Status', '=', 'Active')
+                        ->where('Code', '=', $Code)
+                        ->get();  
+        $CheckNum = DB::table('main_package')->where('Code', $Code)->where('Status', '=', 'Active')->count();
+        if ($CheckNum != '0') {
+        $Table = '
+        <table class="table table-striped table-sm">
+        <tbody>';
+        foreach ($Datajoin as $key => $Row) {
+        $Table .= "
+        <tr class='bg-primary animated flipInX'>
+        <td><b>แพ็กเกจ:</b> $Row->name_package</td>
+        <td><b>วันที่ซื้อ:</b> ".date('d/m/Y', strtotime($Row->date))."</td>
+        <td><b>จำนวนที่ซื้อ:<b> $Row->total_sum ครั้ง</td>
+        <td><b>จำนวนคงเหลือ:</b> $Row->have_sum ครั้ง</td>
+        <td>
+        <button class='btn btn-sm btn-success'>ประวัติ</button>
+        </td>
+        </tr>";    
+        }
+        $Table .= '
+        </tbody>
+        </table>';
+        }else{
+        $Table = "";
+        }
+        // Show Json
+        $array = array('Table' => $Table);
+        $json = json_encode($array);
+        echo $json;
+    }
+
+    public function PackageItem()
+    {
+        date_default_timezone_set("Asia/Bangkok");
+        $today = now();
+        $Code = Input::post('Code');  
+        $Datajoin = DB::table('main_package')
+                        ->select('*')
+                        ->where('Status', '=', 'Active')
+                        ->where('Code', '=', $Code)
+                        ->get();           
+        $CheckNum = DB::table('main_package')->where('Code', $Code)->where('Status', '=', 'Active')->count();      
+        if ($CheckNum != '0') {
+        $Data = '
+        <div class="card card-info card-outline">
+        <div class="card-body">';
+        foreach ($Datajoin as $key => $data) {
+        $Data .= "<button class='btn btn-sm btn-primary'>เลือกใช้งาน</button>";
+        }
+        $Data .= '</div></div>';
+        }else{
+        $Data = "";
+        }
+        // Show Json
+        $array = array('Data' => $Data);
+        $json = json_encode($array);
+        echo $json;       
     }
 
     public function TableDisplay()
@@ -194,11 +327,16 @@ class Checkin extends Controller
     	<td>$DataDisplay->Fake_sum $Itemtypcode</td> 
     	<td>";
         if ($CounMainOnline == '0') {
+        if ($DataDisplay->Fake_itemcodetype == 'T') { 
+        $Data .= "
+        <button class='btn btn-sm btn-danger' onclick='Delete_item_time(this);' fake_table_id='$DataDisplay->id'><i class='fas fa-times'></i></button>";
+        }else{
         $Data .= "
         <button class='btn btn-sm btn-primary' onclick='Edit_Number(this);' fake_table_id='$DataDisplay->id'><i class='fas fa-dollar-sign'></i></button>
-        <button class='btn btn-sm btn-danger' onclick='Delete_item(this);' fake_table_id='$DataDisplay->id'><i class='fas fa-trash'></i></button>";
+        <button class='btn btn-sm btn-danger' onclick='Delete_item(this);' fake_table_id='$DataDisplay->id'><i class='fas fa-trash'></i></button>";            
+        }
         }else{
-        $Data .= "<span class='badge badge-primary'>ลูกค้ากำลังใช้งาน</span>";    
+        $Data .= "<span class='badge badge-primary'>กำลังใช้งาน</span>";    
         }
         $Data .= "</td>
     	</tr>";	
@@ -213,7 +351,7 @@ class Checkin extends Controller
     	$Data .= "
     	<tr class='bg-primary'>
     	<td colspan='5' align='right'><b>ราคารวม:</b></td>
-    	<td align='center'>$SumPrice  <b>฿</b></td>
+    	<td align='center'>".number_format($SumPrice)." <b>฿</b></td>
     	</tr>";
     	$Data .= '</tbody></table>';
     	// Have Data
@@ -302,7 +440,7 @@ class Checkin extends Controller
                     </thead>
                     <tbody>';
                     foreach ($Item as $Item_Free) {
-                    if ($Item_Free->item_type == "C") {
+                    if ($Item_Free->item_type == "C" OR $Item_Free->item_type == "P") {
                         $Navtab .= "
                         <tr item_codetype='$Item_Free->item_code_type' item_code='$Item_Free->item_code' item_name='$Item_Free->item_name' item_price='$Item_Free->item_price' item_type='$Item_Free->item_type' item_setnumber='$Item_Free->item_setnumber' ondblclick='Item_To_Disktop(this)'>
                             <td><b>$Item_Free->item_name</b></td>
@@ -354,7 +492,7 @@ class Checkin extends Controller
                             <td><b>$Item_Free->item_name</b></td>
                             <td align='center'>$Item_Free->item_setnumber</td>
                             <td align='center'>".number_format($Item_Free->item_price)."</td>
-                            <td align='center'><span class='badge badge-primary'>ลูกค้ากำลังใช้งาน</span></td>
+                            <td align='center'><span class='badge badge-primary'>กำลังใช้งาน</span></td>
                         </tr>";
                     }
                     }
@@ -375,13 +513,13 @@ class Checkin extends Controller
                     </thead>
                     <tbody>';
                     foreach ($Item as $Item_Free) {
-                    if ($Item_Free->item_type == "C") {
+                    if ($Item_Free->item_type == "C" OR $Item_Free->item_type == "P") {
                         $Navtab .= "
                         <tr item_codetype='$Item_Free->item_code_type' item_code='$Item_Free->item_code' item_name='$Item_Free->item_name' item_price='$Item_Free->item_price' item_type='$Item_Free->item_type'>
                             <td><b>$Item_Free->item_name</b></td>
                             <td align='center'>$Item_Free->item_setnumber</td>
                             <td align='center'>".number_format($Item_Free->item_price)."</td>
-                            <td align='center'><span class='badge badge-primary'>ลูกค้ากำลังใช้งาน</span></td>
+                            <td align='center'><span class='badge badge-primary'>กำลังใช้งาน</span></td>
                         </tr>";
                     }
                     }    
@@ -442,6 +580,25 @@ class Checkin extends Controller
         $Fake_table_id = Input::post('Fake_table_id');
         // Delete
         DB::table('fake_table')->where('id', $Fake_table_id)->delete();        
+    }
+
+    public function Delete_item_time()
+    {
+        $Fake_table_id = Input::post('Fake_table_id');
+        // Select
+        $Fake_Package = DB::table('fake_package')
+                     ->select('*')
+                     ->where('fake_table_id', '=', $Fake_table_id)
+                     ->get();
+        $Get_main_package = DB::table('main_package')
+                     ->select('*')
+                     ->where('id', '=', $Fake_Package[0]->main_package_id)
+                     ->get();  
+        // Delete
+        DB::table('package_detail')->where('main_package_id', $Get_main_package[0]->id)->delete();  
+        DB::table('main_package')->where('id', $Fake_Package[0]->main_package_id)->delete();     
+        DB::table('fake_table')->where('id', $Fake_table_id)->delete();  
+        DB::table('fake_package')->where('fake_table_id', $Fake_table_id)->delete();  
     }
 
     public function Foronchangenum()
