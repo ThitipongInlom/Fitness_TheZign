@@ -236,7 +236,7 @@
 	  <div class="modal-dialog" role="document">
 	    <div class="modal-content">
 	      <div class="modal-header bg-primary">
-	        <h5 class="modal-title" id="History_Label">ประวัติย้อนหลัง</h5>
+	        <h5 class="modal-title" id="History_Label">ประวัติย้อนหลัง 5ครั้ง ล่าสุด</h5>
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 	          <span aria-hidden="true">&times;</span>
 	        </button>

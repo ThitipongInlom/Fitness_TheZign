@@ -335,7 +335,7 @@ var History = function History() {
         processData: false,		
 		data: Data,
 		success: function (callback) {
-			$("#History_display").html(Code);
+			$("#History_display").html(callback);
 		}
 	})
 	.fail(function() {

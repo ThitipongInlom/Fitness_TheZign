@@ -264,11 +264,25 @@ class Checkin extends Controller
         if ($CheckNum != '0') {
         $Data = '
         <div class="card card-info card-outline">
-        <div class="card-body">';
+        <div class="card-body">
+        <table class="table table-striped table-sm">
+        <tbody>
+        <tr class="bg-primary" align="center"><td><b>รายการ</b></td><td><b>ตัวช่วย</b></td></tr>';
         foreach ($Datajoin as $key => $data) {
-        $Data .= "<button class='btn btn-sm btn-primary'>เลือกใช้งาน</button>";
+        $Data .= "
+        <tr class='bg-primary' class='animated flipInX'>
+        <td width='90%'>
+        <b>$data->name_package | คงเหลือ:</b> $data->have_sum
+        </td>
+        <td width='10%'>
+        <button class='btn btn-sm btn-success' main_package_id='$data->id' package_detail_id='$data->main_package_id'>เลือกใช้งาน</button>
+        </td>
+        </tr>";
         }
-        $Data .= '</div></div>';
+        $Data .= '
+        </tbody>
+        </table>
+        </div></div>';
         }else{
         $Data = "";
         }
@@ -621,6 +635,42 @@ class Checkin extends Controller
 
     public function History()
     {
-        print_r($_POST);
+        $Code = Input::post('Code');
+        $Data = DB::table('main_table')->where('Code', $Code)->where('Status', 'OUT')->limit(5)->orderBy('date', 'desc')->get();
+        $Table = '
+        <div id="HistoryTable">';
+        foreach ($Data as $key => $row) {
+        $Table .= "
+        <div class='p-2 mb-2 bg-primary shadow-sm' id='heading$row->ID' data-toggle='collapse' data-target='#collapse$row->ID' aria-expanded='false' aria-controls='collapse$row->ID'>
+        <div class='clearfix'>
+        <div class='float-left'>
+        <b>วันที่ใช้งาน:</b> $row->Guset_in | <b>สถานะ:</b> $row->Status
+        </div>
+        <div class='float-right'>
+        <i class='fas fa-arrow-right'></i>
+        </div>
+        </div>
+        </div>
+        <div id='collapse$row->ID' class='collapse shadow' aria-labelledby='heading$row->ID' data-parent='#HistoryTable'>
+        <div align='center'>
+        <table class='table table-striped'>
+        <tbody>";
+        $Datasub = DB::table('detail_table')->where('main_id', $row->ID)->get();
+        foreach ($Datasub as $key => $rowsub) {
+        $Table .= "
+        <tr align='left'>
+        <td><b>รายการ:</b> $rowsub->itemname</td>
+        <td><b>จำนวน:</b> $rowsub->sum</td>
+        <td><b>ราคา:</b> ".number_format($rowsub->price)."</td>
+        </tr>";
+        }
+        $Table .="
+        </tbody>
+        </table>
+        </div>
+        </div>";
+        }
+        $Table .= '</div>';       
+        print_r($Table);
     }
 }

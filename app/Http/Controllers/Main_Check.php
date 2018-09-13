@@ -167,7 +167,7 @@ class Main_Check extends Controller
 		<td>$DataDisplay->Fake_itemcode</td>
 		<td>$DataDisplay->Fake_itemname</td>
 		<td>$DataDisplay->Fake_sum</td>
-		<td>$DataDisplay->Fake_price</td>
+		<td>".number_format($DataDisplay->Fake_price)."</td>
 		</tr>";
 		}  
     	}else{
@@ -180,7 +180,7 @@ class Main_Check extends Controller
     	$Data .= "
     	<tr class='bg-primary'>
     	<td colspan='4' align='right'><b>ราคารวม:</b></td>
-    	<td align='center'>$SumPrice  <b>฿</b></td>
+    	<td align='center'>".number_format($SumPrice) ." <b>฿</b></td>
     	</tr>
     	";	  		
 		$Data .= '</tbody></table>';
@@ -230,7 +230,7 @@ class Main_Check extends Controller
     <td>$DataDisplay->itemcode</td>
     <td>$DataDisplay->itemname</td>
     <td>$DataDisplay->sum</td>
-    <td>$DataDisplay->price</td>
+    <td>".number_format($DataDisplay->price)."</td>
     </tr>";
     }  
       }else{
@@ -243,7 +243,7 @@ class Main_Check extends Controller
       $Data .= "
       <tr class='bg-primary'>
       <td colspan='4' align='right'><b>ราคารวม:</b></td>
-      <td align='center'>$SumPrice  <b>฿</b></td>
+      <td align='center'>".number_format($SumPrice) ." <b>฿</b></td>
       </tr>
       ";        
     $Data .= '</tbody></table>';
