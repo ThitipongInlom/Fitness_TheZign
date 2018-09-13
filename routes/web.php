@@ -60,3 +60,5 @@ Route::post('/History', 'Checkin@History');
 Route::post('/DisplayPackage', 'Checkin@DisplayPackage');
 // PackageItem
 Route::post('/PackageItem', 'Checkin@PackageItem');
+// OnUsePackage
+Route::post('/OnUsePackage', 'Checkin@OnUsePackage');

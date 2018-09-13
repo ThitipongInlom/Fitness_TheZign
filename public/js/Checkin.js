@@ -335,7 +335,8 @@ var History = function History() {
         processData: false,		
 		data: Data,
 		success: function (callback) {
-			$("#History_display").html(callback);
+			var res = jQuery.parseJSON(callback);
+			$("#History_display").html(res.Table);
 		}
 	})
 	.fail(function() {
@@ -396,6 +397,42 @@ var PackageItem = function PackageItem() {
 	})
 	.fail(function() {
 		PackageItem();
+	});
+}
+
+var OnUsePackage = function OnUsePackage(e) {
+	// Get Code
+	var csrf = $('meta[name="csrf-token"]').attr('content');
+	var main_package_id = $(e).attr('main_package_id');
+	var package_detail_id = $(e).attr('package_detail_id');
+	var Code = $(e).attr('code');
+	var total = $(e).attr('total');
+	var havesum = $(e).attr('havesum');
+	// Create From Data
+	var Data = new FormData();
+	// Data Put Array
+	Data.append('_token', csrf);	
+	Data.append('Code', Code);	
+	Data.append('main_package_id', main_package_id);
+	Data.append('package_detail_id', package_detail_id);
+	Data.append('total', total);
+	Data.append('havesum', havesum);
+	// Ajax Send Data
+	$.ajax({
+		url: 'OnUsePackage',
+		type: 'POST',
+		dataType: 'text',
+        cache: false,
+        contentType: false,
+        processData: false,		
+		data: Data,
+		success: function (callback) {
+			PackageItem();
+			DisplayPackage();
+		}
+	})
+	.fail(function() {
+		OnUsePackage();
 	});
 }
 

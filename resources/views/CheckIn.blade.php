@@ -30,6 +30,8 @@
 						      </div>
 						      <input type="text" id="inputcode" class="form-control" name="inputcode" placeholder="Code" @if(empty($_POST)) autofocus  @endif>
 						      &nbsp;&nbsp;&nbsp;
+						      <button type="submit" class="btn btn-outline-primary" data-toggle="tooltip" data-placement="bottom" title="ค้นหา"><i class="fas fa-search"></i></button>
+						      &nbsp;&nbsp;&nbsp;
 						      <button type="button" class="btn btn-outline-info" data-toggle="tooltip" data-placement="bottom" title="สแกน Barcode"><i class="fas fa-barcode"></i></button>
 						    </div>
 						  </form>					   	

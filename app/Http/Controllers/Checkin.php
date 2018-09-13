@@ -275,7 +275,7 @@ class Checkin extends Controller
         <b>$data->name_package | คงเหลือ:</b> $data->have_sum
         </td>
         <td width='10%'>
-        <button class='btn btn-sm btn-success' main_package_id='$data->id' package_detail_id='$data->main_package_id'>เลือกใช้งาน</button>
+        <button class='btn btn-sm btn-success' main_package_id='$data->id' package_detail_id='$data->main_package_id' code='$data->Code' total='$data->total_sum' havesum='$data->have_sum' onclick='OnUsePackage(this);'>เลือกใช้งาน</button>
         </td>
         </tr>";
         }
@@ -670,7 +670,46 @@ class Checkin extends Controller
         </div>
         </div>";
         }
-        $Table .= '</div>';       
-        print_r($Table);
+        $Table .= '</div>'; 
+        // Show Json
+        $array = array('Table' => $Table);
+        $json = json_encode($array);
+        echo $json;        
+    }
+
+    public function OnUsePackage()
+    {
+        date_default_timezone_set("Asia/Bangkok");
+        $today = now();        
+        $code = Input::post('Code');
+        $main_package_id = Input::post('main_package_id');
+        $package_detail_id = Input::post('package_detail_id');
+        $total = Input::post('total');
+        $havesum = Input::post('havesum');
+        // New Have Sum
+        $newhavesum = ((int)$havesum - (int)'1');
+        // Insert Package Log
+        $package_log_id = DB::table('package_log')->insertGetId([
+        'main_package_id' => $main_package_id,
+        'package_detail' => $package_detail_id,
+        'code' => $code,
+        'date' => $today,
+        'total_sum' => $total,
+        'havesum' => $newhavesum,
+        'onuse' => '1']);           
+        // Update Package Detail
+        DB::table('package_detail')
+            ->where('package_id', $package_detail_id)
+            ->update(['last_use_package_id' => $package_log_id]);
+        // Update Main Package
+        DB::table('main_package')
+            ->where('id', $main_package_id)
+            ->update(['have_sum' => $newhavesum]);  
+        if ($newhavesum == '0') {
+        // Update Main Package
+        DB::table('main_package')
+            ->where('id', $main_package_id)
+            ->update(['Status' => 'Expired']); 
+        }
     }
 }
