@@ -36,7 +36,7 @@ Route::get('/TableOnline', 'Main_Check@TableOnline');
 Route::get('/TableYesterday', 'Main_Check@TableYesterday');
 // Table TableToday
 Route::get('/TableToday', 'Main_Check@TableToday');
-// ShowViewData
+// ShowViewDatas
 Route::post('/ShowViewData', 'Main_Check@ShowViewData');
 // ShowViewDataMain
 Route::post('/ShowViewDataMain', 'Main_Check@ShowViewDataMain');
@@ -62,3 +62,5 @@ Route::post('/DisplayPackage', 'Checkin@DisplayPackage');
 Route::post('/PackageItem', 'Checkin@PackageItem');
 // OnUsePackage
 Route::post('/OnUsePackage', 'Checkin@OnUsePackage');
+// PackageOnuseDisplay
+Route::post('/PackageOnuseDisplay', 'Checkin@PackageOnuseDisplay');

@@ -162,6 +162,7 @@ class Checkin extends Controller
         'fake_itemname' => $itemname,
         'fake_price'    => $itemprice,
         'fake_sum'      => $itemsetnumber,
+        'Status'        => 'BUY'
         ]);  
         // Insert Data Package Main  
         $package_detail_id = DB::table('package_detail')->insertGetId([
@@ -637,6 +638,8 @@ class Checkin extends Controller
     {
         $Code = Input::post('Code');
         $Data = DB::table('main_table')->where('Code', $Code)->where('Status', 'OUT')->limit(5)->orderBy('date', 'desc')->get();
+        $CheckHaveHistory = DB::table('main_table')->where('Code', $Code)->count();
+        if ($CheckHaveHistory >= 1) {
         $Table = '
         <div id="HistoryTable">';
         foreach ($Data as $key => $row) {
@@ -671,6 +674,9 @@ class Checkin extends Controller
         </div>";
         }
         $Table .= '</div>'; 
+        }else{
+        $Table = '<div align="center" style="color:red;"><h5><b>ไม่พบข้อมูลการใช้งาน</b></h5></div>';
+        }
         // Show Json
         $array = array('Table' => $Table);
         $json = json_encode($array);
@@ -711,5 +717,10 @@ class Checkin extends Controller
             ->where('id', $main_package_id)
             ->update(['Status' => 'Expired']); 
         }
+    }
+
+    public function PackageOnuseDisplay()
+    {
+        print_r($_POST);
     }
 }

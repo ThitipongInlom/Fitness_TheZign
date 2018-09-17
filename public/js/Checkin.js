@@ -21,6 +21,9 @@ $(document).ready(function() {
 	setTimeout(function() {
 	PackageItem();
 	}, 400);
+	setTimeout(function() {
+	PackageOnuseDisplay();
+	}, 500);
 });
 
 var searchinguse = function searchinguse() {
@@ -434,5 +437,30 @@ var OnUsePackage = function OnUsePackage(e) {
 	.fail(function() {
 		OnUsePackage();
 	});
+}
+
+var PackageOnuseDisplay = function PackageOnuseDisplay() {
+	// Get Code
+	var csrf = $('meta[name="csrf-token"]').attr('content');
+	// Create From Data
+	var Data = new FormData();
+	// Data Put Array
+	Data.append('_token', csrf);	
+	// Ajax Send Data
+	$.ajax({
+		url: 'PackageOnuseDisplay',
+		type: 'POST',
+		dataType: 'text',
+        cache: false,
+        contentType: false,
+        processData: false,		
+		data: Data,
+		success: function (callback) {
+
+		}
+	})
+	.fail(function() {
+		PackageOnuseDisplay();
+	});	
 }
 

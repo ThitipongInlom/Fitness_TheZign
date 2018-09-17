@@ -98,7 +98,8 @@
 	                <h3 class="card-title">รายการต่างๆ</h3>
 	              </div>
 	              <div class="card-body">
-	                     <div id="DisplayItemList"></div>
+	              		<div id="PackageOnuseDisplay"></div>
+	                    <div id="DisplayItemList"></div>
 	              </div>
 	            </div>
            	</div>
