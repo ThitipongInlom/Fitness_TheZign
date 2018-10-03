@@ -42,7 +42,7 @@ class Main_Check extends Controller
                   <td>$row->Name</td>
                   <td>
                   <button class='btn btn-sm btn-primary' onclick='ShowViewData(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
-                  <button class='btn btn-sm btn-secondary'><i class='fas fa-edit'></i></button>
+                  <button class='btn btn-sm btn-secondary' onclick='GoPostCodeEdit(this)' code='$row->Code'><i class='fas fa-edit'></i></button>
                   </td>
                 </tr>";
             }

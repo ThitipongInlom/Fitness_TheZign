@@ -123,3 +123,9 @@ var ShowViewDataMain = function ShowViewDataMain(e) {
             ShowViewDataMain();
         });
 }
+
+var GoPostCodeEdit = function GoPostCodeEdit(e) {
+    var csrf = $('meta[name="csrf-token"]').attr('content');
+    var Code = $(e).attr('code');
+    $.redirect("CheckIn", {_token: csrf, inputcode: Code}, "POST");
+}
