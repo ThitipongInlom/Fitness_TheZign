@@ -44,6 +44,7 @@ var TableToday = function TableToday() {
             url: 'TableToday',
             type: 'GET',
             success: function(callback) {
+                $("body").css("padding-right", "0");
                 var res = jQuery.parseJSON(callback);
                 $("#TableToday").html(res.Table);
             }
@@ -54,6 +55,8 @@ var TableToday = function TableToday() {
 }
 
 var ShowViewData = function ShowViewData(e) {
+    $('#Show_view_Data').modal('show');
+    $("body").css("padding-right", "0");
     var Code = $(e).attr('code');
     var Name = $(e).attr('name');
     var Guset_in = $(e).attr('Guset_in');
@@ -87,6 +90,8 @@ var ShowViewData = function ShowViewData(e) {
 }
 
 var ShowViewDataMain = function ShowViewDataMain(e) {
+    $('#Show_view_Data').modal('show');
+    $("body").css("padding-right", "0");
     var Code = $(e).attr('code');
     var Name = $(e).attr('name');
     var Guset_in = $(e).attr('Guset_in');

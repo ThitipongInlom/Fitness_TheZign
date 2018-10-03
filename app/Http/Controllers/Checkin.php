@@ -748,12 +748,14 @@ class Checkin extends Controller
               ->join('package_detail','package_detail.package_id','=','package_log.package_detail')
               ->where('package_log.main_package_id', $Package_id)
               ->where('code', $Code)
+              ->where('status', 'U')
               ->orderBy('date', 'desc')
               ->get();
       $Count = DB::table('package_log')
               ->join('package_detail','package_detail.package_id','=','package_log.package_detail')
               ->where('package_log.main_package_id', $Package_id)
               ->where('code', $Code)
+              ->where('status', 'U')
               ->orderBy('date', 'desc')
               ->count();
       if ($Count > 0) {
@@ -861,27 +863,16 @@ class Checkin extends Controller
         $Package_detail  = $rowlog->package_detail;
         $Totalsum = $rowlog->total_sum;
       }
-      // Insert Get Id New Package_log
-      $NewPackage_log_id = DB::table('package_log')->insertGetId([
-        'main_package_id' => $Main_package_id,
-        'package_detail' => $Package_detail,
-        'code' => $Code,
-        'date' => $date,
-        'total_sum' => $Totalsum,
-        'havesum' => $ReHavesumOnuse,
-        'onuse' => '1',
-        'status' => 'U']);
       // Delete Old Data
       DB::table('package_onuse')->where('package_onuse_id', $Package_onuse_id)->delete();
-      DB::table('package_log')->where('package_log_id', $Package_log_id)->delete();
+      // Update Status In Package_log
+      DB::table('package_log')
+          ->where('package_log_id', $Package_log_id)
+          ->update(['status' => 'R']);
       // Update Have_Sum In Main_package
       DB::table('main_package')
           ->where('id', $Main_package_id)
           ->update(['have_sum' => $ReHavesumOnuse]);
-      // Update Last Package Log Id In Package Detail
-      DB::table('package_detail')
-          ->where('package_id', $Package_detail)
-          ->update(['last_use_package_id' => $NewPackage_log_id]);
 
       print_r('0');
     }

@@ -41,23 +41,23 @@ class Main_Check extends Controller
                   <td>$row->Code</td>
                   <td>$row->Name</td>
                   <td>
-                  <button class='btn btn-sm btn-primary' data-toggle='modal' data-target='#Show_view_Data' onclick='ShowViewData(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
+                  <button class='btn btn-sm btn-primary' onclick='ShowViewData(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
                   <button class='btn btn-sm btn-secondary'><i class='fas fa-edit'></i></button>
                   </td>
                 </tr>";
-            }    
+            }
             $Table .= '</tbody></table>';
         // Encode To Json
 		$arrayTable = array('Table' => $Table);
 		$Jsonencode = json_encode($arrayTable);
 		echo $Jsonencode;
-	}	
+	}
 
 	public function TableYesterday()
 	{
 		$date = date("m-d-Y");
 		$date1 = str_replace('-', '/', $date);
-		$Yesterday = date('Y-m-d',strtotime($date1 . "-1 days"));		
+		$Yesterday = date('Y-m-d',strtotime($date1 . "-1 days"));
 		$DataCode = DB::table('main_table')->where('Status', 'OUT')->where('date', $Yesterday)->limit(10)->get();
 		// Table
 		$Table = '
@@ -80,10 +80,10 @@ class Main_Check extends Controller
                   <td>$row->Code</td>
                   <td>$row->Name</td>
                   <td>
-                  <button class='btn btn-sm btn-primary' data-toggle='modal' data-target='#Show_view_Data' onclick='ShowViewDataMain(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in'><i class='fas fa-search'></i></button>
+                  <button class='btn btn-sm btn-primary' onclick='ShowViewDataMain(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in'><i class='fas fa-search'></i></button>
                   </td>
                 </tr>";
-            }    
+            }
             $Table .= '</tbody></table>';
         // Encode To Json
 		$arrayTable = array('Table' => $Table);
@@ -93,7 +93,7 @@ class Main_Check extends Controller
 
   public function TableToday()
   {
-    $Today = date('Y-m-d');   
+    $Today = date('Y-m-d');
     $DataCode = DB::table('main_table')->where('Status', 'OUT')->where('date', $Today)->limit(10)->get();
     // Table
     $Table = '
@@ -116,10 +116,10 @@ class Main_Check extends Controller
                   <td>$row->Code</td>
                   <td>$row->Name</td>
                   <td>
-                  <button class='btn btn-sm btn-primary' data-toggle='modal' data-target='#Show_view_Data' onclick='ShowViewDataMain(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in'><i class='fas fa-search'></i></button>
+                  <button class='btn btn-sm btn-primary' onclick='ShowViewDataMain(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in'><i class='fas fa-search'></i></button>
                   </td>
                 </tr>";
-            }    
+            }
             $Table .= '</tbody></table>';
         // Encode To Json
     $arrayTable = array('Table' => $Table);
@@ -137,7 +137,7 @@ class Main_Check extends Controller
     	$DataCode = DB::table('fake_table')->where('Fake_code', $Code)->where('main_id', $Main_id)->get();
     	$SumPrice = DB::table('fake_table')->where('Fake_code', $Code)->where('main_id', $Main_id)->sum('Fake_price');
     	$CounCheckNull = DB::table('fake_table')->where('Fake_code', $Code)->where('main_id', $Main_id)->count();
-		//Table 
+		//Table
 		$Data = "
 		<div class='row'>
 		<div class='col-md-12'>
@@ -155,7 +155,7 @@ class Main_Check extends Controller
 	    		  <th>จำนวน</th>
 	    		  <th>ราคา</th>
                 </tr>
-       		</thead><tbody>";	
+       		</thead><tbody>";
     	// Have Data
     	if ($CounCheckNull > 0) {
        	$i =0;
@@ -169,25 +169,25 @@ class Main_Check extends Controller
 		<td>$DataDisplay->Fake_sum</td>
 		<td>".number_format($DataDisplay->Fake_price)."</td>
 		</tr>";
-		}  
+		}
     	}else{
     	$Data .= "
     	<tr align='center'>
     	<td colspan='6'>Null</td>
-    	</tr>";    		
-    	}		   
+    	</tr>";
+    	}
     	//  Table Data
     	$Data .= "
     	<tr class='bg-primary'>
     	<td colspan='4' align='right'><b>ราคารวม:</b></td>
     	<td align='center'>".number_format($SumPrice) ." <b>฿</b></td>
     	</tr>
-    	";	  		
+    	";
 		$Data .= '</tbody></table>';
 		// Encode To Json
 		$arrayTable = array('Table' => $Data);
 		$Jsonencode = json_encode($arrayTable);
-		echo $Jsonencode;		
+		echo $Jsonencode;
 	}
 
   public function ShowViewDataMain()
@@ -200,7 +200,7 @@ class Main_Check extends Controller
       $DataCode = DB::table('detail_table')->where('code', $Code)->where('main_id', $Main_id)->get();
       $SumPrice = DB::table('detail_table')->where('code', $Code)->where('main_id', $Main_id)->sum('price');
       $CounCheckNull = DB::table('detail_table')->where('code', $Code)->where('main_id', $Main_id)->count();
-    //Table 
+    //Table
     $Data = "
     <div class='row'>
     <div class='col-md-12'>
@@ -218,7 +218,7 @@ class Main_Check extends Controller
             <th>จำนวน</th>
             <th>ราคา</th>
                 </tr>
-          </thead><tbody>"; 
+          </thead><tbody>";
       // Have Data
       if ($CounCheckNull > 0) {
         $i =0;
@@ -232,24 +232,24 @@ class Main_Check extends Controller
     <td>$DataDisplay->sum</td>
     <td>".number_format($DataDisplay->price)."</td>
     </tr>";
-    }  
+    }
       }else{
       $Data .= "
       <tr align='center'>
       <td colspan='6'>Null</td>
-      </tr>";       
-      }      
+      </tr>";
+      }
       //  Table Data
       $Data .= "
       <tr class='bg-primary'>
       <td colspan='4' align='right'><b>ราคารวม:</b></td>
       <td align='center'>".number_format($SumPrice) ." <b>฿</b></td>
       </tr>
-      ";        
+      ";
     $Data .= '</tbody></table>';
     // Encode To Json
     $arrayTable = array('Table' => $Data);
     $Jsonencode = json_encode($arrayTable);
-    echo $Jsonencode; 
+    echo $Jsonencode;
   }
 }
