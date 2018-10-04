@@ -9,8 +9,6 @@
     <title>Fitness</title>
     <!-- All Css -->
     <link rel="stylesheet" type="text/css" href="{{ url('css/app.css') }}">
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet" type="text/css">
 </head>
 
 <body>
@@ -22,22 +20,48 @@
                 <div class="small-box bg-info shadow">
                     <div class="inner">
                         <h3 class="text-white">MainCheck</h3>
-                        <p class="text-white">ลูกค้าใช้บริการที่ Fitness</p>
+                        <p class="text-white">ลูกค้ามาใช้บริการที่ Fitness</p>
                     </div>
                     <div class="icon">
                         <i class="fas fa-door-open"></i>
                     </div>
                 </div>
             </div>
+            <!-- users -->
+            <div class="col-lg-4 col-6" onclick="MainUsers();">
+                <div class="small-box bg-success shadow">
+                    <div class="inner">
+                        <h3 class="text-white">Users</h3>
+                        <p class="text-white">เพิ่มลูกค้าเข้าสู่ระบบและสร้างWiFi</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                </div>
+            </div>
+            <!-- sliders -->
+            <div class="col-lg-4 col-6">
+                <div class="small-box bg-danger shadow">
+                    <div class="inner">
+                        <h3 class="text-white">Setting</h3>
+                        <p class="text-white">ตั้งค่ารายละเอียดต่างๆ</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-sliders-h"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
             <!-- Wait -->
             <div class="col-lg-4 col-6">
-                <div class="small-box bg-success shadow">
+                <div class="small-box bg-danger shadow">
                     <div class="inner">
                         <h3 class="text-white">Wait</h3>
                         <p class="text-white">รอ</p>
                     </div>
                     <div class="icon">
-                        <i class="fab fa-accessible-icon"></i>
+                        <i class="fas fa-cogs"></i>
                     </div>
                 </div>
             </div>
@@ -49,24 +73,46 @@
                         <p class="text-white">รอ</p>
                     </div>
                     <div class="icon">
-                        <i class="fas fa-ambulance"></i>
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                </div>
+            </div>
+            <!-- Wait -->
+            <div class="col-lg-4 col-6">
+                <div class="small-box bg-danger shadow">
+                    <div class="inner">
+                        <h3 class="text-white">Wait</h3>
+                        <p class="text-white">รอ</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-cogs"></i>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </body>
+<footer>
+  <div class="row">
+      @include('layout.card')
+  </div>
+</footer>
 <!-- All Js -->
 <script type="text/javascript" src="{{ url('js/app.js') }}"></script>
 <!-- Dashboard -->
 <script type="text/javascript" src="{{ url('js/dashboard.js') }}"></script>
+<!-- Welcome Js -->
+<script type="text/javascript" src="{{ url('js/welcome.js') }}"></script>
 <!-- Use Script -->
 <script type="text/javascript">
     $(document).ready(function() {
         $('[data-toggle="tooltip"]').tooltip();
     });
     var MainCheck = function MainCheck() {
-        window.location = "{{ url('/MainCheck') }}";
+        window.location = "{{ url('/CheckIn') }}";
+    }
+    var MainUsers = function MainUsers() {
+        window.location = "{{ url('/MainUsers') }}";
     }
 </script>
 

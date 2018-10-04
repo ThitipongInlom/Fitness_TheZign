@@ -13,8 +13,6 @@
     <link rel="stylesheet" type="text/css" href="{{ url('css/animate.css') }}">
     <!-- Icheck-2 -->
     <link rel="stylesheet" type="text/css" href="{{ url('node_modules/icheck-bootstrap/icheck-bootstrap.css') }}">
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
 </head>
 
 <body class="hold-transition login-page">

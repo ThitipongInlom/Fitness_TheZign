@@ -1,5 +1,5 @@
 <div class="col-md-4">
-	<div class="card card-primary">
+	<div class="card card-secondary">
 		<div class="card-header">
 			<h3 class="card-title">ลูกค้าที่ใช้งาน Fitness เมื่อวาน</h3>
 			<div class="card-tools">
@@ -25,7 +25,7 @@
 	</div>
 </div>
 <div class="col-md-4">
-	<div class="card card-primary">
+	<div class="card card-danger">
 		<div class="card-header">
 			<h3 class="card-title">ลูกค้าที่ใช้งานเสร็จสิ้นวันนี้</h3>
 			<div class="card-tools">

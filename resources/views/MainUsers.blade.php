@@ -9,19 +9,63 @@
     <title>Fitness</title>
     <!-- All Css -->
     <link rel="stylesheet" type="text/css" href="{{ url('css/app.css') }}">
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet" type="text/css">
+    <!-- Css font -->
+    <style>
+      .TableDisplay{
+        font-size: 12px;
+      }
+      #toTop{
+      	position: fixed;
+      	bottom: 10px;
+      	left: 50%;
+      	cursor: pointer;
+      	display: none;
+      }
+    </style>
 </head>
 
 <body>
     @include('Head')
-    <div class="container">
-
+    <div align="center">
+        <table class="table table-sm row-border table-striped table-bordered table-hover TableDisplay" cellspacing="0" cellpadding="0" id="TableDisplay">
+          <thead>
+              <tr align="center" class="bg-primary">
+                  <th>Code</th>
+                  <th>Pass</th>
+                  <th>Name</th>
+                  <th>Start</th>
+                  <th>Expire</th>
+                  <th>Birthday</th>
+                  <th>Phone</th>
+                  <th>Type</th>
+                  <th>Address</th>
+                  <th>Status</th>
+                  <th>ผู้ดำเนินการ</th>
+                  <th>Action</th>
+              </tr>
+          </thead>
+          <tfoot>
+              <tr align="center" class="bg-primary">
+                  <th>Code</th>
+                  <th>Pass</th>
+                  <th>Name</th>
+                  <th>Start</th>
+                  <th>Expire</th>
+                  <th>Birthday</th>
+                  <th>Phone</th>
+                  <th>Type</th>
+                  <th>Address</th>
+                  <th>Status</th>
+                  <th>ผู้ดำเนินการ</th>
+                  <th>Action</th>
+              </tr>
+          </tfoot>
+        </table>
     </div>
 </body>
 <!-- All Js -->
 <script type="text/javascript" src="{{ url('js/app.js') }}"></script>
-<!-- Dashboard -->
+<!-- MainUsers -->
 <script type="text/javascript" src="{{ url('js/MainUsers.js') }}"></script>
 
 

@@ -41,7 +41,7 @@ class Checkout extends Controller
                   <button class='btn btn-sm btn-primary' id='listid_$row->ID' main_id='$row->ID' code='$row->Code' onclick='Showdatatologout(this);' data-toggle='tooltip' data-placement='bottom' title='ย้อนกลับหน้า เลือก รายการ'><i class='fas fa-check-circle'></i></button>
                   </td>
                 </tr>";
-            }    
+            }
             $Table .= '</tbody></table>';
         // Encode To Json
 		$arrayTable = array('Table' => $Table);
@@ -82,14 +82,16 @@ class Checkout extends Controller
     	foreach ($DataCode as $key => $DataDisplay) {
     	$i++;
     	$Data .= "
+      <input type='hidden' id='pricehidden' value='$DataDisplay->Fake_price'>
+      <input type='hidden' id='pricehiddenformat' value='".number_format($DataDisplay->Fake_price)."'>
     	<tr align='center'>
     	<td>$i</td>
     	<td>$DataDisplay->Fake_itemcode</td>
     	<td>$DataDisplay->Fake_itemname</td>
-    	<td>$DataDisplay->Fake_sum</td>  	
-    	<td>$DataDisplay->Fake_price ฿</td> 
+    	<td>$DataDisplay->Fake_sum</td>
+    	<td>".number_format($DataDisplay->Fake_price)." ฿</td>
     	<td></td>
-    	</tr>";	
+    	</tr>";
     	}
     	}else{
     	$Data .= "
@@ -101,7 +103,7 @@ class Checkout extends Controller
     	$Data .= "
     	<tr align='center' class='bg-primary'>
     	<td colspan='4' align='right'><b>ราคารวม:</b></td>
-    	<td align='center'>$SumPrice  <b>฿</b></td>
+    	<td align='center'>".number_format($SumPrice)." <b>฿</b></td>
     	<td><b>ตัวช่วย</b></td>
     	</tr>
     	";
@@ -122,15 +124,15 @@ class Checkout extends Controller
 
     public function Dologout()
     {
-        date_default_timezone_set("Asia/Bangkok");
-        $today = now();     	
+      date_default_timezone_set("Asia/Bangkok");
+      $today = now();
     	$Main_id = Input::post('Main_id');
     	$Code    = Input::post('Code');
     	$DataCode = DB::table('fake_table')->where('main_id', $Main_id)->where('Fake_code', $Code)->get();
     	// Insert
     	foreach ($DataCode as $key => $row) {
 			DB::table('detail_table')->insert([
-			    'main_id' => $Main_id, 
+			    'main_id' => $Main_id,
 			    'code' => $Code,
 			    'date_time' => $row->Fake_datetime,
 			    'itemcode'  => $row->Fake_itemcode,
@@ -138,13 +140,15 @@ class Checkout extends Controller
 			    'itemname'  => $row->Fake_itemname,
 			    'price'     => $row->Fake_price,
 			    'sum'       => $row->Fake_sum
-			]);    		
+			]);
     	}
     	// Update
         DB::table('main_table')
             ->where('Code', $Code)
-            ->update(['Guset_out' => $today,'Status' => 'OUT']);    	
-    	// Delete
+            ->update(['Guset_out' => $today,'Status' => 'OUT']);
+    	// Delete Fake_table
     	DB::table('fake_table')->where('main_id', $Main_id)->where('Fake_code', $Code)->delete();
+      // Delete Onuse Package
+      DB::table('package_onuse')->where('code', $Code)->delete();
     }
 }

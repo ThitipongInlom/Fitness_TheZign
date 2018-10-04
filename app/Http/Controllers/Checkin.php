@@ -230,7 +230,7 @@ class Checkin extends Controller
         foreach ($Datajoin as $key => $Row) {
         $rehavesum = $Row->have_sum - 1;
         $Table .= "
-        <tr class='bg-primary animated flipInX'>
+        <tr class='bg-warning animated flipInX'>
         <td><b>แพ็กเกจ:</b> $Row->name_package</td>
         <td><b>วันที่ซื้อ:</b> ".date('d/m/Y', strtotime($Row->date))."</td>
         <td><b>จำนวนที่ซื้อ:<b> $Row->total_sum ครั้ง</td>
@@ -796,10 +796,10 @@ class Checkin extends Controller
       $Table = '
       <table class="table table-sm table-hover animated flipInX">
         <thead>
-           <tr class="bg-primary" align="center">
+           <tr class="bg-success" align="center">
              <td colspan="6"><b>รายการใช้งาน Package</b></td>
            </tr>
-           <tr class="bg-primary" align="center">
+           <tr class="bg-success" align="center">
              <th>ลำดับ</th>
              <th>ชื่อ Package</th>
              <th>จำนวนที่ใช้งาน</th>
@@ -836,7 +836,7 @@ class Checkin extends Controller
               </tr>";
       }
       }
-      $Table .= '</tbody><tfoot><tr class="bg-primary" align="center"><td colspan="6">Free</td></tr></tfoot></table>';
+      $Table .= '</tbody><tfoot><tr class="bg-success" align="center"><td colspan="6">Free</td></tr></tfoot></table>';
     }else{
       $Table = "";
     }

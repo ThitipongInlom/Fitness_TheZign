@@ -9,8 +9,6 @@
     <title>Fitness</title>
     <!-- All Css -->
     <link rel="stylesheet" type="text/css" href="{{ url('css/app.css') }}">
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet" type="text/css">
     <!-- animate -->
     <link rel="stylesheet" type="text/css" href="{{ url('css/animate.css') }}">
 </head>
@@ -40,7 +38,7 @@
                                 </form>
                             </div>
                             <div class="float-right">
-                                <a href="{{ url('MainCheck') }}" class="btn btn-outline-danger" role="button" aria-pressed="true" data-toggle="tooltip" data-placement="bottom" title="ย้อนกลับหน้า เลือก รายการ"><i class="fas fa-arrow-left"></i></a>
+                                <a href="{{ url('Dashboard') }}" class="btn btn-outline-danger" role="button" aria-pressed="true" data-toggle="tooltip" data-placement="bottom" title="ย้อนกลับหน้า เลือก รายการ"><i class="fas fa-arrow-left"></i></a>
                                 @if (empty($_POST))
                                 @else
                                 <button class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="ประวัติย้อนหลัง" onclick="History();">ประวัติย้อนหลัง</button>

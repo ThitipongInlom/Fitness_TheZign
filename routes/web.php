@@ -6,6 +6,8 @@ Route::get('/', function () {
 });
 // Fitness MainCheck
 Route::get('/MainCheck', 'Main_Check@MainCheck');
+// Fitness MainUsers
+Route::get('/MainUsers', 'MainUsers@MainUsers');
 // Check In Page
 Route::get('/CheckIn', 'Checkin@CheckInPage');
 // Check In Processor
@@ -42,7 +44,7 @@ Route::post('/ShowViewData', 'Main_Check@ShowViewData');
 Route::post('/ShowViewDataMain', 'Main_Check@ShowViewDataMain');
 // Tableonlineforlogout
 Route::get('/Tableonlineforlogout', 'Checkout@Tableonlineforlogout');
-// Showdatatologout 
+// Showdatatologout
 Route::post('/Showdatatologout' , 'Checkout@Showdatatologout');
 // Dologout
 Route::post('/Dologout', 'Checkout@Dologout');
@@ -52,7 +54,7 @@ Route::post('/Edit_Number', 'Checkin@EditNumber');
 Route::post('/Delete_item', 'Checkin@Delete_item');
 // Delete_item_time
 Route::post('/Delete_item_time', 'Checkin@Delete_item_time');
-// Foronchangenum 
+// Foronchangenum
 Route::post('/Foronchangenum', 'Checkin@Foronchangenum');
 // History
 Route::post('/History', 'Checkin@History');
@@ -64,3 +66,9 @@ Route::post('/PackageItem', 'Checkin@PackageItem');
 Route::post('/OnUsePackage', 'Checkin@OnUsePackage');
 // PackageOnuseDisplay
 Route::post('/PackageOnuseDisplay', 'Checkin@PackageOnuseDisplay');
+// Modal_History_Package_Useing_Display
+Route::post('/Modal_History_Package_Useing_Display', 'Checkin@Modal_History_Package_Useing_Display');
+// DeleteOnusePackage
+Route::post('/DeleteOnusePackage', 'Checkin@DeleteOnusePackage');
+// Data Table
+Route::post('/DataTable', 'MainUsers@Data');
