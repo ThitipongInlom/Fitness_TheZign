@@ -139,7 +139,9 @@ class Checkout extends Controller
 			    'itemtype'  => $row->Fake_itemtype,
 			    'itemname'  => $row->Fake_itemname,
 			    'price'     => $row->Fake_price,
-			    'sum'       => $row->Fake_sum
+			    'sum'       => $row->Fake_sum,
+          'status'    => $row->Fake_status,
+          'comment'   => $row->Fake_comment,
 			]);
     	}
     	// Update

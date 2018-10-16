@@ -72,3 +72,9 @@ Route::post('/Modal_History_Package_Useing_Display', 'Checkin@Modal_History_Pack
 Route::post('/DeleteOnusePackage', 'Checkin@DeleteOnusePackage');
 // Data Table
 Route::post('/DataTable', 'MainUsers@Data');
+// VoidItem
+Route::post('/VoidItem', 'Checkin@VoidItem');
+// VoidItem_modal
+Route::post('/VoidItem_modal', 'Checkin@VoidItem_modal');
+// ViewDataUser
+Route::post('/ViewData', 'MainUsers@ViewData');

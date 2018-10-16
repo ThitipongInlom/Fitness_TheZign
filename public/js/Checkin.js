@@ -88,7 +88,7 @@ var CheckInOnline = function CheckInOnline(e) {
             Code: Code
         },
         success: function(res) {
-            $.redirect("MainCheck", {}, "GET");
+            $.redirect("Dashboard", {}, "GET");
         }
     });
 }
@@ -355,6 +355,12 @@ var History = function History() {
         });
 }
 
+var Find_the_name_Modal = function Find_the_name_Modal() {
+    // Modal Show
+    $('#Find_the_name').modal('show');
+    $("body").css("padding-right", "0");
+}
+
 var DisplayPackage = function DisplayPackage() {
     // Get Code
     var Code = $("#codehidden").val();
@@ -467,7 +473,8 @@ var PackageOnuseDisplay = function PackageOnuseDisplay() {
             processData: false,
             data: Data,
             success: function(callback) {
-                $("#PackageOnuseDisplay").html(callback);
+                var res = jQuery.parseJSON(callback);
+                $("#PackageOnuseDisplay").html(res.Table);
             }
         })
         .fail(function() {
@@ -544,4 +551,131 @@ var DeleteOnusePackage = function DeleteOnusePackage(e) {
         .fail(function() {
             DeleteOnusePackage();
         });
+}
+
+var Dologout = function Dologout(e) {
+    var csrf = $('meta[name="csrf-token"]').attr('content');
+    var Main_id = $("#Main_idhidden").val();
+    var Code = $("#codehidden").val();
+    var Price = $("#pricehidden").val();
+    var Priceformat = $("#pricehiddenformat").val();
+    // Create From Data
+    var Data = new FormData();
+    // Data Put Array
+    Data.append('_token', csrf);
+    Data.append('Main_id', Main_id);
+    Data.append('Code', Code);
+    // Check Price Not Null
+    if (Price > 0) {
+        // Modal Show
+        $('#Alertmodalcheckprice').modal('show');
+        $("body").css("padding-right", "0");
+        $("#displayalertprice").html('<h5><b>จำนวนเงินทั้งหมด ' + Priceformat + ' บาท</b></h5><hr>');
+        $("#btnLogoutQuery").html('<button class="btn btn-success" code="' + Code + '" main_id="' + Main_id + '" onclick="LogoutQuery(this)">ยืนยัน</button>');
+    } else {
+        // Send Data Ajax To Query
+        $.ajax({
+                url: 'Dologout',
+                type: 'POST',
+                dataType: 'text',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: Data,
+                success: function(callback) {
+                    $.redirect("Dashboard", {}, "GET");
+                }
+            })
+            .fail(function() {
+                Dologout();
+            });
+    }
+}
+
+var LogoutQuery = function LogoutQuery(e) {
+    var csrf = $('meta[name="csrf-token"]').attr('content');
+    var Main_id = $("#Main_idhidden").val();
+    var Code = $("#codehidden").val();
+    // Create From Data
+    var Data = new FormData();
+    // Data Put Array
+    Data.append('_token', csrf);
+    Data.append('Main_id', Main_id);
+    Data.append('Code', Code);
+    // Send Data Ajax To Query
+    $.ajax({
+            url: 'Dologout',
+            type: 'POST',
+            dataType: 'text',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: Data,
+            success: function(callback) {
+                $.redirect("Dashboard", {}, "GET");
+            }
+        })
+        .fail(function() {
+            LogoutQuery();
+        });
+}
+
+var VoidItem = function VoidItem(e) {
+    var csrf = $('meta[name="csrf-token"]').attr('content');
+    var Fake_id = $(e).attr('fake_table_id');
+    var commentvoiditem = $("#commentvoiditem").val();
+    // Create From Data
+    var Data = new FormData();
+    // Data Put Array
+    Data.append('_token', csrf);
+    Data.append('Fake_id', Fake_id);
+    Data.append('commentvoiditem', commentvoiditem);
+    // Send Data Ajax To Query
+    $.ajax({
+            url: 'VoidItem',
+            type: 'POST',
+            dataType: 'text',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: Data,
+            success: function(callback) {
+                $('#VoidItem_modal').modal('hide');
+                DisplayTable();
+                DisplayPackage();
+                PackageItem();
+            }
+        })
+        .fail(function() {
+            VoidItem();
+    });
+}
+var VoidItem_modal = function VoidItem_modal(e) {
+    var csrf = $('meta[name="csrf-token"]').attr('content');
+    var Fake_id = $(e).attr('fake_table_id');
+    // Create From Data
+    var Data = new FormData();
+    // Modal Show
+    $('#VoidItem_modal').modal('show');
+    $("body").css("padding-right", "0");
+    // Data Put Array
+    Data.append('_token', csrf);
+    Data.append('Fake_id', Fake_id);
+    // Send Data Ajax To Query
+    $.ajax({
+            url: 'VoidItem_modal',
+            type: 'POST',
+            dataType: 'text',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: Data,
+            success: function(callback) {
+              var res = jQuery.parseJSON(callback);
+              $("#Voiditem_Display").html(res.Table);
+            }
+        })
+        .fail(function() {
+            VoidItem_modal();
+    });
 }

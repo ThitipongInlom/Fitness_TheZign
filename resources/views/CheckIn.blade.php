@@ -43,7 +43,7 @@
                                 @else
                                 <button class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="ประวัติย้อนหลัง" onclick="History();">ประวัติย้อนหลัง</button>
                                 @endif
-                                <button class="btn btn-primary" data-toggle="modal" data-target="#Find_the_name" data-toggle="tooltip" data-placement="bottom" title="ค้นหารายชื่อลูกค้า">ค้นหาชื่อ</button>
+                                <button class="btn btn-primary" onclick="Find_the_name_Modal();" data-toggle="tooltip" data-placement="bottom" title="ค้นหารายชื่อลูกค้า">ค้นหาชื่อ</button>
                             </div>
                         </div>
                     </div>
@@ -279,6 +279,46 @@
                 </div>
                 <div class="modal-body">
                     <div id="Modal_History_Package_Useing_Display"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="Alertmodalcheckprice" tabindex="-1" role="dialog" aria-labelledby="History_Label" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-danger">
+                    <h5 class="modal-title" id="History_Label">แจ้งเตือน</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div align="center">
+                      <h2 style="color:red;">จำนวนเงินที่ต้องชำระ</h2><br>
+                      <div id="displayalertprice"></div><br>
+                      <div id="btnLogoutQuery"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="VoidItem_modal" tabindex="-1" role="dialog" aria-labelledby="History_Label" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h5 class="modal-title">เช็ค Void Item</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div align="center">
+                        <div id="Voiditem_Display"></div>
+                    </div>
                 </div>
             </div>
         </div>

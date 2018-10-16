@@ -45,8 +45,8 @@ var Showdatatologout = function Showdatatologout(e) {
 }
 var Dologout = function Dologout(e) {
     var csrf = $('meta[name="csrf-token"]').attr('content');
-    var Main_id = $(e).attr('main_id');
-    var Code = $(e).attr('code');
+    var Main_id = $("#Main_idhidden").val();
+    var Code = $("#codehidden").val();
     var Price = $("#pricehidden").val();
     var Priceformat = $("#pricehiddenformat").val();
     // Create From Data
@@ -73,7 +73,7 @@ var Dologout = function Dologout(e) {
                 processData: false,
                 data: Data,
                 success: function(callback) {
-                    $.redirect("MainCheck", {}, "GET");
+                    $.redirect("Dashboard", {}, "GET");
                 }
             })
             .fail(function() {
@@ -84,8 +84,8 @@ var Dologout = function Dologout(e) {
 
 var LogoutQuery = function LogoutQuery(e) {
     var csrf = $('meta[name="csrf-token"]').attr('content');
-    var Main_id = $(e).attr('main_id');
-    var Code = $(e).attr('code');
+    var Main_id = $("#Main_idhidden").val();
+    var Code = $("#codehidden").val();
     // Send Data Ajax To Query
     $.ajax({
             url: 'Dologout',
@@ -96,7 +96,7 @@ var LogoutQuery = function LogoutQuery(e) {
             processData: false,
             data: Data,
             success: function(callback) {
-                $.redirect("MainCheck", {}, "GET");
+                $.redirect("Dashboard", {}, "GET");
             }
         })
         .fail(function() {

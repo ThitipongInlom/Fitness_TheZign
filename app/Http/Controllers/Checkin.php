@@ -127,17 +127,36 @@ class Checkin extends Controller
         $itemname = Input::post('Item_name');
         $itemprice= Input::post('Item_price');
         $itemcodetype = Input::post('Item_codetype');
-        // Insert Data Fake Table
-        DB::table('fake_table')->insert([
-    	'Fake_code' => $code,
-    	'Fake_datetime' => $today,
-    	'Fake_itemcode' => $itemcode,
-        'Fake_itemcodetype' => $itemcodetype,
-    	'Fake_itemtype' => $itemtype,
-    	'Fake_itemname' => $itemname,
-    	'Fake_price'    => $itemprice,
-    	'Fake_sum'      => '1',
-    	]);
+        $CheckOnline_Mainid = DB::table('main_table')->where('Code', $code)->where('Status', 'IN')->count();
+        if ($CheckOnline_Mainid == '0') {
+          // Insert Data Fake Table
+          DB::table('fake_table')->insert([
+        	'Fake_code' => $code,
+       	  'Fake_datetime' => $today,
+      	  'Fake_itemcode' => $itemcode,
+          'Fake_itemcodetype' => $itemcodetype,
+       	  'Fake_itemtype' => $itemtype,
+       	  'Fake_itemname' => $itemname,
+      	  'Fake_price'    => $itemprice,
+      	  'Fake_sum'      => '1',
+      	  ]);
+        }else{
+        $DataMain_ID = DB::table('main_table')->where('Code', $code)->where('Status', 'IN')->get();
+          foreach ($DataMain_ID as $key => $Data) {
+            // Insert Data Fake Table
+            DB::table('fake_table')->insert([
+          	'Fake_code' => $code,
+            'main_id' => $Data->ID,
+         	  'Fake_datetime' => $today,
+        	  'Fake_itemcode' => $itemcode,
+            'Fake_itemcodetype' => $itemcodetype,
+         	  'Fake_itemtype' => $itemtype,
+         	  'Fake_itemname' => $itemname,
+        	  'Fake_price'    => $itemprice,
+        	  'Fake_sum'      => '1',
+        	  ]);
+          }
+        }
     }
 
     public function Insert_type_P()
@@ -228,7 +247,7 @@ class Checkin extends Controller
         <table class="table table-striped table-sm">
         <tbody>';
         foreach ($Datajoin as $key => $Row) {
-        $rehavesum = $Row->have_sum - 1;
+        $rehavesum = $Row->have_sum;
         $Table .= "
         <tr class='bg-warning animated flipInX'>
         <td><b>แพ็กเกจ:</b> $Row->name_package</td>
@@ -274,18 +293,14 @@ class Checkin extends Controller
         <tbody>
         <tr class="bg-primary" align="center"><td><b>รายการ</b></td><td><b>ตัวช่วย</b></td></tr>';
         foreach ($Datajoin as $key => $data) {
-        $rehavesum = $data->have_sum - 1;
+        $rehavesum = $data->have_sum;
         $Data .= "
         <tr class='bg-primary' class='animated flipInX'>
         <td width='90%'>
         <b>$data->name_package | คงเหลือ:</b> $rehavesum
         </td>
         <td width='10%'>";
-        if ($CounMainOnline == '0') {
         $Data .= "<button class='btn btn-sm btn-success' main_package_id='$data->id' package_detail_id='$data->main_package_id' code='$data->Code' total='$data->total_sum' havesum='$data->have_sum' onclick='OnUsePackage(this);'>เลือกใช้งาน</button>";
-        }else{
-        $Data .= "<button class='btn btn-sm btn-danger' disabled>กำลังใช้งาน</button>";
-        }
         $Data .= "</td>
         </tr>";
         }
@@ -344,6 +359,7 @@ class Checkin extends Controller
         }
 
     	$Data .= "
+      <input type='hidden' id='Main_idhidden' value='$DataDisplay->main_id'>
     	<tr align='center'>
     	<td>$i</td>
     	<td>$DataDisplay->Fake_itemcode</td>
@@ -351,22 +367,44 @@ class Checkin extends Controller
     	<td>".number_format($DataDisplay->Fake_price)." ฿</td>
     	<td>$DataDisplay->Fake_sum $Itemtypcode</td>
     	<td>";
+        // Now Not Online User
         if ($CounMainOnline == '0') {
+        // ItemCodeType == T
         if ($DataDisplay->Fake_itemcodetype == 'T') {
         $Data .= "
         <button class='btn btn-sm btn-danger' onclick='Delete_item_time(this);' fake_table_id='$DataDisplay->id'><i class='fas fa-times'></i></button>";
-        }else{
+        }
+        // ItemCodeType != T
+        else{
         $Data .= "
         <button class='btn btn-sm btn-primary' onclick='Edit_Number(this);' fake_table_id='$DataDisplay->id'><i class='fas fa-dollar-sign'></i></button>
         <button class='btn btn-sm btn-danger' onclick='Delete_item(this);' fake_table_id='$DataDisplay->id'><i class='fas fa-trash'></i></button>";
         }
+        }
+        //Now Online User
+        else{
+        // Check Void Item
+        if ($DataDisplay->Fake_status == 'V' OR $DataDisplay->Fake_status == 'RV') {
+        // Void Success
+            $Data .= "<span class='badge badge-danger'>Void</span>";
         }else{
-        $Data .= "<span class='badge badge-primary'>กำลังใช้งาน</span>";
+          // Check Item_Type
+          if ($DataDisplay->Fake_itemcodetype == 'P') {
+            $Data .= "<button class='btn btn-sm btn-warning'>Charge</button>";
+            $Data .= " <button class='btn btn-sm btn-danger' onclick='Delete_item(this);' fake_table_id='$DataDisplay->id'><i class='fas fa-trash'></i></button>";
+          }elseif ($DataDisplay->Fake_itemcodetype == 'C') {
+            $Data .= "<button class='btn btn-sm btn-danger' onclick='VoidItem_modal(this);' fake_table_id='$DataDisplay->id'>Void</button>";
+          }elseif ($DataDisplay->Fake_itemcodetype == 'T') {
+            $Data .= "<button class='btn btn-sm btn-danger' onclick='Delete_item_time(this);' fake_table_id='$DataDisplay->id'><i class='fas fa-times'></i></button>";
+          }
+        }
         }
         $Data .= "</td>
     	</tr>";
     	}
-    	}else{
+    	}
+      // Not Have Data
+      else{
     	$Data .= "
     	<tr align='center'>
     	<td colspan='6'>Null</td>
@@ -377,22 +415,29 @@ class Checkin extends Controller
     	<tr class='bg-primary'>
     	<td colspan='5' align='right'><b>ราคารวม:</b></td>
     	<td align='center'>".number_format($SumPrice)." <b>฿</b></td>
+      <input type='hidden' id='pricehidden' value='$SumPrice'>
+      <input type='hidden' id='pricehiddenformat' value='".number_format($SumPrice)."'>
     	</tr>";
     	$Data .= '</tbody></table>';
     	// Have Data
     	if ($CounCheckNull > 0) {
+        // CheckData Main Online == 0
         if ($CounMainOnline == '0') {
-    	$Data .= '
+    	  $Data .= '
     	<div align="center">
     	<button class="btn btn-success animated pulse" data-toggle="tooltip" data-placement="bottom" title="ยืนยันเข้าใช้งานวันนี้" onclick="CheckInOnline(this);">เข้าใช้งาน</button>
     	</div>';
-        }else{
-        $Data .= '
-        <div align="center">
-        <span class="badge badge-danger">ลูกค้า กำลังใช้งาน อยู่</span>
-        </div>';
         }
-    	}else{
+        // CheckData Main Online == 1
+        else{
+        $Data .= '
+      <div align="center">
+      <button class="btn btn-danger animated pulse" data-toggle="tooltip" data-placement="bottom" title="เลิกใช้งาน" onclick="Dologout(this);">เลิกใช้งาน</button>
+      </div>';
+        }
+    	}
+      // Not Have Data
+      else{
     	$Data .= '
     	<div align="center">
     	<button class="btn btn-success animated pulse" disabled data-toggle="tooltip" data-placement="bottom" title="กรุณาเลือกรายการก่อน">เข้าใช้งาน</button>
@@ -409,7 +454,6 @@ class Checkin extends Controller
         $Code = Input::post('Code');
         $Item = DB::table('item')->get();
         $CounMainOnline = DB::table('main_table')->where('Code', $Code)->where('Status', 'IN')->count();
-        if ($CounMainOnline == '0') {
         //Nav tab
         $Navtab = '
         <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -420,7 +464,7 @@ class Checkin extends Controller
                 <a class="nav-link" id="cose-tab" data-toggle="tab" href="#cose" role="tab" aria-controls="cose" aria-selected="false">ซื้อคอส</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Contact</a>
+                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">ซื้อแพ็กเก็จ</a>
             </li>
         </ul>';
         //Tab pane
@@ -465,7 +509,7 @@ class Checkin extends Controller
                     </thead>
                     <tbody>';
                     foreach ($Item as $Item_Free) {
-                    if ($Item_Free->item_type == "C" OR $Item_Free->item_type == "P") {
+                    if ($Item_Free->item_type == "C") {
                         $Navtab .= "
                         <tr item_codetype='$Item_Free->item_code_type' item_code='$Item_Free->item_code' item_name='$Item_Free->item_name' item_price='$Item_Free->item_price' item_type='$Item_Free->item_type' item_setnumber='$Item_Free->item_setnumber' ondblclick='Item_To_Disktop(this)'>
                             <td><b>$Item_Free->item_name</b></td>
@@ -480,83 +524,34 @@ class Checkin extends Controller
                     </tbody>
                 </table>
             </div>
-            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
-        </div>';
-        }else{
-        //Nav tab
-        $Navtab = '
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link active" id="general-tab" data-toggle="tab" href="#general" role="tab" aria-controls="general" aria-selected="true">ทั่วไป</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="cose-tab" data-toggle="tab" href="#cose" role="tab" aria-controls="cose" aria-selected="false">ซื้อคอส</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Contact</a>
-            </li>
-        </ul>';
-        //Tab pane
-        $Navtab .= '
-        <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade show active" id="general" role="tabpanel" aria-labelledby="general-tab">
-                <table class="table table-bordered table-sm table-hover">
-                    <thead>
+            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+            <table class="table table-bordered table-sm table-hover">
+                <thead>
                     <tr align="center" class="bg-primary">
                         <th>ชื่อรายการ</th>
                         <th>จำนวน</th>
                         <th>ราคา</th>
                         <th>ตัวช่วย</th>
                     </tr>
-                    </thead>
-                    <tbody>';
-                    foreach ($Item as $Item_Free) {
-                    if ($Item_Free->item_type == "L") {
-                        $Navtab .= "
-                        <tr item_codetype='$Item_Free->item_code_type' item_code='$Item_Free->item_code' item_name='$Item_Free->item_name' item_price='$Item_Free->item_price' item_type='$Item_Free->item_type'>
-                            <td><b>$Item_Free->item_name</b></td>
-                            <td align='center'>$Item_Free->item_setnumber</td>
-                            <td align='center'>".number_format($Item_Free->item_price)."</td>
-                            <td align='center'><span class='badge badge-primary'>กำลังใช้งาน</span></td>
-                        </tr>";
-                    }
-                    }
-        //Nav tab
-        $Navtab .= '
-                    </tbody>
-                </table>
+                </thead>
+                <tbody>';
+                foreach ($Item as $Item_Free) {
+                if ($Item_Free->item_type == "P") {
+                    $Navtab .= "
+                    <tr item_codetype='$Item_Free->item_code_type' item_code='$Item_Free->item_code' item_name='$Item_Free->item_name' item_price='$Item_Free->item_price' item_type='$Item_Free->item_type' item_setnumber='$Item_Free->item_setnumber' ondblclick='Item_To_Disktop(this)'>
+                        <td><b>$Item_Free->item_name</b></td>
+                        <td align='center'>$Item_Free->item_setnumber</td>
+                        <td align='center'>".number_format($Item_Free->item_price)."</td>
+                        <td align='center'><button item_codetype='$Item_Free->item_code_type' item_code='$Item_Free->item_code' item_name='$Item_Free->item_name' item_price='$Item_Free->item_price' item_type='$Item_Free->item_type' item_setnumber='$Item_Free->item_setnumber' onclick='Item_To_Disktop(this)' class='btn btn-sm btn-primary'><i class='far fa-check-square'></i></button></td>
+                    </tr>";
+                }
+                }
+    //Nav tab
+    $Navtab .= '
+                </tbody>
+            </table>
             </div>
-            <div class="tab-pane fade" id="cose" role="tabpanel" aria-labelledby="cose-tab">
-                <table class="table table-bordered table-sm table-hover">
-                    <thead>
-                        <tr align="center" class="bg-primary">
-                            <th>ชื่อรายการ</th>
-                            <th>จำนวน</th>
-                            <th>ราคา</th>
-                            <th>ตัวช่วย</th>
-                        </tr>
-                    </thead>
-                    <tbody>';
-                    foreach ($Item as $Item_Free) {
-                    if ($Item_Free->item_type == "C" OR $Item_Free->item_type == "P") {
-                        $Navtab .= "
-                        <tr item_codetype='$Item_Free->item_code_type' item_code='$Item_Free->item_code' item_name='$Item_Free->item_name' item_price='$Item_Free->item_price' item_type='$Item_Free->item_type'>
-                            <td><b>$Item_Free->item_name</b></td>
-                            <td align='center'>$Item_Free->item_setnumber</td>
-                            <td align='center'>".number_format($Item_Free->item_price)."</td>
-                            <td align='center'><span class='badge badge-primary'>กำลังใช้งาน</span></td>
-                        </tr>";
-                    }
-                    }
-        //Nav tab
-        $Navtab .= '
-                    </tbody>
-                </table>
-            </div>
-            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
         </div>';
-
-        }
 
         // Show Json
         $array = array('Navtab' => $Navtab);
@@ -749,14 +744,14 @@ class Checkin extends Controller
               ->where('package_log.main_package_id', $Package_id)
               ->where('code', $Code)
               ->where('status', 'U')
-              ->orderBy('date', 'desc')
+              ->orderBy('havesum', 'asc')
               ->get();
       $Count = DB::table('package_log')
               ->join('package_detail','package_detail.package_id','=','package_log.package_detail')
               ->where('package_log.main_package_id', $Package_id)
               ->where('code', $Code)
               ->where('status', 'U')
-              ->orderBy('date', 'desc')
+              ->orderBy('havesum', 'asc')
               ->count();
       if ($Count > 0) {
       $Table  = '<div class="row"><div class="col-md-12">';
@@ -810,8 +805,7 @@ class Checkin extends Controller
       $i = 0;
       foreach ($Data as $key => $row) {
       $i++;
-      $rehavesum = $row->havesum;
-      if ($CounMainOnline == '0') {
+      $rehavesum = $row->havesum + 1;
       $Table .= "
            <tr align='center'>
               <td>$i</td>
@@ -825,22 +819,15 @@ class Checkin extends Controller
       $Table .="<button class='btn btn-sm btn-danger' code='$row->code' package_onuse_id='$row->package_onuse_id' package_log_id='$row->package_log_id' main_package_id='$row->main_package_id' onusesum='$rehavesum' onclick='DeleteOnusePackage(this);'><i class='fas fa-trash'></i></button>";
       }
       $Table .="</td></tr>";
-      }else{
-        $Table .= "
-             <tr align='center'>
-                <td>$i</td>
-                <td>$row->name_package</td>
-                <td>$row->onuse ชั่วโมง</td>
-                <td>ครั้งที่ $rehavesum</td>
-                <td><span class='badge badge-primary'>กำลักำลังใช้งาน</span></td>
-              </tr>";
-      }
       }
       $Table .= '</tbody><tfoot><tr class="bg-success" align="center"><td colspan="6">Free</td></tr></tfoot></table>';
     }else{
       $Table = "";
     }
-      print_r($Table);
+      // Show Json
+      $array = array('Table' => $Table);
+      $json = json_encode($array);
+      echo $json;
     }
 
     public function DeleteOnusePackage()
@@ -873,7 +860,68 @@ class Checkin extends Controller
       DB::table('main_package')
           ->where('id', $Main_package_id)
           ->update(['have_sum' => $ReHavesumOnuse]);
-
-      print_r('0');
+      if ($ReHavesumOnuse >= '1') {
+      // Update Main Package
+      DB::table('main_package')
+          ->where('id', $Main_package_id)
+          ->update(['Status' => 'Active']);
+      }
     }
+
+    public function VoidItem()
+    {
+      date_default_timezone_set("Asia/Bangkok");
+      $today = now();
+      $Fake_id = Input::post('Fake_id');
+      $commentvoiditem = Input::post('commentvoiditem');
+      $DataFake_Table = DB::table('fake_table')->where('id', $Fake_id)->get();
+      foreach ($DataFake_Table as $key => $row) {
+        if ($row->main_id != '') {
+          // Re Price
+            $Re_price = '-'.$row->Fake_price;
+          // Re Num
+            $Re_sum = '-'.$row->Fake_sum;
+          // Insert New Void Item
+          DB::table('fake_table')->insert([
+        	'Fake_code' => $row->Fake_code,
+          'main_id' => $row->main_id,
+       	  'Fake_datetime' => $today,
+      	  'Fake_itemcode' => $row->Fake_itemcode,
+          'Fake_itemcodetype' => $row->Fake_itemcodetype,
+       	  'Fake_itemtype' => $row->Fake_itemtype,
+       	  'Fake_itemname' => $row->Fake_itemname,
+      	  'Fake_price'    => $Re_price,
+      	  'Fake_sum'      => $Re_sum,
+          'Fake_status'   => 'V',
+          'Fake_comment'  => $commentvoiditem,
+      	  ]);
+
+        }
+        // Update Fake_id Old
+        DB::table('fake_table')
+            ->where('id', $Fake_id)
+            ->update(['Fake_status' => 'RV','Fake_comment' => $commentvoiditem]);
+      }
+    }
+
+    public function VoidItem_modal()
+    {
+        date_default_timezone_set("Asia/Bangkok");
+        $today = now();
+        $Fake_id = Input::post('Fake_id');
+        $DataFake_Table = DB::table('fake_table')->where('id', $Fake_id)->get();
+        foreach ($DataFake_Table as $key => $row) {
+        $fake_table_id = $row->id;
+        }
+        //$Table .= "</div><div class='col-md-4'></div></div>";
+        $Table  = "<div class='row'><div class='col-md-12'><h4 align='left'>หมายเหตุ:</h4>";
+        $Table .= "<textarea id='commentvoiditem' placeholder='กรุณากรอกสาเหตุของการ Void' class='form-control' rows='3'>";
+        $Table .= "</textarea>";
+        $Table .= "<br><button class='btn btn-danger' onclick='VoidItem(this);' fake_table_id='$fake_table_id'>ยืนยันการ Void</button></div></div>";
+        // Show Json
+        $array = array('Table' => $Table,'Row' => $row);
+        $json = json_encode($array);
+        echo $json;
+    }
+
 }
