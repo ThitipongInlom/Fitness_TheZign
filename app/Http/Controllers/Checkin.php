@@ -390,7 +390,7 @@ class Checkin extends Controller
         }else{
           // Check Item_Type
           if ($DataDisplay->Fake_itemcodetype == 'P') {
-            $Data .= "<button class='btn btn-sm btn-warning'>Charge</button>";
+            $Data .= "<button class='btn btn-sm btn-warning' onclick='Charge_modal(this);' fake_table_id='$DataDisplay->id'>Charge</button>";
             $Data .= " <button class='btn btn-sm btn-danger' onclick='Delete_item(this);' fake_table_id='$DataDisplay->id'><i class='fas fa-trash'></i></button>";
           }elseif ($DataDisplay->Fake_itemcodetype == 'C') {
             $Data .= "<button class='btn btn-sm btn-danger' onclick='VoidItem_modal(this);' fake_table_id='$DataDisplay->id'>Void</button>";
@@ -443,7 +443,7 @@ class Checkin extends Controller
     	<button class="btn btn-success animated pulse" disabled data-toggle="tooltip" data-placement="bottom" title="กรุณาเลือกรายการก่อน">เข้าใช้งาน</button>
     	</div>';
     	}
-		// Show Json
+		  // Show Json
     	$array = array('Table' => $Data);
     	$json = json_encode($array);
     	echo $json;
@@ -644,7 +644,7 @@ class Checkin extends Controller
         $Code = Input::post('Code');
         $Data = DB::table('main_table')->where('Code', $Code)->where('Status', 'OUT')->limit(5)->orderBy('date', 'desc')->get();
         $CheckHaveHistory = DB::table('main_table')->where('Code', $Code)->count();
-        if ($CheckHaveHistory >= 1) {
+        if ($CheckHaveHistory > 1) {
         $Table = '
         <div id="HistoryTable">';
         foreach ($Data as $key => $row) {
@@ -913,11 +913,30 @@ class Checkin extends Controller
         foreach ($DataFake_Table as $key => $row) {
         $fake_table_id = $row->id;
         }
-        //$Table .= "</div><div class='col-md-4'></div></div>";
         $Table  = "<div class='row'><div class='col-md-12'><h4 align='left'>หมายเหตุ:</h4>";
-        $Table .= "<textarea id='commentvoiditem' placeholder='กรุณากรอกสาเหตุของการ Void' class='form-control' rows='3'>";
+        $Table .= "<textarea id='commentvoiditem' placeholder='กรุณากรอกสาเหตุของการ Void' class='form-control' rows='2'>";
         $Table .= "</textarea>";
         $Table .= "<br><button class='btn btn-danger' onclick='VoidItem(this);' fake_table_id='$fake_table_id'>ยืนยันการ Void</button></div></div>";
+        // Show Json
+        $array = array('Table' => $Table,'Row' => $row);
+        $json = json_encode($array);
+        echo $json;
+    }
+
+    public function Charge_modal()
+    {
+        date_default_timezone_set("Asia/Bangkok");
+        $today = now();
+        $Fake_id = Input::post('Fake_id');
+        $DataFake_Table = DB::table('fake_table')->where('id', $Fake_id)->get();
+        foreach ($DataFake_Table as $key => $row) {
+        $fake_table_id = $row->id;
+        }
+        $Table  = "<div class='row'><div class='col-md-4'><h4 align='left'>จำนวนเงิน:</h4></div><div class='col-md-8'><input type='text' class='form-control form-control-sm' placeholder='จำนวนเงินที่จะ Charge'></div>";
+        $Table .= "<div class='col-md-12'><h4 align='left'>หมายเหตุ:</h4>";
+        $Table .= "<textarea id='commentvoiditem' placeholder='กรุณากรอกสาเหตุของการ Charge' class='form-control' rows='2'>";
+        $Table .= "</textarea>";
+        $Table .= "<br><button class='btn btn-danger' onclick='VoidItem(this);' fake_table_id='$fake_table_id'>ยืนยันการ Charge</button></div></div>";
         // Show Json
         $array = array('Table' => $Table,'Row' => $row);
         $json = json_encode($array);

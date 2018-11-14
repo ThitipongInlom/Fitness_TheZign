@@ -175,7 +175,7 @@
                         </div>
                     </div>
                     <hr>
-                    <a class="btn btn-danger" href="{{ url('/MainCheck') }}" role="button" data-toggle="tooltip" data-placement="bottom" title="MainCheck">ย้อนกลับ</a>
+                    <a class="btn btn-danger" href="{{ url('/Dashboard') }}" role="button" data-toggle="tooltip" data-placement="bottom" title="MainCheck">ย้อนกลับ</a>
                 </div>
             </div>
         </div>
@@ -188,7 +188,7 @@
                 <div align="center">
                     <h3>ไม่พบข้อมูล</h3>
                     <hr>
-                    <a class="btn btn-danger" href="{{ url('/MainCheck') }}" role="button" data-toggle="tooltip" data-placement="bottom" title="MainCheck">ย้อนกลับ</a>
+                    <a class="btn btn-danger" href="{{ url('/Dashboard') }}" role="button" data-toggle="tooltip" data-placement="bottom" title="MainCheck">ย้อนกลับ</a>
                 </div>
             </div>
         </div>
@@ -318,6 +318,25 @@
                 <div class="modal-body">
                     <div align="center">
                         <div id="Voiditem_Display"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="Charge_modal" tabindex="-1" role="dialog" aria-labelledby="Charge_modal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h5 class="modal-title">เช็ค Charge Item</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div align="center">
+                        <div id="Charge_Display"></div>
                     </div>
                 </div>
             </div>

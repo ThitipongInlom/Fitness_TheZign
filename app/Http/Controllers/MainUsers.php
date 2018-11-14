@@ -46,6 +46,7 @@ class MainUsers extends Controller
                 }
             return $reclass;
         })
+        ->editColumn('address', '{!! str_limit($address, 50) !!}')
         ->editColumn('start', function($users) {
             return date('d-m-Y', strtotime($users->start));
         })
@@ -75,12 +76,13 @@ class MainUsers extends Controller
         $View  = "<div class='row'>";
         $View .= "<div class='col-md-9'>";
         $View .= "<div class='card'>
-              <div class='card-header'>
-                <h5 class='card-title'>ข้อมูลทั่วไปของคุณ: $row->name</h5>
-              </div>
-              <div class='card-body table-responsive p-0'>
-                <table class='table table-sm table-hover'>
-                  <tbody><tr>
+        <div class='card-header'>
+            <h5 class='card-title'>ข้อมูลทั่วไปของคุณ: $row->name</h5>
+        </div>
+          <div class='card-body table-responsive p-0'>
+            <table class='table table-sm table-hover'>
+                  <tbody>
+                  <tr>
                     <th>ID</th>
                     <th>User</th>
                     <th>Date</th>
@@ -92,18 +94,19 @@ class MainUsers extends Controller
                     <td>John Doe</td>
                     <td>11-7-2014</td>
                     <td><span class='tag tag-success'>Approved</span></td>
-                    <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td>219</td>
                     <td>Alexander Pierce</td>
                     <td>11-7-2014</td>
                     <td><span class='tag tag-warning'>Pending</span></td>
-                    <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+                    <td></td>
                   </tr>
-                </tbody></table>
-              </div>
-            </div>";
+                </tbody>
+            </table>
+          </div>
+        </div>";
         $View .= "</div>";
         $View .= "<div class='col-md-3'>";
         $View .= "<img src='./img/default.svg' alt='Img' class='img-thumbnail'>";

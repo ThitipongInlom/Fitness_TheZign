@@ -78,3 +78,5 @@ Route::post('/VoidItem', 'Checkin@VoidItem');
 Route::post('/VoidItem_modal', 'Checkin@VoidItem_modal');
 // ViewDataUser
 Route::post('/ViewData', 'MainUsers@ViewData');
+// Charge_modal
+Route::post('/Charge_modal', 'Checkin@Charge_modal');

@@ -43,16 +43,17 @@ var searchingall = function searchingall() {
 var searchingname = function searchingname(e) {
     var name = $("#namesearching").val();
     var status = $("#namesearching").attr("status");
-    var csrf = $('meta[name="csrf-token"]').attr('content');
     // Create From Data
     var Data = new FormData();
     // Data Put Array
-    Data.append('_token', csrf);
     Data.append('name', name);
     Data.append('status', status);
     $.ajax({
         url: 'Namesearching',
         type: 'POST',
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
         dataType: 'text',
         cache: false,
         contentType: false,
@@ -78,13 +79,14 @@ var posttocheckin = function posttocheckin(e) {
 }
 
 var CheckInOnline = function CheckInOnline(e) {
-    var csrf = $('meta[name="csrf-token"]').attr('content');
     var Code = $("#codehidden").val();
     $.ajax({
         url: 'CheckInOnline',
         type: 'POST',
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
         data: {
-            _token: csrf,
             Code: Code
         },
         success: function(res) {
@@ -96,7 +98,6 @@ var CheckInOnline = function CheckInOnline(e) {
 var Item_To_Disktop = function Item_To_Disktop(e) {
     // Check Code
     var Code = $("#codehidden").val();
-    var csrf = $('meta[name="csrf-token"]').attr('content');
     // Check Type
     var Item_code = $(e).attr('item_code');
     var Item_type = $(e).attr('item_type');
@@ -107,7 +108,6 @@ var Item_To_Disktop = function Item_To_Disktop(e) {
     // Create From Data
     var Data = new FormData();
     // Data Put Array
-    Data.append('_token', csrf);
     Data.append('Code', Code);
     Data.append('Item_code', Item_code);
     Data.append('Item_type', Item_type);
@@ -136,6 +136,9 @@ var Item_To_Disktop = function Item_To_Disktop(e) {
         $.ajax({
             url: 'Insert_type_P',
             type: 'POST',
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
             dataType: 'text',
             cache: false,
             contentType: false,
@@ -158,16 +161,17 @@ var Item_To_Disktop = function Item_To_Disktop(e) {
 var DisplayTable = function DisplayTable() {
     // Check Code
     var Code = $("#codehidden").val();
-    var csrf = $('meta[name="csrf-token"]').attr('content');
     // Create From Data
     var Data = new FormData();
     // Data Put Array
-    Data.append('_token', csrf);
     Data.append('Code', Code);
     // Ajax Get Data TO Fake Data
     $.ajax({
             url: 'TableDisplay',
             type: 'POST',
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
             dataType: 'text',
             cache: false,
             contentType: false,
@@ -187,16 +191,17 @@ var DisplayTable = function DisplayTable() {
 var TablePane = function TablePane() {
     // Check Code
     var Code = $("#codehidden").val();
-    var csrf = $('meta[name="csrf-token"]').attr('content');
     // Create From Data
     var Data = new FormData();
     // Data Put Array
-    Data.append('_token', csrf);
     Data.append('Code', Code);
     // Ajax Get Data TO Fake Data
     $.ajax({
             url: 'TablePane',
             type: 'POST',
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
             dataType: 'text',
             cache: false,
             contentType: false,
@@ -218,16 +223,17 @@ var Edit_Number = function Edit_Number(e) {
     $("body").css("padding-right", "0");
     // Data SetToSend
     var Fake_table_id = $(e).attr('fake_table_id');
-    var csrf = $('meta[name="csrf-token"]').attr('content');
     // Create From Data
     var Data = new FormData();
     // Data Put Array
-    Data.append('_token', csrf);
     Data.append('Fake_table_id', Fake_table_id);
     // Ajax To Send
     $.ajax({
         url: 'Edit_Number',
         type: 'POST',
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
         dataType: 'text',
         cache: false,
         contentType: false,
@@ -243,16 +249,17 @@ var Edit_Number = function Edit_Number(e) {
 var Delete_item = function Delete_item(e) {
     // Data SetToSend
     var Fake_table_id = $(e).attr('fake_table_id');
-    var csrf = $('meta[name="csrf-token"]').attr('content');
     // Create From Data
     var Data = new FormData();
     // Data Put Array
-    Data.append('_token', csrf);
     Data.append('Fake_table_id', Fake_table_id);
     // Ajax To Send
     $.ajax({
         url: 'Delete_item',
         type: 'POST',
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
         dataType: 'text',
         cache: false,
         contentType: false,
@@ -269,16 +276,17 @@ var Delete_item = function Delete_item(e) {
 var Delete_item_time = function Delete_item_time(e) {
     // Data SetToSend
     var Fake_table_id = $(e).attr('fake_table_id');
-    var csrf = $('meta[name="csrf-token"]').attr('content');
     // Create From Data
     var Data = new FormData();
     // Data Put Array
-    Data.append('_token', csrf);
     Data.append('Fake_table_id', Fake_table_id);
     // Ajax To Send
     $.ajax({
         url: 'Delete_item_time',
         type: 'POST',
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
         dataType: 'text',
         cache: false,
         contentType: false,
@@ -298,17 +306,18 @@ var Foronchangenum = function Foronchangenum(e) {
     // Data SetToSend
     var NewNum = $('#newnumitem').val();
     var Fake_table_id = $(e).attr('Fake_table_id');
-    var csrf = $('meta[name="csrf-token"]').attr('content');
     // Create From Data
     var Data = new FormData();
     // Data Put Array
-    Data.append('_token', csrf);
     Data.append('Fake_table_id', Fake_table_id);
     Data.append('NewNum', NewNum);
     // Ajax To Send
     $.ajax({
         url: 'Foronchangenum',
         type: 'POST',
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
         dataType: 'text',
         cache: false,
         contentType: false,
@@ -327,11 +336,9 @@ var Foronchangenum = function Foronchangenum(e) {
 var History = function History() {
     // Get Code
     var Code = $("#codehidden").val();
-    var csrf = $('meta[name="csrf-token"]').attr('content');
     // Create From Data
     var Data = new FormData();
     // Data Put Array
-    Data.append('_token', csrf);
     Data.append('Code', Code);
     // Modal Show
     $('#History').modal('show');
@@ -340,6 +347,9 @@ var History = function History() {
     $.ajax({
             url: 'History',
             type: 'POST',
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
             dataType: 'text',
             cache: false,
             contentType: false,
@@ -364,16 +374,17 @@ var Find_the_name_Modal = function Find_the_name_Modal() {
 var DisplayPackage = function DisplayPackage() {
     // Get Code
     var Code = $("#codehidden").val();
-    var csrf = $('meta[name="csrf-token"]').attr('content');
     // Create From Data
     var Data = new FormData();
     // Data Put Array
-    Data.append('_token', csrf);
     Data.append('Code', Code);
     // Ajax Send Data
     $.ajax({
             url: 'DisplayPackage',
             type: 'POST',
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
             dataType: 'text',
             cache: false,
             contentType: false,
@@ -392,16 +403,17 @@ var DisplayPackage = function DisplayPackage() {
 var PackageItem = function PackageItem() {
     // Get Code
     var Code = $("#codehidden").val();
-    var csrf = $('meta[name="csrf-token"]').attr('content');
     // Create From Data
     var Data = new FormData();
     // Data Put Array
-    Data.append('_token', csrf);
     Data.append('Code', Code);
     // Ajax Send Data
     $.ajax({
             url: 'PackageItem',
             type: 'POST',
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
             dataType: 'text',
             cache: false,
             contentType: false,
@@ -419,7 +431,6 @@ var PackageItem = function PackageItem() {
 
 var OnUsePackage = function OnUsePackage(e) {
     // Get Code
-    var csrf = $('meta[name="csrf-token"]').attr('content');
     var main_package_id = $(e).attr('main_package_id');
     var package_detail_id = $(e).attr('package_detail_id');
     var Code = $(e).attr('code');
@@ -428,7 +439,6 @@ var OnUsePackage = function OnUsePackage(e) {
     // Create From Data
     var Data = new FormData();
     // Data Put Array
-    Data.append('_token', csrf);
     Data.append('Code', Code);
     Data.append('main_package_id', main_package_id);
     Data.append('package_detail_id', package_detail_id);
@@ -438,6 +448,9 @@ var OnUsePackage = function OnUsePackage(e) {
     $.ajax({
             url: 'OnUsePackage',
             type: 'POST',
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
             dataType: 'text',
             cache: false,
             contentType: false,
@@ -457,16 +470,17 @@ var OnUsePackage = function OnUsePackage(e) {
 var PackageOnuseDisplay = function PackageOnuseDisplay() {
     // Get Code
     var Code = $("#codehidden").val();
-    var csrf = $('meta[name="csrf-token"]').attr('content');
     // Create From Data
     var Data = new FormData();
     // Data Put Array
-    Data.append('_token', csrf);
     Data.append('Code', Code);
     // Ajax Send Data
     $.ajax({
             url: 'PackageOnuseDisplay',
             type: 'POST',
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
             dataType: 'text',
             cache: false,
             contentType: false,
@@ -485,12 +499,10 @@ var PackageOnuseDisplay = function PackageOnuseDisplay() {
 var History_Package_Useing = function History_Package_Useing(e) {
     // Get Code
     var Code = $("#codehidden").val();
-    var csrf = $('meta[name="csrf-token"]').attr('content');
     var Package_id = $(e).attr('package_id');
     // Create From Data
     var Data = new FormData();
     // Data Put Array
-    Data.append('_token', csrf);
     Data.append('Code', Code);
     Data.append('Package_id', Package_id);
     // Show Modal Modal_History_Package_Useing
@@ -500,6 +512,9 @@ var History_Package_Useing = function History_Package_Useing(e) {
     $.ajax({
             url: 'Modal_History_Package_Useing_Display',
             type: 'POST',
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
             dataType: 'text',
             cache: false,
             contentType: false,
@@ -518,7 +533,6 @@ var History_Package_Useing = function History_Package_Useing(e) {
 var DeleteOnusePackage = function DeleteOnusePackage(e) {
     // Get Code
     var Code = $(e).attr('code');
-    var csrf = $('meta[name="csrf-token"]').attr('content');
     var Package_onuse_id = $(e).attr('package_onuse_id');
     var Package_log_id = $(e).attr('package_log_id');
     var Main_package_id = $(e).attr('main_package_id');
@@ -526,7 +540,6 @@ var DeleteOnusePackage = function DeleteOnusePackage(e) {
     // Create From Data
     var Data = new FormData();
     // Data Put Array
-    Data.append('_token', csrf);
     Data.append('Code', Code);
     Data.append('Package_onuse_id', Package_onuse_id);
     Data.append('Package_log_id', Package_log_id);
@@ -536,6 +549,9 @@ var DeleteOnusePackage = function DeleteOnusePackage(e) {
     $.ajax({
             url: 'DeleteOnusePackage',
             type: 'POST',
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
             dataType: 'text',
             cache: false,
             contentType: false,
@@ -554,7 +570,6 @@ var DeleteOnusePackage = function DeleteOnusePackage(e) {
 }
 
 var Dologout = function Dologout(e) {
-    var csrf = $('meta[name="csrf-token"]').attr('content');
     var Main_id = $("#Main_idhidden").val();
     var Code = $("#codehidden").val();
     var Price = $("#pricehidden").val();
@@ -562,7 +577,6 @@ var Dologout = function Dologout(e) {
     // Create From Data
     var Data = new FormData();
     // Data Put Array
-    Data.append('_token', csrf);
     Data.append('Main_id', Main_id);
     Data.append('Code', Code);
     // Check Price Not Null
@@ -577,6 +591,9 @@ var Dologout = function Dologout(e) {
         $.ajax({
                 url: 'Dologout',
                 type: 'POST',
+                headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
                 dataType: 'text',
                 cache: false,
                 contentType: false,
@@ -593,19 +610,20 @@ var Dologout = function Dologout(e) {
 }
 
 var LogoutQuery = function LogoutQuery(e) {
-    var csrf = $('meta[name="csrf-token"]').attr('content');
     var Main_id = $("#Main_idhidden").val();
     var Code = $("#codehidden").val();
     // Create From Data
     var Data = new FormData();
     // Data Put Array
-    Data.append('_token', csrf);
     Data.append('Main_id', Main_id);
     Data.append('Code', Code);
     // Send Data Ajax To Query
     $.ajax({
             url: 'Dologout',
             type: 'POST',
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
             dataType: 'text',
             cache: false,
             contentType: false,
@@ -621,19 +639,20 @@ var LogoutQuery = function LogoutQuery(e) {
 }
 
 var VoidItem = function VoidItem(e) {
-    var csrf = $('meta[name="csrf-token"]').attr('content');
     var Fake_id = $(e).attr('fake_table_id');
     var commentvoiditem = $("#commentvoiditem").val();
     // Create From Data
     var Data = new FormData();
     // Data Put Array
-    Data.append('_token', csrf);
     Data.append('Fake_id', Fake_id);
     Data.append('commentvoiditem', commentvoiditem);
     // Send Data Ajax To Query
     $.ajax({
             url: 'VoidItem',
             type: 'POST',
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
             dataType: 'text',
             cache: false,
             contentType: false,
@@ -651,7 +670,6 @@ var VoidItem = function VoidItem(e) {
     });
 }
 var VoidItem_modal = function VoidItem_modal(e) {
-    var csrf = $('meta[name="csrf-token"]').attr('content');
     var Fake_id = $(e).attr('fake_table_id');
     // Create From Data
     var Data = new FormData();
@@ -659,12 +677,14 @@ var VoidItem_modal = function VoidItem_modal(e) {
     $('#VoidItem_modal').modal('show');
     $("body").css("padding-right", "0");
     // Data Put Array
-    Data.append('_token', csrf);
     Data.append('Fake_id', Fake_id);
     // Send Data Ajax To Query
     $.ajax({
             url: 'VoidItem_modal',
             type: 'POST',
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
             dataType: 'text',
             cache: false,
             contentType: false,
@@ -677,5 +697,33 @@ var VoidItem_modal = function VoidItem_modal(e) {
         })
         .fail(function() {
             VoidItem_modal();
+    });
+}
+
+var Charge_modal = function Charge_modal(e) {
+    var Fake_id = $(e).attr('fake_table_id');
+    // Create From Data
+    var Data = new FormData();
+    // Modal Show
+    $('#Charge_modal').modal('show');
+    $("body").css("padding-right", "0");
+    // Data Put Array
+    Data.append('Fake_id', Fake_id);
+    // Send Data Ajax To Query
+    $.ajax({
+            url: 'Charge_modal',
+            type: 'POST',
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            dataType: 'text',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: Data,
+            success: function(callback) {
+              var res = jQuery.parseJSON(callback);
+              $("#Charge_Display").html(res.Table);
+            }
     });
 }
