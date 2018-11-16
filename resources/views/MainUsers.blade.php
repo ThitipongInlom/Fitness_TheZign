@@ -21,6 +21,19 @@
       	cursor: pointer;
       	display: none;
       }
+      .upload-btn-wrapper {
+        position: relative;
+        overflow: hidden;
+        display: inline-block;
+      }
+
+      .upload-btn-wrapper input[type=file] {
+        font-size: 100px;
+        position: absolute;
+        left: 0;
+        top: 0;
+        opacity: 0;
+      }
     </style>
 </head>
 <body>
@@ -47,7 +60,7 @@
             </div>
             <hr>
             <div class="row">
-              <div class="col-md-12">
+            <div class="col-md-12">
             <div class="table-responsive">
             <table class="table table-sm dt-responsive nowrap  row-border table-bordered table-hover TableDisplay" cellspacing="0" cellpadding="0" id="TableDisplay">
                 <thead>

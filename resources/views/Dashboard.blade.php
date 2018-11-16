@@ -52,44 +52,6 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <!-- Wait -->
-            <div class="col-lg-4 col-6">
-                <div class="small-box bg-danger shadow">
-                    <div class="inner">
-                        <h3 class="text-white">Wait</h3>
-                        <p class="text-white">รอ</p>
-                    </div>
-                    <div class="icon">
-                        <i class="fas fa-cogs"></i>
-                    </div>
-                </div>
-            </div>
-            <!-- Wait -->
-            <div class="col-lg-4 col-6">
-                <div class="small-box bg-danger shadow">
-                    <div class="inner">
-                        <h3 class="text-white">Wait</h3>
-                        <p class="text-white">รอ</p>
-                    </div>
-                    <div class="icon">
-                        <i class="fas fa-cogs"></i>
-                    </div>
-                </div>
-            </div>
-            <!-- Wait -->
-            <div class="col-lg-4 col-6">
-                <div class="small-box bg-danger shadow">
-                    <div class="inner">
-                        <h3 class="text-white">Wait</h3>
-                        <p class="text-white">รอ</p>
-                    </div>
-                    <div class="icon">
-                        <i class="fas fa-cogs"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </body>
 <footer>

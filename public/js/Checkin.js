@@ -120,6 +120,9 @@ var Item_To_Disktop = function Item_To_Disktop(e) {
         $.ajax({
             url: 'Insert_type_L',
             type: 'POST',
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
             dataType: 'text',
             cache: false,
             contentType: false,
@@ -669,6 +672,7 @@ var VoidItem = function VoidItem(e) {
             VoidItem();
     });
 }
+
 var VoidItem_modal = function VoidItem_modal(e) {
     var Fake_id = $(e).attr('fake_table_id');
     // Create From Data
@@ -698,6 +702,37 @@ var VoidItem_modal = function VoidItem_modal(e) {
         .fail(function() {
             VoidItem_modal();
     });
+}
+
+var ChargeItem = function ChargeItem(e) {
+    var Fake_id = $(e).attr('fake_table_id');
+    var inputchargeitem = $("#inputchargeitem").val();
+    var commentchargeitem = $("#commentchargeitem").val();
+    // Create From Data
+    var Data = new FormData();
+    // Data Put Array
+    Data.append('Fake_id', Fake_id);
+    Data.append('inputchargeitem', inputchargeitem);
+    Data.append('commentchargeitem', commentchargeitem);
+    // Send Data Ajax To Query
+    $.ajax({
+            url: 'ChargeItem',
+            type: 'POST',
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            dataType: 'text',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: Data,
+            success: function(callblack) {
+                $('#Charge_modal').modal('hide');
+                DisplayTable();
+                DisplayPackage();
+                PackageItem();
+            }
+        });
 }
 
 var Charge_modal = function Charge_modal(e) {

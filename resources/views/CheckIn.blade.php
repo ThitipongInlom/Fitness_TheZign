@@ -117,7 +117,13 @@
                 <!-- Img -->
                 <div class="card card-info card-outline">
                     <div class="card-body">
-                        Img
+                        <div align="center">
+                        @if ($user->Img != '')
+                        <img src='./img/{{ $user->Img }}' alt='Img' width="200" height="200" class='img-thumbnail'>
+                        @else
+                        <img src='./img/default.svg' alt='Img' width="200" height="200" class='img-thumbnail'>
+                        @endif
+                        </div>
                     </div>
                 </div>
                 <!-- Package -->

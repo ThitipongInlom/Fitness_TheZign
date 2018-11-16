@@ -83,25 +83,28 @@ class MainUsers extends Controller
             <table class='table table-sm table-hover'>
                   <tbody>
                   <tr>
-                    <th>ID</th>
-                    <th>User</th>
-                    <th>Date</th>
-                    <th>Status</th>
-                    <th>Reason</th>
+                    <th align='left'>Code:</th>
+                    <th align='center'>$row->code</th>
+                    <th align='left'>สถานะ:</th>
+                    <th align='center'>$row->status</th>
+                    <th align='left'>ประเภท:</th>
+                    <th align='center'>$row->type</th>
                   </tr>
                   <tr>
-                    <td>183</td>
-                    <td>John Doe</td>
-                    <td>11-7-2014</td>
-                    <td><span class='tag tag-success'>Approved</span></td>
-                    <td></td>
+                    <th align='left'>วันที่เริ่มต้น:</th>
+                    <th align='center' colspan='2'>$row->start</th>
+                    <th align='left'>วันที่สิ้นสุด:</th>
+                    <th align='center' colspan='2'>$row->expire</th>
                   </tr>
                   <tr>
-                    <td>219</td>
-                    <td>Alexander Pierce</td>
-                    <td>11-7-2014</td>
-                    <td><span class='tag tag-warning'>Pending</span></td>
-                    <td></td>
+                    <th align='left'>วันเกิด:</th>
+                    <th align='center' colspan='2'>$row->birthday</th>
+                    <th align='left'>เบอร์โทร::</th>
+                    <th align='center' colspan='2'>$row->phone</th>
+                  </tr>
+                  <tr>
+                    <th align='left'>ที่อยู่:</th>
+                    <th colspan='5'><textarea class='form-control' placeholder='ที่อยู่ของลูกค้า' rows='2'>$row->address</textarea></th>
                   </tr>
                 </tbody>
             </table>
@@ -109,10 +112,36 @@ class MainUsers extends Controller
         </div>";
         $View .= "</div>";
         $View .= "<div class='col-md-3'>";
+        if ($row->Img != '') {
+        $View .= "<img src='./img/$row->Img' alt='Img' class='img-thumbnail'>";
+        }else{
         $View .= "<img src='./img/default.svg' alt='Img' class='img-thumbnail'>";
-        $View .= "</div>";
+        }
+        $View .= "<p></p>
+                  <div class='upload-btn-wrapper'>
+                  <button class='btn btn-sm btn-primary'>อัพโหลด รูปภาพ</button>
+                  <input type='file' id='imguploadfile' onchange='uploadimguser(this);' code='$row->code' user_id='$row->id'>
+                  </div></div>";
         // End Row
-        $View .= "</div><hr>";
+        $View .= "</div>";
+        // Footer
+        $View .= "<div class='row'>";
+        $View .= "<div class='col-md-12'>";
+        $View .= '<nav>
+                  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                  <a class="nav-item nav-link active" id="nav-extend-tab" data-toggle="tab" href="#nav-extend" role="tab" aria-controls="nav-extend" aria-selected="true">ต่ออายุการใช้งาน</a>
+                  <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">รหัสWiFiลูกค้า</a>
+                  <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">ประวัติการใช้บริการ</a>
+                  </div>
+                  </nav>
+
+                  <div class="tab-content" id="nav-tabContent">
+                  <div class="tab-pane fade show active" id="nav-extend" role="tabpanel" aria-labelledby="nav-extend-tab">1111</div>
+                  <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">2222</div>
+                  <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">3333</div>
+                  </div>';
+        $View .= "</div>";
+        $View .= "</div>";
         }
         // Show Json
         $array = array('Table' => $View);

@@ -387,6 +387,9 @@ class Checkin extends Controller
         if ($DataDisplay->Fake_status == 'V' OR $DataDisplay->Fake_status == 'RV') {
         // Void Success
             $Data .= "<span class='badge badge-danger'>Void</span>";
+        }elseif ($DataDisplay->Fake_status == 'C') {
+        // Charge Success
+            $Data .= "<span class='badge badge-danger'>Charge</span>";
         }else{
           // Check Item_Type
           if ($DataDisplay->Fake_itemcodetype == 'P') {
@@ -923,6 +926,21 @@ class Checkin extends Controller
         echo $json;
     }
 
+    public function ChargeItem()
+    {
+        date_default_timezone_set("Asia/Bangkok");
+        $today = now();
+        $Fake_id = Input::post('Fake_id');
+        $inputchargeitem = Input::post('inputchargeitem');
+        $commentchargeitem = Input::post('commentchargeitem');
+        if ($inputchargeitem != '') {
+          DB::table('fake_table')
+              ->where('id', $Fake_id)
+              ->update(['Fake_price' => $inputchargeitem, 'Fake_status' => 'C','Fake_comment' => $commentchargeitem]);
+        }
+        print_r($_POST);
+    }
+
     public function Charge_modal()
     {
         date_default_timezone_set("Asia/Bangkok");
@@ -932,11 +950,11 @@ class Checkin extends Controller
         foreach ($DataFake_Table as $key => $row) {
         $fake_table_id = $row->id;
         }
-        $Table  = "<div class='row'><div class='col-md-4'><h4 align='left'>จำนวนเงิน:</h4></div><div class='col-md-8'><input type='text' class='form-control form-control-sm' placeholder='จำนวนเงินที่จะ Charge'></div>";
-        $Table .= "<div class='col-md-12'><h4 align='left'>หมายเหตุ:</h4>";
-        $Table .= "<textarea id='commentvoiditem' placeholder='กรุณากรอกสาเหตุของการ Charge' class='form-control' rows='2'>";
+        $Table  = "<div class='row'><div class='col-md-3'><h5 align='left'>จำนวนเงิน:</h5></div><div class='col-md-9'><input type='text' id='inputchargeitem' class='form-control form-control-sm' placeholder='จำนวนเงินที่จะ Charge'></div>";
+        $Table .= "<div class='col-md-12'><h5 align='left'>หมายเหตุ:</h5>";
+        $Table .= "<textarea id='commentchargeitem' placeholder='กรุณากรอกสาเหตุของการ Charge' class='form-control' rows='2'>";
         $Table .= "</textarea>";
-        $Table .= "<br><button class='btn btn-danger' onclick='VoidItem(this);' fake_table_id='$fake_table_id'>ยืนยันการ Charge</button></div></div>";
+        $Table .= "<br><button class='btn btn-danger' onclick='ChargeItem(this);' fake_table_id='$fake_table_id'>ยืนยันการ Charge</button></div></div>";
         // Show Json
         $array = array('Table' => $Table,'Row' => $row);
         $json = json_encode($array);

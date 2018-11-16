@@ -145,3 +145,11 @@ var ViewData = function ViewData(e) {
         }
     });
 }
+
+// Upload Img User
+var uploadimguser = function uploadimguser(e) {
+    var Img = $("#imguploadfile").prop('files')[0];
+    var User_Id = $(e).attr('user_id');
+    var Code = $(e).attr('code');
+    console.log(Img,User_Id,Code);
+}
