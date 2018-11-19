@@ -92,13 +92,37 @@ class MainUsers extends Controller
                   </tr>
                   <tr>
                     <th align='left'>วันที่เริ่มต้น:</th>
-                    <th align='center' colspan='2'>$row->start</th>
+                    <th align='center' colspan='2'>";
+                    if ($row->start == '0000-00-00') {
+                      $View .= "ยังไม่มีข้อมูล";
+                    }else{
+                      $Restart = str_replace('-', '/', $row->start);
+                      $reformat_start = date('d/m/Y', strtotime($Restart));
+                      $View .= "$reformat_start";
+                    }
+         $View .= "</th>
                     <th align='left'>วันที่สิ้นสุด:</th>
-                    <th align='center' colspan='2'>$row->expire</th>
+                    <th align='center' colspan='2'>";
+                    if ($row->expire == '0000-00-00') {
+                      $View .= "ยังไม่มีข้อมูล";
+                    }else{
+                      $Reexpire = str_replace('-', '/', $row->expire);
+                      $reformat_expire = date('d/m/Y', strtotime($Reexpire));
+                      $View .= "$reformat_expire";
+                    }
+         $View .= "</th>
                   </tr>
                   <tr>
                     <th align='left'>วันเกิด:</th>
-                    <th align='center' colspan='2'>$row->birthday</th>
+                    <th align='center' colspan='2'>";
+                    if ($row->birthday == '0000-00-00') {
+                      $View .= "ยังไม่มีข้อมูล";
+                    }else{
+                      $Rebirthday = str_replace('-', '/', $row->birthday);
+                      $reformat_birthday = date('d/m/Y', strtotime($Rebirthday));
+                      $View .= "$reformat_birthday";
+                    }
+          $View .= "</th>
                     <th align='left'>เบอร์โทร::</th>
                     <th align='center' colspan='2'>$row->phone</th>
                   </tr>
@@ -133,13 +157,58 @@ class MainUsers extends Controller
                   <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">รหัสWiFiลูกค้า</a>
                   <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">ประวัติการใช้บริการ</a>
                   </div>
-                  </nav>
+                  </nav>';
 
-                  <div class="tab-content" id="nav-tabContent">
-                  <div class="tab-pane fade show active" id="nav-extend" role="tabpanel" aria-labelledby="nav-extend-tab">1111</div>
-                  <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">2222</div>
-                  <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">3333</div>
-                  </div>';
+      $View .=  "<div class='tab-content' id='nav-tabContent'>
+                  <div class='tab-pane fade show active' id='nav-extend' role='tabpanel' aria-labelledby='nav-extend-tab'>
+                  1111
+                  </div>";
+
+      $View .=  "<div class='tab-pane fade' id='nav-profile' role='tabpanel' aria-labelledby='nav-profile-tab'>
+                  <table class='table table-sm table-bordered'>
+                    <tr>
+                      <th align='center'>Username:</th>
+                      <th>";
+                      if ($row->wifiusername != '') {
+                        $View .=  "<input type='text' class='form-control form-control-sm' disabled value='$row->wifiusername'>";
+                      }else{
+                        $View .=  "<input type='text' class='form-control form-control-sm' disabled value='ยังไม่มีข้อมูล Username'>";
+                      }
+      $View .=  "     </th>
+                      <th align='center'>วันหมดอายุ:</th>
+                      <th>";
+                      if ($row->wifidate != '') {
+                        if ($row->wifidate == '0000-00-00') {
+                          $reformat_wifisuccess = 'ยังไม่มีข้อมูล วันที่สิ้นสุด';
+                        }else{
+                          $Rewididate = str_replace('-', '/', $row->wifidate);
+                          $reformat_wifisuccess = date('d/m/Y', strtotime($Rewididate));
+                        }
+                        $View .=  "<input type='text' class='form-control form-control-sm' disabled value='$reformat_wifisuccess'>";
+                      }else{
+                        $View .=  "<input type='text' class='form-control form-control-sm' disabled value='ยังไม่มีข้อมูล วันที่สิ้นสุด'>";
+                      }
+      $View .=  "     </th>
+                    </tr>
+                    <tr>
+                      <th align='center'>Password:</th>
+                      <th>";
+                      if ($row->wifipassword != '') {
+                        $View .=  "<input type='text' class='form-control form-control-sm' disabled value='$row->wifipassword'>";
+                      }else{
+                        $View .=  "<input type='text' class='form-control form-control-sm' disabled value='ยังไม่มีข้อมูล Password'>";
+                      }
+      $View .=  "     </th>
+                      <th></th>
+                      <th></th>
+                    </tr>
+                  </table>
+                  </div>";
+
+        $View .=  "<div class='tab-pane fade' id='nav-contact' role='tabpanel' aria-labelledby='nav-contact-tab'>
+                  3333
+                  </div>
+                  </div>";
         $View .= "</div>";
         $View .= "</div>";
         }
@@ -148,4 +217,54 @@ class MainUsers extends Controller
         $json = json_encode($array);
         echo $json;
     }
+
+    public function Uploadimguser(Request $request)
+    {
+      $User_Id = $request->post('User_Id');
+      $Code = $request->post('Code');
+      $Image = $request->file('Img');
+      $Data = DB::table('member')->where('id', $User_Id)->get();
+      foreach ($Data as $key => $row) {
+        if ($row->Img == '') {
+          // Have FLIE
+          if (isset($_FILES['Img']['name'])) {
+              //Type Flie
+              $TypeFile = pathinfo($_FILES['Img']['name'],PATHINFO_EXTENSION);
+              // Name In Sha
+              $Nowsha = sha1(now().$_FILES['Img']['name']);
+              // Re Name Success
+              $FlieNameSuccess = $Nowsha.'.'.$TypeFile;
+              // Path To Save Img
+              $DestinationPath = public_path('/img');
+              $Image->move($DestinationPath, $FlieNameSuccess);
+              DB::table('member')
+                  ->where('id', $User_Id)
+                  ->update(['Img' => $FlieNameSuccess]);
+          }
+        }else {
+             unlink(public_path("img/$row->Img"));
+             DB::table('member')
+                 ->where('id', $User_Id)
+                 ->update(['Img' => '']);
+            // Have FLIE
+            if (isset($_FILES['Img']['name'])) {
+               //Type Flie
+               $TypeFile = pathinfo($_FILES['Img']['name'],PATHINFO_EXTENSION);
+               // Name In Sha
+              $Nowsha = sha1(now().$_FILES['Img']['name']);
+              // Re Name Success
+              $FlieNameSuccess = $Nowsha.'.'.$TypeFile;
+              // Path To Save Img
+              $DestinationPath = public_path('/img');
+              $Image->move($DestinationPath, $FlieNameSuccess);
+              DB::table('member')
+                  ->where('id', $User_Id)
+                  ->update(['Img' => $FlieNameSuccess]);
+            }
+        }
+      }
+      $ResArray = ['text' => $Code];
+      return \Response::json($ResArray);
+    }
+
 }

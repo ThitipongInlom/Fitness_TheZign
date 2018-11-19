@@ -124,16 +124,18 @@ var ViewData = function ViewData(e) {
     // Show Modal
     $("#ViewDataUser").modal('show');
     $("body").css("padding-right", "0");
-    var csrf = $('meta[name="csrf-token"]').attr('content');
     var id = $(e).attr('id');
     // Create From Data
     var Data = new FormData();
+    console.log(e);
     // Data Put Array
-    Data.append('_token', csrf);
     Data.append('id', id);
     $.ajax({
         url: 'ViewData',
         type: 'POST',
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
         dataType: 'text',
         cache: false,
         contentType: false,
@@ -151,5 +153,30 @@ var uploadimguser = function uploadimguser(e) {
     var Img = $("#imguploadfile").prop('files')[0];
     var User_Id = $(e).attr('user_id');
     var Code = $(e).attr('code');
-    console.log(Img,User_Id,Code);
+    // Create From Data
+    var Data = new FormData();
+    // Data Put Array
+    Data.append('Img', Img);
+    Data.append('User_Id', User_Id);
+    Data.append('Code', Code);
+    $.ajax({
+        url: 'Uploadimguser',
+        type: 'POST',
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        dataType: 'text',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: Data,
+        success: function(callback) {
+            var res = jQuery.parseJSON(callback);
+            var User_Id = '<div id="'+res.text+'"></div>';
+            $("#ViewDataUser").modal('hide');
+            setTimeout(function () {
+              ViewData(User_Id);
+            }, 500);
+        }
+    });
 }

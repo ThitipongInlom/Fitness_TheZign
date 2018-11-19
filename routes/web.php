@@ -82,3 +82,5 @@ Route::post('/ViewData', 'MainUsers@ViewData');
 Route::post('/Charge_modal', 'Checkin@Charge_modal');
 // ChargeItem
 Route::post('/ChargeItem', 'Checkin@ChargeItem');
+// Uploadimguser
+Route::post('/Uploadimguser', 'MainUsers@Uploadimguser');
