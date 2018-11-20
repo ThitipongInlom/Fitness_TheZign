@@ -120,6 +120,12 @@ $('#searchTableDisplay').on('click', function(e) {
     e.preventDefault();
 });
 
+var AddUsermodel = function AddUsermodel() {
+    // Show Modal
+    $("#AddUsermodel").modal('show');
+    $("body").css("padding-right", "0");
+}
+
 var ViewData = function ViewData(e) {
     // Show Modal
     $("#ViewDataUser").modal('show');
@@ -144,6 +150,81 @@ var ViewData = function ViewData(e) {
         success: function(callback) {
             var res = jQuery.parseJSON(callback);
             $("#ViewDataUserDisplay").html(res.Table);
+            // IF Click Change
+            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+              if (e.target.hash == '#nav-contact') {
+                  var TableDisplayDetail = $('#TableDisplayDetail').DataTable({
+                      "dom": "<'row'<'col-sm-1'><'col-sm-7'><'col-sm-4'f>>" +
+                             "<'row'<'col-sm-12'tr>>" +
+                             "<'row'<'col-sm-1'i><'col-sm-7'><'col-sm-4'p>>",
+                      "processing": true,
+                      "serverSide": true,
+                      "searching": false,
+                      "responsive": true,
+                      "ordering": false,
+                      "bDestroy": true,
+                      "lengthMenu": [[5,], [5,]],
+                      "ajax": {
+                          "url": 'Model_code_viewdata',
+                          "type": 'POST',
+                           data: function (d) {
+                              d._token = csrf;
+                              d.model_code_viewdata = $("#model_code_viewdata").val();
+                          }
+                      },
+                      "columns": [{
+                              "data": 'name',
+                              "name": 'name',
+                          },
+                          {
+                              "data": 'start',
+                              "name": 'start'
+                          },
+                          {
+                              "data": 'expire',
+                              "name": 'expire'
+                          },
+                          {
+                              "data": 'typestatus',
+                              "name": 'typestatus'
+                          },
+                          {
+                              "data": 'fullprice',
+                              "name": 'fullprice'
+                          },
+                          {
+                              "data": 'alldis',
+                              "name": 'alldis'
+                          },
+                          {
+                              "data": 'resultprice',
+                              "name": 'resultprice'
+                          },
+                      ],
+                      "columnDefs": [
+                      {"className": "dt-center", "targets": "_all"}
+                      ],
+                      "language": {
+                          "lengthMenu": "แสดง _MENU_ รายการ",
+                          "search": "ค้นหา:",
+                          "info": "แสดง _START_ ถึง _END_ ทั้งหมด _TOTAL_ รายการ",
+                          "infoEmpty": "แสดง 0 ถึง 0 ทั้งหมด 0 รายการ",
+                          "infoFiltered": "(จาก ทั้งหมด _MAX_ ทั้งหมด รายการ)",
+                          "processing": "กำลังโหลดข้อมูล...",
+                          "zeroRecords": "ไม่มีข้อมูล",
+                          "paginate": {
+                              "first": "หน้าแรก",
+                              "last": "หน้าสุดท้าย",
+                              "next": "ต่อไป",
+                              "previous": "ย้อนกลับ"
+                          },
+                      },
+                      search: {
+                      "regex": true
+                      },
+                  });
+              }
+            });
         }
     });
 }

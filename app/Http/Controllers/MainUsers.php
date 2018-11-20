@@ -68,6 +68,32 @@ class MainUsers extends Controller
         ->make(true);
     }
 
+    public function Model_code_viewdata(Request $request)
+    {
+      $users = DB::table('member_detail')
+                ->select('*')
+                ->where('code', '=', $request->post('model_code_viewdata'))
+                ->orderBy('start', 'asc');
+      return Datatables::of($users)
+      ->editColumn('start', function($users) {
+          return date('d-m-Y', strtotime($users->start));
+      })
+      ->editColumn('expire', function($users) {
+          return date('d-m-Y', strtotime($users->expire));
+      })
+      ->editColumn('fullprice', function($users) {
+          return  $users->fullprice.' ฿';
+      })
+      ->editColumn('alldis', function($users) {
+          return  $users->alldis.' ฿';
+      })
+      ->editColumn('resultprice', function($users) {
+          return  $users->resultprice.' ฿';
+      })
+      ->rawColumns(['fullprice','alldis','resultprice'])
+      ->make(true);
+    }
+
     public function ViewData()
     {
         $id = Input::post('id');
@@ -79,6 +105,7 @@ class MainUsers extends Controller
         <div class='card-header'>
             <h5 class='card-title'>ข้อมูลทั่วไปของคุณ: $row->name</h5>
         </div>
+          <input type='hidden' id='model_code_viewdata' value='$row->code'>
           <div class='card-body table-responsive p-0'>
             <table class='table table-sm table-hover'>
                   <tbody>
@@ -128,7 +155,7 @@ class MainUsers extends Controller
                   </tr>
                   <tr>
                     <th align='left'>ที่อยู่:</th>
-                    <th colspan='5'><textarea class='form-control' placeholder='ที่อยู่ของลูกค้า' rows='2'>$row->address</textarea></th>
+                    <th colspan='5'><textarea class='form-control' placeholder='ที่อยู่ของลูกค้า' rows='2' disabled>$row->address</textarea></th>
                   </tr>
                 </tbody>
             </table>
@@ -137,9 +164,9 @@ class MainUsers extends Controller
         $View .= "</div>";
         $View .= "<div class='col-md-3'>";
         if ($row->Img != '') {
-        $View .= "<img src='./img/$row->Img' alt='Img' class='img-thumbnail'>";
+        $View .= "<img style='width: 200px; height: 200px;' src='./img/$row->Img' alt='Img' class='img-thumbnail'>";
         }else{
-        $View .= "<img src='./img/default.svg' alt='Img' class='img-thumbnail'>";
+        $View .= "<img style='width: 200px; height: 200px;' src='./img/default.svg' alt='Img' class='img-thumbnail'>";
         }
         $View .= "<p></p>
                   <div class='upload-btn-wrapper'>
@@ -156,6 +183,7 @@ class MainUsers extends Controller
                   <a class="nav-item nav-link active" id="nav-extend-tab" data-toggle="tab" href="#nav-extend" role="tab" aria-controls="nav-extend" aria-selected="true">ต่ออายุการใช้งาน</a>
                   <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">รหัสWiFiลูกค้า</a>
                   <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">ประวัติการใช้บริการ</a>
+                  <a class="nav-item nav-link" id="nav-editprofile-tab" data-toggle="tab" href="#nav-editprofile" role="tab" aria-controls="nav-editprofile" aria-selected="false">แก้ไขข้อมูลูกค้า</a>
                   </div>
                   </nav>';
 
@@ -167,7 +195,7 @@ class MainUsers extends Controller
       $View .=  "<div class='tab-pane fade' id='nav-profile' role='tabpanel' aria-labelledby='nav-profile-tab'>
                   <table class='table table-sm table-bordered'>
                     <tr>
-                      <th align='center'>Username:</th>
+                      <td align='center'><b>Username:</b></td>
                       <th>";
                       if ($row->wifiusername != '') {
                         $View .=  "<input type='text' class='form-control form-control-sm' disabled value='$row->wifiusername'>";
@@ -175,7 +203,7 @@ class MainUsers extends Controller
                         $View .=  "<input type='text' class='form-control form-control-sm' disabled value='ยังไม่มีข้อมูล Username'>";
                       }
       $View .=  "     </th>
-                      <th align='center'>วันหมดอายุ:</th>
+                      <td align='center'><b>วันหมดอายุ:</b></td>
                       <th>";
                       if ($row->wifidate != '') {
                         if ($row->wifidate == '0000-00-00') {
@@ -191,7 +219,7 @@ class MainUsers extends Controller
       $View .=  "     </th>
                     </tr>
                     <tr>
-                      <th align='center'>Password:</th>
+                      <td align='center'><b>Password:</b></td>
                       <th>";
                       if ($row->wifipassword != '') {
                         $View .=  "<input type='text' class='form-control form-control-sm' disabled value='$row->wifipassword'>";
@@ -206,9 +234,50 @@ class MainUsers extends Controller
                   </div>";
 
         $View .=  "<div class='tab-pane fade' id='nav-contact' role='tabpanel' aria-labelledby='nav-contact-tab'>
-                  3333
-                  </div>
+                  <table class='table table-sm dt-responsive nowrap  row-border table-bordered table-hover TableDisplay' cellspacing='0' cellpadding='0' id='TableDisplayDetail'>
+                      <thead>
+                          <tr align='center' class='bg-primary'>
+                              <th>ชื่อลูกค้า</th>
+                              <th>วันที่เริ่มต้น</th>
+                              <th>วันที่สิ้นสุด</th>
+                              <th>สถานะ</th>
+                              <th>ราคาเต็ม</th>
+                              <th>ส่วนลด</th>
+                              <th>ราคารวม</th>
+                          </tr>
+                      </thead>
+                      <tfoot>
+                          <tr align='center' class='bg-primary'>
+                              <th>ชื่อลูกค้า</th>
+                              <th>วันที่เริ่มต้น</th>
+                              <th>วันที่สิ้นสุด</th>
+                              <th>สถานะ</th>
+                              <th>ราคาเต็ม</th>
+                              <th>ส่วนลด</th>
+                              <th>ราคารวม</th>
+                          </tr>
+                      </tfoot>
+                  </table>
                   </div>";
+        $View .=  "<div class='tab-pane fade' id='nav-editprofile' role='tabpanel' aria-labelledby='nav-editprofile-tab'>
+                  <table class='table table-sm table-bordered' width='100%'>
+                    <tr>
+                     <td align='center'><b>แก้ไขชื่อ ลูกค้า</b></td>
+                     <td><input type='text' class='form-control form-control-sm' id='edit_name_input' placeholder='เปลี่ยนชื่อลูกค้า'></td>
+                     <td align='center'><b>แก้ไขเบอร์ ลูกค้า</b></td>
+                     <td><input type='text' class='form-control form-control-sm' id='edit_phone_input' placeholder='เปลี่ยนเบอร์โทร'></td>
+                    </tr>
+                    <tr>
+                    <td align='center'><b>แก้ไข ที่อยู่</b></td>
+                    <td colspan='3'>
+                    <textarea class='form-control' rows='2' placeholder='เปลี่ยนที่อยู่ลูกค้า'></textarea>
+                    </td>
+                    </tr>
+                  </table>
+                  <div align='center'><button class='btn btn-success btn-sm'>อัพเดต</button></div>
+                  </div>";
+
+        $View .= "</div>";
         $View .= "</div>";
         $View .= "</div>";
         }
@@ -248,9 +317,9 @@ class MainUsers extends Controller
                  ->update(['Img' => '']);
             // Have FLIE
             if (isset($_FILES['Img']['name'])) {
-               //Type Flie
-               $TypeFile = pathinfo($_FILES['Img']['name'],PATHINFO_EXTENSION);
-               // Name In Sha
+              //Type Flie
+              $TypeFile = pathinfo($_FILES['Img']['name'],PATHINFO_EXTENSION);
+              // Name In Sha
               $Nowsha = sha1(now().$_FILES['Img']['name']);
               // Re Name Success
               $FlieNameSuccess = $Nowsha.'.'.$TypeFile;

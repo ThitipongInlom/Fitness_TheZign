@@ -55,7 +55,7 @@
                   <button class="btn btn-primary" type="submit" id="searchTableDisplay">ค้าหา</button>
               </div>
               <div class="col-md-1">
-                  <button class=" btn btn-success" type="btton">เพิ่มลูกค้า</button>
+                  <button class=" btn btn-success" type="btton" onclick="AddUsermodel();">เพิ่มลูกค้า</button>
               </div>
             </div>
             <hr>
@@ -108,6 +108,25 @@
             <div class="modal-content">
                 <div class="modal-header bg-primary">
                     <h5 class="modal-title">ดูข้อมูลลูกค้า</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div align="center">
+                        <div id="ViewDataUserDisplay"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="AddUsermodel" tabindex="-1" role="dialog" aria-labelledby="AddUsermodel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h5 class="modal-title">เพิ่มลูกค้า</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
