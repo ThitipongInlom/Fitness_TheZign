@@ -93,7 +93,8 @@ var TableDisplay = $('#TableDisplay').DataTable({
         },
     ],
     "columnDefs": [
-    {"className": "dt-center", "targets": "_all"}
+      { "className": 'text-left', "targets": [2,8] },
+      { "className": 'text-center', "targets": [0,1,3,4,5,6,7,9,10,11] },
     ],
     "language": {
         "lengthMenu": "แสดง _MENU_ คน",
@@ -200,6 +201,10 @@ var ViewData = function ViewData(e) {
                               "data": 'resultprice',
                               "name": 'resultprice'
                           },
+                          {
+                              "data": 'daystop',
+                              "name": 'daystop'
+                          },
                       ],
                       "columnDefs": [
                       {"className": "dt-center", "targets": "_all"}
@@ -260,4 +265,8 @@ var uploadimguser = function uploadimguser(e) {
             }, 500);
         }
     });
+}
+
+var Calculate_Day = function Calculate_Day(e) {
+      console.log(e);
 }

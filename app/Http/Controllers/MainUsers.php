@@ -82,13 +82,25 @@ class MainUsers extends Controller
           return date('d-m-Y', strtotime($users->expire));
       })
       ->editColumn('fullprice', function($users) {
+          if ($users->fullprice == '') {
+          return  'ไม่ทราบราคา';
+          }else{
           return  $users->fullprice.' ฿';
+          }
       })
       ->editColumn('alldis', function($users) {
+          if ($users->alldis == '') {
+          return  'ไม่มีส่วนลด';
+          }else{
           return  $users->alldis.' ฿';
+          }
       })
       ->editColumn('resultprice', function($users) {
+          if ($users->resultprice == '') {
+          return  'ไม่ทราบราคา';
+          }else{
           return  $users->resultprice.' ฿';
+          }
       })
       ->rawColumns(['fullprice','alldis','resultprice'])
       ->make(true);
@@ -244,6 +256,7 @@ class MainUsers extends Controller
                               <th>ราคาเต็ม</th>
                               <th>ส่วนลด</th>
                               <th>ราคารวม</th>
+                              <th>ตัวช่วย</th>
                           </tr>
                       </thead>
                       <tfoot>
@@ -255,6 +268,7 @@ class MainUsers extends Controller
                               <th>ราคาเต็ม</th>
                               <th>ส่วนลด</th>
                               <th>ราคารวม</th>
+                              <th>ตัวช่วย</th>
                           </tr>
                       </tfoot>
                   </table>

@@ -22,6 +22,7 @@
     "dependencies": {
         "@fortawesome/fontawesome-free": "^5.3.1",
         "admin-lte": "^3.0.0-alpha.2",
+        "air-datepicker": "^2.2.3",
         "datatables.net-autofill-bs4": "^2.3.1",
         "datatables.net-bs4": "^1.10.19",
         "datatables.net-buttons-bs4": "^1.5.3",
@@ -33,6 +34,7 @@
         "datatables.net-scroller-bs4": "^1.5.1",
         "icheck-bootstrap": "^3.0.1",
         "jquery.redirect": "^1.1.4",
-        "package.json": "^2.0.1"
+        "package.json": "^2.0.1",
+        "sweetalert2": "^7.29.1"
     }
 }

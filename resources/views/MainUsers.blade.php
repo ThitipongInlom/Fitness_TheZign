@@ -34,6 +34,9 @@
         top: 0;
         opacity: 0;
       }
+      .formmaginsetnone{
+        margin-bottom: 0rem !important;
+      }
     </style>
 </head>
 <body>
@@ -132,8 +135,89 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div align="center">
-                        <div id="ViewDataUserDisplay"></div>
+                    <div align="left">
+                      <form>
+                        <div class="form-group formmaginsetnone row">
+                          <label for="Code_Add" class="col-sm-3 col-form-label">Code :</label>
+                          <div class="col-sm-9">
+                            <input type="text" class="form-control form-control-sm" id="Code_Add" placeholder="Gen Code Auto" disabled>
+                          </div>
+                        </div>
+                        <div class="form-group formmaginsetnone row">
+                          <label for="Name_Add" class="col-sm-3 col-form-label">ชื่อลูกค้า :</label>
+                          <div class="col-sm-9">
+                            <input type="text" class="form-control form-control-sm" id="Name_Add" placeholder="ชื่อลูกค้า">
+                          </div>
+                        </div>
+                        <div class="form-group formmaginsetnone row">
+                          <label for="Start_Add" class="col-sm-3 col-form-label">วันที่เริ่มต้น :</label>
+                          <div class="col-sm-9">
+                            <input type="date" class="form-control form-control-sm" id="Start_Add" placeholder="วันที่เริ่มต้น">
+                          </div>
+                        </div>
+                        <div class="form-group formmaginsetnone row">
+                          <label for="End_Add" class="col-sm-3 col-form-label">วันที่สิ้นสุด :</label>
+                          <div class="col-sm-9">
+                            <input type="text" class="form-control form-control-sm" id="End_Add" placeholder="วันที่สิ้นสุด คำนวนจากการเลือกประเภท" disabled>
+                          </div>
+                        </div>
+                        <div class="form-group formmaginsetnone row">
+                          <label for="Birthday_Add" class="col-sm-3 col-form-label">วันเดือนปีเกิด :</label>
+                          <div class="col-sm-9">
+                            <input type="date" class="form-control form-control-sm" id="Birthday_Add" placeholder="วันเดือนปีเกิด">
+                          </div>
+                        </div>
+                        <div class="form-group formmaginsetnone row">
+                          <label for="Phone_Add" class="col-sm-3 col-form-label">เบอร์โทร :</label>
+                          <div class="col-sm-9">
+                            <input type="text" class="form-control form-control-sm" id="Phone_Add" placeholder="เบอร์โทร">
+                          </div>
+                        </div>
+                        <div class="form-group formmaginsetnone row">
+                          <label for="Address_Add" class="col-sm-3 col-form-label">ที่อยู่ :</label>
+                          <div class="col-sm-9">
+                            <input type="text" class="form-control form-control-sm" id="Address_Add" placeholder="ที่อยู่">
+                          </div>
+                        </div>
+                        <div class="form-group formmaginsetnone row">
+                          <label for="Type_Add" class="col-sm-3 col-form-label">ประเภท :</label>
+                          <div class="col-sm-9">
+                            <select class="custom-select custom-select-sm" id="Type_Add" onchange="Calculate_Day(this);">
+                              <option selected value="0">เลือกประเภท</option>
+                              <option value="1">ทดลองเล่น1วัน</option>
+                              <option value="2">1วัน</option>
+                              <option value="3">15วัน</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="form-group formmaginsetnone row">
+                          <label for="Price_full_Add" class="col-sm-3 col-form-label">ราคาปกติ :</label>
+                          <div class="col-sm-9">
+                            <input type="text" class="form-control form-control-sm" id="Price_full_Add" placeholder="ราคาปกติ">
+                          </div>
+                        </div>
+                        <div class="form-group formmaginsetnone row">
+                          <label for="Discount_Add" class="col-sm-3 col-form-label">ส่วนลด :</label>
+                          <div class="col-sm-9">
+                            <input type="text" class="form-control form-control-sm" id="Discount_Add" placeholder="ส่วนลด">
+                          </div>
+                        </div>
+                        <div class="form-group formmaginsetnone row">
+                          <label for="Remark_Add" class="col-sm-3 col-form-label">Remark :</label>
+                          <div class="col-sm-9">
+                            <input type="text" class="form-control form-control-sm" id="Remark_Add" placeholder="Remark">
+                          </div>
+                        </div>
+                        <div class="form-group formmaginsetnone row">
+                          <label for="Price_total_Add" class="col-sm-3 col-form-label">ยอดชำระ :</label>
+                          <div class="col-sm-9">
+                            <input type="text" class="form-control form-control-sm" id="Price_total_Add" placeholder="ยอดชำระ">
+                          </div>
+                        </div>
+                      </form>
+                      <div align="center">
+                        <button class="btn btn-sm btn-success">เพิ่มลูกค้า</button>
+                      </div>
                     </div>
                 </div>
             </div>
