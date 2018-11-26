@@ -268,5 +268,25 @@ var uploadimguser = function uploadimguser(e) {
 }
 
 var Calculate_Day = function Calculate_Day(e) {
-      console.log(e);
+      var Daystart = $("#Start_Add").val();
+      var SelectVal = $(e).val();
+      // Create From Data
+      var Data = new FormData();
+      Data.append('Daystart', Daystart);
+      Data.append('SelectVal', SelectVal);
+      $.ajax({
+          url: 'Calculate_Day',
+          type: 'POST',
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+          dataType: 'text',
+          cache: false,
+          contentType: false,
+          processData: false,
+          data: Data,
+          success: function(callback) {
+                console.log(callback);
+          }
+      });
 }

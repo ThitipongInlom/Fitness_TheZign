@@ -350,4 +350,36 @@ class MainUsers extends Controller
       return \Response::json($ResArray);
     }
 
+    public static function GetTypeData()
+    {
+        $TypeData = DB::table('type')->get();
+        return $TypeData;
+    }
+
+    public function Calculate_Day(Request $request)
+    {
+        // Data Type All
+        $Data = DB::table('type')->where('type_id', $request->post('SelectVal'))->get();
+        // Check Day Today
+        if (empty($request->post('Daystart'))) {
+          $renow = date("Y-m-d");
+        }else{
+          $renow = $request->post('Daystart');
+        }
+        // Format Date Support
+        foreach ($Data as $key => $row) {
+            // Format
+            $DateData = date_create($renow);
+            // Modifly Day + Day
+            date_modify($DateData, '+'.$row->type_day.' day');
+            // Modifly Month + Month
+            date_modify($DateData, '+'.$row->type_month.' month');
+            // Modifly Years + Years
+            date_modify($DateData, '+'.$row->type_year.' years');
+            $ReFotmat = date_format($DateData, 'Y-m-d');
+            // 
+        }
+        print_r($ReFotmat);
+    }
+
 }

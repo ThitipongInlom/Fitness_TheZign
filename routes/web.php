@@ -86,3 +86,5 @@ Route::post('/ChargeItem', 'Checkin@ChargeItem');
 Route::post('/Uploadimguser', 'MainUsers@Uploadimguser');
 // Model_code_viewdata
 Route::post('/Model_code_viewdata', 'MainUsers@Model_code_viewdata');
+// Calculate_Day
+Route::post('/Calculate_Day', 'MainUsers@Calculate_Day');

@@ -55,7 +55,7 @@
                 </select>
               </div>
               <div class="col-md-7">
-                  <button class="btn btn-primary" type="submit" id="searchTableDisplay">ค้าหา</button>
+                  <button class="btn btn-primary" type="submit" id="searchTableDisplay">ค้นหา</button>
               </div>
               <div class="col-md-1">
                   <button class=" btn btn-success" type="btton" onclick="AddUsermodel();">เพิ่มลูกค้า</button>
@@ -184,9 +184,9 @@
                           <div class="col-sm-9">
                             <select class="custom-select custom-select-sm" id="Type_Add" onchange="Calculate_Day(this);">
                               <option selected value="0">เลือกประเภท</option>
-                              <option value="1">ทดลองเล่น1วัน</option>
-                              <option value="2">1วัน</option>
-                              <option value="3">15วัน</option>
+                              @foreach (MainUsers::GetTypeData() as $key => $row)
+                              <option value="{{ $row->type_id }}">{{ $row->type_value }}</option>
+                              @endforeach
                             </select>
                           </div>
                         </div>

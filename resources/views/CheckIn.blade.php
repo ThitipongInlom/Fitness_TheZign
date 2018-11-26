@@ -11,6 +11,11 @@
     <link rel="stylesheet" type="text/css" href="{{ url('css/app.css') }}">
     <!-- animate -->
     <link rel="stylesheet" type="text/css" href="{{ url('css/animate.css') }}">
+    <style>
+      body{
+        font-size: 12px;
+      }
+    </style>
 </head>
 
 <body class="login-page">
@@ -105,6 +110,11 @@
                 <div class="card card-info card-outline">
                     <div class="card-header">
                         <h3 class="card-title">รายการต่างๆ</h3>
+                        <div class="card-tools">
+                          <button type="button" class="btn btn-sm btn-danger" onclick="history.go(0)">
+                            หากไม่มีรายการขึ้น คลิ้ก
+                          </button>
+                        </div>
                     </div>
                     <div class="card-body">
                         <div id="PackageOnuseDisplay"></div>

@@ -490,7 +490,7 @@ class Checkin extends Controller
                         <tr item_codetype='$Item_Free->item_code_type' item_code='$Item_Free->item_code' item_name='$Item_Free->item_name' item_price='$Item_Free->item_price' item_type='$Item_Free->item_type' item_setnumber='$Item_Free->item_setnumber' ondblclick='Item_To_Disktop(this)'>
                             <td><b>$Item_Free->item_name</b></td>
                             <td align='center'>$Item_Free->item_setnumber</td>
-                            <td align='center'>".number_format($Item_Free->item_price)."</td>
+                            <td align='center'>".number_format((float)$Item_Free->item_price)."</td>
                             <td align='center'><button item_codetype='$Item_Free->item_code_type' item_code='$Item_Free->item_code' item_name='$Item_Free->item_name' item_price='$Item_Free->item_price' item_type='$Item_Free->item_type' item_setnumber='$Item_Free->item_setnumber' onclick='Item_To_Disktop(this)' class='btn btn-sm btn-primary'><i class='far fa-check-square'></i></button></td>
                         </tr>";
                     }
@@ -517,7 +517,7 @@ class Checkin extends Controller
                         <tr item_codetype='$Item_Free->item_code_type' item_code='$Item_Free->item_code' item_name='$Item_Free->item_name' item_price='$Item_Free->item_price' item_type='$Item_Free->item_type' item_setnumber='$Item_Free->item_setnumber' ondblclick='Item_To_Disktop(this)'>
                             <td><b>$Item_Free->item_name</b></td>
                             <td align='center'>$Item_Free->item_setnumber</td>
-                            <td align='center'>".number_format($Item_Free->item_price)."</td>
+                            <td align='center'>".number_format((float)$Item_Free->item_price)."</td>
                             <td align='center'><button item_codetype='$Item_Free->item_code_type' item_code='$Item_Free->item_code' item_name='$Item_Free->item_name' item_price='$Item_Free->item_price' item_type='$Item_Free->item_type' item_setnumber='$Item_Free->item_setnumber' onclick='Item_To_Disktop(this)' class='btn btn-sm btn-primary'><i class='far fa-check-square'></i></button></td>
                         </tr>";
                     }
@@ -544,7 +544,7 @@ class Checkin extends Controller
                     <tr item_codetype='$Item_Free->item_code_type' item_code='$Item_Free->item_code' item_name='$Item_Free->item_name' item_price='$Item_Free->item_price' item_type='$Item_Free->item_type' item_setnumber='$Item_Free->item_setnumber' ondblclick='Item_To_Disktop(this)'>
                         <td><b>$Item_Free->item_name</b></td>
                         <td align='center'>$Item_Free->item_setnumber</td>
-                        <td align='center'>".number_format($Item_Free->item_price)."</td>
+                        <td align='center'>".number_format((float)$Item_Free->item_price)."</td>
                         <td align='center'><button item_codetype='$Item_Free->item_code_type' item_code='$Item_Free->item_code' item_name='$Item_Free->item_name' item_price='$Item_Free->item_price' item_type='$Item_Free->item_type' item_setnumber='$Item_Free->item_setnumber' onclick='Item_To_Disktop(this)' class='btn btn-sm btn-primary'><i class='far fa-check-square'></i></button></td>
                     </tr>";
                 }
@@ -758,7 +758,7 @@ class Checkin extends Controller
               ->count();
       if ($Count > 0) {
       $Table  = '<div class="row"><div class="col-md-12">';
-      $Table .= '<table class="table-bordered table-sm table-hover">';
+      $Table .= '<table class="table-bordered table-sm table-hover" style="width: 100%;">';
       $Table .= '<tr class="bg-primary"><td>รายการ Package</td><td>วันที่เข้าใช้งาน</td><td>จำนวนครั้งที่ใช้งาน</td><td>จำนวนครั้งคงเหลือ</td></tr>';
       foreach ($Data as $key => $row) {
         $Table .= "<tr align='center'><td>$row->fake_itemname</td><td>".date('d-m-Y', strtotime($row->date))."</td><td>$row->onuse ชั่วโมง</td><td>$row->havesum ครั้ง</td></tr>";
