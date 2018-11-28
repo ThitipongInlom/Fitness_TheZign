@@ -286,6 +286,61 @@ var Calculate_Day = function Calculate_Day(e) {
           processData: false,
           data: Data,
           success: function(callback) {
+                var res = jQuery.parseJSON(callback);
+                $("#Code_Add").val(res.New_Code);
+                $("#Start_Add").val(res.DateStart);
+                $("#End_Add").val(res.DateEnd);
+                $("#Price_full_Add").val(res.PriceType);
+                $("#Price_total_Add").val(res.PriceType);
+                $("#Discount_Add").val('0');
+          }
+      });
+}
+
+var Discount = function Discount(e) {
+      var Price_full_Add = $("#Price_full_Add").val();
+      var Discount = $(e).val();
+      var Price_total_Add = Price_full_Add - Discount;
+      $("#Price_total_Add").val(Price_total_Add);
+}
+
+$('#AddUsermodel').on('hidden.bs.modal', function (e) {
+      $("#Code_Add").val('');
+      $("#Start_Add").val('');
+      $("#End_Add").val('');
+      $("#Price_full_Add").val('');
+      $("#Price_total_Add").val('');
+      $("#Discount_Add").val('');
+      $("#Type_Add").val('0');
+});
+
+var GenerateWiFi = function GenerateWiFi() {
+      // Create From Data
+      var Data = new FormData();
+      Data.append('Code_Add', $("#Code_Add").val());
+      Data.append('Name_Add', $("#Name_Add").val());
+      Data.append('Start_Add', $("#Start_Add").val());
+      Data.append('End_Add', $("#End_Add").val());
+      Data.append('Birthday_Add', $("#Birthday_Add").val());
+      Data.append('Phone_Add', $("#Phone_Add").val());
+      Data.append('Address_Add', $("#Address_Add").val());
+      Data.append('Type_Add', $("#Type_Add").val());
+      Data.append('Price_full_Add', $("#Price_full_Add").val());
+      Data.append('Discount_Add', $("#Discount_Add").val());
+      Data.append('Remark_Add', $("#Remark_Add").val());
+      Data.append('Price_total_Add', $("#Price_total_Add").val());
+      $.ajax({
+          url: 'GenerateWiFi',
+          type: 'POST',
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+          dataType: 'text',
+          cache: false,
+          contentType: false,
+          processData: false,
+          data: Data,
+          success: function(callback) {
                 console.log(callback);
           }
       });

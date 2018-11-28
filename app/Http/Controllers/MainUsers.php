@@ -358,28 +358,79 @@ class MainUsers extends Controller
 
     public function Calculate_Day(Request $request)
     {
-        // Data Type All
-        $Data = DB::table('type')->where('type_id', $request->post('SelectVal'))->get();
-        // Check Day Today
-        if (empty($request->post('Daystart'))) {
-          $renow = date("Y-m-d");
-        }else{
-          $renow = $request->post('Daystart');
+        if ($request->post('SelectVal') > 0) {
+          // Data Type All
+          $Data = DB::table('type')->where('type_id', $request->post('SelectVal'))->get();
+          // Check Day Today
+          if (empty($request->post('Daystart'))) {
+            $renow = date("Y-m-d");
+          }else{
+            $renow = $request->post('Daystart');
+          }
+          // Generate_Code_User
+          $New_Code  = $this->Generate_Code_User($renow);
+          // Format Date Support
+          foreach ($Data as $key => $row) {
+              // Format
+              $DateData = date_create($renow);
+              // Modifly Day + Day
+              date_modify($DateData, '+'.$row->type_day.' day');
+              // Modifly Month + Month
+              date_modify($DateData, '+'.$row->type_month.' month');
+              // Modifly Years + Years
+              date_modify($DateData, '+'.$row->type_year.' years');
+              $ReFotmat = date_format($DateData, 'Y-m-d');
+              // Price Type
+              $PriceType = $row->type_price;
+              // Type Name
+              $TypeName  = $row->type_code;
+              // Commitment
+              $Commitment = $row->type_commitment;
+          }
+            // Return Data
+            $ResArray = ['DateStart' => $renow,
+                         'DateEnd' => $ReFotmat,
+                         'TypeName' => $TypeName,
+                         'PriceType' => $PriceType,
+                         'Commitment' => $Commitment,
+                         'New_Code' => $New_Code];
+            return \Response::json($ResArray);
+          }else{
+            // Return Data
+            $ResArray = ['DateStart' => '',
+                         'DateEnd' => '',
+                         'TypeName' => '',
+                         'PriceType' => '0',
+                         'Commitment' => '0'];
+            return \Response::json($ResArray);
         }
-        // Format Date Support
-        foreach ($Data as $key => $row) {
-            // Format
-            $DateData = date_create($renow);
-            // Modifly Day + Day
-            date_modify($DateData, '+'.$row->type_day.' day');
-            // Modifly Month + Month
-            date_modify($DateData, '+'.$row->type_month.' month');
-            // Modifly Years + Years
-            date_modify($DateData, '+'.$row->type_year.' years');
-            $ReFotmat = date_format($DateData, 'Y-m-d');
-            // 
-        }
-        print_r($ReFotmat);
     }
+
+    public function Generate_Code_User($DateStart)
+    {
+          $Formatdate =date('ym', strtotime($DateStart));
+          $users = DB::table('member')
+                   ->select('code')
+                   ->where( 'code', 'like', ''.$Formatdate.'%')
+                   ->orderBy('code', 'desc')
+                   ->limit(1)
+                   ->get();
+          // Check Have Data
+          if ($users != '[]') {
+             foreach ($users as $key => $row) {
+                 $New_Code = strval($row->code)+1;
+             }
+          }else {
+                 $New_Code = (strval($Formatdate)*1000)+1;
+          }
+          // Return Data
+          return $New_Code;
+    }
+
+    public function GenerateWiFi(Request $request)
+    {
+        print_r($request->post());
+    }
+
 
 }

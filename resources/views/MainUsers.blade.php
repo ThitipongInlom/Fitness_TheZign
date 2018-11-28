@@ -1,4 +1,4 @@
-<!doctype html>
+ <!doctype html>
 <html lang="{{ app()->getLocale() }}">
 
 <head>
@@ -26,7 +26,6 @@
         overflow: hidden;
         display: inline-block;
       }
-
       .upload-btn-wrapper input[type=file] {
         font-size: 100px;
         position: absolute;
@@ -136,7 +135,7 @@
                 </div>
                 <div class="modal-body">
                     <div align="left">
-                      <form>
+                      <form id="FormAdd_User">
                         <div class="form-group formmaginsetnone row">
                           <label for="Code_Add" class="col-sm-3 col-form-label">Code :</label>
                           <div class="col-sm-9">
@@ -158,7 +157,7 @@
                         <div class="form-group formmaginsetnone row">
                           <label for="End_Add" class="col-sm-3 col-form-label">วันที่สิ้นสุด :</label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control form-control-sm" id="End_Add" placeholder="วันที่สิ้นสุด คำนวนจากการเลือกประเภท" disabled>
+                            <input type="date" class="form-control form-control-sm" id="End_Add" placeholder="วันที่สิ้นสุด คำนวนจากการเลือกประเภท" disabled>
                           </div>
                         </div>
                         <div class="form-group formmaginsetnone row">
@@ -185,7 +184,7 @@
                             <select class="custom-select custom-select-sm" id="Type_Add" onchange="Calculate_Day(this);">
                               <option selected value="0">เลือกประเภท</option>
                               @foreach (MainUsers::GetTypeData() as $key => $row)
-                              <option value="{{ $row->type_id }}">{{ $row->type_value }}</option>
+                              <option value="{{ $row->type_id }}" @if ($row->type_code == 'Stop') {{ 'disabled' }}  @endif><b>[ {{ $row->type_code }} ] </b> {{ $row->type_value }}</option>
                               @endforeach
                             </select>
                           </div>
@@ -199,7 +198,7 @@
                         <div class="form-group formmaginsetnone row">
                           <label for="Discount_Add" class="col-sm-3 col-form-label">ส่วนลด :</label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control form-control-sm" id="Discount_Add" placeholder="ส่วนลด">
+                            <input type="text" class="form-control form-control-sm" id="Discount_Add" placeholder="ส่วนลด" onchange="Discount(this);">
                           </div>
                         </div>
                         <div class="form-group formmaginsetnone row">
@@ -216,7 +215,7 @@
                         </div>
                       </form>
                       <div align="center">
-                        <button class="btn btn-sm btn-success">เพิ่มลูกค้า</button>
+                        <button class="btn btn-sm btn-success" onclick="GenerateWiFi();">เพิ่มลูกค้า</button>
                       </div>
                     </div>
                 </div>

@@ -56,7 +56,7 @@ class Checkin extends Controller
     	<br>
         <div class="row">
         <div class="col-md-12">
-		<table class="table table-sm">
+		  <table class="table table-sm">
 		  <thead>
 		    <tr align="center" class="bg-primary">
 		      <th scope="col">Code</th>
@@ -157,6 +157,48 @@ class Checkin extends Controller
         	  ]);
           }
         }
+    }
+
+    public function Insert_type_C()
+    {
+          date_default_timezone_set("Asia/Bangkok");
+          $today = now();
+          $code = Input::post('Code');
+          $itemcode = Input::post('Item_code');
+          $itemtype = Input::post('Item_type');
+          $itemname = Input::post('Item_name');
+          $itemprice= Input::post('Item_price');
+          $itemcodetype = Input::post('Item_codetype');
+          $CheckOnline_Mainid = DB::table('main_table')->where('Code', $code)->where('Status', 'IN')->count();
+          if ($CheckOnline_Mainid == '0') {
+            // Insert Data Fake Table
+            DB::table('fake_table')->insert([
+            'Fake_code' => $code,
+            'Fake_datetime' => $today,
+            'Fake_itemcode' => $itemcode,
+            'Fake_itemcodetype' => $itemcodetype,
+            'Fake_itemtype' => $itemtype,
+            'Fake_itemname' => $itemname,
+            'Fake_price'    => $itemprice,
+            'Fake_sum'      => '1',
+            ]);
+          }else{
+          $DataMain_ID = DB::table('main_table')->where('Code', $code)->where('Status', 'IN')->get();
+            foreach ($DataMain_ID as $key => $Data) {
+              // Insert Data Fake Table
+              DB::table('fake_table')->insert([
+              'Fake_code' => $code,
+              'main_id' => $Data->ID,
+              'Fake_datetime' => $today,
+              'Fake_itemcode' => $itemcode,
+              'Fake_itemcodetype' => $itemcodetype,
+              'Fake_itemtype' => $itemtype,
+              'Fake_itemname' => $itemname,
+              'Fake_price'    => $itemprice,
+              'Fake_sum'      => '1',
+              ]);
+            }
+          }
     }
 
     public function Insert_type_P()
@@ -353,6 +395,9 @@ class Checkin extends Controller
         }elseif ($DataDisplay->Fake_itemcodetype == 'T') {
             //Time
             $Itemtypcode = 'ชั่วโมง';
+        }elseif ($DataDisplay->Fake_itemcodetype == 'G') {
+            //Glass
+            $Itemtypcode = 'แก้ว';
         }else{
             // Null
             $Itemtypcode = '';
@@ -364,21 +409,30 @@ class Checkin extends Controller
     	<td>$i</td>
     	<td>$DataDisplay->Fake_itemcode</td>
     	<td>$DataDisplay->Fake_itemname</td>
-    	<td>".number_format($DataDisplay->Fake_price)." ฿</td>
-    	<td>$DataDisplay->Fake_sum $Itemtypcode</td>
-    	<td>";
+      <td>".number_format($DataDisplay->Fake_price)." ฿</td>";
+      if ($DataDisplay->Fake_itemcodetype == 'F') {
+        $Data .= "<td>เลขกุญแจ $DataDisplay->Fake_sum#</td>";
+      }else{
+        $Data .= "<td>$DataDisplay->Fake_sum $Itemtypcode</td>";
+      }
+    	$Data .= "<td>";
         // Now Not Online User
         if ($CounMainOnline == '0') {
         // ItemCodeType == T
         if ($DataDisplay->Fake_itemcodetype == 'T') {
-        $Data .= "
-        <button class='btn btn-sm btn-danger' onclick='Delete_item_time(this);' fake_table_id='$DataDisplay->id'><i class='fas fa-times'></i></button>";
+          if ($DataDisplay->Fake_itemcodetype == 'T' AND $DataDisplay->Fake_itemtype == 'C') {
+            $Data .= " <button class='btn btn-sm btn-danger' onclick='Delete_item(this);' fake_table_id='$DataDisplay->id'><i class='fas fa-trash'></i></button>";
+          }else{
+            $Data .= "<button class='btn btn-sm btn-danger' onclick='Delete_item_time(this);' fake_table_id='$DataDisplay->id'><i class='fas fa-times'></i></button>";
+          }
+        }elseif ($DataDisplay->Fake_itemcodetype == 'F') {
+          $Data .= "<button class='btn btn-sm btn-primary' onclick='Edit_Number_Key(this);' fake_table_id='$DataDisplay->id'><i class='fas fa-key'></i></button>
+                    <button class='btn btn-sm btn-danger' onclick='Delete_item(this);' fake_table_id='$DataDisplay->id'><i class='fas fa-trash'></i></button>";
         }
         // ItemCodeType != T
         else{
-        $Data .= "
-        <button class='btn btn-sm btn-primary' onclick='Edit_Number(this);' fake_table_id='$DataDisplay->id'><i class='fas fa-dollar-sign'></i></button>
-        <button class='btn btn-sm btn-danger' onclick='Delete_item(this);' fake_table_id='$DataDisplay->id'><i class='fas fa-trash'></i></button>";
+        $Data .= "<button class='btn btn-sm btn-primary' onclick='Edit_Number(this);' fake_table_id='$DataDisplay->id'><i class='fas fa-dollar-sign'></i></button>
+                  <button class='btn btn-sm btn-danger' onclick='Delete_item(this);' fake_table_id='$DataDisplay->id'><i class='fas fa-trash'></i></button>";
         }
         }
         //Now Online User
@@ -395,15 +449,21 @@ class Checkin extends Controller
           if ($DataDisplay->Fake_itemcodetype == 'P') {
             $Data .= "<button class='btn btn-sm btn-warning' onclick='Charge_modal(this);' fake_table_id='$DataDisplay->id'>Charge</button>";
             $Data .= " <button class='btn btn-sm btn-danger' onclick='Delete_item(this);' fake_table_id='$DataDisplay->id'><i class='fas fa-trash'></i></button>";
-          }elseif ($DataDisplay->Fake_itemcodetype == 'C') {
+          }elseif ($DataDisplay->Fake_itemcodetype == 'C' OR $DataDisplay->Fake_itemcodetype == 'G') {
+            $Data .= "<button class='btn btn-sm btn-danger' onclick='VoidItem_modal(this);' fake_table_id='$DataDisplay->id'>Void</button>";
+          }elseif ($DataDisplay->Fake_itemcodetype == 'F') {
+            $Data .= "<button class='btn btn-sm btn-warning' onclick='Charge_modal(this);' fake_table_id='$DataDisplay->id'>Charge</button> ";
             $Data .= "<button class='btn btn-sm btn-danger' onclick='VoidItem_modal(this);' fake_table_id='$DataDisplay->id'>Void</button>";
           }elseif ($DataDisplay->Fake_itemcodetype == 'T') {
-            $Data .= "<button class='btn btn-sm btn-danger' onclick='Delete_item_time(this);' fake_table_id='$DataDisplay->id'><i class='fas fa-times'></i></button>";
+            if ($DataDisplay->Fake_itemcodetype == 'T' AND $DataDisplay->Fake_itemtype == 'C') {
+              $Data .= " <button class='btn btn-sm btn-danger' onclick='Delete_item(this);' fake_table_id='$DataDisplay->id'><i class='fas fa-trash'></i></button>";
+            }else{
+              $Data .= "<button class='btn btn-sm btn-danger' onclick='Delete_item_time(this);' fake_table_id='$DataDisplay->id'><i class='fas fa-times'></i></button>";
+            }
           }
         }
         }
-        $Data .= "</td>
-    	</tr>";
+        $Data .= "</td></tr>";
     	}
     	}
       // Not Have Data
@@ -598,6 +658,42 @@ class Checkin extends Controller
         echo $json;
     }
 
+    public function Edit_Number_Key()
+    {
+        $Fake_table_id = Input::post('Fake_table_id');
+        $Fake_Table  = DB::table('fake_table')->where('id', $Fake_table_id)->get();
+        foreach ($Fake_Table as $key => $GetItemFull) {
+            $TableItem = DB::table('item')->where('item_code', $GetItemFull->Fake_itemcode)->get();
+        }
+        $From = "
+        <div class='row'>
+        <div class='col-md-6' align='center'>";
+        foreach ($TableItem as $key => $row) {
+            $From .= "<h5><b>รายการ:</b> $row->item_name</h5>";
+        }
+        $From .= "</div><div class='col-md-6' align='center'>";
+        foreach ($TableItem as $key => $row) {
+            $From .= "<h5><b>ราคา:</b> $row->item_price ฿</h5>";
+        }
+        $From .= "</div></div>";
+        $From .= "
+        <div class='row'>
+        <div class='col-md-12' align='center'>
+        <div class='col-sm-3'>";
+        foreach ($Fake_Table as $key => $GetItemFull) {
+           $From .= "<input type='number' class='form-control' autofocus id='newnumitem' value='$GetItemFull->Fake_sum'>";
+        }
+        $From .= "</div>
+        <hr>
+        <button class='btn btn-primary' Fake_table_id='$Fake_table_id' onclick='Foronchangenumkey(this);'>ยืนยันเปลี่ยนหมายเลขกุญแจ</button>
+        </div>
+        </div>";
+        // Show Json
+        $array = array('From' => $From);
+        $json = json_encode($array);
+        echo $json;
+    }
+
     public function Delete_item()
     {
         $Fake_table_id = Input::post('Fake_table_id');
@@ -634,7 +730,7 @@ class Checkin extends Controller
         }
         foreach ($TableItem as $key => $row) {
                 $item_price = $row->item_price;
-                $totalprice = $NewNum * $item_price;
+                $totalprice = (int)$NewNum * (int)$item_price;
                 // Update
                 DB::table('fake_table')
                     ->where('id', $Fake_table_id)
@@ -960,5 +1056,6 @@ class Checkin extends Controller
         $json = json_encode($array);
         echo $json;
     }
+
 
 }

@@ -132,7 +132,18 @@ var Item_To_Disktop = function Item_To_Disktop(e) {
     }
     // Type C  == Course
     if (Item_type == 'C') {
-        console.log(Data);
+        $.ajax({
+            url: 'Insert_type_C',
+            type: 'POST',
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            dataType: 'text',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: Data,
+        });
     }
     // Type P  == Package
     if (Item_type == 'P') {
@@ -249,6 +260,35 @@ var Edit_Number = function Edit_Number(e) {
     });
 }
 
+var Edit_Number_Key = function Edit_Number_Key(e) {
+    // Modal Show
+    $('#Edit_Number_Key').modal('show');
+    $("body").css("padding-right", "0");
+    // Data SetToSend
+    var Fake_table_id = $(e).attr('fake_table_id');
+    // Create From Data
+    var Data = new FormData();
+    // Data Put Array
+    Data.append('Fake_table_id', Fake_table_id);
+    // Ajax To Send
+    $.ajax({
+        url: 'Edit_Number_Key',
+        type: 'POST',
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        dataType: 'text',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: Data,
+        success: function(callback) {
+            var res = jQuery.parseJSON(callback);
+            $("#edit_number_display_key").html(res.From);
+        }
+    });
+}
+
 var Delete_item = function Delete_item(e) {
     // Data SetToSend
     var Fake_table_id = $(e).attr('fake_table_id');
@@ -330,6 +370,37 @@ var Foronchangenum = function Foronchangenum(e) {
             setTimeout(function() {
                 // Modal Hide
                 $('#Edit_Number').modal('hide');
+                DisplayTable();
+            }, 10);
+        }
+    });
+}
+
+var Foronchangenumkey = function Foronchangenumkey(e) {
+    // Data SetToSend
+    var NewNum = $('#newnumitem').val();
+    var Fake_table_id = $(e).attr('Fake_table_id');
+    // Create From Data
+    var Data = new FormData();
+    // Data Put Array
+    Data.append('Fake_table_id', Fake_table_id);
+    Data.append('NewNum', NewNum);
+    // Ajax To Send
+    $.ajax({
+        url: 'Foronchangenum',
+        type: 'POST',
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        dataType: 'text',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: Data,
+        success: function(callback) {
+            setTimeout(function() {
+                // Modal Hide
+                $('#Edit_Number_Key').modal('hide');
                 DisplayTable();
             }, 10);
         }

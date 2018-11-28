@@ -267,6 +267,23 @@
     </div>
 
     <!-- Modal -->
+    <div class="modal fade" id="Edit_Number_Key" tabindex="-1" role="dialog" aria-labelledby="Edit_Number_Label" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h5 class="modal-title" id="Edit_Number_Label">แก้ไขหมายเลข กุญแจ</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="edit_number_display_key"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
     <div class="modal fade" id="History" tabindex="-1" role="dialog" aria-labelledby="History_Label" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">

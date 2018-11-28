@@ -28,6 +28,8 @@ Route::post('/TableDisplay', 'Checkin@TableDisplay');
 Route::post('/TablePane', 'Checkin@TablePane');
 // Insert Type L
 Route::post('/Insert_type_L', 'Checkin@Insert_type_L');
+// Insert Type C
+Route::post('/Insert_type_C', 'Checkin@Insert_type_C');
 // Insert Type P
 Route::post('/Insert_type_P', 'Checkin@Insert_type_P');
 // CheckInOnline
@@ -50,6 +52,8 @@ Route::post('/Showdatatologout' , 'Checkout@Showdatatologout');
 Route::post('/Dologout', 'Checkout@Dologout');
 // Edit_Number
 Route::post('/Edit_Number', 'Checkin@EditNumber');
+// Edit_Number_Key
+Route::post('/Edit_Number_Key', 'Checkin@Edit_Number_Key');
 // Delete_item
 Route::post('/Delete_item', 'Checkin@Delete_item');
 // Delete_item_time
@@ -88,3 +92,5 @@ Route::post('/Uploadimguser', 'MainUsers@Uploadimguser');
 Route::post('/Model_code_viewdata', 'MainUsers@Model_code_viewdata');
 // Calculate_Day
 Route::post('/Calculate_Day', 'MainUsers@Calculate_Day');
+// GenerateWiFi
+Route::post('/GenerateWiFi', 'MainUsers@GenerateWiFi');
