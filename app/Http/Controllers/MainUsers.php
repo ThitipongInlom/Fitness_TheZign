@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App;
+use Config;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
 use Illuminate\Support\Facades\Input;
@@ -38,7 +40,13 @@ class MainUsers extends Controller
         })
         ->setRowClass(function ($users) {
                 if ($users->status == 'Active') {
+                    $FormatToDay = date('d-m');
+                    $FormatBirthday = date('d-m', strtotime($users->birthday));
+                    if ($users->status == 'Active' AND $FormatBirthday == $FormatToDay) {
+                    $reclass = "devcon-badge";
+                    }else{
                     $reclass = "bg-info";
+                    }
                 }elseif ($users->status == 'Expired') {
                     $reclass = "bg-danger";
                 }else{
@@ -73,7 +81,7 @@ class MainUsers extends Controller
       $users = DB::table('member_detail')
                 ->select('*')
                 ->where('code', '=', $request->post('model_code_viewdata'))
-                ->orderBy('start', 'asc');
+                ->orderBy('start', 'desc');
       return Datatables::of($users)
       ->editColumn('start', function($users) {
           return date('d-m-Y', strtotime($users->start));
@@ -429,7 +437,199 @@ class MainUsers extends Controller
 
     public function GenerateWiFi(Request $request)
     {
-        print_r($request->post());
+        // connect DB
+        $Airlink = $this->Set_DB_Airlink();
+        // Get Set Sting
+        $username = $request->session()->get('Login.username');
+        $Today = date("Y-m-d h:i:s");
+        $TypeData = DB::table('type')->where('type_id', $request->post('Type_Add'))->get();
+        foreach ($TypeData as $key => $row) {
+          // Get Type_code
+          $type_data = $row->type_code;
+          // Get StopMB
+          if ($row->type_commitment == '1') {
+              $StopMB = '90';
+          }else{
+              $StopMB = '0';
+          }
+        }
+        if ($request->post('Birthday_Add') == '1970-01-01') {
+              $Rebirthday = '0000-00-00';
+        }else{
+              $Rebirthday = $request->post('Birthday_Add');
+        }
+        // Insert To DB Member
+        $ID_New_Code = DB::table('member')->insertGetId([
+          'code' =>    $request->post('Code_Add'),
+          'name' =>    $request->post('Name_Add'),
+          'start' =>   $request->post('Start_Add'),
+          'expire' =>  $request->post('End_Add'),
+          'phone' =>   $request->post('Phone_Add'),
+          'type_detail' => $type_data,
+          'type' => $type_data,
+          'address' => $request->post('Address_Add'),
+          'status' => 'Active',
+          'daystop' => $StopMB,
+          'fullprice' => $request->post('Price_full_Add'),
+          'alldis' => $request->post('Discount_Add'),
+          'remark' => $request->post('Remark_Add'),
+          'resultprice' => $request->post('Price_total_Add'),
+          'user_seting' => $username,
+          'today' => $Today,
+          'birthday' => $Rebirthday,
+          ]);
+          // Set Data Proflie
+          $Username_Code = 'T'.$request->post('Code_Add');
+          $Password = rand(1,100000);
+          $Valid = date("Y-m-d",strtotime($request->post('End_Add')))."T23:59:59";
+          $Expired = strftime("%B %d %Y",strtotime($request->post('End_Add')))." 23:59:59";
+          $profile = $this->SetData($request->post('Name_Add'),$request->post('Phone_Add'));
+          $Data_Billingplan = DB::connection('apimysql')->table("billingplan")->where('name', 'fitness')->get();
+          foreach ($Data_Billingplan as $key => $row) {
+             $Group = $row->groupname;
+             $Ggroupname = $row->name;
+             $Up = $row->bw_upload;
+             $Down = $row->bw_download;
+             $Re_url = $row->redirect_url;
+             $Idle = $row->IdleTimeout;
+             $Billplan = $row->name;
+          }
+
+          // Check Username In Airlink
+          $Radusergroup = DB::connection('apimysql')->table("radusergroup")->where('username', $Username_Code)->count();
+          // IF == NotHaveUser ANd  ELSE == HaveUser
+          if ($Radusergroup > 0) {
+              // Update UserName radcheck Password
+              DB::connection('apimysql')->table("radcheck")
+              ->where('username', $Username_Code)
+              ->where('attribute', 'Password')
+              ->update(['value' => $Password]);
+              // Update UserName radcheck Expiration
+              DB::connection('apimysql')->table("radcheck")
+              ->where('username', $Username_Code)
+              ->where('attribute', 'Expiration')
+              ->update(['value' => $Expired]);
+              // Update UserName radreply UP
+              DB::connection('apimysql')->table("radreply")
+              ->where('username', $Username_Code)
+              ->where('attribute', 'WISPr-Bandwidth-Max-Up')
+              ->update(['value' => $Up]);
+              // Update UserName radreply Down
+              DB::connection('apimysql')->table("radreply")
+              ->where('username', $Username_Code)
+              ->where('attribute', 'WISPr-Bandwidth-Max-Down')
+              ->update(['value' => $Down]);
+              // Update UserName radreply Down
+              DB::connection('apimysql')->table("radreply")
+              ->where('username', $Username_Code)
+              ->where('attribute', 'WISPr-Redirection-URL')
+              ->update(['value' => $Re_url]);
+              // Update UserName radusergroup
+              DB::connection('apimysql')->table("radusergroup")
+              ->where('username', $Username_Code)
+              ->update(['groupname' => $Group, 'priority' => '1']);
+              // Update UserName voucher
+              DB::connection('apimysql')->table("voucher")
+              ->where('username', $Username_Code)
+              ->update(['password' => $Password, 'valid_until' => $Valid, 'profile' => $profile]);
+          }else{
+              // Delete UserName radcheck
+              DB::connection('apimysql')->table("radcheck")
+              ->where('username' , $Username_Code)->delete();
+              // Insert UserName radcheck
+              DB::connection('apimysql')->table("radcheck")->insert([
+                  ['username' => $Username_Code, 'attribute' => 'Password', 'op' => ':=', 'value' => $Password],
+                  ['username' => $Username_Code, 'attribute' => 'Expiration', 'op' => ':=', 'value' => $Expired],
+                  ['username' => $Username_Code, 'attribute' => 'Auth-Type', 'op' => ':=', 'value' => 'Local']]);
+              // Insert UserName radreply
+              DB::connection('apimysql')->table("radreply")->insert([
+                  ['username' => $Username_Code, 'attribute' => 'WISPr-Bandwidth-Max-Down', 'op' => ':=', 'value' => $Down],
+                  ['username' => $Username_Code, 'attribute' => 'WISPr-Bandwidth-Max-Up', 'op' => ':=', 'value' => $Up],
+                  ['username' => $Username_Code, 'attribute' => 'WISPr-Redirection-URL', 'op' => ':=', 'value' => $Re_url]]);
+              // Insert UserName radusergroup
+              DB::connection('apimysql')->table("radusergroup")->insert([
+                  ['username' => $Username_Code, 'groupname' => $Group, 'priority' => '1']]);
+              // Insert Username voucher
+              DB::connection('apimysql')->table("voucher")->insert([
+                  ['username' => $Username_Code,
+                   'password' => $Password,
+                   'billingplan' => $Billplan,
+                   'created_by' => $username,
+                   'IdleTimeout' => $Idle,
+                   'valid_until' => $Valid,
+                   'isprinted' => '0',
+                   'profile' => $profile,
+                   'encryption' => 'clear',
+                   'money' => '0']]);
+              //  Update UserName And Password To member
+              DB::table('member')->where('id', $ID_New_Code)->update(['wifiusername' => $Username_Code,'wifipassword' => $Password, 'wifidate' => $request->post('End_Add')]);
+          }
+          print_r($Valid);
+    }
+
+    public function SetData($Name,$Phone)
+    {
+        // connect DB
+        $Airlink = $this->Set_DB_Airlink();
+        $Data_Billingplan = DB::connection('apimysql')->table("billingplan")->where('name', 'fitness')->get();
+        foreach ($Data_Billingplan as $key => $row) {
+           $billplan = $row->name;
+        }
+        // Function Has
+        function _serialize($data){
+            if(is_array($data)){foreach($data as $key=>$val){if(is_string($val)){$data[$key]=str_replace('\\','{{slash}}',$val);}}
+            }else{if(is_string($data)){$data=str_replace('\\','{{slash}}',$data);}}
+            return serialize($data);
+        }
+        // Set Array
+        $post_data=array();
+        $post_data['firstname']     = $Name;
+        $post_data['lastname']      = '';
+        $user_data['firstname']     = $Name;
+        $user_data['lastname']      = '';
+        $user_data['surename']      = '';
+        $user_data['gender']        = '';
+        $user_data['billingplan']   = $billplan;
+        $user_data['money']         = 0;
+        $user_data['ip']            = '';
+        $user_data['mac']           = '';
+        $user_data['web']           = '';
+        $user_data['personal_id']   = '';
+        $user_data['phone']         = '';
+        $user_data['email']         = '';
+        $user_data['address1']      = '';
+        $user_data['address2']      = '';
+        $user_data['district']      = '';
+        $user_data['amphur']        = '';
+        $user_data['province']      = '';
+        $user_data['note']          = '';
+        $user_data['pic_upload']    = '';
+        $profile1 = _serialize($user_data);
+        $profile  = addslashes($profile1);
+        return $profile;
+    }
+
+    public function Set_DB_Airlink()
+    {
+          $CheckAPI = DB::table('api_db')->where('key', 'Airlink')->get();
+          foreach ($CheckAPI as $key => $row) {
+            // MSSQL
+            if ($row->driver == 'sqlsrv') {
+              Config::set("database.connections.apisqlserv.driver" , "$row->driver");
+              Config::set("database.connections.apisqlserv.host" , "$row->host");
+              Config::set("database.connections.apisqlserv.database" , "$row->database");
+              Config::set("database.connections.apisqlserv.username" , "$row->username");
+              Config::set("database.connections.apisqlserv.password" , "$row->password");
+            }elseif ($row->driver == 'mysql') {
+              Config::set("database.connections.apimysql.driver" , "$row->driver");
+              Config::set("database.connections.apimysql.host" , "$row->host");
+              Config::set("database.connections.apimysql.database" , "$row->database");
+              Config::set("database.connections.apimysql.username" , "$row->username");
+              Config::set("database.connections.apimysql.password" , "$row->password");
+            }
+          }
+          // Return
+          return;
     }
 
 

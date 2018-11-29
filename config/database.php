@@ -78,6 +78,32 @@ return [
             'prefix' => '',
         ],
 
+        'apimysql' => [
+            'driver' => 'mysql',
+            'host' => '',
+            'port' => '3306',
+            'database' => '',
+            'username' => '',
+            'password' => '',
+            'unix_socket' => '',
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'strict' => true,
+            'engine' => null,
+        ],
+
+        'apisqlserv' => [
+            'driver' => '',
+            'host' => '',
+            'port' => '',
+            'database' => '',
+            'username' => '',
+            'password' => '',
+            'charset' => 'utf8',
+            'prefix' => '',
+        ],
+
     ],
 
     /*

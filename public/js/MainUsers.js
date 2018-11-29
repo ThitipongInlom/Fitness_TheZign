@@ -18,7 +18,7 @@ var Backtotop = function Backtotop() {
         return false;
     });
 }
-
+$.fn.dataTable.ext.errMode = 'throw';
 var csrf = $('meta[name="csrf-token"]').attr('content');
 var TableDisplay = $('#TableDisplay').DataTable({
     "dom": "<'row'<'col-sm-1'l><'col-sm-7'><'col-sm-4'f>>" +
@@ -164,6 +164,7 @@ var ViewData = function ViewData(e) {
                       "responsive": true,
                       "ordering": false,
                       "bDestroy": true,
+                      "order": [[ 0, "desc" ]],
                       "lengthMenu": [[5,], [5,]],
                       "ajax": {
                           "url": 'Model_code_viewdata',
@@ -329,19 +330,26 @@ var GenerateWiFi = function GenerateWiFi() {
       Data.append('Discount_Add', $("#Discount_Add").val());
       Data.append('Remark_Add', $("#Remark_Add").val());
       Data.append('Price_total_Add', $("#Price_total_Add").val());
-      $.ajax({
-          url: 'GenerateWiFi',
-          type: 'POST',
-          headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-          },
-          dataType: 'text',
-          cache: false,
-          contentType: false,
-          processData: false,
-          data: Data,
-          success: function(callback) {
-                console.log(callback);
-          }
-      });
+      if ($("#Code_Add").val() != '') {
+        $.ajax({
+            url: 'GenerateWiFi',
+            type: 'POST',
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            dataType: 'text',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: Data,
+            success: function(callback) {
+                  $("#AddUsermodel").modal('hide');
+                  TableDisplay.draw();
+                  e.preventDefault();
+                  console.log(callback);
+            }
+        });
+      }else{
+          console.log('Alert');
+      }
 }

@@ -36,6 +36,15 @@
       .formmaginsetnone{
         margin-bottom: 0rem !important;
       }
+      .devcon-badge {
+          z-index: 100;
+          background: linear-gradient(90deg,#fca09a,#fcccd3,#ffcc9d,#98ddad,#81d7ec,#a0aaed);
+          background-size: 200%;
+          text-align: center;
+          -webkit-animation: AnimationName 5s ease infinite;
+          -moz-animation: GradientAnimation 5s ease infinite;
+          animation: GradientAnimation 5s ease infinite;
+      }
     </style>
 </head>
 <body>
