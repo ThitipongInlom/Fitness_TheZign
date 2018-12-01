@@ -25,21 +25,22 @@ class Main_Check extends Controller
             <table class="table table-sm animated bounceIn" id="TableOnlineDatatable">
               <thead>
                 <tr align="center">
-                  <th scope="col">ลำดับ</th>
+                  <th scope="col">No.</th>
                   <th scope="col">Code</th>
-                  <th scope="col">ชื่อ</th>
-                  <th scope="col">ตัวช่วย</th>
+                  <th scope="col">Name (CheckIn)</th>
+                  <th scope="col">Action</th>
                 </tr>
-              </thead><tbody>';
+              </thead><tbody style="font-size: 12px;">';
 
             $i = 0;
             foreach ($DataCode as $key => $row) {
             $i++;
+						$ModifyTimeOnline = date("H:i:s" , strtotime($row->Guset_in));
             $Table .= "
                 <tr align='center'>
                   <td>$i</td>
                   <td>$row->Code</td>
-                  <td>$row->Name</td>
+                  <td align='left'>$row->Name ($ModifyTimeOnline)</td>
                   <td>
                   <button class='btn btn-sm btn-primary' onclick='ShowViewData(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
                   <button class='btn btn-sm btn-secondary' onclick='GoPostCodeEdit(this)' code='$row->Code'><i class='fas fa-edit'></i></button>
@@ -64,21 +65,22 @@ class Main_Check extends Controller
             <table class="table table-sm animated bounceIn" id="TableOnlineDatatable">
               <thead>
                 <tr align="center">
-                  <th scope="col">ลำดับ</th>
+                  <th scope="col">No.</th>
                   <th scope="col">Code</th>
-                  <th scope="col">ชื่อ</th>
-                  <th scope="col">ตัวช่วย</th>
+                  <th scope="col">Name (CheckOut)</th>
+                  <th scope="col">Action</th>
                 </tr>
-              </thead><tbody>';
+              </thead><tbody style="font-size: 12px;">';
 
             $i = 0;
             foreach ($DataCode as $key => $row) {
             $i++;
+						$ModifyTimeYesterday = date("H:i:s" , strtotime($row->Guset_out));
             $Table .= "
                 <tr align='center'>
                   <td>$i</td>
                   <td>$row->Code</td>
-                  <td>$row->Name</td>
+                  <td align='left'>$row->Name ($ModifyTimeYesterday)</td>
                   <td>
                   <button class='btn btn-sm btn-primary' onclick='ShowViewDataMain(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in'><i class='fas fa-search'></i></button>
                   </td>
@@ -100,21 +102,22 @@ class Main_Check extends Controller
             <table class="table table-sm animated bounceIn" id="TableOnlineDatatable">
               <thead>
                 <tr align="center">
-                  <th scope="col">ลำดับ</th>
+                  <th scope="col">No.</th>
                   <th scope="col">Code</th>
-                  <th scope="col">ชื่อ</th>
-                  <th scope="col">ตัวช่วย</th>
+                  <th scope="col">Name (CheckOut)</th>
+                  <th scope="col">Action</th>
                 </tr>
-              </thead><tbody>';
+              </thead><tbody style="font-size: 12px;">';
 
             $i = 0;
             foreach ($DataCode as $key => $row) {
             $i++;
+						$ModifyTimeTodayy = date("H:i:s" , strtotime($row->Guset_out));
             $Table .= "
                 <tr align='center'>
                   <td>$i</td>
                   <td>$row->Code</td>
-                  <td>$row->Name</td>
+                  <td align='left'>$row->Name ($ModifyTimeTodayy)</td>
                   <td>
                   <button class='btn btn-sm btn-primary' onclick='ShowViewDataMain(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in'><i class='fas fa-search'></i></button>
                   </td>
@@ -148,41 +151,44 @@ class Main_Check extends Controller
 		</div>
 		<table class='table table-sm table-hover animated fadeInUp'>
             <thead>
-                <tr align='center' class='bg-primary'>
+            <tr align='center' class='bg-primary'>
 	    		  <th>ลำดับที่</th>
 	    		  <th>รหัสโค้ด</th>
 	    		  <th>รายการ</th>
 	    		  <th>จำนวน</th>
 	    		  <th>ราคา</th>
-                </tr>
-       		</thead><tbody>";
-    	// Have Data
-    	if ($CounCheckNull > 0) {
-       	$i =0;
+            </tr>
+    </thead><tbody style='font-size: 12px;'>";
+    // Have Data
+    if ($CounCheckNull > 0) {
+    $i =0;
 		foreach ($DataCode as $key => $DataDisplay) {
 		$i++;
 		$Data .= "
 		<tr align='center'>
 		<td>$i</td>
 		<td>$DataDisplay->Fake_itemcode</td>
-		<td>$DataDisplay->Fake_itemname</td>
-		<td>$DataDisplay->Fake_sum</td>
-		<td>".number_format($DataDisplay->Fake_price)."</td>
+		<td>$DataDisplay->Fake_itemname</td>";
+		if ($DataDisplay->Fake_itemcodetype == 'F') {
+		$Data .= "<td>หมายเลข $DataDisplay->Fake_sum#</td>";
+		}else{
+		$Data .= "<td>$DataDisplay->Fake_sum</td>";
+		}
+		$Data .= "<td>".number_format($DataDisplay->Fake_price)."</td>
 		</tr>";
 		}
-    	}else{
-    	$Data .= "
-    	<tr align='center'>
-    	<td colspan='6'>Null</td>
-    	</tr>";
-    	}
-    	//  Table Data
-    	$Data .= "
-    	<tr class='bg-primary'>
-    	<td colspan='4' align='right'><b>ราคารวม:</b></td>
-    	<td align='center'>".number_format($SumPrice) ." <b>฿</b></td>
-    	</tr>
-    	";
+    }else{
+    $Data .= "
+    <tr align='center'>
+    <td colspan='6'>Null</td>
+    </tr>";
+    }
+    //  Table Data
+    $Data .= "
+    <tr class='bg-primary'>
+    <td colspan='4' align='right'><b>ราคารวม:</b></td>
+    <td align='center'>".number_format($SumPrice) ." <b>฿</b></td>
+    </tr>";
 		$Data .= '</tbody></table>';
 		// Encode To Json
 		$arrayTable = array('Table' => $Data);
@@ -197,9 +203,9 @@ class Main_Check extends Controller
     $Guset_in = Input::post('Guset_in');
     $Main_id  = Input::post('Main_id');
     $ReGuset_in = date("d-m-Y H:i:s", strtotime($Guset_in));
-      $DataCode = DB::table('detail_table')->where('code', $Code)->where('main_id', $Main_id)->get();
-      $SumPrice = DB::table('detail_table')->where('code', $Code)->where('main_id', $Main_id)->sum('price');
-      $CounCheckNull = DB::table('detail_table')->where('code', $Code)->where('main_id', $Main_id)->count();
+    $DataCode = DB::table('detail_table')->where('code', $Code)->where('main_id', $Main_id)->get();
+    $SumPrice = DB::table('detail_table')->where('code', $Code)->where('main_id', $Main_id)->sum('price');
+    $CounCheckNull = DB::table('detail_table')->where('code', $Code)->where('main_id', $Main_id)->count();
     //Table
     $Data = "
     <div class='row'>
@@ -211,41 +217,44 @@ class Main_Check extends Controller
     </div>
     <table class='table table-sm table-hover animated fadeInUp'>
             <thead>
-                <tr align='center' class='bg-primary'>
+            <tr align='center' class='bg-primary'>
             <th>ลำดับที่</th>
             <th>รหัสโค้ด</th>
             <th>รายการ</th>
             <th>จำนวน</th>
             <th>ราคา</th>
-                </tr>
-          </thead><tbody>";
-      // Have Data
-      if ($CounCheckNull > 0) {
-        $i =0;
+            </tr>
+    </thead><tbody style='font-size: 12px;'>";
+    // Have Data
+    if ($CounCheckNull > 0) {
+    $i =0;
     foreach ($DataCode as $key => $DataDisplay) {
     $i++;
     $Data .= "
     <tr align='center'>
     <td>$i</td>
     <td>$DataDisplay->itemcode</td>
-    <td>$DataDisplay->itemname</td>
-    <td>$DataDisplay->sum</td>
-    <td>".number_format($DataDisplay->price)."</td>
+    <td>$DataDisplay->itemname</td>";
+		if ($DataDisplay->itemcodetype == 'F') {
+			$Data .= "<td>หมายเลข $DataDisplay->sum#</td>";
+		}else{
+			$Data .= "<td>$DataDisplay->sum</td>";
+		}
+    $Data .= "<td>".number_format($DataDisplay->price)."</td>
     </tr>";
     }
-      }else{
-      $Data .= "
-      <tr align='center'>
-      <td colspan='6'>Null</td>
-      </tr>";
-      }
-      //  Table Data
-      $Data .= "
-      <tr class='bg-primary'>
-      <td colspan='4' align='right'><b>ราคารวม:</b></td>
-      <td align='center'>".number_format($SumPrice) ." <b>฿</b></td>
-      </tr>
-      ";
+    }else{
+    $Data .= "
+    <tr align='center'>
+    <td colspan='6'>Null</td>
+    </tr>";
+    }
+    //  Table Data
+    $Data .= "
+    <tr class='bg-primary'>
+    <td colspan='4' align='right'><b>ราคารวม:</b></td>
+    <td align='center'>".number_format($SumPrice) ." <b>฿</b></td>
+    </tr>";
     $Data .= '</tbody></table>';
     // Encode To Json
     $arrayTable = array('Table' => $Data);

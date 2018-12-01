@@ -458,8 +458,8 @@ class MainUsers extends Controller
         }else{
               $Rebirthday = $request->post('Birthday_Add');
         }
-        // Insert To DB Member
-        $ID_New_Code = DB::table('member')->insertGetId([
+          // Insert To DB Member
+          $ID_New_Code = DB::table('member')->insertGetId([
           'code' =>    $request->post('Code_Add'),
           'name' =>    $request->post('Name_Add'),
           'start' =>   $request->post('Start_Add'),
@@ -478,6 +478,16 @@ class MainUsers extends Controller
           'today' => $Today,
           'birthday' => $Rebirthday,
           ]);
+          // Insert To DB Member_Detail
+
+
+
+          // Check Connect Status
+          $Connect_Status = DB::table('connect')->where('connect_id', '1')->get();
+          foreach ($Connect_Status as $key => $row) {
+            $Data_Connect_Status = $row->connect_detail;
+          }
+          if ($Data_Connect_Status == '0') {
           // Set Data Proflie
           $Username_Code = 'T'.$request->post('Code_Add');
           $Password = rand(1,100000);
@@ -494,11 +504,11 @@ class MainUsers extends Controller
              $Idle = $row->IdleTimeout;
              $Billplan = $row->name;
           }
-
           // Check Username In Airlink
           $Radusergroup = DB::connection('apimysql')->table("radusergroup")->where('username', $Username_Code)->count();
           // IF == NotHaveUser ANd  ELSE == HaveUser
           if ($Radusergroup > 0) {
+              /* Demo Not Use Update
               // Update UserName radcheck Password
               DB::connection('apimysql')->table("radcheck")
               ->where('username', $Username_Code)
@@ -532,6 +542,7 @@ class MainUsers extends Controller
               DB::connection('apimysql')->table("voucher")
               ->where('username', $Username_Code)
               ->update(['password' => $Password, 'valid_until' => $Valid, 'profile' => $profile]);
+              */
           }else{
               // Delete UserName radcheck
               DB::connection('apimysql')->table("radcheck")
@@ -564,7 +575,7 @@ class MainUsers extends Controller
               //  Update UserName And Password To member
               DB::table('member')->where('id', $ID_New_Code)->update(['wifiusername' => $Username_Code,'wifipassword' => $Password, 'wifidate' => $request->post('End_Add')]);
           }
-          print_r($Valid);
+        }
     }
 
     public function SetData($Name,$Phone)

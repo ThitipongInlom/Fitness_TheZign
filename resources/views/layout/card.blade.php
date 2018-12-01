@@ -2,11 +2,22 @@
 	<div class="card card-secondary">
 		<div class="card-header">
 			<h3 class="card-title">ลูกค้าที่ใช้งาน Fitness เมื่อวาน</h3>
-			<div class="card-tools">
-				<i class="fas fa-2x fa-globe-asia" data-toggle="tooltip" data-placement="right" title="ลูกค้าที่ใช้งาน Fitness เมื่อวาน"></i>
-			</div>
+				<div class="card-tools">
+					<div class="btn-group">
+						<button type="button" class="btn btn-tool dropdown-toggle" data-toggle="dropdown">
+							<i class="fas fa-cogs" data-toggle="tooltip" data-placement="left" title="ข้อมูลMember"></i>
+						</button>
+						<div class="dropdown-menu dropdown-menu-right" role="menu">
+							<a href="#" class="dropdown-item" style="color: #212529;">Action</a>
+							<a href="#" class="dropdown-item" style="color: #212529;">Another action</a>
+							<a href="#" class="dropdown-item" style="color: #212529;">Something else here</a>
+							<a class="dropdown-divider" style="color: #212529;"></a>
+							<a href="#" class="dropdown-item" style="color: #212529;">Separated link</a>
+						</div>
+					</div>
+				</div>
 		</div>
-		<div class="card-body" align="center">
+		<div class="card-body" align="center" style="padding: 0.5rem;">
 			<div id="TableYesterday"></div>
 		</div>
 	</div>
@@ -19,7 +30,7 @@
 				<i class="fas fa-2x fa-globe-americas" data-toggle="tooltip" data-placement="bottom" title="ลูกค้าที่ใช้งานตอนนี้"></i>
 			</div>
 		</div>
-		<div class="card-body" align="center">
+		<div class="card-body" align="center" style="padding: 0.5rem;">
 			<div id="TableOnline"></div>
 		</div>
 	</div>
@@ -32,7 +43,7 @@
 				<i class="fas fa-2x fa-globe-africa" data-toggle="tooltip" data-placement="left" title="ลูกค้าที่ใช้งานวันนี้"></i>
 			</div>
 		</div>
-		<div class="card-body" align="center">
+		<div class="card-body" align="center" style="padding: 0.5rem;">
 			<div id="TableToday"></div>
 		</div>
 	</div>

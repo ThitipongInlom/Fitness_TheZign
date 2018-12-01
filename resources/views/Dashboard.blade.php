@@ -15,15 +15,16 @@
     @include('Head')
     <div class="container">
         <div class="row">
+
             <!-- MainCheck -->
-            <div class="col-lg-4 col-6" onclick="MainCheck();">
+            <div class="col-lg-4 col-6">
                 <div class="small-box bg-info shadow">
                     <div class="inner">
-                        <h3 class="text-white">MainCheck</h3>
-                        <p class="text-white">ลูกค้ามาใช้บริการที่ Fitness</p>
+                        <h3 class="text-white">Wait</h3>
+                        <p class="text-white">รออัพเดต</p>
                     </div>
                     <div class="icon">
-                        <i class="fas fa-door-open"></i>
+                        <i class="fas fa-cogs"></i>
                     </div>
                 </div>
             </div>
@@ -31,7 +32,7 @@
             <div class="col-lg-4 col-6" onclick="MainUsers();">
                 <div class="small-box bg-success shadow">
                     <div class="inner">
-                        <h3 class="text-white">Users</h3>
+                        <h3 class="text-white">Member</h3>
                         <p class="text-white">เพิ่มลูกค้าเข้าสู่ระบบและสร้างWiFi</p>
                     </div>
                     <div class="icon">
@@ -53,6 +54,44 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="Find_the_name" tabindex="-1" role="dialog" aria-labelledby="Find_the_name_Label" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h5 class="modal-title" id="Find_the_name_Label">ค้นหาชื่อ</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row" align="center">
+                        <div class="col-md-4">
+                            <div id="namesearchingstatus"></div>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control form-control-sm" name="namesearching" id="namesearching" placeholder="ค้นหาชื่อลูกค้า" onkeypress="if (event.keyCode==13){ searchingname(this);return false;}">
+                        </div>
+                        <div class="col-md-4">
+                            <button class="btn btn-sm btn-outline-primary" onclick="searchinguse();">ลูกค้า Active</button>
+                            <button class="btn btn-sm btn-outline-success" onclick="searchingall();">ลูกค้าทั้งหมด</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div id="table_find_name"></div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div align="center">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">ปิด</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </body>
 <footer>
   <div class="row">
@@ -65,14 +104,13 @@
 <script type="text/javascript" src="{{ url('js/dashboard.js') }}"></script>
 <!-- Welcome Js -->
 <script type="text/javascript" src="{{ url('js/welcome.js') }}"></script>
+<!-- Checkin Js -->
+<script type="text/javascript" src="{{ url('js/Checkin.js') }}"></script>
 <!-- Use Script -->
 <script type="text/javascript">
     $(document).ready(function() {
         $('[data-toggle="tooltip"]').tooltip();
     });
-    var MainCheck = function MainCheck() {
-        window.location = "{{ url('/CheckIn') }}";
-    }
     var MainUsers = function MainUsers() {
         window.location = "{{ url('/MainUsers') }}";
     }

@@ -30,7 +30,7 @@ class Controller extends BaseController
                 	'updated_at' => $users_data[0]->updated_at);
 				Session::put('Login', $arrayData);
                 date_default_timezone_set("Asia/Bangkok");
-                $today = now();                
+                $today = now();
                 DB::table('users')
                 ->where('username', $username)
                 ->update(['updated_at'  => $today]);
@@ -44,15 +44,15 @@ class Controller extends BaseController
                 	'username'=> $users_data[0]->username,
                 	'status'=> $users_data[0]->status,
                 	'created_at'=> $users_data[0]->created_at,
-                	'updated_at' => $users_data[0]->updated_at);				
+                	'updated_at' => $users_data[0]->updated_at);
 				Session::put('Login', $arrayData);
                 date_default_timezone_set("Asia/Bangkok");
-                $today = now();                
+                $today = now();
                 DB::table('users')
                 ->where('username', $username)
                 ->update(['updated_at'  => $today]);
 		        return redirect('Dashboard');
-		} 
+		}
 		else {
 				return back()->withInput();
 		}

@@ -135,7 +135,8 @@ class Checkout extends Controller
 			    'main_id' => $Main_id,
 			    'code' => $Code,
 			    'date_time' => $row->Fake_datetime,
-			    'itemcode'  => $row->Fake_itemcode,
+          'itemcode' => $row->Fake_itemcode,
+			    'itemcodetype'  => $row->Fake_itemcodetype,
 			    'itemtype'  => $row->Fake_itemtype,
 			    'itemname'  => $row->Fake_itemname,
 			    'price'     => $row->Fake_price,
@@ -147,6 +148,7 @@ class Checkout extends Controller
     	// Update
         DB::table('main_table')
             ->where('Code', $Code)
+            ->where('ID', $Main_id)
             ->update(['Guset_out' => $today,'Status' => 'OUT']);
     	// Delete Fake_table
     	DB::table('fake_table')->where('main_id', $Main_id)->where('Fake_code', $Code)->delete();

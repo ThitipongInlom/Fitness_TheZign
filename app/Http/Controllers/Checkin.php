@@ -286,7 +286,7 @@ class Checkin extends Controller
         $CheckNum = DB::table('main_package')->where('Code', $Code)->where('Status', '=', 'Active')->count();
         if ($CheckNum != '0') {
         $Table = '
-        <table class="table table-striped table-sm">
+        <table class="table table-striped table-sm" style="margin-bottom: 0rem;">
         <tbody>';
         foreach ($Datajoin as $key => $Row) {
         $rehavesum = $Row->have_sum;
@@ -330,7 +330,7 @@ class Checkin extends Controller
         if ($CheckNum != '0') {
         $Data = '
         <div class="card card-info card-outline">
-        <div class="card-body">
+        <div class="card-body" style="padding: 0.5rem;">
         <table class="table table-striped table-sm">
         <tbody>
         <tr class="bg-primary" align="center"><td><b>รายการ</b></td><td><b>ตัวช่วย</b></td></tr>';
@@ -453,7 +453,7 @@ class Checkin extends Controller
             $Data .= "<button class='btn btn-sm btn-danger' onclick='VoidItem_modal(this);' fake_table_id='$DataDisplay->id'>Void</button>";
           }elseif ($DataDisplay->Fake_itemcodetype == 'F') {
             $Data .= "<button class='btn btn-sm btn-warning' onclick='Charge_modal(this);' fake_table_id='$DataDisplay->id'>Charge</button> ";
-            $Data .= "<button class='btn btn-sm btn-danger' onclick='VoidItem_modal(this);' fake_table_id='$DataDisplay->id'>Void</button>";
+            $Data .= "<button class='btn btn-sm btn-primary' onclick='Edit_Number_Key(this);' fake_table_id='$DataDisplay->id'><i class='fas fa-key'></i></button>";
           }elseif ($DataDisplay->Fake_itemcodetype == 'T') {
             if ($DataDisplay->Fake_itemcodetype == 'T' AND $DataDisplay->Fake_itemtype == 'C') {
               $Data .= " <button class='btn btn-sm btn-danger' onclick='Delete_item(this);' fake_table_id='$DataDisplay->id'><i class='fas fa-trash'></i></button>";
@@ -679,9 +679,9 @@ class Checkin extends Controller
         $From .= "
         <div class='row'>
         <div class='col-md-12' align='center'>
-        <div class='col-sm-3'>";
+        <div class='col-sm-4'>";
         foreach ($Fake_Table as $key => $GetItemFull) {
-           $From .= "<input type='number' class='form-control' autofocus id='newnumitem' value='$GetItemFull->Fake_sum'>";
+           $From .= "<input type='text' class='form-control' autofocus id='newnumitem' placeholder='หมายเลขกุญแจ'>";
         }
         $From .= "</div>
         <hr>
@@ -843,14 +843,14 @@ class Checkin extends Controller
               ->where('package_log.main_package_id', $Package_id)
               ->where('code', $Code)
               ->where('status', 'U')
-              ->orderBy('havesum', 'asc')
+              ->orderBy('package_log_id', 'desc')
               ->get();
       $Count = DB::table('package_log')
               ->join('package_detail','package_detail.package_id','=','package_log.package_detail')
               ->where('package_log.main_package_id', $Package_id)
               ->where('code', $Code)
               ->where('status', 'U')
-              ->orderBy('havesum', 'asc')
+              ->orderBy('package_log_id', 'desc')
               ->count();
       if ($Count > 0) {
       $Table  = '<div class="row"><div class="col-md-12">';
@@ -1045,8 +1045,15 @@ class Checkin extends Controller
         $DataFake_Table = DB::table('fake_table')->where('id', $Fake_id)->get();
         foreach ($DataFake_Table as $key => $row) {
         $fake_table_id = $row->id;
+        $ItemData = DB::table('item')->where('item_code', $row->Fake_itemcode)->get();
+        foreach ($ItemData as $key => $Item) {
+          if ($Item->item_charge_default != '') {
+          $Table  = "<div class='row'><div class='col-md-3'><h5 align='left'>จำนวนเงิน:</h5></div><div class='col-md-9'><input type='text' id='inputchargeitem' class='form-control form-control-sm' placeholder='จำนวนเงินที่จะ Charge' value='$Item->item_charge_default'></div>";
+          }else{
+          $Table  = "<div class='row'><div class='col-md-3'><h5 align='left'>จำนวนเงิน:</h5></div><div class='col-md-9'><input type='text' id='inputchargeitem' class='form-control form-control-sm' placeholder='จำนวนเงินที่จะ Charge'></div>";
+          }
         }
-        $Table  = "<div class='row'><div class='col-md-3'><h5 align='left'>จำนวนเงิน:</h5></div><div class='col-md-9'><input type='text' id='inputchargeitem' class='form-control form-control-sm' placeholder='จำนวนเงินที่จะ Charge'></div>";
+        }
         $Table .= "<div class='col-md-12'><h5 align='left'>หมายเหตุ:</h5>";
         $Table .= "<textarea id='commentchargeitem' placeholder='กรุณากรอกสาเหตุของการ Charge' class='form-control' rows='2'>";
         $Table .= "</textarea>";

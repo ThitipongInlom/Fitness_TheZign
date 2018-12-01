@@ -25,30 +25,15 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card shadow">
-                    <div class="card-body">
+                    <div class="card-body" style="padding: 0.5rem;">
                         <div class="clearfix">
                             <div class="float-left">
-                                <form class="form-inline" action="{{ url('/CheckIn') }}" method="post" accept-charset="utf-8">
-                                    @csrf
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text" id="basic-addon1">Code</span>
-                                        </div>
-                                        <input type="text" id="inputcode" class="form-control" name="inputcode" placeholder="Code" @if(empty($_POST)) autofocus @endif>
-                                            &nbsp;&nbsp;&nbsp;
-                                            <button type="submit" class="btn btn-outline-primary" data-toggle="tooltip" data-placement="bottom" title="ค้นหา"><i class="fas fa-search"></i></button>
-                                            &nbsp;&nbsp;&nbsp;
-                                            <button type="button" class="btn btn-outline-info" data-toggle="tooltip" data-placement="bottom" title="สแกน Barcode"><i class="fas fa-barcode"></i></button>
-                                    </div>
-                                </form>
                             </div>
                             <div class="float-right">
-                                <a href="{{ url('Dashboard') }}" class="btn btn-outline-danger" role="button" aria-pressed="true" data-toggle="tooltip" data-placement="bottom" title="ย้อนกลับหน้า เลือก รายการ"><i class="fas fa-arrow-left"></i></a>
                                 @if (empty($_POST))
                                 @else
-                                <button class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="ประวัติย้อนหลัง" onclick="History();">ประวัติย้อนหลัง</button>
+                                <button class="btn btn-sm btn-success" data-toggle="tooltip" data-placement="bottom" title="ประวัติย้อนหลัง" onclick="History();">ประวัติย้อนหลัง</button>
                                 @endif
-                                <button class="btn btn-primary" onclick="Find_the_name_Modal();" data-toggle="tooltip" data-placement="bottom" title="ค้นหารายชื่อลูกค้า">ค้นหาชื่อ</button>
                             </div>
                         </div>
                     </div>
@@ -67,7 +52,7 @@
             <!-- Col 8 -->
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-body">
+                    <div class="card-body" style="padding: 0.5rem;">
                         <table class="table table-striped table-sm">
                             <tbody>
                                 @foreach ($Data as $user)
@@ -116,7 +101,7 @@
                           </button>
                         </div>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body" style="padding: 0.5rem;">
                         <div id="PackageOnuseDisplay"></div>
                         <div id="DisplayItemList"></div>
                     </div>
@@ -126,7 +111,7 @@
             <div class="col-md-4">
                 <!-- Img -->
                 <div class="card card-info card-outline">
-                    <div class="card-body">
+                    <div class="card-body" style="padding: 0.5rem;">
                         <div align="center">
                         @if ($user->Img != '')
                         <img src='./img/{{ $user->Img }}' alt='Img' width="200" height="200" class='img-thumbnail'>
@@ -140,7 +125,7 @@
                 <div id="PackageItem"></div>
                 <!-- Item -->
                 <div class="card card-info card-outline">
-                    <div class="card-body">
+                    <div class="card-body" style="padding: 0.5rem;">
                         <div id="PaneItem"></div>
                     </div>
                 </div>
@@ -153,7 +138,7 @@
                 <div align="center">
                     <h4 style="color: red;"><b>สถานะ:</b> หมดอายุ</h4>
                     <div class="card">
-                        <div class="card-body">
+                        <div class="card-body" style="padding: 0.5rem;">
                             <table class="table table-striped table-sm">
                                 <tbody>
                                     @foreach ($Data as $user)
@@ -231,8 +216,8 @@
                             <input type="text" class="form-control" name="namesearching" id="namesearching" placeholder="ค้นหาชื่อลูกค้า" onkeypress="if (event.keyCode==13){ searchingname(this);return false;}">
                         </div>
                         <div class="col-md-4">
-                            <button class="btn btn-outline-primary" onclick="searchinguse();">ใช้งาน</button>
-                            <button class="btn btn-outline-success" onclick="searchingall();">ทั้งหมด</button>
+                            <button class="btn btn-sm btn-outline-primary" onclick="searchinguse();">ลูกค้า Active</button>
+                            <button class="btn btn-sm btn-outline-success" onclick="searchingall();">ลูกค้าทั้งหมด</button>
                         </div>
                     </div>
                     <div class="row">
