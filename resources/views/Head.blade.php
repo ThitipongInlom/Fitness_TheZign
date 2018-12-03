@@ -20,9 +20,66 @@
 
           <button style="margin-left:10px;" class="btn btn-sm btn-danger" onclick="Find_the_name_Modal();" data-toggle="tooltip" data-placement="bottom" title="ค้นหารายชื่อลูกค้า">ค้นหาชื่อ</button>
         </ul>
-        <form class="form-inline my-2 my-lg-0">
+        <!-- Right navbar links -->
+        <ul class="navbar-nav ml-auto">
+          <li>
+          <a class="nav-link" href="#"><b>รายงาน:</b></a>
+          </li>
+          <!-- MemberOnline -->
+          <li>
+          <!-- Notifications Dropdown Menu -->
+          <li class="nav-item dropdown">
+            <a class="nav-link" data-toggle="dropdown" href="#">MemberOnline: {{ MainUsers::Get_Total_UserIn(2) }} คน <i class="fas fa-arrow-down"></i></a>
+            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+              <span class="dropdown-item dropdown-header">ประเภทของ Member ที่มาใช้บริการ</span>
+              @foreach (MainUsers::Get_Data_UserIn(2) as $key => $row)
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item" style="color: #6c757d !important;">
+                  <i class="fa fa-users mr-2"></i> {{ $row->type }}
+                  <span class="float-right text-muted text-sm">{{ $row->total_type }} คน</span>
+                </a>
+              @endforeach
+            </div>
+          </li>
+          </li>
+          <!-- Memberใช้งานวันนี้ -->
+          <li>
+          <!-- Notifications Dropdown Menu -->
+          <li class="nav-item dropdown">
+            <a class="nav-link" data-toggle="dropdown" href="#">Memberใช้งานวันนี้: {{ MainUsers::Get_Total_UserIn(1) }} คน <i class="fas fa-arrow-down"></i></a>
+            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+              <span class="dropdown-item dropdown-header">ประเภทของ Member ที่มาใช้บริการ</span>
+              @foreach (MainUsers::Get_Data_UserIn(1) as $key => $row)
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item" style="color: #6c757d !important;">
+                  <i class="fa fa-users mr-2"></i> {{ $row->type }}
+                  <span class="float-right text-muted text-sm">{{ $row->total_type }} คน</span>
+                </a>
+              @endforeach
+            </div>
+          </li>
+          </li>
+          <!-- Memberใช้งานเมื่อวาน -->
+          <li>
+          <!-- Notifications Dropdown Menu -->
+          <li class="nav-item dropdown">
+            <a class="nav-link" data-toggle="dropdown" href="#">Memberใช้งานเมื่อวาน: {{ MainUsers::Get_Total_UserIn(0) }} คน <i class="fas fa-arrow-down"></i></a>
+            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+              <span class="dropdown-item dropdown-header">ประเภทของ Member ที่มาใช้บริการ</span>
+              @foreach (MainUsers::Get_Data_UserIn(0) as $key => $row)
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item" style="color: #6c757d !important;">
+                  <i class="fa fa-users mr-2"></i> {{ $row->type }}
+                  <span class="float-right text-muted text-sm">{{ $row->total_type }} คน</span>
+                </a>
+              @endforeach
+            </div>
+          </li>
+          </li>
+          <li>
             <a class="nav-link" href="{{ url('/Logout') }}" data-toggle="tooltip" data-placement="bottom" title="ออกจากระบบ">ออกจากระบบ</a>
-        </form>
+          </li>
+        </ul>
     </div>
 </nav>
 <br>

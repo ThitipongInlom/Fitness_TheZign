@@ -232,11 +232,51 @@
         </div>
     </div>
 
+
+    <!-- Modal -->
+    <div class="modal fade" id="Find_the_name" tabindex="-1" role="dialog" aria-labelledby="Find_the_name_Label" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h5 class="modal-title" id="Find_the_name_Label">ค้นหาชื่อ</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row" align="center">
+                        <div class="col-md-4">
+                            <div id="namesearchingstatus"></div>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control form-control-sm" name="namesearching" id="namesearching" placeholder="ค้นหาชื่อลูกค้า" onkeypress="if (event.keyCode==13){ searchingname(this);return false;}">
+                        </div>
+                        <div class="col-md-4">
+                            <button class="btn btn-sm btn-outline-primary" onclick="searchinguse();">ลูกค้า Active</button>
+                            <button class="btn btn-sm btn-outline-success" onclick="searchingall();">ลูกค้าทั้งหมด</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div id="table_find_name"></div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div align="center">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">ปิด</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </body>
 <!-- All Js -->
 <script type="text/javascript" src="{{ url('js/app.js') }}"></script>
 <!-- MainUsers -->
 <script type="text/javascript" src="{{ url('js/MainUsers.js') }}"></script>
+<!-- Checkin Js -->
+<script type="text/javascript" src="{{ url('js/Checkin.js') }}"></script>
 
 
 </html>

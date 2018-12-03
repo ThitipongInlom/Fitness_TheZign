@@ -15,12 +15,11 @@
     @include('Head')
     <div class="container">
         <div class="row">
-
             <!-- MainCheck -->
             <div class="col-lg-4 col-6">
                 <div class="small-box bg-info shadow">
                     <div class="inner">
-                        <h3 class="text-white">Wait</h3>
+                        <h3 class="text-white">Report</h3>
                         <p class="text-white">รออัพเดต</p>
                     </div>
                     <div class="icon">
@@ -33,7 +32,7 @@
                 <div class="small-box bg-success shadow">
                     <div class="inner">
                         <h3 class="text-white">Member</h3>
-                        <p class="text-white">เพิ่มลูกค้าเข้าสู่ระบบและสร้างWiFi</p>
+                        <p class="text-white">เพิ่ม Member เข้าสู่ระบบและสร้าง WiFi</p>
                     </div>
                     <div class="icon">
                         <i class="fas fa-users"></i>

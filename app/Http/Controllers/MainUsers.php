@@ -364,6 +364,62 @@ class MainUsers extends Controller
         return $TypeData;
     }
 
+    public static function Get_Total_UserIn($Data)
+    {
+       if ($Data == '0') {
+         // Yesterday
+         $date = date("m-d-Y");
+         $date1 = str_replace('-', '/', $date);
+         $Today = date('Y-m-d',strtotime($date1 . "-1 days"));
+         $Data = DB::table('main_table')->where('date', $Today)->where('Status', 'OUT')->count();
+       }elseif ($Data == '1') {
+         // Today
+         $Today = date("Y-m-d");
+         $Data = DB::table('main_table')->where('date', $Today)->where('Status', 'OUT')->count();
+       }elseif ($Data == '2') {
+         // Online
+         $Today = date("Y-m-d");
+         $Data = DB::table('main_table')->where('date', $Today)->where('Status', 'IN')->count();
+       }
+       return $Data;
+    }
+
+    public static function Get_Data_UserIn($Data)
+    {
+      if ($Data == '0') {
+        // Yesterday
+        $date = date("m-d-Y");
+        $date1 = str_replace('-', '/', $date);
+        $Today = date('Y-m-d',strtotime($date1 . "-1 days"));
+        $Data = DB::table('main_table')
+        ->select('type', DB::raw('count(type) as total_type'))
+        ->join('member', 'main_table.Code', '=', 'member.code')
+        ->groupBy('type')
+        ->where('date', $Today)
+        ->where('main_table.Status', 'OUT')
+        ->get();
+      }elseif ($Data == '1') {
+        $Today = date("Y-m-d");
+        $Data = DB::table('main_table')
+        ->select('type', DB::raw('count(type) as total_type'))
+        ->join('member', 'main_table.Code', '=', 'member.code')
+        ->groupBy('type')
+        ->where('date', $Today)
+        ->where('main_table.Status', 'OUT')
+        ->get();
+      }elseif ($Data == '2') {
+        $Today = date("Y-m-d");
+        $Data = DB::table('main_table')
+        ->select('type', DB::raw('count(type) as total_type'))
+        ->join('member', 'main_table.Code', '=', 'member.code')
+        ->groupBy('type')
+        ->where('date', $Today)
+        ->where('main_table.Status', 'IN')
+        ->get();
+      }
+      return $Data;
+    }
+
     public function Calculate_Day(Request $request)
     {
         if ($request->post('SelectVal') > 0) {

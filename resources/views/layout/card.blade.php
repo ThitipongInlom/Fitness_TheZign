@@ -3,18 +3,7 @@
 		<div class="card-header">
 			<h3 class="card-title">ลูกค้าที่ใช้งาน Fitness เมื่อวาน</h3>
 				<div class="card-tools">
-					<div class="btn-group">
-						<button type="button" class="btn btn-tool dropdown-toggle" data-toggle="dropdown">
-							<i class="fas fa-cogs" data-toggle="tooltip" data-placement="left" title="ข้อมูลMember"></i>
-						</button>
-						<div class="dropdown-menu dropdown-menu-right" role="menu">
-							<a href="#" class="dropdown-item" style="color: #212529;">Action</a>
-							<a href="#" class="dropdown-item" style="color: #212529;">Another action</a>
-							<a href="#" class="dropdown-item" style="color: #212529;">Something else here</a>
-							<a class="dropdown-divider" style="color: #212529;"></a>
-							<a href="#" class="dropdown-item" style="color: #212529;">Separated link</a>
-						</div>
-					</div>
+					<i class="fas fa-2x fa-globe-africa" data-toggle="tooltip" data-placement="left" title="ลูกค้าที่ใช้งานเมื่อวาน"></i>
 				</div>
 		</div>
 		<div class="card-body" align="center" style="padding: 0.5rem;">
@@ -59,7 +48,7 @@
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<div class="modal-body">
+			<div class="modal-body" style="padding: 0.5rem;">
 				<div id="Show_view_Data_Table"></div>
 				<hr>
 				<div align="center">
