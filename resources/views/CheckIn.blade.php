@@ -201,7 +201,7 @@
     <div class="modal fade" id="Find_the_name" tabindex="-1" role="dialog" aria-labelledby="Find_the_name_Label" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-primary">
+                <div class="modal-header bg-primary" style="padding: 0.7rem;">
                     <h5 class="modal-title" id="Find_the_name_Label">ค้นหาชื่อ</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -238,7 +238,7 @@
     <div class="modal fade" id="Edit_Number" tabindex="-1" role="dialog" aria-labelledby="Edit_Number_Label" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-primary">
+                <div class="modal-header bg-primary" style="padding: 0.7rem;">
                     <h5 class="modal-title" id="Edit_Number_Label">แก้ไขจำนวนสินค้า</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -255,7 +255,7 @@
     <div class="modal fade" id="Edit_Number_Key" tabindex="-1" role="dialog" aria-labelledby="Edit_Number_Label" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-primary">
+                <div class="modal-header bg-primary" style="padding: 0.7rem;">
                     <h5 class="modal-title" id="Edit_Number_Label">แก้ไขหมายเลข กุญแจ</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -272,7 +272,7 @@
     <div class="modal fade" id="History" tabindex="-1" role="dialog" aria-labelledby="History_Label" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-primary">
+                <div class="modal-header bg-primary" style="padding: 0.7rem;">
                     <h5 class="modal-title" id="History_Label">ประวัติย้อนหลัง 5ครั้ง ล่าสุด</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -289,7 +289,7 @@
     <div class="modal fade" id="Modal_History_Package_Useing" tabindex="-1" role="dialog" aria-labelledby="History_Label" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-primary">
+                <div class="modal-header bg-primary" style="padding: 0.7rem;">
                     <h5 class="modal-title" id="History_Label">ประวัติการใช้งาน Package</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -306,7 +306,7 @@
     <div class="modal fade" id="Alertmodalcheckprice" tabindex="-1" role="dialog" aria-labelledby="History_Label" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-danger">
+                <div class="modal-header bg-danger" style="padding: 0.7rem;">
                     <h5 class="modal-title" id="History_Label">แจ้งเตือน</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -327,7 +327,7 @@
     <div class="modal fade" id="VoidItem_modal" tabindex="-1" role="dialog" aria-labelledby="History_Label" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-primary">
+                <div class="modal-header bg-primary" style="padding: 0.7rem;">
                     <h5 class="modal-title">เช็ค Void Item</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -346,7 +346,7 @@
     <div class="modal fade" id="Charge_modal" tabindex="-1" role="dialog" aria-labelledby="Charge_modal" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-primary">
+                <div class="modal-header bg-primary" style="padding: 0.7rem;">
                     <h5 class="modal-title">เช็ค Charge Item</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>

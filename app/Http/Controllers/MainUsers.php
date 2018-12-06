@@ -535,6 +535,7 @@ class MainUsers extends Controller
           'birthday' => $Rebirthday,
           ]);
           // Insert To DB Member_Detail
+          
 
 
 

@@ -42,7 +42,7 @@
 <div class="modal fade" id="Show_view_Data" tabindex="-1" role="dialog" aria-labelledby="Show_view_Data_title" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
-			<div class="modal-header bg-primary">
+			<div class="modal-header bg-primary" style="padding: 0.7rem;">
 				<h5 class="modal-title" id="Show_view_Data_title">ตัวอย่างสิ่งของที่ใช้งาน</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>

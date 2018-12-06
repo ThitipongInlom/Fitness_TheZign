@@ -18,6 +18,8 @@ Route::get('/CheckOut', 'Checkout@CheckOutPage');
 Route::post('/Do_login', 'Controller@Do_login');
 // Logout
 Route::get('/Logout', 'Controller@Logout');
+// Report
+Route::get('/Report', 'Report@Report');
 // Dashboard
 Route::get('/Dashboard', 'Choose_Main@Dashboard');
 // Namesearching

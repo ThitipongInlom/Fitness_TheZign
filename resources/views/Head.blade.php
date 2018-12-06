@@ -17,11 +17,11 @@
             <input class="form-control form-control-sm mr-sm-2" name="inputcode" type="text" placeholder="Check-in">
             <button class="btn btn-sm btn-success my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
           </form>
-
           <button style="margin-left:10px;" class="btn btn-sm btn-danger" onclick="Find_the_name_Modal();" data-toggle="tooltip" data-placement="bottom" title="ค้นหารายชื่อลูกค้า">ค้นหาชื่อ</button>
+          <button style="margin-left:10px;" class="btn btn-sm btn-warning" onclick="Find_thezign_name_Modal();" data-toggle="tooltip" data-placement="bottom" title="ค้นหารายชื่อลูกค้าTheZign">ลูกค้าTheZign</button>
         </ul>
         <!-- Right navbar links -->
-        <ul class="navbar-nav ml-auto">
+        <ul class="navbar-nav ml-auto" style="font-size:13px;">
           <li>
           <a class="nav-link" href="#"><b>รายงาน:</b></a>
           </li>

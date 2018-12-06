@@ -445,6 +445,12 @@ var Find_the_name_Modal = function Find_the_name_Modal() {
     $("body").css("padding-right", "0");
 }
 
+var Find_thezign_name_Modal = function Find_thezign_name_Modal() {
+    // Modal Show
+    $('#Find_thezign_name').modal('show');
+    $("body").css("padding-right", "0");
+}
+
 var DisplayPackage = function DisplayPackage() {
     // Get Code
     var Code = $("#codehidden").val();

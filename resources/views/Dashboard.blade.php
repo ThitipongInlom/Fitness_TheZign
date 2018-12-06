@@ -16,11 +16,11 @@
     <div class="container">
         <div class="row">
             <!-- MainCheck -->
-            <div class="col-lg-4 col-6">
+            <div class="col-lg-4 col-6" onclick="Report();">
                 <div class="small-box bg-info shadow">
                     <div class="inner">
                         <h3 class="text-white">Report</h3>
-                        <p class="text-white">รออัพเดต</p>
+                        <p class="text-white">สรุปรายงานข้อมูลการใช้งานต่างๆ</p>
                     </div>
                     <div class="icon">
                         <i class="fas fa-cogs"></i>
@@ -58,7 +58,7 @@
     <div class="modal fade" id="Find_the_name" tabindex="-1" role="dialog" aria-labelledby="Find_the_name_Label" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-primary">
+                <div class="modal-header bg-primary" style="padding: 0.7rem;">
                     <h5 class="modal-title" id="Find_the_name_Label">ค้นหาชื่อ</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -91,6 +91,41 @@
         </div>
     </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="Find_thezign_name" tabindex="-1" role="dialog" aria-labelledby="Find_the_name_Label" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary" style="padding: 0.7rem;">
+                    <h5 class="modal-title" id="Find_the_name_Label">ค้นหาชื่อ</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                  <div class="row" align="center">
+                      <div class="col-md-4">
+                          ค้นหารายชื่อลูกค้าTheZign
+                      </div>
+                      <div class="col-md-4">
+                          <input type="text" class="form-control form-control-sm" name="namesearching" id="namesearchingthezign" placeholder="ค้นหารายชื่อลูกค้าTheZign" onkeypress="if (event.keyCode==13){ searchingname(this);return false;}">
+                      </div>
+                      <div class="col-md-4">
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="col-md-12">
+                          <div id="table_find_name_thezign"></div>
+                      </div>
+                  </div>
+                  <hr>
+                  <div align="center">
+                      <button type="button" class="btn btn-danger" data-dismiss="modal">ปิด</button>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </body>
 <footer>
   <div class="row">
@@ -112,6 +147,9 @@
     });
     var MainUsers = function MainUsers() {
         window.location = "{{ url('/MainUsers') }}";
+    }
+    var Report = function Report() {
+        window.location = "{{ url('/Report') }}";
     }
 </script>
 
