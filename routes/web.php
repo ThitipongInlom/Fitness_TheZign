@@ -96,3 +96,7 @@ Route::post('/Model_code_viewdata', 'MainUsers@Model_code_viewdata');
 Route::post('/Calculate_Day', 'MainUsers@Calculate_Day');
 // GenerateWiFi
 Route::post('/GenerateWiFi', 'MainUsers@GenerateWiFi');
+// Report Tab 1
+Route::post('/Report_tab_1', 'Report@Report_tab_1');
+// Airlink Modal Data
+Route::post('/Airlink_modal_data', 'MainUsers@Airlink_modal_data');

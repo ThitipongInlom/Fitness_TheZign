@@ -286,10 +286,19 @@
                           ค้นหารายชื่อลูกค้าTheZign
                       </div>
                       <div class="col-md-4">
-                          <input type="text" class="form-control form-control-sm" name="namesearching" id="namesearchingthezign" placeholder="ค้นหารายชื่อลูกค้าTheZign" onkeypress="if (event.keyCode==13){ searchingname(this);return false;}">
+                          <input type="text" class="form-control form-control-sm" name="namesearching" id="namesearchingthezign" placeholder="ค้นหารายชื่อลูกค้าTheZign" onkeypress="if (event.keyCode==13){ Airlink_modal_data(this);return false;}">
                       </div>
                       <div class="col-md-4">
                       </div>
+                  </div>
+                  <div class="row">
+                      <div class="col-md-12">
+                          <div id="table_find_name_thezign"></div>
+                      </div>
+                  </div>
+                  <hr>
+                  <div align="center">
+                      <button type="button" class="btn btn-danger" data-dismiss="modal">ปิด</button>
                   </div>
                 </div>
             </div>

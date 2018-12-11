@@ -420,6 +420,11 @@ class MainUsers extends Controller
       return $Data;
     }
 
+    public function Airlink_modal_data(Request $request)
+    {
+        print_r($_POST);
+    }
+
     public function Calculate_Day(Request $request)
     {
         if ($request->post('SelectVal') > 0) {
@@ -535,8 +540,6 @@ class MainUsers extends Controller
           'birthday' => $Rebirthday,
           ]);
           // Insert To DB Member_Detail
-          
-
 
 
           // Check Connect Status

@@ -451,6 +451,10 @@ var Find_thezign_name_Modal = function Find_thezign_name_Modal() {
     $("body").css("padding-right", "0");
 }
 
+var Airlink_modal_data = function Airlink_modal_data() {
+    console.log('123');
+}
+
 var DisplayPackage = function DisplayPackage() {
     // Get Code
     var Code = $("#codehidden").val();
