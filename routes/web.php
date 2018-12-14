@@ -100,3 +100,5 @@ Route::post('/GenerateWiFi', 'MainUsers@GenerateWiFi');
 Route::post('/Report_tab_1', 'Report@Report_tab_1');
 // Airlink Modal Data
 Route::post('/Airlink_modal_data', 'MainUsers@Airlink_modal_data');
+// Send To Register
+Route::post('/SendToRegister', 'MainUsers@SendToRegister');

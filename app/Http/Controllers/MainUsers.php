@@ -422,7 +422,43 @@ class MainUsers extends Controller
 
     public function Airlink_modal_data(Request $request)
     {
-        print_r($_POST);
+        // connect DB
+        $Epitome = $this->Set_DB_Epitome();
+        $DataEpitome = DB::connection('apisqlserv')->table("guest")
+                       ->where('room', 'like' ,$request->post('Text_Code').'%')
+                       ->where('status', '=' , 'I')
+                       ->orderBy('id', 'desc')
+                       ->limit(20)
+                       ->get();
+        // Table DATA
+        $Table  = "<table class='table table-sm' style='font-size: 13px;'>";
+        $Table .= "<thead><tr align='center'><th>ห้องลูกค้า</th><th>ชื่อลูกค้า</th><th>เข้าพักถึงวันที่</th><th>สัญญาติ</th></tr></thead>";
+        $Table .= "<tbody>";
+        foreach ($DataEpitome as $key => $row) {
+          $Datedeparture = date_create($row->departure);
+          $Redeparture = date_format($Datedeparture, 'd-m-Y');
+          $Table .= "<tr align='center'>";
+          $Table .= "<td><a href='#'><span onclick='Send_To_Register(this);' class='badge badge-pill badge-primary' account='$row->account' name='$row->name' start='$row->arrival' end='$row->departure' room='$row->room'>$row->room</span></a></td>";
+          $Table .= "<td>$row->name</td>";
+          $Table .= "<td>$Redeparture</td>";
+          $Table .= "<td>$row->geo</td>";
+          $Table .= "</tr>";
+        }
+        $Table .= "</tbody>";
+        $Table .= "</table>";
+
+       $ResArray = ['Table' => $Table];
+       return \Response::json($ResArray);
+    }
+
+    public function SendToRegister(Request $request)
+    {
+        $Re_account = substr($request->post('account'),6);
+        $name = $request->post('name');
+        $start = $request->post('start');
+        $end = $request->post('end');
+        $room = $request->post('room');
+        print_r($Re_account);
     }
 
     public function Calculate_Day(Request $request)
@@ -540,6 +576,7 @@ class MainUsers extends Controller
           'birthday' => $Rebirthday,
           ]);
           // Insert To DB Member_Detail
+
 
 
           // Check Connect Status
@@ -683,6 +720,29 @@ class MainUsers extends Controller
     public function Set_DB_Airlink()
     {
           $CheckAPI = DB::table('api_db')->where('key', 'Airlink')->get();
+          foreach ($CheckAPI as $key => $row) {
+            // MSSQL
+            if ($row->driver == 'sqlsrv') {
+              Config::set("database.connections.apisqlserv.driver" , "$row->driver");
+              Config::set("database.connections.apisqlserv.host" , "$row->host");
+              Config::set("database.connections.apisqlserv.database" , "$row->database");
+              Config::set("database.connections.apisqlserv.username" , "$row->username");
+              Config::set("database.connections.apisqlserv.password" , "$row->password");
+            }elseif ($row->driver == 'mysql') {
+              Config::set("database.connections.apimysql.driver" , "$row->driver");
+              Config::set("database.connections.apimysql.host" , "$row->host");
+              Config::set("database.connections.apimysql.database" , "$row->database");
+              Config::set("database.connections.apimysql.username" , "$row->username");
+              Config::set("database.connections.apimysql.password" , "$row->password");
+            }
+          }
+          // Return
+          return;
+    }
+
+    public function Set_DB_Epitome()
+    {
+          $CheckAPI = DB::table('api_db')->where('key', 'Epitome')->get();
           foreach ($CheckAPI as $key => $row) {
             // MSSQL
             if ($row->driver == 'sqlsrv') {

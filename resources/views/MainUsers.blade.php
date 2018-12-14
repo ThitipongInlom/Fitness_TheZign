@@ -293,6 +293,7 @@
                   </div>
                   <div class="row">
                       <div class="col-md-12">
+                          <br>
                           <div id="table_find_name_thezign"></div>
                       </div>
                   </div>

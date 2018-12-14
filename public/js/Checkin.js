@@ -8,6 +8,10 @@ $(document).ready(function() {
         $("#namesearching").val('');
         $("#table_find_name").html('');
     });
+    $('#Find_thezign_name').on('hidden.bs.modal', function(e) {
+        $("#namesearchingthezign").val('');
+        $("#table_find_name_thezign").html('');
+    });
     // Ajax Get Data TO Fake Data
     setTimeout(function() {
         DisplayTable();
@@ -451,8 +455,63 @@ var Find_thezign_name_Modal = function Find_thezign_name_Modal() {
     $("body").css("padding-right", "0");
 }
 
-var Airlink_modal_data = function Airlink_modal_data() {
-    console.log('123');
+var Airlink_modal_data = function Airlink_modal_data(e) {
+    // Get Code
+    var Text_Code = $(e).val();
+    // Create From Data
+    var Data = new FormData();
+    // Data Put Array
+    Data.append('Text_Code', Text_Code);
+    // Ajax Send Data
+    $.ajax({
+            url: 'Airlink_modal_data',
+            type: 'POST',
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            dataType: 'text',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: Data,
+            success: function(callback) {
+              var res = jQuery.parseJSON(callback);
+              $("#table_find_name_thezign").html(res.Table);
+            }
+        })
+        .fail(function() {
+            Airlink_modal_data();
+        });
+}
+
+var Send_To_Register = function Send_To_Register(e) {
+    // Create From Data
+    var Data = new FormData();
+    // Data Put Array
+    Data.append('account', $(e).attr('account'));
+    Data.append('name', $(e).attr('name'));
+    Data.append('start', $(e).attr('start'));
+    Data.append('end', $(e).attr('end'));
+    Data.append('room', $(e).attr('room'));
+    // Ajax Send Data
+    $.ajax({
+            url: 'SendToRegister',
+            type: 'POST',
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            dataType: 'text',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: Data,
+            success: function(callback) {
+              console.log(callback);
+            }
+        })
+        .fail(function() {
+            Send_To_Register();
+        });
 }
 
 var DisplayPackage = function DisplayPackage() {
@@ -642,7 +701,6 @@ var DeleteOnusePackage = function DeleteOnusePackage(e) {
             processData: false,
             data: Data,
             success: function(callback) {
-                console.log(callback);
                 PackageItem();
                 DisplayPackage();
                 PackageOnuseDisplay();
