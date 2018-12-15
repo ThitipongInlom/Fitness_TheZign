@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App;
@@ -386,38 +385,38 @@ class MainUsers extends Controller
 
     public static function Get_Data_UserIn($Data)
     {
-      if ($Data == '0') {
-        // Yesterday
-        $date = date("m-d-Y");
-        $date1 = str_replace('-', '/', $date);
-        $Today = date('Y-m-d',strtotime($date1 . "-1 days"));
-        $Data = DB::table('main_table')
-        ->select('type', DB::raw('count(type) as total_type'))
-        ->join('member', 'main_table.Code', '=', 'member.code')
-        ->groupBy('type')
-        ->where('date', $Today)
-        ->where('main_table.Status', 'OUT')
-        ->get();
-      }elseif ($Data == '1') {
-        $Today = date("Y-m-d");
-        $Data = DB::table('main_table')
-        ->select('type', DB::raw('count(type) as total_type'))
-        ->join('member', 'main_table.Code', '=', 'member.code')
-        ->groupBy('type')
-        ->where('date', $Today)
-        ->where('main_table.Status', 'OUT')
-        ->get();
-      }elseif ($Data == '2') {
-        $Today = date("Y-m-d");
-        $Data = DB::table('main_table')
-        ->select('type', DB::raw('count(type) as total_type'))
-        ->join('member', 'main_table.Code', '=', 'member.code')
-        ->groupBy('type')
-        ->where('date', $Today)
-        ->where('main_table.Status', 'IN')
-        ->get();
-      }
-      return $Data;
+        if ($Data == '0') {
+          // Yesterday
+          $date = date("m-d-Y");
+          $date1 = str_replace('-', '/', $date);
+          $Today = date('Y-m-d',strtotime($date1 . "-1 days"));
+          $Data = DB::table('main_table')
+          ->select('type', DB::raw('count(type) as total_type'))
+          ->join('member', 'main_table.Code', '=', 'member.code')
+          ->groupBy('type')
+          ->where('date', $Today)
+          ->where('main_table.Status', 'OUT')
+          ->get();
+        }elseif ($Data == '1') {
+          $Today = date("Y-m-d");
+          $Data = DB::table('main_table')
+          ->select('type', DB::raw('count(type) as total_type'))
+          ->join('member', 'main_table.Code', '=', 'member.code')
+          ->groupBy('type')
+          ->where('date', $Today)
+          ->where('main_table.Status', 'OUT')
+          ->get();
+        }elseif ($Data == '2') {
+          $Today = date("Y-m-d");
+          $Data = DB::table('main_table')
+          ->select('type', DB::raw('count(type) as total_type'))
+          ->join('member', 'main_table.Code', '=', 'member.code')
+          ->groupBy('type')
+          ->where('date', $Today)
+          ->where('main_table.Status', 'IN')
+          ->get();
+        }
+        return $Data;
     }
 
     public function Airlink_modal_data(Request $request)
@@ -438,7 +437,7 @@ class MainUsers extends Controller
           $Datedeparture = date_create($row->departure);
           $Redeparture = date_format($Datedeparture, 'd-m-Y');
           $Table .= "<tr align='center'>";
-          $Table .= "<td><a href='#'><span onclick='Send_To_Register(this);' class='badge badge-pill badge-primary' account='$row->account' name='$row->name' start='$row->arrival' end='$row->departure' room='$row->room'>$row->room</span></a></td>";
+          $Table .= "<td><a href='#'><span onclick='Send_To_Register(this);' class='badge badge-pill badge-primary' account='$row->account' name='$row->name' start='$row->arrival' end='$row->departure' room='$row->room' phone='$row->phone' company='$row->company'>$row->room</span></a></td>";
           $Table .= "<td>$row->name</td>";
           $Table .= "<td>$Redeparture</td>";
           $Table .= "<td>$row->geo</td>";
@@ -453,12 +452,91 @@ class MainUsers extends Controller
 
     public function SendToRegister(Request $request)
     {
+        $username = $request->session()->get('Login.username');
+        $Today = date("Y-m-d h:i:s");
         $Re_account = substr($request->post('account'),6);
         $name = $request->post('name');
         $start = $request->post('start');
+        $restart = date('Y-m-d', strtotime($start));
         $end = $request->post('end');
+        $reend = date('Y-m-d', strtotime($end));
         $room = $request->post('room');
-        print_r($Re_account);
+        $phone = $request->post('phone');
+        $company = $request->post('company');
+        // Check Member
+        $Num_member = DB::table('member')->where([
+                        ['name', '=', $name],
+                        ['start', '=', $start],
+                        ['expire', '=', $reend],
+                      ])->count();
+        $Formatdate =date('ym', strtotime(now()));
+        $Data_member = DB::table('member')->where('code', 'like', 'H'.$Formatdate.'%')->orderBy('code', 'desc')->limit(1)->get();
+        // Check Have Data
+        if ($Data_member != '[]') {
+           foreach ($Data_member as $key => $row) {
+               $FormatCode = substr($row->code,1);
+               $New_Number = strval($FormatCode)+1;
+               $New_Code = 'H'.$New_Number;
+           }
+        }else {
+               $New_Number = (strval($Formatdate)*1000)+1;
+               $New_Code = 'H'.$New_Number;
+        }
+        if ($Num_member == '0') {
+          // Add To Memeber
+          DB::table('member')->insert([
+          'code' =>    $New_Code,
+          'name' =>    $name,
+          'start' =>   $restart,
+          'expire' =>  $reend,
+          'phone' =>   $phone,
+          'type_detail' => 'Hotel',
+          'type' => 'Hotel',
+          'address' => 'ลูกค้าห้อง '.$room.' จาก '.$company,
+          'status' => 'Active',
+          'daystop' => '0',
+          'fullprice' => '0',
+          'alldis' => '0',
+          'remark' => '',
+          'resultprice' => '0',
+          'user_seting' => $username,
+          'today' => $Today,
+          'birthday' => '0000-00-00',
+          'wifiusername' => $Re_account,
+          'wifipassword' => $room,
+          'wifidate' => $reend,
+          ]);
+          // Insert To DB Member_Detail
+          DB::table('member_detail')->insert([
+          'code' =>    $New_Code,
+          'name' =>    $name,
+          'start' =>   $restart,
+          'expire' =>  $reend,
+          'phone' =>   $phone,
+          'type' => 'Hotel',
+          'address' => 'ลูกค้าห้อง '.$room.' จาก '.$company,
+          'status' => 'Active',
+          'daystop' => '0',
+          'fullprice' => '0',
+          'alldis' => '0',
+          'remark' => '',
+          'resultprice' => '0',
+          'user_seting' => $username,
+          'today' => $Today,
+          'typestatus' => 'ลูกค้าโรงแรม',
+          'type_commitment' => '0',
+          'birthday' => '0000-00-00',
+          ]);
+            $Redirect_Code = $New_Code;
+        }elseif ($Num_member == '1') {
+          $Data_member = DB::table('member')->where([['name', '=', $name],['start', '=', $start],['expire', '=', $reend]])->get();
+          foreach ($Data_member as $key => $row) {
+            $Redirect_Code = $row->code;
+          }
+        }
+        // Return Data
+        $ResArray = ['Code' => $Redirect_Code];
+        return \Response::json($ResArray);
     }
 
     public function Calculate_Day(Request $request)
@@ -543,6 +621,7 @@ class MainUsers extends Controller
         foreach ($TypeData as $key => $row) {
           // Get Type_code
           $type_data = $row->type_code;
+          $type_commitment = $row->type_commitment;
           // Get StopMB
           if ($row->type_commitment == '1') {
               $StopMB = '90';
@@ -576,9 +655,26 @@ class MainUsers extends Controller
           'birthday' => $Rebirthday,
           ]);
           // Insert To DB Member_Detail
-
-
-
+          $Member_detail_insert = DB::table('member_detail')->insertGetId([
+          'code' =>    $request->post('Code_Add'),
+          'name' =>    $request->post('Name_Add'),
+          'start' =>   $request->post('Start_Add'),
+          'expire' =>  $request->post('End_Add'),
+          'phone' =>   $request->post('Phone_Add'),
+          'type' => $type_data,
+          'address' => $request->post('Address_Add'),
+          'status' => 'Active',
+          'daystop' => $StopMB,
+          'fullprice' => $request->post('Price_full_Add'),
+          'alldis' => $request->post('Discount_Add'),
+          'remark' => $request->post('Remark_Add'),
+          'resultprice' => $request->post('Price_total_Add'),
+          'user_seting' => $username,
+          'today' => $Today,
+          'typestatus' => 'สมัครครั้งแรก',
+          'type_commitment' => $type_commitment,
+          'birthday' => $Rebirthday,
+          ]);
           // Check Connect Status
           $Connect_Status = DB::table('connect')->where('connect_id', '1')->get();
           foreach ($Connect_Status as $key => $row) {

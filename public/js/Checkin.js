@@ -493,6 +493,8 @@ var Send_To_Register = function Send_To_Register(e) {
     Data.append('start', $(e).attr('start'));
     Data.append('end', $(e).attr('end'));
     Data.append('room', $(e).attr('room'));
+    Data.append('phone', $(e).attr('phone'));
+    Data.append('company', $(e).attr('company'));
     // Ajax Send Data
     $.ajax({
             url: 'SendToRegister',
@@ -506,7 +508,10 @@ var Send_To_Register = function Send_To_Register(e) {
             processData: false,
             data: Data,
             success: function(callback) {
-              console.log(callback);
+              var csrf = $('meta[name="csrf-token"]').attr('content');
+              var res = jQuery.parseJSON(callback);
+              var Redirect_Code = res.Code;
+              $.redirect("CheckIn", {_token: csrf, inputcode: Redirect_Code}, "POST");
             }
         })
         .fail(function() {

@@ -14,22 +14,31 @@
         color: #fff;
         background-color: #87CEEB;
     }
-    .nav-pills .nav-link.tab_2.active, .nav-pills .show > .nav-link  {
-        color: #fff;
-        background-color: #87CEFA;
+    </style>
+    <style media="print">
+    @media screen {
+    #printSection {
+    display: none;
     }
-    .nav-pills .nav-link.tab_3.active, .nav-pills .show > .nav-link  {
-        color: #fff;
-        background-color: #00BFFF;
     }
-    .nav-pills .nav-link.tab_4.active, .nav-pills .show > .nav-link  {
-        color: #fff;
-        background-color: #00bfff;
+    @media print {
+    body * {
+    visibility:hidden;
+    }
+    #printSection, #printSection * {
+    visibility:visible;
+    }
+    #printSection {
+    position:absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
     }
     </style>
 </head>
 
-<body>
+<body style="background-color: #ffffff;">
     @include('Head')
     <div class="card">
         <div class="card-header d-flex p-0">
@@ -69,11 +78,14 @@
                               </div>
                               <div class="col-auto my-1">
                                 <button type="button" class="btn btn-sm btn-primary" onclick="Showthb1();">ค้นหา</button>
+                                <button type="button" class="btn btn-sm btn-success" onclick="printElement(document.getElementById('Print_Report'));"><i class="fas fa-print"></i></button>
                               </div>
                             </div>
                           </form>
                           <hr>
+                          <div id="Print_Report" style="background-color: #ffffff;">
                           <div id="Tab1_Display"></div>
+                          </div>
                         </div>
                     </div>
                 </div>

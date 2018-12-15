@@ -29,6 +29,7 @@ class Report extends Controller
     // Query DATA
     $DATA = DB::table('main_table')
              ->join('detail_table', 'main_table.ID', '=', 'detail_table.main_id')
+             ->join('member', 'main_table.Code', '=', 'member.code')
              ->groupBy('main_table.Guset_in')
              ->orderBy('main_table.Guset_in', 'ASC')
              ->where('main_table.Status', '=', 'OUT')
@@ -82,10 +83,20 @@ class Report extends Controller
     $Table .= "<thead align='center'><tr><th>ลำดับ</th><th>รหัสสมาชิก</th><th>ชื่อนามสกุล</th><th>วันที่</th><th>เวลาเข้า</th><th>เวลาออก</th><th>รวมเป็นเวลา</th></tr></thead>";
     $Table .= "<tbody>";
     $i = 1;
+    $member_count = 0;
+    $hotel_count = 0;
+    $gusetpass = 0;
     foreach ($DATA as $key => $row) {
       $Sumdate = date("H:i:s",(strtotime($row->Guset_out) - strtotime($row->Guset_in)));
       $Table .= "<tr align='center'><td>$i</td><td>$row->Code</td><td>$row->Name</td><td>".date('d/m/Y', strtotime($row->Guset_in))."</td><td>".date('H:i:s', strtotime($row->Guset_in))."</td><td>".date('H:i:s', strtotime($row->Guset_out))."</td><td>$Sumdate</td></tr>";
       $i++;
+      if ($row->type == 'Hotel') {
+        $hotel_count++;
+      }elseif ($row->type == '1DM') {
+        $gusetpass++;
+      }else{
+        $member_count++;
+      }
     }
     $re_i = $i - 1 ;
     $Table .= "</tbody>";
@@ -94,7 +105,7 @@ class Report extends Controller
     $Table .= "<div class='container'><div class='row'><div class='col-md-12'>";
     $Table .= "<table class='table table-bordered table-sm'>";
     $Table .= "<thead align='center'><tr><th>จำนวน(คน)</th><th>Member</th><th>Hotel</th><th>Guest Pass</th><th>ผืนใหญ่</th><th>ผืนเล็ก</th><th>เสื้อคลุม</th></tr></thead>";
-    $Table .= "<tbody><tr align='center'><td>$re_i</td><td></td><td></td><td></td><td>$Sum_L3</td><td>$Sum_L1</td><td>$Sum_L2</td></tr></tbody>";
+    $Table .= "<tbody><tr align='center'><td>$re_i</td><td>$member_count</td><td>$hotel_count</td><td>$gusetpass</td><td>$Sum_L3</td><td>$Sum_L1</td><td>$Sum_L2</td></tr></tbody>";
     $Table .= "</table>";
     $Table .= "</div></div></div>";
     // Encode To Json
