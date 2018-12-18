@@ -56,6 +56,10 @@ Route::post('/Dologout', 'Checkout@Dologout');
 Route::post('/Edit_Number', 'Checkin@EditNumber');
 // Edit_Number_Key
 Route::post('/Edit_Number_Key', 'Checkin@Edit_Number_Key');
+// Discount
+Route::post('/Discount', 'Checkin@Discount');
+// Discount_Save
+Route::post('/Discount_Save', 'Checkin@Discount_Save');
 // Delete_item
 Route::post('/Delete_item', 'Checkin@Delete_item');
 // Delete_item_time

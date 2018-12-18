@@ -134,7 +134,6 @@ var ViewData = function ViewData(e) {
     var id = $(e).attr('id');
     // Create From Data
     var Data = new FormData();
-    console.log(e);
     // Data Put Array
     Data.append('id', id);
     $.ajax({
@@ -151,6 +150,11 @@ var ViewData = function ViewData(e) {
         success: function(callback) {
             var res = jQuery.parseJSON(callback);
             $("#ViewDataUserDisplay").html(res.Table);
+            $('[data-toggle="datepicker"]').datepicker({
+              language: 'en',
+              container: '#date_modal_start',
+              autoClose: true,
+            });
             // IF Click Change
             $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
               if (e.target.hash == '#nav-contact') {
@@ -352,4 +356,9 @@ var GenerateWiFi = function GenerateWiFi() {
       }else{
           console.log('Alert');
       }
+}
+
+var Console_TEST = function Console_TEST() {
+    var Data = $("#remember_reconnent_start").val();
+    console.log(Data);
 }

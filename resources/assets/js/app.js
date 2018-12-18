@@ -2,8 +2,8 @@ require('./bootstrap');
 require('fontawesome-free/js/all.js');
 require('jquery.redirect');
 // datepicker
-require('chenfengyuan/datepicker/dist/datepicker');
-require('chenfengyuan/datepicker/i18n/datepicker.th-TH');
+require('air-datepicker/dist/js/datepicker');
+require('air-datepicker/dist/js/i18n/datepicker.en');
 // Sweetalert2
 window.swal = require('sweetalert2');
 

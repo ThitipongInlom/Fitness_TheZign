@@ -431,7 +431,8 @@ class Checkin extends Controller
         }
         // ItemCodeType != T
         else{
-        $Data .= "<button class='btn btn-sm btn-primary' onclick='Edit_Number(this);' fake_table_id='$DataDisplay->id'><i class='fas fa-dollar-sign'></i></button>
+        $Data .= "<button class='btn btn-sm btn-warning' onclick='Discount(this);' fake_table_id='$DataDisplay->id'><i class='fas fa-percent'></i></button>
+                  <button class='btn btn-sm btn-primary' onclick='Edit_Number(this);' fake_table_id='$DataDisplay->id'><i class='fas fa-dollar-sign'></i></button>
                   <button class='btn btn-sm btn-danger' onclick='Delete_item(this);' fake_table_id='$DataDisplay->id'><i class='fas fa-trash'></i></button>";
         }
         }
@@ -694,6 +695,42 @@ class Checkin extends Controller
         echo $json;
     }
 
+    public function Discount()
+    {
+        $Fake_table_id = Input::post('Fake_table_id');
+        $Fake_Table  = DB::table('fake_table')->where('id', $Fake_table_id)->get();
+        foreach ($Fake_Table as $key => $GetItemFull) {
+            $TableItem = DB::table('item')->where('item_code', $GetItemFull->Fake_itemcode)->get();
+        }
+        $From = "
+        <div class='row'>
+        <div class='col-md-6' align='center'>";
+        foreach ($TableItem as $key => $row) {
+            $From .= "<h5><b>รายการ:</b> $row->item_name</h5>";
+        }
+        $From .= "</div><div class='col-md-6' align='center'>";
+        foreach ($TableItem as $key => $row) {
+            $From .= "<h5><b>ราคา:</b> $row->item_price ฿</h5>";
+        }
+        $From .= "</div></div>";
+        $From .= "
+        <div class='row'>
+        <div class='col-md-12' align='center'>
+        <div class='col-sm-4'>";
+        foreach ($Fake_Table as $key => $GetItemFull) {
+           $From .= "<input type='text' class='form-control' autofocus id='newdiscount' placeholder='ส่วนลดสินค้า'>";
+        }
+        $From .= "</div>
+        <hr>
+        <button class='btn btn-primary' Fake_table_id='$Fake_table_id' onclick='Discount_Save(this);'>ยืนยันส่วนลดสินค้า</button>
+        </div>
+        </div>";
+        // Show Json
+        $array = array('From' => $From);
+        $json = json_encode($array);
+        echo $json;
+    }
+
     public function Delete_item()
     {
         $Fake_table_id = Input::post('Fake_table_id');
@@ -735,6 +772,24 @@ class Checkin extends Controller
                 DB::table('fake_table')
                     ->where('id', $Fake_table_id)
                     ->update(['Fake_sum' => $NewNum, 'Fake_price' => $totalprice]);
+        }
+    }
+
+    public function Discount_Save()
+    {
+        $Fake_table_id = Input::post('Fake_table_id');
+        $NewNum = Input::post('NewNum');
+        $Fake_Table  = DB::table('fake_table')->where('id', $Fake_table_id)->get();
+        foreach ($Fake_Table as $key => $GetItemFull) {
+            $TableItem = DB::table('item')->where('item_code', $GetItemFull->Fake_itemcode)->get();
+        }
+        foreach ($TableItem as $key => $row) {
+                $item_price = $row->item_price;
+                $totalprice = (int)$item_price - (int)$NewNum;
+                // Update
+                DB::table('fake_table')
+                    ->where('id', $Fake_table_id)
+                    ->update(['Fake_price' => $totalprice]);
         }
     }
 

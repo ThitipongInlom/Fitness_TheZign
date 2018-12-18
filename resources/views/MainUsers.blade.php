@@ -45,6 +45,7 @@
           -moz-animation: GradientAnimation 5s ease infinite;
           animation: GradientAnimation 5s ease infinite;
       }
+      .datepicker{z-index:9999 !important}
     </style>
 </head>
 <body>
@@ -293,7 +294,6 @@
                   </div>
                   <div class="row">
                       <div class="col-md-12">
-                          <br>
                           <div id="table_find_name_thezign"></div>
                       </div>
                   </div>

@@ -117,6 +117,7 @@ class MainUsers extends Controller
     {
         $id = Input::post('id');
         $Data = DB::table('member')->where('code', $id)->get();
+        $Datatype = DB::table('type')->get();
         foreach ($Data as $key => $row) {
         $View  = "<div class='row'>";
         $View .= "<div class='col-md-9'>";
@@ -208,7 +209,95 @@ class MainUsers extends Controller
 
       $View .=  "<div class='tab-content' id='nav-tabContent'>
                   <div class='tab-pane fade show active' id='nav-extend' role='tabpanel' aria-labelledby='nav-extend-tab'>
-                  1111
+                  <table class='table table-sm table-bordered'>
+                  <tr align='center'>
+                    <td>
+                      <div class='row'>
+                        <label for='remember_reconnent_start' class='col-sm-4 col-form-label'>วันที่เริ่มต้น:</label>
+                        <div class='col-sm-8'>
+                          <div class='input-group' id='date_modal_start'>
+                            <input type='text' style='margin-top:5px;' data-date-format='dd/mm/yyyy' data-position='right top' data-toggle='datepicker' class='form-control form-control-sm' id='remember_reconnent_start' placeholder='เลือกประเภทจะเพิ่มวันอัตโนมัติ'>
+                            <div class='input-group-append'>
+                              <button type='button' style='margin-top:5px;' class='btn btn-sm btn-outline-secondary docs-datepicker-trigger' disabled>
+                                <i class='fa fa-calendar' aria-hidden='true'></i>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                    <div class='row'>
+                      <label for='remember_reconnent_end' class='col-sm-4 col-form-label'>วันที่สิ้นสุด:</label>
+                      <div class='col-sm-8'>
+                        <input type='text' style='margin-top:5px;' class='form-control form-control-sm' id='remember_reconnent_end' readonly placeholder='เลือกประเภทจะเพิ่มวันอัตโนมัติ'>
+                      </div>
+                    </div>
+                    </td>
+                  </tr>
+                  <tr align='center'>
+                    <td>
+                    <div class='row'>
+                      <label for='remember_reconnent_end' class='col-sm-4 col-form-label'>ต่ออายุ:</label>
+                      <div class='col-sm-8'>
+                        <select style='margin-top:5px;' class='custom-select custom-select-sm' onchange='Console_TEST()' id='remember_reconnent_type'>
+                          <option selected value='0'>เลือกประเภท</option>";
+                          foreach ($Datatype as $key => $Type) {
+                            $View .= "<option value='$Type->type_code'>[ $Type->type_code ] $Type->type_value </option>";
+                          }
+      $View .=  "       </select>
+                      </div>
+                    </div>
+                    </td>
+                      <td>
+                        <div class='row'>
+                          <label for='remember_reconnent_price_full' class='col-sm-4 col-form-label'>ราคาปกติ:</label>
+                          <div class='col-sm-8'>
+                            <input type='text' style='margin-top:5px;' class='form-control form-control-sm' id='remember_reconnent_price_full'>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr align='center'>
+                      <td>
+                        <div class='row'>
+                          <label for='remember_reconnent_remark' class='col-sm-4 col-form-label'>Remark:</label>
+                          <div class='col-sm-8'>
+                            <input type='text' style='margin-top:5px;' class='form-control form-control-sm' id='remember_reconnent_remark'>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <div class='row'>
+                          <label for='remember_reconnent_discount' class='col-sm-4 col-form-label'>ส่วนลด:</label>
+                          <div class='col-sm-8'>
+                            <input type='text' style='margin-top:5px;' class='form-control form-control-sm' id='remember_reconnent_discount' value='0'>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr align='center'>
+                      <td>
+                        <div class='row'>
+                          <label for='remember_reconnent_stopmb' class='col-sm-4 col-form-label'>STOPMB:</label>
+                          <div class='col-sm-8'>
+                            <input type='text' style='margin-top:5px;' class='form-control form-control-sm' id='remember_reconnent_stopmb' disabled>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <div class='row'>
+                          <label for='remember_reconnent_price_total' class='col-sm-4 col-form-label'>ยอดชำระ:</label>
+                          <div class='col-sm-8'>
+                            <input type='text' style='margin-top:5px;' class='form-control form-control-sm' id='remember_reconnent_price_total'>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </table>
+                  <div algin='center'>
+                    <button class='btn btn-sm btn-success'>ยืนยันการต่ออายุ</button>
+                  </div>
                   </div>";
 
       $View .=  "<div class='tab-pane fade' id='nav-profile' role='tabpanel' aria-labelledby='nav-profile-tab'>
@@ -430,7 +519,7 @@ class MainUsers extends Controller
                        ->limit(20)
                        ->get();
         // Table DATA
-        $Table  = "<table class='table table-sm' style='font-size: 13px;'>";
+        $Table  = "<br><table class='table table-sm' style='font-size: 13px;'>";
         $Table .= "<thead><tr align='center'><th>ห้องลูกค้า</th><th>ชื่อลูกค้า</th><th>เข้าพักถึงวันที่</th><th>สัญญาติ</th></tr></thead>";
         $Table .= "<tbody>";
         foreach ($DataEpitome as $key => $row) {

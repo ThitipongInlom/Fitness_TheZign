@@ -362,6 +362,25 @@
     </div>
 
     <!-- Modal -->
+    <div class="modal fade" id="Discount_modal" tabindex="-1" role="dialog" aria-labelledby="Discount_modal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary" style="padding: 0.7rem;">
+                    <h5 class="modal-title">เช็ค Discount Item</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div align="center">
+                        <div id="Discount_Display"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
     <div class="modal fade" id="Find_thezign_name" tabindex="-1" role="dialog" aria-labelledby="Find_the_name_Label" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -384,7 +403,6 @@
                   </div>
                   <div class="row">
                       <div class="col-md-12">
-                          <br>
                           <div id="table_find_name_thezign"></div>
                       </div>
                   </div>

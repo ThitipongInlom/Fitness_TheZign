@@ -57,7 +57,7 @@
                               วันที่:
                               <div class="col-sm-2 my-1">
                                 <div class="input-group">
-                                  <input type="text" data-toggle="datepicker" class="form-control form-control-sm" id="Tab_1_start" placeholder="เลือกวันที่">
+                                  <input type="text" data-toggle="datepicker" data-date-format='dd/mm/yyyy' class="form-control form-control-sm" id="Tab_1_start" placeholder="เลือกวันที่">
                                   <div class="input-group-append">
                                     <button type="button" class="btn btn-sm btn-outline-secondary docs-datepicker-trigger" disabled="">
                                       <i class="fa fa-calendar" aria-hidden="true"></i>
@@ -68,7 +68,7 @@
                               ถึง:
                               <div class="col-sm-2 my-1">
                                 <div class="input-group">
-                                  <input type="text" data-toggle="datepicker" class="form-control form-control-sm" id="Tab_1_end" placeholder="เลือกวันที่">
+                                  <input type="text" data-toggle="datepicker" data-date-format='dd/mm/yyyy' class="form-control form-control-sm" id="Tab_1_end" placeholder="เลือกวันที่">
                                   <div class="input-group-append">
                                     <button type="button" class="btn btn-sm btn-outline-secondary docs-datepicker-trigger" disabled="">
                                       <i class="fa fa-calendar" aria-hidden="true"></i>
@@ -154,7 +154,6 @@
                   </div>
                   <div class="row">
                       <div class="col-md-12">
-                          <br>
                           <div id="table_find_name_thezign"></div>
                       </div>
                   </div>
@@ -183,9 +182,8 @@
     $(document).ready(function() {
         $('[data-toggle="tooltip"]').tooltip();
         $('[data-toggle="datepicker"]').datepicker({
-          language: 'th-TH',
-          format: 'dd/mm/yyyy',
-          autoHide: true,
+          language: 'en',
+          autoClose: true,
         });
     });
 </script>

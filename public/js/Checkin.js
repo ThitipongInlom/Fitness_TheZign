@@ -264,6 +264,35 @@ var Edit_Number = function Edit_Number(e) {
     });
 }
 
+var Discount = function Discount(e) {
+    // Modal Show
+    $('#Discount_modal').modal('show');
+    $("body").css("padding-right", "0");
+    // Data SetToSend
+    var Fake_table_id = $(e).attr('fake_table_id');
+    // Create From Data
+    var Data = new FormData();
+    // Data Put Array
+    Data.append('Fake_table_id', Fake_table_id);
+    // Ajax To Send
+    $.ajax({
+        url: 'Discount',
+        type: 'POST',
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        dataType: 'text',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: Data,
+        success: function(callback) {
+            var res = jQuery.parseJSON(callback);
+            $("#Discount_Display").html(res.From);
+        }
+    });
+}
+
 var Edit_Number_Key = function Edit_Number_Key(e) {
     // Modal Show
     $('#Edit_Number_Key').modal('show');
@@ -405,6 +434,37 @@ var Foronchangenumkey = function Foronchangenumkey(e) {
             setTimeout(function() {
                 // Modal Hide
                 $('#Edit_Number_Key').modal('hide');
+                DisplayTable();
+            }, 10);
+        }
+    });
+}
+
+var Discount_Save = function Discount_Save(e) {
+    // Data SetToSend
+    var NewNum = $('#newdiscount').val();
+    var Fake_table_id = $(e).attr('Fake_table_id');
+    // Create From Data
+    var Data = new FormData();
+    // Data Put Array
+    Data.append('Fake_table_id', Fake_table_id);
+    Data.append('NewNum', NewNum);
+    // Ajax To Send
+    $.ajax({
+        url: 'Discount_Save',
+        type: 'POST',
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        dataType: 'text',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: Data,
+        success: function(callback) {
+            setTimeout(function() {
+                // Modal Hide
+                $('#Discount_modal').modal('hide');
                 DisplayTable();
             }, 10);
         }
