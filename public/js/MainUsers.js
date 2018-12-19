@@ -18,6 +18,7 @@ var Backtotop = function Backtotop() {
         return false;
     });
 }
+
 $.fn.dataTable.ext.errMode = 'throw';
 var csrf = $('meta[name="csrf-token"]').attr('content');
 var TableDisplay = $('#TableDisplay').DataTable({
@@ -207,8 +208,8 @@ var ViewData = function ViewData(e) {
                               "name": 'resultprice'
                           },
                           {
-                              "data": 'daystop',
-                              "name": 'daystop'
+                              "data": 'status',
+                              "name": 'status'
                           },
                       ],
                       "columnDefs": [
@@ -358,7 +359,57 @@ var GenerateWiFi = function GenerateWiFi() {
       }
 }
 
-var Console_TEST = function Console_TEST() {
-    var Data = $("#remember_reconnent_start").val();
-    console.log(Data);
+var Calculate_renewal = function Calculate_renewal(e) {
+    // GET DATA
+    var Date_start = $("#remember_reconnent_start").val();
+    var Data_Type = $(e).val();
+    if (Data_Type == 'Stop') {
+      // Remove Disabled
+      $("#remember_reconnent_stopmb").removeAttr("disabled");
+      $("#remember_reconnent_stopmb").focus();
+      $("#remember_reconnent_discount").val("0");
+    }else{
+      // Set Disabled
+      $("#remember_reconnent_stopmb").attr("disabled","disabled");
+      $("#remember_reconnent_stopmb").val("");
+      $("#remember_reconnent_discount").val("0");
+    }
+    // Create From Data
+    var Data = new FormData();
+    Data.append('start', $("#remember_reconnent_start").val());
+    Data.append('Code', $("#model_code_viewdata").val());
+    Data.append('Type', $("#remember_reconnent_type").val());
+    // Ajax
+    $.ajax({
+        url: 'Calculate_renewal',
+        type: 'POST',
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        dataType: 'text',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: Data,
+        success: function(callback) {
+            var res = jQuery.parseJSON(callback);
+            $("#remember_reconnent_start").val(res.start);
+            $("#remember_reconnent_end").val(res.expire);
+            $("#remember_reconnent_price_full").val(res.price);
+            $("#remember_reconnent_price_total").val(res.price);
+        }
+    });
+}
+
+var onchange_discount = function onchange_discount(e) {
+      var discount_total = $(e).val();
+      var price_full = $("#remember_reconnent_price_full").val();
+      var Result_discount = price_full - discount_total;
+      $("#remember_reconnent_price_total").val(Result_discount);
+}
+
+var remember_reconnent_airlink = function remember_reconnent_airlink() {
+
+      console.log('123');
+
 }

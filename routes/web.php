@@ -106,3 +106,5 @@ Route::post('/Report_tab_1', 'Report@Report_tab_1');
 Route::post('/Airlink_modal_data', 'MainUsers@Airlink_modal_data');
 // Send To Register
 Route::post('/SendToRegister', 'MainUsers@SendToRegister');
+// Calculate renewal
+Route::post('/Calculate_renewal', 'MainUsers@Calculate_renewal');

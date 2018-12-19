@@ -240,7 +240,7 @@ class MainUsers extends Controller
                     <div class='row'>
                       <label for='remember_reconnent_end' class='col-sm-4 col-form-label'>ต่ออายุ:</label>
                       <div class='col-sm-8'>
-                        <select style='margin-top:5px;' class='custom-select custom-select-sm' onchange='Console_TEST()' id='remember_reconnent_type'>
+                        <select style='margin-top:5px;' class='custom-select custom-select-sm' onchange='Calculate_renewal(this)' id='remember_reconnent_type'>
                           <option selected value='0'>เลือกประเภท</option>";
                           foreach ($Datatype as $key => $Type) {
                             $View .= "<option value='$Type->type_code'>[ $Type->type_code ] $Type->type_value </option>";
@@ -253,7 +253,7 @@ class MainUsers extends Controller
                         <div class='row'>
                           <label for='remember_reconnent_price_full' class='col-sm-4 col-form-label'>ราคาปกติ:</label>
                           <div class='col-sm-8'>
-                            <input type='text' style='margin-top:5px;' class='form-control form-control-sm' id='remember_reconnent_price_full'>
+                            <input type='text' style='margin-top:5px;' class='form-control form-control-sm' id='remember_reconnent_price_full' value='0'>
                           </div>
                         </div>
                       </td>
@@ -271,7 +271,7 @@ class MainUsers extends Controller
                         <div class='row'>
                           <label for='remember_reconnent_discount' class='col-sm-4 col-form-label'>ส่วนลด:</label>
                           <div class='col-sm-8'>
-                            <input type='text' style='margin-top:5px;' class='form-control form-control-sm' id='remember_reconnent_discount' value='0'>
+                            <input type='text' style='margin-top:5px;' onchange='onchange_discount(this)' class='form-control form-control-sm' id='remember_reconnent_discount' value='0'>
                           </div>
                         </div>
                       </td>
@@ -289,14 +289,14 @@ class MainUsers extends Controller
                         <div class='row'>
                           <label for='remember_reconnent_price_total' class='col-sm-4 col-form-label'>ยอดชำระ:</label>
                           <div class='col-sm-8'>
-                            <input type='text' style='margin-top:5px;' class='form-control form-control-sm' id='remember_reconnent_price_total'>
+                            <input type='text' style='margin-top:5px;' class='form-control form-control-sm' id='remember_reconnent_price_total' value='0'>
                           </div>
                         </div>
                       </td>
                     </tr>
                   </table>
                   <div algin='center'>
-                    <button class='btn btn-sm btn-success'>ยืนยันการต่ออายุ</button>
+                    <button class='btn btn-sm btn-success' onclick='remember_reconnent_airlink(this)'>ยืนยันการต่ออายุ</button>
                   </div>
                   </div>";
 
@@ -352,7 +352,7 @@ class MainUsers extends Controller
                               <th>ราคาเต็ม</th>
                               <th>ส่วนลด</th>
                               <th>ราคารวม</th>
-                              <th>ตัวช่วย</th>
+                              <th>สถานะ</th>
                           </tr>
                       </thead>
                       <tfoot>
@@ -364,7 +364,7 @@ class MainUsers extends Controller
                               <th>ราคาเต็ม</th>
                               <th>ส่วนลด</th>
                               <th>ราคารวม</th>
-                              <th>ตัวช่วย</th>
+                              <th>สถานะ</th>
                           </tr>
                       </tfoot>
                   </table>
@@ -395,6 +395,58 @@ class MainUsers extends Controller
         $array = array('Table' => $View);
         $json = json_encode($array);
         echo $json;
+    }
+
+    public function Calculate_renewal(Request $request)
+    {
+      if ($request->post('Type') != '0') {
+        $date_now = date("Y-m-d");
+        $date1 = str_replace('/', '-', $request->post('start'));
+        if ($date1 != '') {
+          $select_date = date('Y-m-d',strtotime($date1));
+        }else{
+          $select_date = $date_now;
+        }
+        $Data_member = DB::table('member')->where('code', $request->post('Code'))->get();
+        foreach ($Data_member as $key => $member) {
+          $start_member  = $member->start;
+          $expire_member = $member->expire;
+          $status_member = $member->status;
+        }
+        $Data_Type = DB::table('type')->where('type_code', $request->post('Type'))->get();
+        foreach ($Data_Type as $key => $type) {
+            $type_price = $type->type_price;
+            $type_type_day = $type->type_day;
+            $type_type_month = $type->type_month;
+            $type_type_year = $type->type_year;
+            $type_type_commitment = $type->type_commitment;
+        }
+        // Check Date Expire
+        if ($status_member == 'Active') {
+            $Modidy_Date = $expire_member;
+        }else{
+            $Modidy_Date = $select_date;
+        }
+        // Modifly Date
+        $DateData = date_create($Modidy_Date);
+        // Modifly Day + Day
+        date_modify($DateData, '+'.$type_type_day.' day');
+        // Modifly Month + Month
+        date_modify($DateData, '+'.$type_type_month.' month');
+        // Modifly Years + Years
+        date_modify($DateData, '+'.$type_type_year.' years');
+        $Reexpire = date_format($DateData, 'Y-m-d');
+        // Modifly Date Format
+        $formatstart = date('d/m/Y',strtotime($start_member));
+        $formatexpire = date('d/m/Y',strtotime($Reexpire));
+        // Data
+        $ResArray = ['start' => $formatstart,'expire' => $formatexpire,'price' => $type_price];
+        return \Response::json($ResArray);
+      }else{
+        $ResArray = ['start' => '','expire' => '','price' => '0'];
+        return \Response::json($ResArray);
+      }
+
     }
 
     public function Uploadimguser(Request $request)
