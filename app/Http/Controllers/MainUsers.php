@@ -25,6 +25,7 @@ class MainUsers extends Controller
         ->filter(function ($query) use ($request) {
             if ($request->has('searchingcode')) {
                 $query->where('code', 'like', "%{$request->get('searchingcode')}%");
+                $query->orWhere('name', 'like', "%{$request->get('searchingcode')}%");
             }
             if ($request->has('searchingselect')) {
                 if ($request->get('searchingselect') == 'Active' OR $request->get('searchingselect') == 'Expired') {
@@ -589,6 +590,25 @@ class MainUsers extends Controller
 
        $ResArray = ['Table' => $Table];
        return \Response::json($ResArray);
+    }
+
+    public function Remember_reconnent_airlink(Request $request)
+    {
+        // connect DB
+        $Airlink = $this->Set_DB_Airlink();
+        $username = $request->session()->get('Login.username');
+        $Today = date("Y-m-d h:i:s");
+        $Username_Airlink_H = DB::connection('apimysql')->table("voucher")->where('username', '=' , $request->post('code'))->count();
+        // Check Connect Status
+        $Connect_Status = DB::table('connect')->where('connect_id', '1')->get();
+        foreach ($Connect_Status as $key => $row) {
+          $Data_Connect_Status = $row->connect_detail;
+        }
+        if ($Data_Connect_Status == '0') {
+
+
+        }
+        print_r($Data_Connect_Status);
     }
 
     public function SendToRegister(Request $request)

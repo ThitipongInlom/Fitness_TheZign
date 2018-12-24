@@ -409,7 +409,31 @@ var onchange_discount = function onchange_discount(e) {
 }
 
 var remember_reconnent_airlink = function remember_reconnent_airlink() {
-
-      console.log('123');
-
+      // Create From Data
+      var Data = new FormData();
+      Data.append('code', $("#model_code_viewdata").val());
+      Data.append('start_date', $("#remember_reconnent_start").val());
+      Data.append('end_date', $("#remember_reconnent_end").val());
+      Data.append('stopmb', $("#remember_reconnent_stopmb").val());
+      Data.append('remark', $("#remember_reconnent_remark").val());
+      Data.append('type', $("#remember_reconnent_type").val());
+      Data.append('price_full', $("#remember_reconnent_price_full").val());
+      Data.append('discount', $("#remember_reconnent_discount").val());
+      Data.append('price_total', $("#remember_reconnent_price_total").val());
+      // Ajax
+      $.ajax({
+          url: 'Remember_reconnent_airlink',
+          type: 'POST',
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+          dataType: 'text',
+          cache: false,
+          contentType: false,
+          processData: false,
+          data: Data,
+          success: function(callback) {
+              console.log(callback);
+          }
+      });
 }

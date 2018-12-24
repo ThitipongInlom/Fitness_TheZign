@@ -108,3 +108,5 @@ Route::post('/Airlink_modal_data', 'MainUsers@Airlink_modal_data');
 Route::post('/SendToRegister', 'MainUsers@SendToRegister');
 // Calculate renewal
 Route::post('/Calculate_renewal', 'MainUsers@Calculate_renewal');
+// Remember_reconnent_airlink
+Route::post('/Remember_reconnent_airlink', 'MainUsers@Remember_reconnent_airlink');
