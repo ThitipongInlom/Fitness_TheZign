@@ -96,7 +96,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-primary" style="padding: 0.7rem;">
-                    <h5 class="modal-title" id="Find_the_name_Label">ค้นหาชื่อ</h5>
+                    <h5 class="modal-title" id="Find_the_name_Label">ค้นหาห้องลูกค้า</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -104,10 +104,10 @@
                 <div class="modal-body">
                   <div class="row" align="center">
                       <div class="col-md-4">
-                          ค้นหารายชื่อลูกค้าTheZign
+                          ค้นหารายห้องลูกค้าTheZign
                       </div>
                       <div class="col-md-4">
-                          <input type="text" class="form-control form-control-sm" name="namesearching" id="namesearchingthezign" placeholder="ค้นหารายชื่อลูกค้าTheZign" onkeypress="if (event.keyCode==13){ Airlink_modal_data(this);return false;}">
+                          <input type="text" class="form-control form-control-sm" name="namesearching" id="namesearchingthezign" placeholder="ค้นหารายห้องลูกค้าTheZign" onkeypress="if (event.keyCode==13){ Airlink_modal_data(this);return false;}">
                       </div>
                       <div class="col-md-4">
                       </div>

@@ -1,6 +1,12 @@
  <!doctype html>
 <html lang="{{ app()->getLocale() }}">
+@if (Session::get('Login.status') == '0')
 
+@else
+  <script>
+      window.location = "{{ url('/Dashboard') }}";
+  </script>
+@endif
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">

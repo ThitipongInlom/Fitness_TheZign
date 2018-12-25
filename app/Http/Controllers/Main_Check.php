@@ -35,17 +35,32 @@ class Main_Check extends Controller
             $i = 0;
             foreach ($DataCode as $key => $row) {
             $i++;
+						$Showkey_onuse_count = DB::table('fake_table')->where('main_id', $row->ID)->where('Fake_itemcode', 'P14')->limit(1)->count();
+						$Showkey_onuse = DB::table('fake_table')->where('main_id', $row->ID)->where('Fake_itemcode', 'P14')->limit(1)->get();
 						$ModifyTimeOnline = date("H:i:s" , strtotime($row->Guset_in));
-            $Table .= "
-                <tr align='center'>
-                  <td>$i</td>
-                  <td>$row->Code</td>
-                  <td align='left'>$row->Name ($ModifyTimeOnline)</td>
-                  <td>
-                  <button class='btn btn-sm btn-primary' onclick='ShowViewData(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
-                  <button class='btn btn-sm btn-secondary' onclick='GoPostCodeEdit(this)' code='$row->Code'><i class='fas fa-edit'></i></button>
-                  </td>
-                </tr>";
+						if ($Showkey_onuse_count == '1') {
+							$Table .= "
+	                <tr align='center'>
+	                  <td>$i</td>
+	                  <td>$row->Code</td>
+	                  <td align='left'>$row->Name ($ModifyTimeOnline)(<i class='fas fa-key'></i>". $Showkey_onuse[0]->Fake_sum .")</td>
+	                  <td>
+	                  <button class='btn btn-sm btn-primary' onclick='ShowViewData(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
+	                  <button class='btn btn-sm btn-secondary' onclick='GoPostCodeEdit(this)' code='$row->Code'><i class='fas fa-edit'></i></button>
+	                  </td>
+	                </tr>";
+						}else{
+							$Table .= "
+	                <tr align='center'>
+	                  <td>$i</td>
+	                  <td>$row->Code</td>
+	                  <td align='left'>$row->Name ($ModifyTimeOnline)</td>
+	                  <td>
+	                  <button class='btn btn-sm btn-primary' onclick='ShowViewData(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
+	                  <button class='btn btn-sm btn-secondary' onclick='GoPostCodeEdit(this)' code='$row->Code'><i class='fas fa-edit'></i></button>
+	                  </td>
+	                </tr>";
+						}
             }
             $Table .= '</tbody></table>';
         // Encode To Json
@@ -75,16 +90,30 @@ class Main_Check extends Controller
             $i = 0;
             foreach ($DataCode as $key => $row) {
             $i++;
+						$Showkey_onuse_count_yd = DB::table('detail_table')->where('main_id', $row->ID)->where('itemcode', 'P14')->limit(1)->count();
+						$Showkey_onuse_yd = DB::table('detail_table')->where('main_id', $row->ID)->where('itemcode', 'P14')->limit(1)->get();
 						$ModifyTimeYesterday = date("H:i:s" , strtotime($row->Guset_out));
-            $Table .= "
-                <tr align='center'>
-                  <td>$i</td>
-                  <td>$row->Code</td>
-                  <td align='left'>$row->Name ($ModifyTimeYesterday)</td>
-                  <td>
-                  <button class='btn btn-sm btn-primary' onclick='ShowViewDataMain(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in'><i class='fas fa-search'></i></button>
-                  </td>
-                </tr>";
+						if ($Showkey_onuse_count_yd == '1') {
+							$Table .= "
+	                <tr align='center'>
+	                  <td>$i</td>
+	                  <td>$row->Code</td>
+	                  <td align='left'>$row->Name ($ModifyTimeOnline)(<i class='fas fa-key'></i>". $Showkey_onuse_yd[0]->sum .")</td>
+	                  <td>
+	                  <button class='btn btn-sm btn-primary' onclick='ShowViewData(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
+	                  </td>
+	                </tr>";
+						}else{
+							$Table .= "
+	                <tr align='center'>
+	                  <td>$i</td>
+	                  <td>$row->Code</td>
+	                  <td align='left'>$row->Name ($ModifyTimeYesterday)</td>
+	                  <td>
+	                  <button class='btn btn-sm btn-primary' onclick='ShowViewDataMain(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in'><i class='fas fa-search'></i></button>
+	                  </td>
+	                </tr>";
+						}
             }
             $Table .= '</tbody></table>';
         // Encode To Json
@@ -112,16 +141,30 @@ class Main_Check extends Controller
             $i = 0;
             foreach ($DataCode as $key => $row) {
             $i++;
+						$Showkey_onuse_count_td = DB::table('detail_table')->where('main_id', $row->ID)->where('itemcode', 'P14')->limit(1)->count();
+						$Showkey_onuse_td = DB::table('detail_table')->where('main_id', $row->ID)->where('itemcode', 'P14')->limit(1)->get();
 						$ModifyTimeTodayy = date("H:i:s" , strtotime($row->Guset_out));
-            $Table .= "
-                <tr align='center'>
-                  <td>$i</td>
-                  <td>$row->Code</td>
-                  <td align='left'>$row->Name ($ModifyTimeTodayy)</td>
-                  <td>
-                  <button class='btn btn-sm btn-primary' onclick='ShowViewDataMain(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in'><i class='fas fa-search'></i></button>
-                  </td>
-                </tr>";
+						if ($Showkey_onuse_count_td == '1') {
+							$Table .= "
+	                <tr align='center'>
+	                  <td>$i</td>
+	                  <td>$row->Code</td>
+	                  <td align='left'>$row->Name ($ModifyTimeTodayy)(<i class='fas fa-key'></i>". $Showkey_onuse_td[0]->sum .")</td>
+	                  <td>
+	                  <button class='btn btn-sm btn-primary' onclick='ShowViewData(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
+	                  </td>
+	                </tr>";
+						}else{
+							$Table .= "
+	                <tr align='center'>
+	                  <td>$i</td>
+	                  <td>$row->Code</td>
+	                  <td align='left'>$row->Name ($ModifyTimeTodayy)</td>
+	                  <td>
+	                  <button class='btn btn-sm btn-primary' onclick='ShowViewDataMain(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in'><i class='fas fa-search'></i></button>
+	                  </td>
+	                </tr>";
+						}
             }
             $Table .= '</tbody></table>';
         // Encode To Json
