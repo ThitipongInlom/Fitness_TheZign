@@ -580,7 +580,7 @@ class MainUsers extends Controller
           $Redeparture = date_format($Datedeparture, 'd-m-Y');
           $Table .= "<tr align='center'>";
           $Table .= "<td><a href='#'><span onclick='Send_To_Register(this);' class='badge badge-pill badge-primary' account='$row->account' name='$row->name' start='$row->arrival' end='$row->departure' room='$row->room' phone='$row->phone' company='$row->company'>$row->room</span></a></td>";
-          $Table .= "<td>$row->name</td>";
+          $Table .= "<td align='left'>$row->name</td>";
           $Table .= "<td>$Redeparture</td>";
           $Table .= "<td>$row->geo</td>";
           $Table .= "</tr>";
@@ -605,6 +605,7 @@ class MainUsers extends Controller
           $Data_Connect_Status = $row->connect_detail;
         }
         if ($Data_Connect_Status == '0') {
+
 
 
         }

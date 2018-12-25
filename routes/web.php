@@ -110,3 +110,5 @@ Route::post('/SendToRegister', 'MainUsers@SendToRegister');
 Route::post('/Calculate_renewal', 'MainUsers@Calculate_renewal');
 // Remember_reconnent_airlink
 Route::post('/Remember_reconnent_airlink', 'MainUsers@Remember_reconnent_airlink');
+// Dev Create user
+Route::get('/Create/{user}/{password}/{name}/{email}/{status}/{token}', 'Controller@Create_user_dev');

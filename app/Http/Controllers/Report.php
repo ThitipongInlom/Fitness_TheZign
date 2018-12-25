@@ -88,7 +88,7 @@ class Report extends Controller
     $gusetpass = 0;
     foreach ($DATA as $key => $row) {
       $Sumdate = date("H:i:s",(strtotime($row->Guset_out) - strtotime($row->Guset_in)));
-      $Table .= "<tr align='center'><td>$i</td><td>$row->Code</td><td>$row->Name</td><td>".date('d/m/Y', strtotime($row->Guset_in))."</td><td>".date('H:i:s', strtotime($row->Guset_in))."</td><td>".date('H:i:s', strtotime($row->Guset_out))."</td><td>$Sumdate</td></tr>";
+      $Table .= "<tr align='center'><td>$i</td><td>$row->Code</td><td align='left'>$row->Name</td><td>".date('d/m/Y', strtotime($row->Guset_in))."</td><td>".date('H:i:s', strtotime($row->Guset_in))."</td><td>".date('H:i:s', strtotime($row->Guset_out))."</td><td>$Sumdate</td></tr>";
       $i++;
       if ($row->type == 'Hotel') {
         $hotel_count++;

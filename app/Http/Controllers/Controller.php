@@ -65,4 +65,21 @@ class Controller extends BaseController
         return redirect('/');
     }
 
+    public function Create_user_dev($user,$password,$name,$email,$status,$token)
+    {
+        $today = now();
+        $remakepassword = Hash::make($password);
+        // Insert User
+        DB::table('users')->insert([
+        "name" => "$name",
+        "email" => "$email",
+        "username" => "$user",
+        "password" => "$remakepassword",
+        "status" => "$status",
+        "remember_token" => "$token",
+        "created_at" => "$today",
+        "updated_at" => "$today"
+        ]);
+    }
+
 }
