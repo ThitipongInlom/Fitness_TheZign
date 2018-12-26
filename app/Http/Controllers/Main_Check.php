@@ -74,7 +74,7 @@ class Main_Check extends Controller
 		$date = date("m-d-Y");
 		$date1 = str_replace('-', '/', $date);
 		$Yesterday = date('Y-m-d',strtotime($date1 . "-1 days"));
-		$DataCode = DB::table('main_table')->where('Status', 'OUT')->where('date', $Yesterday)->limit(10)->get();
+		$DataCode = DB::table('main_table')->where('Status', 'OUT')->where('date', $Yesterday)->get();
 		// Table
 		$Table = '
             <table class="table table-sm animated bounceIn" id="TableOnlineDatatable">
@@ -98,9 +98,9 @@ class Main_Check extends Controller
 	                <tr align='center'>
 	                  <td>$i</td>
 	                  <td>$row->Code</td>
-	                  <td align='left'>$row->Name ($ModifyTimeOnline)(<i class='fas fa-key'></i>". $Showkey_onuse_yd[0]->sum .")</td>
+	                  <td align='left'>$row->Name ($ModifyTimeYesterday)(<i class='fas fa-key'></i>". $Showkey_onuse_yd[0]->sum .")</td>
 	                  <td>
-	                  <button class='btn btn-sm btn-primary' onclick='ShowViewData(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
+	                  <button class='btn btn-sm btn-primary' onclick='ShowViewDataMain(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
 	                  </td>
 	                </tr>";
 						}else{
@@ -125,7 +125,7 @@ class Main_Check extends Controller
   public function TableToday()
   {
     $Today = date('Y-m-d');
-    $DataCode = DB::table('main_table')->where('Status', 'OUT')->where('date', $Today)->limit(10)->get();
+    $DataCode = DB::table('main_table')->where('Status', 'OUT')->where('date', $Today)->get();
     // Table
     $Table = '
             <table class="table table-sm animated bounceIn" id="TableOnlineDatatable">
@@ -151,7 +151,7 @@ class Main_Check extends Controller
 	                  <td>$row->Code</td>
 	                  <td align='left'>$row->Name ($ModifyTimeTodayy)(<i class='fas fa-key'></i>". $Showkey_onuse_td[0]->sum .")</td>
 	                  <td>
-	                  <button class='btn btn-sm btn-primary' onclick='ShowViewData(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
+	                  <button class='btn btn-sm btn-primary' onclick='ShowViewDataMain(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
 	                  </td>
 	                </tr>";
 						}else{

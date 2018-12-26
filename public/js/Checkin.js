@@ -570,8 +570,12 @@ var Send_To_Register = function Send_To_Register(e) {
             success: function(callback) {
               var csrf = $('meta[name="csrf-token"]').attr('content');
               var res = jQuery.parseJSON(callback);
-              var Redirect_Code = res.Code;
-              $.redirect("CheckIn", {_token: csrf, inputcode: Redirect_Code}, "POST");
+              if (res.Code == 'Error') {
+                console.log('Double Gen Data');
+              }else{
+                var Redirect_Code = res.Code;
+                $.redirect("CheckIn", {_token: csrf, inputcode: Redirect_Code}, "POST");
+              }
             }
         })
         .fail(function() {
