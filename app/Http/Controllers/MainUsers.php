@@ -6,6 +6,7 @@ use Config;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\DB as DB;
 
@@ -283,7 +284,7 @@ class MainUsers extends Controller
                         <div class='row'>
                           <label for='remember_reconnent_stopmb' class='col-sm-4 col-form-label'>STOPMB:</label>
                           <div class='col-sm-8'>
-                            <input type='text' style='margin-top:5px;' class='form-control form-control-sm' id='remember_reconnent_stopmb' disabled>
+                            <input type='text' style='margin-top:5px;' class='form-control form-control-sm' start='$row->expire' onchange='StopMB(this);'  id='remember_reconnent_stopmb' disabled placeholder='คงเหลือ StopMB: $row->daystop วัน'>
                           </div>
                         </div>
                       </td>
@@ -610,6 +611,7 @@ class MainUsers extends Controller
 
     public function Remember_reconnent_airlink(Request $request)
     {
+        date_default_timezone_set("Asia/Bangkok");
         if ($request->post('start_date') != '') {
           // connect DB
           $Airlink = $this->Set_DB_Airlink();
@@ -632,9 +634,13 @@ class MainUsers extends Controller
               $End_Date = date("Y-m-d",strtotime($End_Str));
               $Valid = date("Y-m-d",strtotime($End_Str))."T23:59:59";
               $Expired = strftime("%B %d %Y",strtotime($End_Str))." 23:59:59";
+              $Type = $request->post('type');
+              $STOP_MB = $request->post('stopmb');
+              $Price_full = $request->post('price_full');
+              $Discount = $request->post('discount');
+              $Price_total = $request->post('price_total');
               // Have Username In Airlink
               // Update UserName radcheck Expiration
-              /*
               DB::connection('apimysql')->table("radcheck")
               ->where('username', $Username_Code)
               ->where('attribute', 'Expiration')
@@ -643,24 +649,123 @@ class MainUsers extends Controller
               DB::connection('apimysql')->table("voucher")
               ->where('username', $Username_Code)
               ->update(['valid_until' => $Valid]);
-              */
               // Update Member Date
-              DB::table('member')
-              ->where('code', $Username_Code)
-              ->update(
-              ['start' => $Start_Str,
-               'expire' => $End_Date,
-               'type' => $request->post('type'),
-              ]);
-              echo $Data_Type;
+              if ($Type == 'Stop') {
+                $Data_StopMB = DB::table('member')->where('code', $Username_Code)->get();
+                foreach ($Data_StopMB as $key => $row) {
+                  $NumMB = $row->daystop - $STOP_MB;
+                }
+                DB::table('member')
+                ->where('code', $Username_Code)
+                ->update(
+                ['expire' => $End_Date,
+                 'daystop' => $NumMB,
+                 'fullprice' => $Price_full,
+                 'alldis' => $Discount,
+                 'resultprice' => $Price_total,
+                ]);
+                // Member_Detail
+                $this->Insert_Member_Detail($Username_Code,'Stop Member');
+              }else{
+                DB::table('member')
+                ->where('code', $Username_Code)
+                ->update(
+                ['start' => $Start_Date,
+                 'expire' => $End_Date,
+                 'type' => $Type,
+                 'status' => 'Active',
+                 'fullprice' => $Price_full,
+                 'alldis' => $Discount,
+                 'resultprice' => $Price_total,
+                ]);
+                // Member_Detail
+                $this->Insert_Member_Detail($Username_Code,'ต่ออายุการใช้งาน');
+              }
               }else{
               // Not Have Username In Airlink
 
               }
           }else{
-
+            $Data_Type = DB::table('type')->where('type_code', $request->post('type'))->get();
+            $Username_Code = $request->post('code');
+            $Start_Str = str_replace('/', '-', $request->post('start_date'));
+            $End_Str = str_replace('/', '-', $request->post('end_date'));
+            $Start_Date = date("Y-m-d",strtotime($Start_Str));
+            $End_Date = date("Y-m-d",strtotime($End_Str));
+            $Type = $request->post('type');
+            $STOP_MB = $request->post('stopmb');
+            $Price_full = $request->post('price_full');
+            $Discount = $request->post('discount');
+            $Price_total = $request->post('price_total');
+            if ($Type == 'Stop') {
+              $Data_StopMB = DB::table('member')->where('code', $Username_Code)->get();
+              foreach ($Data_StopMB as $key => $row) {
+                $NumMB = $row->daystop - $STOP_MB;
+              }
+              DB::table('member')
+              ->where('code', $Username_Code)
+              ->update(
+              ['expire' => $End_Date,
+               'daystop' => $NumMB,
+               'fullprice' => $Price_full,
+               'alldis' => $Discount,
+               'resultprice' => $Price_total,
+              ]);
+              // Member_Detail
+              $this->Insert_Member_Detail($Username_Code,'Stop Member');
+            }else{
+              DB::table('member')
+              ->where('code', $Username_Code)
+              ->update(
+              ['start' => $Start_Date,
+               'expire' => $End_Date,
+               'type' => $Type,
+               'status' => 'Active',
+               'fullprice' => $Price_full,
+               'alldis' => $Discount,
+               'resultprice' => $Price_total,
+              ]);
+              // Member_Detail
+              $this->Insert_Member_Detail($Username_Code,'ต่ออายุการใช้งาน');
+            }
           }
         }
+    }
+
+    public function Insert_Member_Detail($Code,$Note)
+    {
+        date_default_timezone_set("Asia/Bangkok");
+        $username = Session::get('Login.username');
+        $Today = date("Y-m-d h:i:s");
+        $Data = DB::table('member')->where('code', $Code)->get();
+        foreach ($Data as $key => $row) {
+          $Data_Type = DB::table('type')->where('type_code', $row->type)->get();
+          foreach ($Data_Type as $key => $Type) {
+            $commitment = $Type->type_commitment;
+          }
+          // Insert To DB Member_Detail
+          DB::table('member_detail')->insert([
+          'code' =>      $row->code,
+          'name' =>      $row->name,
+          'start' =>     $row->start,
+          'expire' =>    $row->expire,
+          'phone' =>     $row->phone,
+          'type' =>      $row->type,
+          'address' =>   $row->address,
+          'status' =>    $row->status,
+          'daystop' =>   $row->daystop,
+          'fullprice' => $row->fullprice,
+          'alldis' =>    $row->alldis,
+          'remark' =>    $row->remark,
+          'resultprice' => $row->resultprice,
+          'user_seting' => $username,
+          'today' => $Today,
+          'typestatus' => $Note,
+          'type_commitment' => $commitment,
+          'birthday' => $row->birthday,
+          ]);
+        }
+        return;
     }
 
     public function SendToRegister(Request $request)
@@ -680,6 +785,7 @@ class MainUsers extends Controller
           // Check Member
           $Num_member = DB::table('member')->where([
                           ['name', '=', $name],
+                          ['wifipassword', '=', $room],
                           ['start', '=', $start],
                           ['expire', '=', $reend],
                         ])->count();
@@ -697,53 +803,57 @@ class MainUsers extends Controller
                  $New_Code = 'H'.$New_Number;
           }
           if ($Num_member == '0') {
-            // Add To Memeber
-            DB::table('member')->insert([
-            'code' =>    $New_Code,
-            'name' =>    $name,
-            'start' =>   $restart,
-            'expire' =>  $reend,
-            'phone' =>   $phone,
-            'type_detail' => 'Hotel',
-            'type' => 'Hotel',
-            'address' => 'ลูกค้าห้อง '.$room.' จาก '.$company,
-            'status' => 'Active',
-            'daystop' => '0',
-            'fullprice' => '0',
-            'alldis' => '0',
-            'remark' => '',
-            'resultprice' => '0',
-            'user_seting' => $username,
-            'today' => $Today,
-            'birthday' => '0000-00-00',
-            'wifiusername' => $Re_account,
-            'wifipassword' => $room,
-            'wifidate' => $reend,
-            ]);
-            // Insert To DB Member_Detail
-            DB::table('member_detail')->insert([
-            'code' =>    $New_Code,
-            'name' =>    $name,
-            'start' =>   $restart,
-            'expire' =>  $reend,
-            'phone' =>   $phone,
-            'type' => 'Hotel',
-            'address' => 'ลูกค้าห้อง '.$room.' จาก '.$company,
-            'status' => 'Active',
-            'daystop' => '0',
-            'fullprice' => '0',
-            'alldis' => '0',
-            'remark' => '',
-            'resultprice' => '0',
-            'user_seting' => $username,
-            'today' => $Today,
-            'typestatus' => 'ลูกค้าโรงแรม',
-            'type_commitment' => '0',
-            'birthday' => '0000-00-00',
-            ]);
+            if ($room != 'undefined') {
+              // Add To Memeber
+              DB::table('member')->insert([
+              'code' =>    $New_Code,
+              'name' =>    $name,
+              'start' =>   $restart,
+              'expire' =>  $reend,
+              'phone' =>   $phone,
+              'type_detail' => 'Hotel',
+              'type' => 'Hotel',
+              'address' => 'ลูกค้าห้อง '.$room.' จาก '.$company,
+              'status' => 'Active',
+              'daystop' => '0',
+              'fullprice' => '0',
+              'alldis' => '0',
+              'remark' => '',
+              'resultprice' => '0',
+              'user_seting' => $username,
+              'today' => $Today,
+              'birthday' => '0000-00-00',
+              'wifiusername' => $Re_account,
+              'wifipassword' => $room,
+              'wifidate' => $reend,
+              ]);
+              // Insert To DB Member_Detail
+              DB::table('member_detail')->insert([
+              'code' =>    $New_Code,
+              'name' =>    $name,
+              'start' =>   $restart,
+              'expire' =>  $reend,
+              'phone' =>   $phone,
+              'type' => 'Hotel',
+              'address' => 'ลูกค้าห้อง '.$room.' จาก '.$company,
+              'status' => 'Active',
+              'daystop' => '0',
+              'fullprice' => '0',
+              'alldis' => '0',
+              'remark' => '',
+              'resultprice' => '0',
+              'user_seting' => $username,
+              'today' => $Today,
+              'typestatus' => 'ลูกค้าโรงแรม',
+              'type_commitment' => '0',
+              'birthday' => '0000-00-00',
+              ]);
               $Redirect_Code = $New_Code;
+            }else{
+              $Redirect_Code = 'Error';
+            }
           }elseif ($Num_member == '1') {
-              $Data_member = DB::table('member')->where([['name', '=', $name],['start', '=', $start],['expire', '=', $reend]])->get();
+            $Data_member = DB::table('member')->where([['name', '=', $name],['start', '=', $start],['expire', '=', $reend],['wifipassword', '=', $room]])->get();
             foreach ($Data_member as $key => $row) {
               $Redirect_Code = $row->code;
             }
@@ -765,7 +875,8 @@ class MainUsers extends Controller
           if (empty($request->post('Daystart'))) {
             $renow = date("Y-m-d");
           }else{
-            $renow = $request->post('Daystart');
+            $formatstart = str_replace('/', '-', $request->post('Daystart'));
+            $renow = date('Y-m-d', strtotime($formatstart));
           }
           // Generate_Code_User
           $New_Code  = $this->Generate_Code_User($renow);
@@ -787,6 +898,8 @@ class MainUsers extends Controller
               // Commitment
               $Commitment = $row->type_commitment;
           }
+            $renow = date('d/m/Y', strtotime($renow));
+            $ReFotmat = date('d/m/Y', strtotime($ReFotmat));
             // Return Data
             $ResArray = ['DateStart' => $renow,
                          'DateEnd' => $ReFotmat,
@@ -804,6 +917,23 @@ class MainUsers extends Controller
                          'Commitment' => '0'];
             return \Response::json($ResArray);
         }
+    }
+
+    public function StopMB(Request $request)
+    {
+        $Mumber = $request->post('Mumber');
+        $Start = $request->post('Start');
+        // Format
+        $DateData = date_create($Start);
+        // Modifly Day + Day
+        date_modify($DateData, '+'.$Mumber.' day');
+        $ReFotmat = date_format($DateData, 'Y-m-d');
+        $formatstart = str_replace('-', '/', $ReFotmat);
+        $End_StopMB = date('d/m/Y', strtotime($formatstart));
+        // Show Json
+        $array = array('End_StopMB' => $End_StopMB);
+        $json = json_encode($array);
+        echo $json;
     }
 
     public function Generate_Code_User($DateStart)
@@ -829,12 +959,19 @@ class MainUsers extends Controller
 
     public function GenerateWiFi(Request $request)
     {
+        date_default_timezone_set("Asia/Bangkok");
         // connect DB
         $Airlink = $this->Set_DB_Airlink();
         // Get Set Sting
         $username = $request->session()->get('Login.username');
         $Today = date("Y-m-d h:i:s");
         $TypeData = DB::table('type')->where('type_id', $request->post('Type_Add'))->get();
+        $formatstart = str_replace('/', '-', $request->post('Start_Add'));
+        $Start_POST = date('Y-m-d', strtotime($formatstart));
+        $formatend = str_replace('/', '-', $request->post('End_Add'));
+        $End_POST = date('Y-m-d', strtotime($formatend));
+        $formatbirth = str_replace('/', '-', $request->post('Birthday_Add'));
+        $Birth_POST = date('Y-m-d', strtotime($formatbirth));
         foreach ($TypeData as $key => $row) {
           // Get Type_code
           $type_data = $row->type_code;
@@ -846,17 +983,17 @@ class MainUsers extends Controller
               $StopMB = '0';
           }
         }
-        if ($request->post('Birthday_Add') == '1970-01-01') {
+        if ($request->post('Birthday_Add') == '1970-01-01' OR $request->post('Birthday_Add') == '') {
               $Rebirthday = '0000-00-00';
         }else{
-              $Rebirthday = $request->post('Birthday_Add');
+              $Rebirthday = $Birth_POST;
         }
           // Insert To DB Member
           $ID_New_Code = DB::table('member')->insertGetId([
           'code' =>    $request->post('Code_Add'),
           'name' =>    $request->post('Name_Add'),
-          'start' =>   $request->post('Start_Add'),
-          'expire' =>  $request->post('End_Add'),
+          'start' =>   $Start_POST,
+          'expire' =>  $End_POST,
           'phone' =>   $request->post('Phone_Add'),
           'type_detail' => $type_data,
           'type' => $type_data,
@@ -875,8 +1012,8 @@ class MainUsers extends Controller
           $Member_detail_insert = DB::table('member_detail')->insertGetId([
           'code' =>    $request->post('Code_Add'),
           'name' =>    $request->post('Name_Add'),
-          'start' =>   $request->post('Start_Add'),
-          'expire' =>  $request->post('End_Add'),
+          'start' =>   $Start_POST,
+          'expire' =>  $End_POST,
           'phone' =>   $request->post('Phone_Add'),
           'type' => $type_data,
           'address' => $request->post('Address_Add'),
@@ -899,10 +1036,10 @@ class MainUsers extends Controller
           }
           if ($Data_Connect_Status == '0') {
           // Set Data Proflie
-          $Username_Code = 'T'.$request->post('Code_Add');
+          $Username_Code = 'TEST'.$request->post('Code_Add');
           $Password = rand(1,100000);
-          $Valid = date("Y-m-d",strtotime($request->post('End_Add')))."T23:59:59";
-          $Expired = strftime("%B %d %Y",strtotime($request->post('End_Add')))." 23:59:59";
+          $Valid = date("Y-m-d",strtotime($End_POST))."T23:59:59";
+          $Expired = strftime("%B %d %Y",strtotime($End_POST))." 23:59:59";
           $profile = $this->SetData($request->post('Name_Add'),$request->post('Phone_Add'));
           $Data_Billingplan = DB::connection('apimysql')->table("billingplan")->where('name', 'fitness')->get();
           foreach ($Data_Billingplan as $key => $row) {
@@ -983,7 +1120,7 @@ class MainUsers extends Controller
                    'encryption' => 'clear',
                    'money' => '0']]);
               //  Update UserName And Password To member
-              DB::table('member')->where('id', $ID_New_Code)->update(['wifiusername' => $Username_Code,'wifipassword' => $Password, 'wifidate' => $request->post('End_Add')]);
+              DB::table('member')->where('id', $ID_New_Code)->update(['wifiusername' => $Username_Code,'wifipassword' => $Password, 'wifidate' => $End_POST]);
           }
         }
     }

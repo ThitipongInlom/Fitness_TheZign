@@ -167,19 +167,40 @@
                         <div class="form-group formmaginsetnone row">
                           <label for="Start_Add" class="col-sm-3 col-form-label">วันที่เริ่มต้น :</label>
                           <div class="col-sm-9">
-                            <input type="date" class="form-control form-control-sm" id="Start_Add" placeholder="วันที่เริ่มต้น">
+                              <div class="input-group">
+                                <input type="text" data-toggle="datepicker" data-date-format='dd/mm/yyyy' class="form-control form-control-sm" id="Start_Add" placeholder="วันที่เริ่มต้น">
+                                <div class="input-group-append">
+                                  <button type="button" class="btn btn-sm btn-outline-secondary docs-datepicker-trigger" disabled="">
+                                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                                  </button>
+                                </div>
+                              </div>
                           </div>
                         </div>
                         <div class="form-group formmaginsetnone row">
                           <label for="End_Add" class="col-sm-3 col-form-label">วันที่สิ้นสุด :</label>
                           <div class="col-sm-9">
-                            <input type="date" class="form-control form-control-sm" id="End_Add" placeholder="วันที่สิ้นสุด คำนวนจากการเลือกประเภท" disabled>
+                            <div class="input-group">
+                              <input type="text" data-toggle="datepicker" data-date-format='dd/mm/yyyy' class="form-control form-control-sm" id="End_Add" placeholder="วันที่สิ้นสุด คำนวนจากการเลือกประเภท" disabled>
+                              <div class="input-group-append">
+                                <button type="button" class="btn btn-sm btn-outline-secondary docs-datepicker-trigger" disabled="">
+                                  <i class="fa fa-calendar" aria-hidden="true"></i>
+                                </button>
+                              </div>
+                            </div>
                           </div>
                         </div>
                         <div class="form-group formmaginsetnone row">
                           <label for="Birthday_Add" class="col-sm-3 col-form-label">วันเดือนปีเกิด :</label>
                           <div class="col-sm-9">
-                            <input type="date" class="form-control form-control-sm" id="Birthday_Add" placeholder="วันเดือนปีเกิด">
+                            <div class="input-group">
+                              <input type="text" data-toggle="datepicker" data-date-format='dd/mm/yyyy' class="form-control form-control-sm" id="Birthday_Add" placeholder="วันเดือนปีเกิด">
+                              <div class="input-group-append">
+                                <button type="button" class="btn btn-sm btn-outline-secondary docs-datepicker-trigger" disabled="">
+                                  <i class="fa fa-calendar" aria-hidden="true"></i>
+                                </button>
+                              </div>
+                            </div>
                           </div>
                         </div>
                         <div class="form-group formmaginsetnone row">

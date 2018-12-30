@@ -126,6 +126,10 @@ var AddUsermodel = function AddUsermodel() {
     // Show Modal
     $("#AddUsermodel").modal('show');
     $("body").css("padding-right", "0");
+    $('[data-toggle="datepicker"]').datepicker({
+      language: 'en',
+      autoClose: true,
+    });
 }
 
 var ViewData = function ViewData(e) {
@@ -335,7 +339,7 @@ var GenerateWiFi = function GenerateWiFi() {
       Data.append('Discount_Add', $("#Discount_Add").val());
       Data.append('Remark_Add', $("#Remark_Add").val());
       Data.append('Price_total_Add', $("#Price_total_Add").val());
-      if ($("#Code_Add").val() != '') {
+      if ($("#Code_Add").val() != '' && $("#Name_Add").val() != '') {
         $.ajax({
             url: 'GenerateWiFi',
             type: 'POST',
@@ -350,13 +354,38 @@ var GenerateWiFi = function GenerateWiFi() {
             success: function(callback) {
                   $("#AddUsermodel").modal('hide');
                   TableDisplay.draw();
-                  e.preventDefault();
+                  //e.preventDefault();
                   console.log(callback);
             }
         });
       }else{
           console.log('Alert');
       }
+}
+
+var StopMB = function StopMB(e) {
+    var Mumber = $(e).val();
+    var Start  = $(e).attr('start');
+    // Create From Data
+    var Data = new FormData();
+    Data.append('Mumber', Mumber);
+    Data.append('Start', Start);
+    $.ajax({
+        url: 'StopMB',
+        type: 'POST',
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        dataType: 'text',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: Data,
+        success: function(callback) {
+          var res = jQuery.parseJSON(callback);
+          $("#remember_reconnent_end").val(res.End_StopMB);
+        }
+    });
 }
 
 var Calculate_renewal = function Calculate_renewal(e) {
@@ -433,7 +462,8 @@ var remember_reconnent_airlink = function remember_reconnent_airlink() {
           processData: false,
           data: Data,
           success: function(callback) {
-              console.log(callback);
+            $("#ViewDataUser").modal('hide');
+            console.log(callback);
           }
       });
 }

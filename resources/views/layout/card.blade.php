@@ -1,17 +1,4 @@
-<div class="col-md-4">
-	<div class="card card-secondary">
-		<div class="card-header">
-			<h3 class="card-title">ลูกค้าที่ใช้งาน Fitness เมื่อวาน</h3>
-				<div class="card-tools">
-					<i class="fas fa-2x fa-globe-africa" data-toggle="tooltip" data-placement="left" title="ลูกค้าที่ใช้งานเมื่อวาน"></i>
-				</div>
-		</div>
-		<div class="card-body" align="center" style="padding: 0.5rem;">
-			<div id="TableYesterday"></div>
-		</div>
-	</div>
-</div>
-<div class="col-md-4">
+<div class="col-md-6">
 	<div class="card card-primary">
 		<div class="card-header">
 			<h3 class="card-title">ลูกค้าที่ใช้งานตอนนี้</h3>
@@ -24,7 +11,7 @@
 		</div>
 	</div>
 </div>
-<div class="col-md-4">
+<div class="col-md-6">
 	<div class="card card-danger">
 		<div class="card-header">
 			<h3 class="card-title">ลูกค้าที่ใช้งานเสร็จสิ้นวันนี้</h3>

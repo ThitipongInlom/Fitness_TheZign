@@ -398,6 +398,9 @@ class Checkin extends Controller
         }elseif ($DataDisplay->Fake_itemcodetype == 'G') {
             //Glass
             $Itemtypcode = 'แก้ว';
+        }elseif ($DataDisplay->Fake_itemcodetype == 'W') {
+            //Wood
+            $Itemtypcode = 'ไม้';
         }else{
             // Null
             $Itemtypcode = '';
@@ -502,6 +505,7 @@ class Checkin extends Controller
     	}
       // Not Have Data
       else{
+      // Dont Use disabled
     	$Data .= '
     	<div align="center">
     	<button class="btn btn-success animated pulse" disabled data-toggle="tooltip" data-placement="bottom" title="กรุณาเลือกรายการก่อน">เข้าใช้งาน</button>

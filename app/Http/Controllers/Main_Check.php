@@ -37,13 +37,13 @@ class Main_Check extends Controller
             $i++;
 						$Showkey_onuse_count = DB::table('fake_table')->where('main_id', $row->ID)->where('Fake_itemcode', 'P14')->limit(1)->count();
 						$Showkey_onuse = DB::table('fake_table')->where('main_id', $row->ID)->where('Fake_itemcode', 'P14')->limit(1)->get();
-						$ModifyTimeOnline = date("H:i:s" , strtotime($row->Guset_in));
+						$ModifyTimeOnline = date("H:i" , strtotime($row->Guset_in));
 						if ($Showkey_onuse_count == '1') {
 							$Table .= "
 	                <tr align='center'>
 	                  <td>$i</td>
 	                  <td>$row->Code</td>
-	                  <td align='left'>$row->Name ($ModifyTimeOnline)(<i class='fas fa-key'></i>". $Showkey_onuse[0]->Fake_sum .")</td>
+	                  <td align='left'>$row->Name ($ModifyTimeOnline)  (<i class='fas fa-key'></i>". $Showkey_onuse[0]->Fake_sum .")</td>
 	                  <td>
 	                  <button class='btn btn-sm btn-primary' onclick='ShowViewData(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
 	                  <button class='btn btn-sm btn-secondary' onclick='GoPostCodeEdit(this)' code='$row->Code'><i class='fas fa-edit'></i></button>
@@ -54,7 +54,7 @@ class Main_Check extends Controller
 	                <tr align='center'>
 	                  <td>$i</td>
 	                  <td>$row->Code</td>
-	                  <td align='left'>$row->Name ($ModifyTimeOnline)</td>
+	                  <td align='left'>$row->Name, 0, 20)  ($ModifyTimeOnline)</td>
 	                  <td>
 	                  <button class='btn btn-sm btn-primary' onclick='ShowViewData(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
 	                  <button class='btn btn-sm btn-secondary' onclick='GoPostCodeEdit(this)' code='$row->Code'><i class='fas fa-edit'></i></button>
@@ -74,7 +74,7 @@ class Main_Check extends Controller
 		$date = date("m-d-Y");
 		$date1 = str_replace('-', '/', $date);
 		$Yesterday = date('Y-m-d',strtotime($date1 . "-1 days"));
-		$DataCode = DB::table('main_table')->where('Status', 'OUT')->where('date', $Yesterday)->get();
+		$DataCode = DB::table('main_table')->where('Status', 'OUT')->where('date', $Yesterday)->limit(10)->get();
 		// Table
 		$Table = '
             <table class="table table-sm animated bounceIn" id="TableOnlineDatatable">
@@ -92,13 +92,13 @@ class Main_Check extends Controller
             $i++;
 						$Showkey_onuse_count_yd = DB::table('detail_table')->where('main_id', $row->ID)->where('itemcode', 'P14')->limit(1)->count();
 						$Showkey_onuse_yd = DB::table('detail_table')->where('main_id', $row->ID)->where('itemcode', 'P14')->limit(1)->get();
-						$ModifyTimeYesterday = date("H:i:s" , strtotime($row->Guset_out));
+						$ModifyTimeYesterday = date("H:i" , strtotime($row->Guset_out));
 						if ($Showkey_onuse_count_yd == '1') {
 							$Table .= "
 	                <tr align='center'>
 	                  <td>$i</td>
 	                  <td>$row->Code</td>
-	                  <td align='left'>$row->Name ($ModifyTimeYesterday)(<i class='fas fa-key'></i>". $Showkey_onuse_yd[0]->sum .")</td>
+	                  <td align='left'>$row->Name ($ModifyTimeYesterday)  (<i class='fas fa-key'></i>". $Showkey_onuse_yd[0]->sum .")</td>
 	                  <td>
 	                  <button class='btn btn-sm btn-primary' onclick='ShowViewDataMain(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
 	                  </td>
@@ -125,7 +125,7 @@ class Main_Check extends Controller
   public function TableToday()
   {
     $Today = date('Y-m-d');
-    $DataCode = DB::table('main_table')->where('Status', 'OUT')->where('date', $Today)->get();
+    $DataCode = DB::table('main_table')->where('Status', 'OUT')->where('date', $Today)->limit(10)->get();
     // Table
     $Table = '
             <table class="table table-sm animated bounceIn" id="TableOnlineDatatable">
@@ -143,13 +143,13 @@ class Main_Check extends Controller
             $i++;
 						$Showkey_onuse_count_td = DB::table('detail_table')->where('main_id', $row->ID)->where('itemcode', 'P14')->limit(1)->count();
 						$Showkey_onuse_td = DB::table('detail_table')->where('main_id', $row->ID)->where('itemcode', 'P14')->limit(1)->get();
-						$ModifyTimeTodayy = date("H:i:s" , strtotime($row->Guset_out));
+						$ModifyTimeTodayy = date("H:i" , strtotime($row->Guset_out));
 						if ($Showkey_onuse_count_td == '1') {
 							$Table .= "
 	                <tr align='center'>
 	                  <td>$i</td>
 	                  <td>$row->Code</td>
-	                  <td align='left'>$row->Name ($ModifyTimeTodayy)(<i class='fas fa-key'></i>". $Showkey_onuse_td[0]->sum .")</td>
+	                  <td align='left'>$row->Name ($ModifyTimeTodayy)  (<i class='fas fa-key'></i>". $Showkey_onuse_td[0]->sum .")</td>
 	                  <td>
 	                  <button class='btn btn-sm btn-primary' onclick='ShowViewDataMain(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
 	                  </td>
