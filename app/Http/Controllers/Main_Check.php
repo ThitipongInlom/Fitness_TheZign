@@ -35,8 +35,8 @@ class Main_Check extends Controller
             $i = 0;
             foreach ($DataCode as $key => $row) {
             $i++;
-						$Showkey_onuse_count = DB::table('fake_table')->where('main_id', $row->ID)->where('Fake_itemcode', 'P14')->limit(1)->count();
-						$Showkey_onuse = DB::table('fake_table')->where('main_id', $row->ID)->where('Fake_itemcode', 'P14')->limit(1)->get();
+						$Showkey_onuse_count = DB::table('fake_table')->where('main_id', $row->ID)->where('Fake_itemcode', 'P14')->limit(5)->count();
+						$Showkey_onuse = DB::table('fake_table')->where('main_id', $row->ID)->where('Fake_itemcode', 'P14')->limit(5)->get();
 						$ModifyTimeOnline = date("H:i" , strtotime($row->Guset_in));
 						if ($Showkey_onuse_count == '1') {
 							$Table .= "
@@ -44,6 +44,50 @@ class Main_Check extends Controller
 	                  <td>$i</td>
 	                  <td>$row->Code</td>
 	                  <td align='left'>$row->Name ($ModifyTimeOnline)  (<i class='fas fa-key'></i>". $Showkey_onuse[0]->Fake_sum .")</td>
+	                  <td>
+	                  <button class='btn btn-sm btn-primary' onclick='ShowViewData(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
+	                  <button class='btn btn-sm btn-secondary' onclick='GoPostCodeEdit(this)' code='$row->Code'><i class='fas fa-edit'></i></button>
+	                  </td>
+	                </tr>";
+						}elseif ($Showkey_onuse_count == '2') {
+							$Table .= "
+	                <tr align='center'>
+	                  <td>$i</td>
+	                  <td>$row->Code</td>
+	                  <td align='left'>$row->Name ($ModifyTimeOnline)  (<i class='fas fa-key'></i>". $Showkey_onuse[0]->Fake_sum .") (<i class='fas fa-key'></i>". $Showkey_onuse[1]->Fake_sum .")</td>
+	                  <td>
+	                  <button class='btn btn-sm btn-primary' onclick='ShowViewData(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
+	                  <button class='btn btn-sm btn-secondary' onclick='GoPostCodeEdit(this)' code='$row->Code'><i class='fas fa-edit'></i></button>
+	                  </td>
+	                </tr>";
+						}elseif ($Showkey_onuse_count == '3') {
+							$Table .= "
+	                <tr align='center'>
+	                  <td>$i</td>
+	                  <td>$row->Code</td>
+	                  <td align='left'>$row->Name ($ModifyTimeOnline)  (<i class='fas fa-key'></i>". $Showkey_onuse[0]->Fake_sum .") (<i class='fas fa-key'></i>". $Showkey_onuse[1]->Fake_sum .") (<i class='fas fa-key'></i>". $Showkey_onuse[2]->Fake_sum .")</td>
+	                  <td>
+	                  <button class='btn btn-sm btn-primary' onclick='ShowViewData(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
+	                  <button class='btn btn-sm btn-secondary' onclick='GoPostCodeEdit(this)' code='$row->Code'><i class='fas fa-edit'></i></button>
+	                  </td>
+	                </tr>";
+						}elseif ($Showkey_onuse_count == '4') {
+							$Table .= "
+	                <tr align='center'>
+	                  <td>$i</td>
+	                  <td>$row->Code</td>
+	                  <td align='left'>$row->Name ($ModifyTimeOnline)  (<i class='fas fa-key'></i>". $Showkey_onuse[0]->Fake_sum .") (<i class='fas fa-key'></i>". $Showkey_onuse[1]->Fake_sum .") (<i class='fas fa-key'></i>". $Showkey_onuse[2]->Fake_sum .") (<i class='fas fa-key'></i>". $Showkey_onuse[3]->Fake_sum .")</td>
+	                  <td>
+	                  <button class='btn btn-sm btn-primary' onclick='ShowViewData(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
+	                  <button class='btn btn-sm btn-secondary' onclick='GoPostCodeEdit(this)' code='$row->Code'><i class='fas fa-edit'></i></button>
+	                  </td>
+	                </tr>";
+						}elseif ($Showkey_onuse_count == '5') {
+							$Table .= "
+	                <tr align='center'>
+	                  <td>$i</td>
+	                  <td>$row->Code</td>
+	                  <td align='left'>$row->Name ($ModifyTimeOnline)  (<i class='fas fa-key'></i>". $Showkey_onuse[0]->Fake_sum .") (<i class='fas fa-key'></i>". $Showkey_onuse[1]->Fake_sum .") (<i class='fas fa-key'></i>". $Showkey_onuse[3]->Fake_sum .") (<i class='fas fa-key'></i>". $Showkey_onuse[4]->Fake_sum .")</td>
 	                  <td>
 	                  <button class='btn btn-sm btn-primary' onclick='ShowViewData(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
 	                  <button class='btn btn-sm btn-secondary' onclick='GoPostCodeEdit(this)' code='$row->Code'><i class='fas fa-edit'></i></button>
@@ -90,8 +134,8 @@ class Main_Check extends Controller
             $i = 0;
             foreach ($DataCode as $key => $row) {
             $i++;
-						$Showkey_onuse_count_yd = DB::table('detail_table')->where('main_id', $row->ID)->where('itemcode', 'P14')->limit(1)->count();
-						$Showkey_onuse_yd = DB::table('detail_table')->where('main_id', $row->ID)->where('itemcode', 'P14')->limit(1)->get();
+						$Showkey_onuse_count_yd = DB::table('detail_table')->where('main_id', $row->ID)->where('itemcode', 'P14')->limit(5)->count();
+						$Showkey_onuse_yd = DB::table('detail_table')->where('main_id', $row->ID)->where('itemcode', 'P14')->limit(5)->get();
 						$ModifyTimeYesterday = date("H:i" , strtotime($row->Guset_out));
 						if ($Showkey_onuse_count_yd == '1') {
 							$Table .= "
@@ -99,6 +143,46 @@ class Main_Check extends Controller
 	                  <td>$i</td>
 	                  <td>$row->Code</td>
 	                  <td align='left'>$row->Name ($ModifyTimeYesterday)  (<i class='fas fa-key'></i>". $Showkey_onuse_yd[0]->sum .")</td>
+	                  <td>
+	                  <button class='btn btn-sm btn-primary' onclick='ShowViewDataMain(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
+	                  </td>
+	                </tr>";
+						}elseif ($Showkey_onuse_count_yd == '2') {
+							$Table .= "
+	                <tr align='center'>
+	                  <td>$i</td>
+	                  <td>$row->Code</td>
+	                  <td align='left'>$row->Name ($ModifyTimeYesterday)  (<i class='fas fa-key'></i>". $Showkey_onuse_yd[0]->sum .") (<i class='fas fa-key'></i>". $Showkey_onuse_yd[1]->sum .")</td>
+	                  <td>
+	                  <button class='btn btn-sm btn-primary' onclick='ShowViewDataMain(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
+	                  </td>
+	                </tr>";
+						}elseif ($Showkey_onuse_count_yd == '3') {
+							$Table .= "
+	                <tr align='center'>
+	                  <td>$i</td>
+	                  <td>$row->Code</td>
+	                  <td align='left'>$row->Name ($ModifyTimeYesterday)  (<i class='fas fa-key'></i>". $Showkey_onuse_yd[0]->sum .") (<i class='fas fa-key'></i>". $Showkey_onuse_yd[1]->sum .") (<i class='fas fa-key'></i>". $Showkey_onuse_yd[2]->sum .")</td>
+	                  <td>
+	                  <button class='btn btn-sm btn-primary' onclick='ShowViewDataMain(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
+	                  </td>
+	                </tr>";
+						}elseif ($Showkey_onuse_count_yd == '4') {
+							$Table .= "
+	                <tr align='center'>
+	                  <td>$i</td>
+	                  <td>$row->Code</td>
+	                  <td align='left'>$row->Name ($ModifyTimeYesterday)  (<i class='fas fa-key'></i>". $Showkey_onuse_yd[0]->sum .") (<i class='fas fa-key'></i>". $Showkey_onuse_yd[1]->sum .") (<i class='fas fa-key'></i>". $Showkey_onuse_yd[2]->sum .") (<i class='fas fa-key'></i>". $Showkey_onuse_yd[3]->sum .")</td>
+	                  <td>
+	                  <button class='btn btn-sm btn-primary' onclick='ShowViewDataMain(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
+	                  </td>
+	                </tr>";
+						}elseif ($Showkey_onuse_count_yd == '5') {
+							$Table .= "
+	                <tr align='center'>
+	                  <td>$i</td>
+	                  <td>$row->Code</td>
+	                  <td align='left'>$row->Name ($ModifyTimeYesterday)  (<i class='fas fa-key'></i>". $Showkey_onuse_yd[0]->sum .") (<i class='fas fa-key'></i>". $Showkey_onuse_yd[1]->sum .") (<i class='fas fa-key'></i>". $Showkey_onuse_yd[2]->sum .") (<i class='fas fa-key'></i>". $Showkey_onuse_yd[3]->sum .") (<i class='fas fa-key'></i>". $Showkey_onuse_yd[4]->sum .")</td>
 	                  <td>
 	                  <button class='btn btn-sm btn-primary' onclick='ShowViewDataMain(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
 	                  </td>
@@ -141,8 +225,8 @@ class Main_Check extends Controller
             $i = 0;
             foreach ($DataCode as $key => $row) {
             $i++;
-						$Showkey_onuse_count_td = DB::table('detail_table')->where('main_id', $row->ID)->where('itemcode', 'P14')->limit(1)->count();
-						$Showkey_onuse_td = DB::table('detail_table')->where('main_id', $row->ID)->where('itemcode', 'P14')->limit(1)->get();
+						$Showkey_onuse_count_td = DB::table('detail_table')->where('main_id', $row->ID)->where('itemcode', 'P14')->limit(5)->count();
+						$Showkey_onuse_td = DB::table('detail_table')->where('main_id', $row->ID)->where('itemcode', 'P14')->limit(5)->get();
 						$ModifyTimeTodayy = date("H:i" , strtotime($row->Guset_out));
 						if ($Showkey_onuse_count_td == '1') {
 							$Table .= "
@@ -150,6 +234,46 @@ class Main_Check extends Controller
 	                  <td>$i</td>
 	                  <td>$row->Code</td>
 	                  <td align='left'>$row->Name ($ModifyTimeTodayy)  (<i class='fas fa-key'></i>". $Showkey_onuse_td[0]->sum .")</td>
+	                  <td>
+	                  <button class='btn btn-sm btn-primary' onclick='ShowViewDataMain(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
+	                  </td>
+	                </tr>";
+						}elseif ($Showkey_onuse_count_td == '2') {
+							$Table .= "
+	                <tr align='center'>
+	                  <td>$i</td>
+	                  <td>$row->Code</td>
+	                  <td align='left'>$row->Name ($ModifyTimeTodayy)  (<i class='fas fa-key'></i>". $Showkey_onuse_td[0]->sum .") (<i class='fas fa-key'></i>". $Showkey_onuse_td[1]->sum .")</td>
+	                  <td>
+	                  <button class='btn btn-sm btn-primary' onclick='ShowViewDataMain(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
+	                  </td>
+	                </tr>";
+						}elseif ($Showkey_onuse_count_td == '3') {
+							$Table .= "
+	                <tr align='center'>
+	                  <td>$i</td>
+	                  <td>$row->Code</td>
+	                  <td align='left'>$row->Name ($ModifyTimeTodayy)  (<i class='fas fa-key'></i>". $Showkey_onuse_td[0]->sum .") (<i class='fas fa-key'></i>". $Showkey_onuse_td[1]->sum .") (<i class='fas fa-key'></i>". $Showkey_onuse_td[2]->sum .")</td>
+	                  <td>
+	                  <button class='btn btn-sm btn-primary' onclick='ShowViewDataMain(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
+	                  </td>
+	                </tr>";
+						}elseif ($Showkey_onuse_count_td == '4') {
+							$Table .= "
+	                <tr align='center'>
+	                  <td>$i</td>
+	                  <td>$row->Code</td>
+	                  <td align='left'>$row->Name ($ModifyTimeTodayy)  (<i class='fas fa-key'></i>". $Showkey_onuse_td[0]->sum .") (<i class='fas fa-key'></i>". $Showkey_onuse_td[1]->sum .") (<i class='fas fa-key'></i>". $Showkey_onuse_td[2]->sum .") (<i class='fas fa-key'></i>". $Showkey_onuse_td[3]->sum .")</td>
+	                  <td>
+	                  <button class='btn btn-sm btn-primary' onclick='ShowViewDataMain(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
+	                  </td>
+	                </tr>";
+						}elseif ($Showkey_onuse_count_td == '5') {
+							$Table .= "
+	                <tr align='center'>
+	                  <td>$i</td>
+	                  <td>$row->Code</td>
+	                  <td align='left'>$row->Name ($ModifyTimeTodayy)  (<i class='fas fa-key'></i>". $Showkey_onuse_td[0]->sum .") (<i class='fas fa-key'></i>". $Showkey_onuse_td[1]->sum .") (<i class='fas fa-key'></i>". $Showkey_onuse_td[2]->sum .") (<i class='fas fa-key'></i>". $Showkey_onuse_td[3]->sum .") (<i class='fas fa-key'></i>". $Showkey_onuse_td[4]->sum .")</td>
 	                  <td>
 	                  <button class='btn btn-sm btn-primary' onclick='ShowViewDataMain(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
 	                  </td>

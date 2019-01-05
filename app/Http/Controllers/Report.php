@@ -80,7 +80,7 @@ class Report extends Controller
     $Table  = "<div align='center'><h4><b>รายงานการใช้บริการสมาชิกตามช่วงเวลา</b></h4></div>";
     $Table .= "<div align='center'><b>ระหว่างวันที่ ".Input::post('start')." ถึงวันที่ ".Input::post('end')."</b></div>";
     $Table .= "<table class='table table-sm'>";
-    $Table .= "<thead align='center'><tr><th>ลำดับ</th><th>รหัสสมาชิก</th><th>ชื่อนามสกุล</th><th>วันที่</th><th>เวลาเข้า</th><th>เวลาออก</th><th>รวมเป็นเวลา</th></tr></thead>";
+    $Table .= "<thead align='center'><tr><th>ลำดับ</th><th>รหัสสมาชิก</th><th>ชื่อนามสกุล</th><th>กุญแจ</th><th>วันที่</th><th>เวลาเข้า</th><th>เวลาออก</th><th>รวมเป็นเวลา</th></tr></thead>";
     $Table .= "<tbody>";
     $i = 1;
     $member_count = 0;
@@ -88,7 +88,20 @@ class Report extends Controller
     $gusetpass = 0;
     foreach ($DATA as $key => $row) {
       $Sumdate = date("H:i:s",(strtotime($row->Guset_out) - strtotime($row->Guset_in)));
-      $Table .= "<tr align='center'><td>$i</td><td>$row->Code</td><td align='left'>$row->Name</td><td>".date('d/m/Y', strtotime($row->Guset_in))."</td><td>".date('H:i:s', strtotime($row->Guset_in))."</td><td>".date('H:i:s', strtotime($row->Guset_out))."</td><td>$Sumdate</td></tr>";
+      $getkey = DB::table('detail_table')->where('main_id', '=', "$row->main_id")->where('itemcode', '=', "P14")->limit(1)->get();
+      foreach ($getkey as $key => $rowkey) {
+          if ($rowkey->sum != '') {
+            $keysum = $rowkey->sum;
+          }else{
+            $keysum = 'Null';
+          }
+      }
+      if (empty($keysum)) {
+        $keysum = '';
+      }else{
+        $keysum = $keysum;
+      }
+      $Table .= "<tr align='center'><td>$i</td><td>$row->Code</td><td align='left'>$row->Name</td><td>$keysum</td><td>".date('d/m/Y', strtotime($row->Guset_in))."</td><td>".date('H:i:s', strtotime($row->Guset_in))."</td><td>".date('H:i:s', strtotime($row->Guset_out))."</td><td>$Sumdate</td></tr>";
       $i++;
       if ($row->type == 'Hotel') {
         $hotel_count++;
