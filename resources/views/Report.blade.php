@@ -45,6 +45,7 @@
             <h3 class="card-title p-3">รายงานการใช้บริการสมาชิก</h3>
             <ul class="nav nav-pills ml-auto p-2">
                 <li class="nav-item"><a class="nav-link tab_1 active show" href="#tab_1" data-toggle="tab">สรุปจำนวนลูกค้าที่มาใช้บริการ</a></li>
+                <li class="nav-item"><a class="nav-link tab_2" href="#tab_2" data-toggle="tab">สรุปจำนวนลูกค้าการใช้คลาส</a></li>
             </ul>
         </div><!-- /.card-header -->
         <div class="card-body" style="padding: 0.5rem;">
@@ -85,6 +86,46 @@
                           <hr>
                           <div id="Print_Report" style="background-color: #ffffff;">
                           <div id="Tab1_Display"></div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="tab_2">
+                    <div class="row">
+                        <div class="col-md-12">
+                          <form>
+                            <div class="form-row align-items-center">
+                              วันที่:
+                              <div class="col-sm-2 my-1">
+                                <div class="input-group">
+                                  <input type="text" data-toggle="datepicker" data-date-format='dd/mm/yyyy' class="form-control form-control-sm" id="Tab_2_start" placeholder="เลือกวันที่">
+                                  <div class="input-group-append">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary docs-datepicker-trigger" disabled="">
+                                      <i class="fa fa-calendar" aria-hidden="true"></i>
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                              ถึง:
+                              <div class="col-sm-2 my-1">
+                                <div class="input-group">
+                                  <input type="text" data-toggle="datepicker" data-date-format='dd/mm/yyyy' class="form-control form-control-sm" id="Tab_2_end" placeholder="เลือกวันที่">
+                                  <div class="input-group-append">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary docs-datepicker-trigger" disabled="">
+                                      <i class="fa fa-calendar" aria-hidden="true"></i>
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-auto my-1">
+                                <button type="button" class="btn btn-sm btn-primary" onclick="Showthb2();">ค้นหา</button>
+                                <button type="button" class="btn btn-sm btn-success" onclick="printElement(document.getElementById('Print_Report'));"><i class="fas fa-print"></i></button>
+                              </div>
+                            </div>
+                          </form>
+                          <hr>
+                          <div id="Print_Report" style="background-color: #ffffff;">
+                          <div id="Tab2_Display"></div>
                           </div>
                         </div>
                     </div>

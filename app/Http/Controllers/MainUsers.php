@@ -1125,6 +1125,11 @@ class MainUsers extends Controller
         }
     }
 
+    public function Set_And_Clear()
+    {
+      // code...
+    }
+
     public function SetData($Name,$Phone)
     {
         // connect DB

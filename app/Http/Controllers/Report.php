@@ -127,6 +127,40 @@ class Report extends Controller
     echo $Jsonencode;
     }
 
+    public function Report_tab_2()
+    {
+      $restart = str_replace('/', '-', Input::post('start'));
+      $reformat_start = date('Y-m-d', strtotime($restart));
+      $reend = str_replace('/', '-', Input::post('end'));
+      $reformat_end = date('Y-m-d', strtotime($reend));
+      // Query DATA
+      $DATA = DB::table('main_table')
+               ->join('detail_table', 'main_table.ID', '=', 'detail_table.main_id')
+               ->join('member', 'main_table.Code', '=', 'member.code')
+               ->groupBy('main_table.Guset_in')
+               ->orderBy('main_table.Guset_in', 'ASC')
+               ->where('detail_table.itemtype', 'like', 'C')
+               ->where('main_table.Status', '=', 'OUT')
+               ->whereBetween('date', [$reformat_start, $reformat_end])
+               ->get();
+      $Table  = "<div align='center'><h4><b>รายงานการใช้บริการคลาส</b></h4></div>";
+      $Table .= "<div align='center'><b>ระหว่างวันที่ ".Input::post('start')." ถึงวันที่ ".Input::post('end')."</b></div>";
+      $Table .= "<table class='table table-sm'>";
+      $Table .= "<thead align='center'><tr><th>ลำดับ</th><th>รหัสสมาชิก</th><th>ชื่อนามสกุล</th><th>วันที่</th><th>เวลาเข้า</th><th>เวลาออก</th><th>คลาสที่ใช้</th></tr></thead>";
+      $Table .= "<tbody>";
+      $i = 1;
+      foreach ($DATA as $key => $row) {
+      $Table .= "<tr align='center'><td>$i</td><td>$row->Code</td><td align='left'>$row->Name</td><td>".date('d/m/Y', strtotime($row->Guset_in))."</td><td>".date('H:i:s', strtotime($row->Guset_in))."</td><td>".date('H:i:s', strtotime($row->Guset_out))."</td><td>$row->itemname</td></tr>";
+      $i++;
+      }
+      $Table .= "</tbody>";
+      $Table .= "</table>";
+      // Encode To Json
+      $arrayTable = array('Table' => $Table);
+      $Jsonencode = json_encode($arrayTable);
+      echo $Jsonencode;
+    }
+
 
 
 

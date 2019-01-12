@@ -102,6 +102,8 @@ Route::post('/Calculate_Day', 'MainUsers@Calculate_Day');
 Route::post('/GenerateWiFi', 'MainUsers@GenerateWiFi');
 // Report Tab 1
 Route::post('/Report_tab_1', 'Report@Report_tab_1');
+// Report Tab 2
+Route::post('/Report_tab_2', 'Report@Report_tab_2');
 // Airlink Modal Data
 Route::post('/Airlink_modal_data', 'MainUsers@Airlink_modal_data');
 // Send To Register
