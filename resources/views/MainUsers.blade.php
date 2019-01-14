@@ -235,7 +235,7 @@
                         <div class="form-group formmaginsetnone row">
                           <label for="Discount_Add" class="col-sm-3 col-form-label">ส่วนลด :</label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control form-control-sm" id="Discount_Add" placeholder="ส่วนลด" onchange="Discount(this);">
+                            <input type="text" class="form-control form-control-sm" id="Discount_Add" placeholder="ส่วนลด" onchange="onchange_discount_add(this);">
                           </div>
                         </div>
                         <div class="form-group formmaginsetnone row">

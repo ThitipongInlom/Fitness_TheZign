@@ -35,9 +35,6 @@ class MainUsers extends Controller
                   // Status All
                 }
             }
-            if ($request->get('search')['value']) {
-                $query->whereRaw("CONCAT(code,'-',name,'-',phone) like ?", ["%{$request->get('search')['value']}%"]);
-            }
         })
         ->setRowClass(function ($users) {
                 if ($users->status == 'Active') {

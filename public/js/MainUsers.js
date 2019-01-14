@@ -22,7 +22,7 @@ var Backtotop = function Backtotop() {
 $.fn.dataTable.ext.errMode = 'throw';
 var csrf = $('meta[name="csrf-token"]').attr('content');
 var TableDisplay = $('#TableDisplay').DataTable({
-    "dom": "<'row'<'col-sm-1'l><'col-sm-7'><'col-sm-4'f>>" +
+    "dom": "<'row'<'col-sm-1'l><'col-sm-7'><'col-sm-4'>>" +
         "<'row'<'col-sm-12'tr>>" +
         "<'row'<'col-sm-1'i><'col-sm-7'><'col-sm-4'p>>",
     "processing": true,
@@ -307,21 +307,26 @@ var Calculate_Day = function Calculate_Day(e) {
       });
 }
 
-var Discount = function Discount(e) {
+var onchange_discount_add = function onchange_discount_add(e) {
       var Price_full_Add = $("#Price_full_Add").val();
       var Discount = $(e).val();
       var Price_total_Add = Price_full_Add - Discount;
       $("#Price_total_Add").val(Price_total_Add);
 }
 
-$('#AddUsermodel').on('hidden.bs.modal', function (e) {
+$('#AddUsermodel').on('hidden.bs.modal', function(e) {
       $("#Code_Add").val('');
+      $("#Name_Add").val('');
       $("#Start_Add").val('');
       $("#End_Add").val('');
-      $("#Price_full_Add").val('');
-      $("#Price_total_Add").val('');
-      $("#Discount_Add").val('');
+      $("#Birthday_Add").val('');
+      $("#Phone_Add").val('');
+      $("#Address_Add").val('');
       $("#Type_Add").val('0');
+      $("#Price_full_Add").val('');
+      $("#Discount_Add").val('');
+      $("#Remark_Add").val('');
+      $("#Price_total_Add").val('');
 });
 
 var GenerateWiFi = function GenerateWiFi() {
@@ -356,6 +361,18 @@ var GenerateWiFi = function GenerateWiFi() {
                   TableDisplay.draw();
                   //e.preventDefault();
                   console.log(callback);
+                  $("#Code_Add").val('');
+                  $("#Name_Add").val('');
+                  $("#Start_Add").val('');
+                  $("#End_Add").val('');
+                  $("#Birthday_Add").val('');
+                  $("#Phone_Add").val('');
+                  $("#Address_Add").val('');
+                  $("#Type_Add").val('0');
+                  $("#Price_full_Add").val('');
+                  $("#Discount_Add").val('');
+                  $("#Remark_Add").val('');
+                  $("#Price_total_Add").val('');
             }
         });
       }else{
@@ -463,6 +480,7 @@ var remember_reconnent_airlink = function remember_reconnent_airlink() {
           data: Data,
           success: function(callback) {
             $("#ViewDataUser").modal('hide');
+            TableDisplay.draw();
             console.log(callback);
           }
       });
