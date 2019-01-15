@@ -55,16 +55,16 @@ class MainUsers extends Controller
         ->editColumn('name', '{!! str_limit($name, 30) !!}')
         ->editColumn('address', '{!! str_limit($address, 30) !!}')
         ->editColumn('start', function($users) {
-            return date('d-m-Y', strtotime($users->start));
+            return date('d/m/Y', strtotime($users->start));
         })
         ->editColumn('expire', function($users) {
-            return date('d-m-Y', strtotime($users->expire));
+            return date('d/m/Y', strtotime($users->expire));
         })
         ->editColumn('birthday', function($users) {
             if ($users->birthday == '0000-00-00' OR $users->birthday == '1970-01-01') {
               $rebirthday = "-";
             }else{
-              $rebirthday = date('d-m-Y', strtotime($users->birthday));
+              $rebirthday = date('d/m/Y', strtotime($users->birthday));
             }
             return $rebirthday;
         })
@@ -656,10 +656,12 @@ class MainUsers extends Controller
                 ->where('code', $Username_Code)
                 ->update(
                 ['expire' => $End_Date,
+                 'status' => 'Active',
                  'daystop' => $NumMB,
                  'fullprice' => $Price_full,
                  'alldis' => $Discount,
                  'resultprice' => $Price_total,
+                 'wifidate' => $End_Date,
                 ]);
                 // Member_Detail
                 $this->Insert_Member_Detail($Username_Code,'Stop Member');
@@ -674,6 +676,7 @@ class MainUsers extends Controller
                  'fullprice' => $Price_full,
                  'alldis' => $Discount,
                  'resultprice' => $Price_total,
+                 'wifidate' => $End_Date,
                 ]);
                 // Member_Detail
                 $this->Insert_Member_Detail($Username_Code,'ต่ออายุการใช้งาน');
@@ -1033,7 +1036,7 @@ class MainUsers extends Controller
           }
           if ($Data_Connect_Status == '0') {
           // Set Data Proflie
-          $Username_Code = 'TEST'.$request->post('Code_Add');
+          $Username_Code = $request->post('Code_Add');
           $Password = rand(1,100000);
           $Valid = date("Y-m-d",strtotime($End_POST))."T23:59:59";
           $Expired = strftime("%B %d %Y",strtotime($End_POST))." 23:59:59";
