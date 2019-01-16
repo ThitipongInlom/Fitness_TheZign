@@ -577,33 +577,46 @@ class MainUsers extends Controller
 
     public function Airlink_modal_data(Request $request)
     {
+        date_default_timezone_set("Asia/Bangkok");
+        $Today = date("Y-m-d");
+        $Valid = $Today."T23:59:59";
         // connect DB
-        $Epitome = $this->Set_DB_Epitome();
-        $DataEpitome = DB::connection('apisqlserv')->table("guest")
-                       ->where('room', 'like' ,$request->post('Text_Code').'%')
-                       ->where('status', '=' , 'I')
+        // date_format(replace(vo.valid_until,'T',' '),'%Y-%m-%d')
+        $Airlink = $this->Set_DB_Airlink();
+        $DataEpitome = DB::connection('apimysql')->table("voucher")
+                       ->where('password', 'like' , $request->post('Text_Code').'%')
+                       ->where(date_format(replace(valid_until,'T',' '),'%Y-%m-%d'), '>=' , $Valid)
+                       ->groupBy('password')
                        ->orderBy('id', 'desc')
                        ->limit(20)
                        ->get();
+
+        function _unserialize($data){
+          $data = @unserialize($data);
+          if(is_array($data)){foreach($data as $key=>$val){if(is_string($val)){$data[$key]=str_replace('{{slash}}','',$val);}}return $data;}
+          return (is_string($data)) ? str_replace('{{slash}}', '', $data) : $data;
+        }
         // Table DATA
         $Table  = "<br><table class='table table-sm' style='font-size: 13px;'>";
-        $Table .= "<thead><tr align='center'><th>ห้องลูกค้า</th><th>ชื่อลูกค้า</th><th>เข้าพักถึงวันที่</th><th>สัญญาติ</th></tr></thead>";
+        $Table .= "<thead><tr align='center'><th>ห้องลูกค้า</th><th>ชื่อลูกค้า</th><th>เข้าพักถึงวันที่</th></tr></thead>";
         $Table .= "<tbody>";
         foreach ($DataEpitome as $key => $row) {
-          $Datedeparture = date_create($row->departure);
-          $Redeparture = date_format($Datedeparture, 'd-m-Y');
+          $Profile = _unserialize($row->profile);
+          $Today = date("Y-m-d h:i:s");
+          $date1 = str_replace('T', ' ', $row->valid_until);
+          $expire_date =  date('d/m/Y',strtotime($date1));
+          $expire_datedata =  date('Y-m-d',strtotime($date1));
           $Table .= "<tr align='center'>";
-          $Table .= "<td><span onclick='Send_To_Register(this);' class='badge badge-pill badge-primary' account='$row->account' name='$row->name' start='$row->arrival' end='$row->departure' room='$row->room' phone='$row->phone' company='$row->company'>$row->room</span></td>";
-          $Table .= "<td align='left'>$row->name</td>";
-          $Table .= "<td>$Redeparture</td>";
-          $Table .= "<td>$row->geo</td>";
+          $Table .= "<td><span onclick='Send_To_Register(this);' class='badge badge-pill badge-primary' account='".$Profile['personal_id']."' name='".$Profile['firstname']."' start='$Today' end='$expire_date' room='$row->password' phone='".$Profile['phone']."' username='$row->username'>$row->password</span></td>";
+          $Table .= "<td align='left'>".$Profile['firstname']."</td>";
+          $Table .= "<td>$expire_date</td>";
           $Table .= "</tr>";
         }
         $Table .= "</tbody>";
         $Table .= "</table>";
 
-       $ResArray = ['Table' => $Table];
-       return \Response::json($ResArray);
+        $ResArray = ['Table' => $Table, 'SQL' => $DataEpitome, 'Valid' => $Valid];
+        return \Response::json($ResArray);
     }
 
     public function Remember_reconnent_airlink(Request $request)
@@ -698,6 +711,7 @@ class MainUsers extends Controller
             $Discount = $request->post('discount');
             $Price_total = $request->post('price_total');
             if ($Type == 'Stop') {
+              // Stop MB
               $Data_StopMB = DB::table('member')->where('code', $Username_Code)->get();
               foreach ($Data_StopMB as $key => $row) {
                 $NumMB = $row->daystop - $STOP_MB;
@@ -714,17 +728,36 @@ class MainUsers extends Controller
               // Member_Detail
               $this->Insert_Member_Detail($Username_Code,'Stop Member');
             }else{
+              $Data = DB::table('member')->where('code', $Username_Code)->get();
+              foreach ($Data as $key => $row) {
+                $Status = $row->status;
+              }
+              if ($Status == 'Active') {
+              // ต่อายุการใช้งาน แบบ ใช้งานปกติ
               DB::table('member')
-              ->where('code', $Username_Code)
-              ->update(
-              ['start' => $Start_Date,
-               'expire' => $End_Date,
-               'type' => $Type,
-               'status' => 'Active',
-               'fullprice' => $Price_full,
-               'alldis' => $Discount,
-               'resultprice' => $Price_total,
-              ]);
+               ->where('code', $Username_Code)
+               ->update(
+               ['expire' => $End_Date,
+                'type' => $Type,
+                'status' => 'Active',
+                'fullprice' => $Price_full,
+                'alldis' => $Discount,
+                'resultprice' => $Price_total,
+               ]);
+              }else{
+              // ต่อายุการใช้งาน แบบ หมดอายุ
+               DB::table('member')
+                ->where('code', $Username_Code)
+                ->update(
+                ['start' => $Start_Date,
+                 'expire' => $End_Date,
+                 'type' => $Type,
+                 'status' => 'Active',
+                 'fullprice' => $Price_full,
+                 'alldis' => $Discount,
+                 'resultprice' => $Price_total,
+                ]);
+              }
               // Member_Detail
               $this->Insert_Member_Detail($Username_Code,'ต่ออายุการใช้งาน');
             }
@@ -776,19 +809,17 @@ class MainUsers extends Controller
         $name = $request->post('name');
         $start = $request->post('start');
         $restart = date('Y-m-d', strtotime($start));
-        $end = $request->post('end');
+        $end = str_replace('/', '-', $request->post('end'));
         $reend = date('Y-m-d', strtotime($end));
         $room = $request->post('room');
         $phone = $request->post('phone');
-        $company = $request->post('company');
+        $airlinkusername = $request->post('username');
         if (isset($name) OR $name != '') {
           // Check Member
-          $Num_member = DB::table('member')->where([
-                          ['name', '=', $name],
-                          ['wifipassword', '=', $room],
-                          ['start', '=', $start],
-                          ['expire', '=', $reend],
-                        ])->count();
+          $Num_member = DB::table('member')
+                          ->where('wifiusername', $airlinkusername)
+                          ->where('wifipassword', $room)
+                          ->count();
           $Formatdate =date('ym', strtotime(now()));
           $Data_member = DB::table('member')->where('code', 'like', 'H'.$Formatdate.'%')->orderBy('code', 'desc')->limit(1)->get();
           // Check Have Data
@@ -813,7 +844,7 @@ class MainUsers extends Controller
               'phone' =>   $phone,
               'type_detail' => 'Hotel',
               'type' => 'Hotel',
-              'address' => 'ลูกค้าห้อง '.$room.' จาก '.$company,
+              'address' => 'ลูกค้าห้อง '.$room,
               'status' => 'Active',
               'daystop' => '0',
               'fullprice' => '0',
@@ -835,7 +866,7 @@ class MainUsers extends Controller
               'expire' =>  $reend,
               'phone' =>   $phone,
               'type' => 'Hotel',
-              'address' => 'ลูกค้าห้อง '.$room.' จาก '.$company,
+              'address' => 'ลูกค้าห้อง '.$room,
               'status' => 'Active',
               'daystop' => '0',
               'fullprice' => '0',
@@ -853,7 +884,10 @@ class MainUsers extends Controller
               $Redirect_Code = 'Error';
             }
           }elseif ($Num_member == '1') {
-            $Data_member = DB::table('member')->where([['name', '=', $name],['start', '=', $start],['expire', '=', $reend],['wifipassword', '=', $room]])->get();
+            $Data_member = DB::table('member')
+                            ->where('wifiusername', $airlinkusername)
+                            ->where('wifipassword', $room)
+                            ->get();
             foreach ($Data_member as $key => $row) {
               $Redirect_Code = $row->code;
             }
@@ -1140,9 +1174,14 @@ class MainUsers extends Controller
         }
         // Function Has
         function _serialize($data){
-            if(is_array($data)){foreach($data as $key=>$val){if(is_string($val)){$data[$key]=str_replace('\\','{{slash}}',$val);}}
-            }else{if(is_string($data)){$data=str_replace('\\','{{slash}}',$data);}}
+            if(is_array($data)){foreach($data as $key=>$val){if(is_string($val)){$data[$key]=str_replace('','{{slash}}',$val);}}
+            }else{if(is_string($data)){$data=str_replace('','{{slash}}',$data);}}
             return serialize($data);
+        }
+        function _unserialize($data){
+          $data = @unserialize($data);
+          if(is_array($data)){foreach($data as $key=>$val){if(is_string($val)){$data[$key]=str_replace('{{slash}}','',$val);}}return $data;}
+          return (is_string($data)) ? str_replace('{{slash}}', '', $data) : $data;
         }
         // Set Array
         $post_data=array();

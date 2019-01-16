@@ -554,7 +554,7 @@ var Send_To_Register = function Send_To_Register(e) {
     Data.append('end', $(e).attr('end'));
     Data.append('room', $(e).attr('room'));
     Data.append('phone', $(e).attr('phone'));
-    Data.append('company', $(e).attr('company'));
+    Data.append('username', $(e).attr('username'));
     // Ajax Send Data
     $.ajax({
             url: 'SendToRegister',
