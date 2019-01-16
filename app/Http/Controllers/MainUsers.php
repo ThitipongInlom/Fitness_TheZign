@@ -26,11 +26,11 @@ class MainUsers extends Controller
         ->filter(function ($query) use ($request) {
             if ($request->has('searchingcode')) {
                 $query->where('code', 'like', "%{$request->get('searchingcode')}%");
-                $query->orWhere('name', 'like', "%{$request->get('searchingcode')}%");
+                $query->Where('name', 'like', "%{$request->get('searchingcode')}%");
             }
             if ($request->has('searchingselect')) {
                 if ($request->get('searchingselect') == 'Active' OR $request->get('searchingselect') == 'Expired') {
-                  $query->where('status', 'like', "%{$request->get('searchingselect')}%");
+                  $query->where('status', 'like', "{$request->get('searchingselect')}");
                 }else{
                   // Status All
                 }
@@ -579,14 +579,12 @@ class MainUsers extends Controller
     {
         date_default_timezone_set("Asia/Bangkok");
         $Today = date("Y-m-d");
-        $Valid = $Today."T23:59:59";
+        $Valid = $Today;
         // connect DB
-        // date_format(replace(vo.valid_until,'T',' '),'%Y-%m-%d')
         $Airlink = $this->Set_DB_Airlink();
         $DataEpitome = DB::connection('apimysql')->table("voucher")
                        ->where('password', 'like' , $request->post('Text_Code').'%')
-                       ->where(date_format(replace(valid_until,'T',' '),'%Y-%m-%d'), '>=' , $Valid)
-                       ->groupBy('password')
+                       ->whereRaw("date_format(valid_until,'%Y-%m-%d') >= '$Valid'")
                        ->orderBy('id', 'desc')
                        ->limit(20)
                        ->get();
@@ -615,7 +613,7 @@ class MainUsers extends Controller
         $Table .= "</tbody>";
         $Table .= "</table>";
 
-        $ResArray = ['Table' => $Table, 'SQL' => $DataEpitome, 'Valid' => $Valid];
+        $ResArray = ['Table' => $Table, 'SQL' => $DataEpitome, 'Valid' => $Profile];
         return \Response::json($ResArray);
     }
 
