@@ -25,8 +25,9 @@ class MainUsers extends Controller
         return Datatables::of($users)
         ->filter(function ($query) use ($request) {
             if ($request->has('searchingcode')) {
+                $query->where('code', 'not like', "H%");
                 $query->where('code', 'like', "%{$request->get('searchingcode')}%");
-                $query->Where('name', 'like', "%{$request->get('searchingcode')}%");
+                $query->orWhere('name', 'like', "%{$request->get('searchingcode')}%");
             }
             if ($request->has('searchingselect')) {
                 if ($request->get('searchingselect') == 'Active' OR $request->get('searchingselect') == 'Expired') {
@@ -84,14 +85,14 @@ class MainUsers extends Controller
       $users = DB::table('member_detail')
                 ->select('*')
                 ->where('code', '=', $request->post('model_code_viewdata'))
-                ->orderBy('start', 'desc');
+                ->orderBy('id', 'desc');
       return Datatables::of($users)
       ->editColumn('name', '{!! str_limit($name, 25) !!}')
       ->editColumn('start', function($users) {
-          return date('d-m-Y', strtotime($users->start));
+          return date('d/m/Y', strtotime($users->start));
       })
       ->editColumn('expire', function($users) {
-          return date('d-m-Y', strtotime($users->expire));
+          return date('d/m/Y', strtotime($users->expire));
       })
       ->editColumn('fullprice', function($users) {
           if ($users->fullprice == '') {

@@ -217,7 +217,9 @@ var ViewData = function ViewData(e) {
                           },
                       ],
                       "columnDefs": [
-                      {"className": "dt-center", "targets": "_all"}
+                        { "className": 'text-left', "targets": [0,] },
+                        { "className": 'text-center', "targets": [1,2,3,7] },
+                        { "className": 'text-right', "targets": [4,5,6] },
                       ],
                       "language": {
                           "lengthMenu": "แสดง _MENU_ รายการ",
