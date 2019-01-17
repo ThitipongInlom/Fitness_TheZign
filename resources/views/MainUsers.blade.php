@@ -67,6 +67,7 @@
                   <option selected value="All">ค้นหาลูกค้าทั้งหมด</option>
                   <option value="Active">ค้าหาลูกค้า Active</option>
                   <option value="Expired">ค้าหาลูกค้า Expired</option>
+                  <option value="Hotel">ค้าหาลูกค้า Hotel</option>
                 </select>
               </div>
               <div class="col-md-7">

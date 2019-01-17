@@ -21,7 +21,6 @@ class MainUsers extends Controller
     {
         $users = DB::table('member')
                   ->select('*')
-                  ->where('type', '<>', 'Hotel')
                   ->orderBy('start', 'desc');
         return Datatables::of($users)
         ->filter(function ($query) use ($request) {
@@ -32,7 +31,11 @@ class MainUsers extends Controller
             if ($request->has('searchingselect')) {
                 if ($request->get('searchingselect') == 'Active' OR $request->get('searchingselect') == 'Expired') {
                   $query->where('status', 'like', "{$request->get('searchingselect')}");
+                  $query->where('type', '<>', 'Hotel');
+                }elseif ($request->get('searchingselect') == 'Hotel') {
+                  $query->where('type', '=', 'Hotel');
                 }else{
+                  $query->where('type', '<>', 'Hotel');
                   // Status All
                 }
             }
