@@ -79,12 +79,12 @@
                               </div>
                               <div class="col-auto my-1">
                                 <button type="button" class="btn btn-sm btn-primary" onclick="Showthb1();">ค้นหา</button>
-                                <button type="button" class="btn btn-sm btn-success" onclick="printElement(document.getElementById('Print_Report'));"><i class="fas fa-print"></i></button>
+                                <button type="button" class="btn btn-sm btn-success" onclick="printElement(document.getElementById('Print_Report1'));"><i class="fas fa-print"></i></button>
                               </div>
                             </div>
                           </form>
                           <hr>
-                          <div id="Print_Report" style="background-color: #ffffff;">
+                          <div id="Print_Report1" style="background-color: #ffffff;">
                           <div id="Tab1_Display"></div>
                           </div>
                         </div>
@@ -119,12 +119,12 @@
                               </div>
                               <div class="col-auto my-1">
                                 <button type="button" class="btn btn-sm btn-primary" onclick="Showthb2();">ค้นหา</button>
-                                <button type="button" class="btn btn-sm btn-success" onclick="printElement(document.getElementById('Print_Report'));"><i class="fas fa-print"></i></button>
+                                <button type="button" class="btn btn-sm btn-success" onclick="printElement(document.getElementById('Print_Report2'));"><i class="fas fa-print"></i></button>
                               </div>
                             </div>
                           </form>
                           <hr>
-                          <div id="Print_Report" style="background-color: #ffffff;">
+                          <div id="Print_Report2" style="background-color: #ffffff;">
                           <div id="Tab2_Display"></div>
                           </div>
                         </div>
