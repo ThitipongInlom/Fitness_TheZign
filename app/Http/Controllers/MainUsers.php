@@ -607,7 +607,7 @@ class MainUsers extends Controller
           $expire_date =  date('d/m/Y',strtotime($date1));
           $expire_datedata =  date('Y-m-d',strtotime($date1));
           $Table .= "<tr align='center'>";
-          $Table .= "<td><span onclick='Send_To_Register(this);' class='badge badge-pill badge-primary' account='".$Profile['personal_id']."' name='".$Profile['firstname']."' start='$Today' end='$expire_date' room='$row->password' phone='".$Profile['phone']."' username='$row->username'>$row->password</span></td>";
+          $Table .= "<td><span style='cursor: pointer;' onclick='Send_To_Register(this);' class='badge badge-pill badge-primary' account='".$Profile['personal_id']."' name='".$Profile['firstname']."' start='$Today' end='$expire_date' room='$row->password' phone='".$Profile['phone']."' username='$row->username'>$row->password</span></td>";
           $Table .= "<td align='left'>".$Profile['firstname']."</td>";
           $Table .= "<td>$expire_date</td>";
           $Table .= "</tr>";
