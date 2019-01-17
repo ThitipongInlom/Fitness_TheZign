@@ -21,6 +21,7 @@ class MainUsers extends Controller
     {
         $users = DB::table('member')
                   ->select('*')
+                  ->where('type', '<>', 'Hotel')
                   ->orderBy('start', 'desc');
         return Datatables::of($users)
         ->filter(function ($query) use ($request) {
@@ -82,6 +83,7 @@ class MainUsers extends Controller
                 ->where('code', '=', $request->post('model_code_viewdata'))
                 ->orderBy('start', 'desc');
       return Datatables::of($users)
+      ->editColumn('name', '{!! str_limit($name, 25) !!}')
       ->editColumn('start', function($users) {
           return date('d-m-Y', strtotime($users->start));
       })
