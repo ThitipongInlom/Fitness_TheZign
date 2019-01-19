@@ -358,7 +358,7 @@ class MainUsers extends Controller
                               <th>ราคาเต็ม</th>
                               <th>ส่วนลด</th>
                               <th>ราคารวม</th>
-                              <th>สถานะ</th>
+                              <th>ประเภท</th>
                           </tr>
                       </thead>
                       <tfoot>
@@ -370,7 +370,7 @@ class MainUsers extends Controller
                               <th>ราคาเต็ม</th>
                               <th>ส่วนลด</th>
                               <th>ราคารวม</th>
-                              <th>สถานะ</th>
+                              <th>ประเภท</th>
                           </tr>
                       </tfoot>
                   </table>

@@ -212,14 +212,14 @@ var ViewData = function ViewData(e) {
                               "name": 'resultprice'
                           },
                           {
-                              "data": 'status',
-                              "name": 'status'
+                              "data": 'type',
+                              "name": 'type'
                           },
                       ],
                       "columnDefs": [
                         { "className": 'text-left', "targets": [0,] },
-                        { "className": 'text-center', "targets": [1,2,3,7] },
-                        { "className": 'text-right', "targets": [4,5,6] },
+                        { "className": 'text-center', "targets": [1,2,3] },
+                        { "className": 'text-right', "targets": [4,5,6,7] },
                       ],
                       "language": {
                           "lengthMenu": "แสดง _MENU_ รายการ",
