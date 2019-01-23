@@ -17,10 +17,10 @@
         <div class="row">
             <!-- MainCheck -->
             <div class="col-lg-4 col-6" onclick="Report();">
-                <div class="small-box bg-info shadow">
+                <div class="small-box bg-info shadow" style="cursor: pointer;">
                     <div class="inner">
-                        <h3 class="text-white">Report</h3>
-                        <p class="text-white">สรุปรายงานข้อมูลการใช้งานต่างๆ</p>
+                        <h3 class="text-white" style="cursor: pointer;">Report</h3>
+                        <p class="text-white" style="cursor: pointer;">สรุปรายงานข้อมูลการใช้งานต่างๆ</p>
                     </div>
                     <div class="icon">
                         <i class="fas fa-cogs"></i>
@@ -29,10 +29,10 @@
             </div>
             <!-- users -->
             <div class="col-lg-4 col-6" onclick="MainUsers();">
-                <div class="small-box bg-success shadow">
+                <div class="small-box bg-success shadow" style="cursor: pointer;">
                     <div class="inner">
-                        <h3 class="text-white">Member</h3>
-                        <p class="text-white">เพิ่ม Member เข้าสู่ระบบและสร้าง WiFi</p>
+                        <h3 class="text-white" style="cursor: pointer;">Member</h3>
+                        <p class="text-white" style="cursor: pointer;">เพิ่ม Member เข้าสู่ระบบและสร้าง WiFi</p>
                     </div>
                     <div class="icon">
                         <i class="fas fa-users"></i>
@@ -41,10 +41,10 @@
             </div>
             <!-- sliders -->
             <div class="col-lg-4 col-6">
-                <div class="small-box bg-danger shadow">
+                <div class="small-box bg-danger shadow" style="cursor: pointer;">
                     <div class="inner">
-                        <h3 class="text-white">Setting</h3>
-                        <p class="text-white">ตั้งค่ารายละเอียดต่างๆ</p>
+                        <h3 class="text-white" style="cursor: pointer;">Setting</h3>
+                        <p class="text-white" style="cursor: pointer;">ตั้งค่ารายละเอียดต่างๆ</p>
                     </div>
                     <div class="icon">
                         <i class="fas fa-sliders-h"></i>
