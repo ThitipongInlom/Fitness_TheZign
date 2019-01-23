@@ -378,19 +378,19 @@ class MainUsers extends Controller
         $View .=  "<div class='tab-pane fade' id='nav-editprofile' role='tabpanel' aria-labelledby='nav-editprofile-tab'>
                   <table class='table table-sm table-bordered' width='100%'>
                     <tr>
-                     <td align='center'><b>แก้ไขชื่อ ลูกค้า</b></td>
-                     <td><input type='text' class='form-control form-control-sm' id='edit_name_input' placeholder='เปลี่ยนชื่อลูกค้า'></td>
+                     <td align='center'><b>แก้ไขวันเกิด ลูกค้า</b></td>
+                     <td><input type='text' data-date-format='dd/mm/yyyy' data-position='right top' data-toggle='datepicker' class='form-control form-control-sm' id='edit_birthday_input' placeholder='เปลี่ยนชื่อลูกค้า'></td>
                      <td align='center'><b>แก้ไขเบอร์ ลูกค้า</b></td>
                      <td><input type='text' class='form-control form-control-sm' id='edit_phone_input' placeholder='เปลี่ยนเบอร์โทร'></td>
                     </tr>
                     <tr>
                     <td align='center'><b>แก้ไข ที่อยู่</b></td>
                     <td colspan='3'>
-                    <textarea class='form-control' rows='2' placeholder='เปลี่ยนที่อยู่ลูกค้า'></textarea>
+                    <textarea class='form-control' id='edit_address_input' rows='2' placeholder='เปลี่ยนที่อยู่ลูกค้า'></textarea>
                     </td>
                     </tr>
                   </table>
-                  <div align='center'><button class='btn btn-success btn-sm'>อัพเดต</button></div>
+                  <div align='center'><button class='btn btn-success btn-sm' onclick='editmember();'>อัพเดต</button></div>
                   </div>";
 
         $View .= "</div>";

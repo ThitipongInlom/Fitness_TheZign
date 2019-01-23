@@ -1,31 +1,31 @@
-$(document).ready(function() {
+$(document).ready(function () {
     $('[data-toggle="tooltip"]').tooltip();
-    $('#Find_the_name').on('show.bs.modal', function(e) {
+    $('#Find_the_name').on('show.bs.modal', function (e) {
         $("#namesearching").attr('disabled', '');
         $("#namesearchingstatus").html('<span class="badge badge-secondary" style="margin-top: 10px;">เลือกประเภทที่จะค้นหา</span>');
     });
-    $('#Find_the_name').on('hidden.bs.modal', function(e) {
+    $('#Find_the_name').on('hidden.bs.modal', function (e) {
         $("#namesearching").val('');
         $("#table_find_name").html('');
     });
-    $('#Find_thezign_name').on('hidden.bs.modal', function(e) {
+    $('#Find_thezign_name').on('hidden.bs.modal', function (e) {
         $("#namesearchingthezign").val('');
         $("#table_find_name_thezign").html('');
     });
     // Ajax Get Data TO Fake Data
-    setTimeout(function() {
+    setTimeout(function () {
         DisplayTable();
     }, 100);
-    setTimeout(function() {
+    setTimeout(function () {
         TablePane();
     }, 200);
-    setTimeout(function() {
+    setTimeout(function () {
         DisplayPackage();
     }, 300);
-    setTimeout(function() {
+    setTimeout(function () {
         PackageItem();
     }, 400);
-    setTimeout(function() {
+    setTimeout(function () {
         PackageOnuseDisplay();
     }, 500);
 });
@@ -56,14 +56,14 @@ var searchingname = function searchingname(e) {
         url: 'Namesearching',
         type: 'POST',
         headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         dataType: 'text',
         cache: false,
         contentType: false,
         processData: false,
         data: Data,
-        success: function(callback) {
+        success: function (callback) {
             var res = jQuery.parseJSON(callback);
             $("#table_find_name").html(res.Table);
         }
@@ -74,7 +74,7 @@ var posttocheckin = function posttocheckin(e) {
     var csrf = $('meta[name="csrf-token"]').attr('content');
     var code = $(e).attr('code');
     $('#Find_the_name').modal('hide');
-    setTimeout(function() {
+    setTimeout(function () {
         $.redirect("CheckIn", {
             _token: csrf,
             inputcode: code
@@ -88,12 +88,12 @@ var CheckInOnline = function CheckInOnline(e) {
         url: 'CheckInOnline',
         type: 'POST',
         headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         data: {
             Code: Code
         },
-        success: function(res) {
+        success: function (res) {
             $.redirect("Dashboard", {}, "GET");
         }
     });
@@ -125,7 +125,7 @@ var Item_To_Disktop = function Item_To_Disktop(e) {
             url: 'Insert_type_L',
             type: 'POST',
             headers: {
-              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             dataType: 'text',
             cache: false,
@@ -140,7 +140,7 @@ var Item_To_Disktop = function Item_To_Disktop(e) {
             url: 'Insert_type_C',
             type: 'POST',
             headers: {
-              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             dataType: 'text',
             cache: false,
@@ -155,7 +155,7 @@ var Item_To_Disktop = function Item_To_Disktop(e) {
             url: 'Insert_type_P',
             type: 'POST',
             headers: {
-              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             dataType: 'text',
             cache: false,
@@ -169,7 +169,7 @@ var Item_To_Disktop = function Item_To_Disktop(e) {
     $("#DisplayItemList").addClass("flipOutX");
     $("#DisplayItemList").html('');
     // Ajax Get Data TO Fake Data
-    setTimeout(function() {
+    setTimeout(function () {
         DisplayTable();
         DisplayPackage();
         PackageItem();
@@ -188,20 +188,20 @@ var DisplayTable = function DisplayTable() {
             url: 'TableDisplay',
             type: 'POST',
             headers: {
-              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             dataType: 'text',
             cache: false,
             contentType: false,
             processData: false,
             data: Data,
-            success: function(callback) {
+            success: function (callback) {
                 var res = jQuery.parseJSON(callback);
                 $("#DisplayItemList").html(res.Table);
                 $('[data-toggle="tooltip"]').tooltip();
             }
         })
-        .fail(function() {
+        .fail(function () {
             DisplayTable();
         });
 }
@@ -218,19 +218,19 @@ var TablePane = function TablePane() {
             url: 'TablePane',
             type: 'POST',
             headers: {
-              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             dataType: 'text',
             cache: false,
             contentType: false,
             processData: false,
             data: Data,
-            success: function(callback) {
+            success: function (callback) {
                 var res = jQuery.parseJSON(callback);
                 $("#PaneItem").html(res.Navtab);
             }
         })
-        .fail(function() {
+        .fail(function () {
             TablePane();
         });
 }
@@ -250,14 +250,14 @@ var Edit_Number = function Edit_Number(e) {
         url: 'Edit_Number',
         type: 'POST',
         headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         dataType: 'text',
         cache: false,
         contentType: false,
         processData: false,
         data: Data,
-        success: function(callback) {
+        success: function (callback) {
             var res = jQuery.parseJSON(callback);
             $("#edit_number_display").html(res.From);
         }
@@ -279,14 +279,14 @@ var Discount = function Discount(e) {
         url: 'Discount',
         type: 'POST',
         headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         dataType: 'text',
         cache: false,
         contentType: false,
         processData: false,
         data: Data,
-        success: function(callback) {
+        success: function (callback) {
             var res = jQuery.parseJSON(callback);
             $("#Discount_Display").html(res.From);
         }
@@ -308,14 +308,14 @@ var Edit_Number_Key = function Edit_Number_Key(e) {
         url: 'Edit_Number_Key',
         type: 'POST',
         headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         dataType: 'text',
         cache: false,
         contentType: false,
         processData: false,
         data: Data,
-        success: function(callback) {
+        success: function (callback) {
             var res = jQuery.parseJSON(callback);
             $("#edit_number_display_key").html(res.From);
         }
@@ -334,15 +334,15 @@ var Delete_item = function Delete_item(e) {
         url: 'Delete_item',
         type: 'POST',
         headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         dataType: 'text',
         cache: false,
         contentType: false,
         processData: false,
         data: Data,
-        success: function(callback) {
-            setTimeout(function() {
+        success: function (callback) {
+            setTimeout(function () {
                 DisplayTable();
             }, 10);
         }
@@ -361,15 +361,15 @@ var Delete_item_time = function Delete_item_time(e) {
         url: 'Delete_item_time',
         type: 'POST',
         headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         dataType: 'text',
         cache: false,
         contentType: false,
         processData: false,
         data: Data,
-        success: function(callback) {
-            setTimeout(function() {
+        success: function (callback) {
+            setTimeout(function () {
                 DisplayTable();
                 DisplayPackage();
                 PackageItem();
@@ -392,15 +392,15 @@ var Foronchangenum = function Foronchangenum(e) {
         url: 'Foronchangenum',
         type: 'POST',
         headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         dataType: 'text',
         cache: false,
         contentType: false,
         processData: false,
         data: Data,
-        success: function(callback) {
-            setTimeout(function() {
+        success: function (callback) {
+            setTimeout(function () {
                 // Modal Hide
                 $('#Edit_Number').modal('hide');
                 DisplayTable();
@@ -423,15 +423,15 @@ var Foronchangenumkey = function Foronchangenumkey(e) {
         url: 'Foronchangenum',
         type: 'POST',
         headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         dataType: 'text',
         cache: false,
         contentType: false,
         processData: false,
         data: Data,
-        success: function(callback) {
-            setTimeout(function() {
+        success: function (callback) {
+            setTimeout(function () {
                 // Modal Hide
                 $('#Edit_Number_Key').modal('hide');
                 DisplayTable();
@@ -454,15 +454,15 @@ var Discount_Save = function Discount_Save(e) {
         url: 'Discount_Save',
         type: 'POST',
         headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         dataType: 'text',
         cache: false,
         contentType: false,
         processData: false,
         data: Data,
-        success: function(callback) {
-            setTimeout(function() {
+        success: function (callback) {
+            setTimeout(function () {
                 // Modal Hide
                 $('#Discount_modal').modal('hide');
                 DisplayTable();
@@ -486,19 +486,19 @@ var History = function History() {
             url: 'History',
             type: 'POST',
             headers: {
-              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             dataType: 'text',
             cache: false,
             contentType: false,
             processData: false,
             data: Data,
-            success: function(callback) {
+            success: function (callback) {
                 var res = jQuery.parseJSON(callback);
                 $("#History_display").html(res.Table);
             }
         })
-        .fail(function() {
+        .fail(function () {
             History();
         });
 }
@@ -527,19 +527,19 @@ var Airlink_modal_data = function Airlink_modal_data(e) {
             url: 'Airlink_modal_data',
             type: 'POST',
             headers: {
-              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             dataType: 'text',
             cache: false,
             contentType: false,
             processData: false,
             data: Data,
-            success: function(callback) {
-              var res = jQuery.parseJSON(callback);
-              $("#table_find_name_thezign").html(res.Table);
+            success: function (callback) {
+                var res = jQuery.parseJSON(callback);
+                $("#table_find_name_thezign").html(res.Table);
             }
         })
-        .fail(function() {
+        .fail(function () {
             Airlink_modal_data();
         });
 }
@@ -560,25 +560,28 @@ var Send_To_Register = function Send_To_Register(e) {
             url: 'SendToRegister',
             type: 'POST',
             headers: {
-              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             dataType: 'text',
             cache: false,
             contentType: false,
             processData: false,
             data: Data,
-            success: function(callback) {
-              var csrf = $('meta[name="csrf-token"]').attr('content');
-              var res = jQuery.parseJSON(callback);
-              if (res.Code == 'Error') {
-                console.log('Double Gen Data');
-              }else{
-                var Redirect_Code = res.Code;
-                $.redirect("CheckIn", {_token: csrf, inputcode: Redirect_Code}, "POST");
-              }
+            success: function (callback) {
+                var csrf = $('meta[name="csrf-token"]').attr('content');
+                var res = jQuery.parseJSON(callback);
+                if (res.Code == 'Error') {
+                    console.log('Double Gen Data');
+                } else {
+                    var Redirect_Code = res.Code;
+                    $.redirect("CheckIn", {
+                        _token: csrf,
+                        inputcode: Redirect_Code
+                    }, "POST");
+                }
             }
         })
-        .fail(function() {
+        .fail(function () {
             Send_To_Register();
         });
 }
@@ -595,19 +598,19 @@ var DisplayPackage = function DisplayPackage() {
             url: 'DisplayPackage',
             type: 'POST',
             headers: {
-              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             dataType: 'text',
             cache: false,
             contentType: false,
             processData: false,
             data: Data,
-            success: function(callback) {
+            success: function (callback) {
                 var res = jQuery.parseJSON(callback);
                 $("#DisplayPackage").html(res.Table);
             }
         })
-        .fail(function() {
+        .fail(function () {
             DisplayPackage();
         });
 }
@@ -624,19 +627,19 @@ var PackageItem = function PackageItem() {
             url: 'PackageItem',
             type: 'POST',
             headers: {
-              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             dataType: 'text',
             cache: false,
             contentType: false,
             processData: false,
             data: Data,
-            success: function(callback) {
+            success: function (callback) {
                 var res = jQuery.parseJSON(callback);
                 $("#PackageItem").html(res.Data);
             }
         })
-        .fail(function() {
+        .fail(function () {
             PackageItem();
         });
 }
@@ -661,20 +664,20 @@ var OnUsePackage = function OnUsePackage(e) {
             url: 'OnUsePackage',
             type: 'POST',
             headers: {
-              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             dataType: 'text',
             cache: false,
             contentType: false,
             processData: false,
             data: Data,
-            success: function(callback) {
+            success: function (callback) {
                 PackageItem();
                 DisplayPackage();
                 PackageOnuseDisplay();
             }
         })
-        .fail(function() {
+        .fail(function () {
             OnUsePackage();
         });
 }
@@ -691,19 +694,19 @@ var PackageOnuseDisplay = function PackageOnuseDisplay() {
             url: 'PackageOnuseDisplay',
             type: 'POST',
             headers: {
-              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             dataType: 'text',
             cache: false,
             contentType: false,
             processData: false,
             data: Data,
-            success: function(callback) {
+            success: function (callback) {
                 var res = jQuery.parseJSON(callback);
                 $("#PackageOnuseDisplay").html(res.Table);
             }
         })
-        .fail(function() {
+        .fail(function () {
             PackageOnuseDisplay();
         });
 }
@@ -725,19 +728,19 @@ var History_Package_Useing = function History_Package_Useing(e) {
             url: 'Modal_History_Package_Useing_Display',
             type: 'POST',
             headers: {
-              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             dataType: 'text',
             cache: false,
             contentType: false,
             processData: false,
             data: Data,
-            success: function(callback) {
+            success: function (callback) {
                 var res = jQuery.parseJSON(callback);
                 $("#Modal_History_Package_Useing_Display").html(res.Table);
             }
         })
-        .fail(function() {
+        .fail(function () {
             History_Package_Useing();
         });
 }
@@ -762,20 +765,20 @@ var DeleteOnusePackage = function DeleteOnusePackage(e) {
             url: 'DeleteOnusePackage',
             type: 'POST',
             headers: {
-              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             dataType: 'text',
             cache: false,
             contentType: false,
             processData: false,
             data: Data,
-            success: function(callback) {
+            success: function (callback) {
                 PackageItem();
                 DisplayPackage();
                 PackageOnuseDisplay();
             }
         })
-        .fail(function() {
+        .fail(function () {
             DeleteOnusePackage();
         });
 }
@@ -803,18 +806,18 @@ var Dologout = function Dologout(e) {
                 url: 'Dologout',
                 type: 'POST',
                 headers: {
-                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 dataType: 'text',
                 cache: false,
                 contentType: false,
                 processData: false,
                 data: Data,
-                success: function(callback) {
+                success: function (callback) {
                     $.redirect("Dashboard", {}, "GET");
                 }
             })
-            .fail(function() {
+            .fail(function () {
                 Dologout();
             });
     }
@@ -833,18 +836,18 @@ var LogoutQuery = function LogoutQuery(e) {
             url: 'Dologout',
             type: 'POST',
             headers: {
-              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             dataType: 'text',
             cache: false,
             contentType: false,
             processData: false,
             data: Data,
-            success: function(callback) {
+            success: function (callback) {
                 $.redirect("Dashboard", {}, "GET");
             }
         })
-        .fail(function() {
+        .fail(function () {
             LogoutQuery();
         });
 }
@@ -862,23 +865,23 @@ var VoidItem = function VoidItem(e) {
             url: 'VoidItem',
             type: 'POST',
             headers: {
-              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             dataType: 'text',
             cache: false,
             contentType: false,
             processData: false,
             data: Data,
-            success: function(callback) {
+            success: function (callback) {
                 $('#VoidItem_modal').modal('hide');
                 DisplayTable();
                 DisplayPackage();
                 PackageItem();
             }
         })
-        .fail(function() {
+        .fail(function () {
             VoidItem();
-    });
+        });
 }
 
 var VoidItem_modal = function VoidItem_modal(e) {
@@ -895,21 +898,21 @@ var VoidItem_modal = function VoidItem_modal(e) {
             url: 'VoidItem_modal',
             type: 'POST',
             headers: {
-              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             dataType: 'text',
             cache: false,
             contentType: false,
             processData: false,
             data: Data,
-            success: function(callback) {
-              var res = jQuery.parseJSON(callback);
-              $("#Voiditem_Display").html(res.Table);
+            success: function (callback) {
+                var res = jQuery.parseJSON(callback);
+                $("#Voiditem_Display").html(res.Table);
             }
         })
-        .fail(function() {
+        .fail(function () {
             VoidItem_modal();
-    });
+        });
 }
 
 var ChargeItem = function ChargeItem(e) {
@@ -924,23 +927,23 @@ var ChargeItem = function ChargeItem(e) {
     Data.append('commentchargeitem', commentchargeitem);
     // Send Data Ajax To Query
     $.ajax({
-            url: 'ChargeItem',
-            type: 'POST',
-            headers: {
-              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            dataType: 'text',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: Data,
-            success: function(callblack) {
-                $('#Charge_modal').modal('hide');
-                DisplayTable();
-                DisplayPackage();
-                PackageItem();
-            }
-        });
+        url: 'ChargeItem',
+        type: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        dataType: 'text',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: Data,
+        success: function (callblack) {
+            $('#Charge_modal').modal('hide');
+            DisplayTable();
+            DisplayPackage();
+            PackageItem();
+        }
+    });
 }
 
 var Charge_modal = function Charge_modal(e) {
@@ -954,19 +957,19 @@ var Charge_modal = function Charge_modal(e) {
     Data.append('Fake_id', Fake_id);
     // Send Data Ajax To Query
     $.ajax({
-            url: 'Charge_modal',
-            type: 'POST',
-            headers: {
-              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            dataType: 'text',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: Data,
-            success: function(callback) {
-              var res = jQuery.parseJSON(callback);
-              $("#Charge_Display").html(res.Table);
-            }
+        url: 'Charge_modal',
+        type: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        dataType: 'text',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: Data,
+        success: function (callback) {
+            var res = jQuery.parseJSON(callback);
+            $("#Charge_Display").html(res.Table);
+        }
     });
 }
