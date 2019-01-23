@@ -452,11 +452,31 @@ var Calculate_renewal = function Calculate_renewal(e) {
 var editmember = function editmember() {
     // Create From Data
     var Data = new FormData();
+    Data.append('code', $("#model_code_viewdata").val());
     Data.append('birthday', $("#edit_birthday_input").val());
     Data.append('phone', $("#edit_phone_input").val());
     Data.append('address', $("#edit_address_input").val());
-    
-    console.log(Data);
+    $.ajax({
+        url: 'Edit_member',
+        type: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        dataType: 'text',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: Data,
+        success: function (callback) {
+            var res = jQuery.parseJSON(callback);
+            var User_Id = '<div id="' + res.code + '"></div>';
+            $("#ViewDataUser").modal('hide');
+            setTimeout(function () {
+                ViewData(User_Id);
+            }, 500);
+            TableDisplay.draw();
+        }
+    });
 }
 
 var onchange_discount = function onchange_discount(e) {

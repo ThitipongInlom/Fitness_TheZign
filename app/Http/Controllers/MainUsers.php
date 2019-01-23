@@ -378,8 +378,8 @@ class MainUsers extends Controller
         $View .=  "<div class='tab-pane fade' id='nav-editprofile' role='tabpanel' aria-labelledby='nav-editprofile-tab'>
                   <table class='table table-sm table-bordered' width='100%'>
                     <tr>
-                     <td align='center'><b>แก้ไขวันเกิด ลูกค้า</b></td>
-                     <td><input type='text' data-date-format='dd/mm/yyyy' data-position='right top' data-toggle='datepicker' class='form-control form-control-sm' id='edit_birthday_input' placeholder='เปลี่ยนชื่อลูกค้า'></td>
+                     <td align='center'><b>แก้ไขวันเกิด</b></td>
+                     <td><input type='text' data-date-format='dd/mm/yyyy' data-position='right top' data-toggle='datepicker' class='form-control form-control-sm' id='edit_birthday_input' placeholder='แก้ไขวันเกิด'></td>
                      <td align='center'><b>แก้ไขเบอร์ ลูกค้า</b></td>
                      <td><input type='text' class='form-control form-control-sm' id='edit_phone_input' placeholder='เปลี่ยนเบอร์โทร'></td>
                     </tr>
@@ -995,6 +995,42 @@ class MainUsers extends Controller
           return $New_Code;
     }
 
+    public function Edit_member(Request $request)
+    {
+        date_default_timezone_set("Asia/Bangkok");  
+        // Update birthday
+        if ($request->post('birthday') != null) {
+          $format_birthday = str_replace('/', '-', $request->post('birthday'));
+          $Birthday = date('Y-m-d', strtotime($format_birthday));
+          DB::table('member')
+            ->where('code', $request->post('code'))
+            ->update(['birthday' => $Birthday]);
+          $status_birthday = 'success';
+        }else{
+          $status_birthday = 'error';
+        }
+        // Update Phone
+        if ($request->post('phone') != null) {
+          DB::table('member')
+            ->where('code', $request->post('code'))
+            ->update(['phone' => $request->post('phone')]);
+          $status_phone = 'success';
+        }else{
+          $status_phone = 'error';
+        }
+        // Update address
+        if ($request->post('address') != null) {
+          DB::table('member')
+            ->where('code', $request->post('code'))
+            ->update(['address' => $request->post('address')]);          
+          $status_address = 'success';
+        }else{
+          $status_address = 'error';
+        }
+      $ResArray = ['status_birthday' => $status_birthday, 'status_phone' => $status_phone, 'status_address' => $status_address, 'code' => $request->post('code')];
+        return \Response::json($ResArray);
+    }
+
     public function GenerateWiFi(Request $request)
     {
         date_default_timezone_set("Asia/Bangkok");
@@ -1161,11 +1197,6 @@ class MainUsers extends Controller
               DB::table('member')->where('id', $ID_New_Code)->update(['wifiusername' => $Username_Code,'wifipassword' => $Password, 'wifidate' => $End_POST]);
           }
         }
-    }
-
-    public function Set_And_Clear()
-    {
-      // code...
     }
 
     public function SetData($Name,$Phone)

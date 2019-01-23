@@ -112,6 +112,8 @@ Route::post('/SendToRegister', 'MainUsers@SendToRegister');
 Route::post('/Calculate_renewal', 'MainUsers@Calculate_renewal');
 // StopMB
 Route::post('/StopMB', 'MainUsers@StopMB');
+// Edit Member
+Route::post('/Edit_member', 'MainUsers@Edit_member');
 // Remember_reconnent_airlink
 Route::post('/Remember_reconnent_airlink', 'MainUsers@Remember_reconnent_airlink');
 // Dev Create user
