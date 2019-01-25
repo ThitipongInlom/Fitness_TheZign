@@ -22,6 +22,8 @@ Route::get('/Logout', 'Controller@Logout');
 Route::get('/Report', 'Report@Report');
 // Dashboard
 Route::get('/Dashboard', 'Choose_Main@Dashboard');
+// Setting
+Route::get('/Setting', 'Setting@Setting');
 // Namesearching
 Route::post('/Namesearching', 'Checkin@Namesearching');
 // Table Display
@@ -110,6 +112,8 @@ Route::post('/Airlink_modal_data', 'MainUsers@Airlink_modal_data');
 Route::post('/SendToRegister', 'MainUsers@SendToRegister');
 // Calculate renewal
 Route::post('/Calculate_renewal', 'MainUsers@Calculate_renewal');
+// Table Tab 1
+Route::post('/Table_tab_1', 'Setting@Table_tab_1');
 // StopMB
 Route::post('/StopMB', 'MainUsers@StopMB');
 // Edit Member

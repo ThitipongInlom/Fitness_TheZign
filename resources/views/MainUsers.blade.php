@@ -1,4 +1,4 @@
- <!doctype html>
+<!doctype html>
 <html lang="{{ app()->getLocale() }}">
 @if (Session::get('Login.status') == '0')
 
@@ -341,6 +341,4 @@
 <script type="text/javascript" src="{{ url('js/MainUsers.js') }}"></script>
 <!-- Checkin Js -->
 <script type="text/javascript" src="{{ url('js/Checkin.js') }}"></script>
-
-
 </html>

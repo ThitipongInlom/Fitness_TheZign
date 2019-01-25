@@ -131,7 +131,7 @@ class Checkin extends Controller
         if ($CheckOnline_Mainid == '0') {
           // Insert Data Fake Table
           DB::table('fake_table')->insert([
-        	'Fake_code' => $code,
+          'Fake_code' => $code,
        	  'Fake_datetime' => $today,
       	  'Fake_itemcode' => $itemcode,
           'Fake_itemcodetype' => $itemcodetype,

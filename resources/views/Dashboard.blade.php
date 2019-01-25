@@ -40,7 +40,7 @@
                 </div>
             </div>
             <!-- sliders -->
-            <div class="col-lg-4 col-6">
+            <div class="col-lg-4 col-6" onclick="Setting();">
                 <div class="small-box bg-danger shadow" style="cursor: pointer;">
                     <div class="inner">
                         <h3 class="text-white" style="cursor: pointer;">Setting</h3>
@@ -140,6 +140,7 @@
 <script type="text/javascript" src="{{ url('js/welcome.js') }}"></script>
 <!-- Checkin Js -->
 <script type="text/javascript" src="{{ url('js/Checkin.js') }}"></script>
+
 <!-- Use Script -->
 <script type="text/javascript">
     $(document).ready(function() {
@@ -150,6 +151,9 @@
     }
     var Report = function Report() {
         window.location = "{{ url('/Report') }}";
+    }
+    var Setting = function Setting(){
+        window.location = "{{ url('/Setting') }}";
     }
 </script>
 
