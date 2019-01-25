@@ -22,7 +22,7 @@
     @endif
     <div class="login-box">
         <div class="login-logo">
-            <b>Fitness</b> V 0.1
+            <b>Fitness</b> V 0.2
         </div>
         <!-- /.login-logo -->
         <div class="card">
