@@ -4,9 +4,6 @@ $(document).ready(function() {
         OnlineTable();
     }, 10);
     setTimeout(function() {
-        TableYesterday();
-    }, 20);
-    setTimeout(function() {
         TableToday();
     }, 30);
 });
@@ -22,20 +19,6 @@ var OnlineTable = function OnlineTable() {
         })
         .fail(function() {
             OnlineTable();
-        });
-}
-
-var TableYesterday = function TableYesterday() {
-    $.ajax({
-            url: 'TableYesterday',
-            type: 'GET',
-            success: function(callback) {
-                var res = jQuery.parseJSON(callback);
-                $("#TableYesterday").html(res.Table);
-            }
-        })
-        .fail(function() {
-            TableYesterday();
         });
 }
 

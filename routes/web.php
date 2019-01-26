@@ -40,8 +40,6 @@ Route::post('/Insert_type_P', 'Checkin@Insert_type_P');
 Route::post('/CheckInOnline', 'Checkin@CheckInOnline');
 // Table Online
 Route::get('/TableOnline', 'Main_Check@TableOnline');
-// Table Yesterday
-Route::get('/TableYesterday', 'Main_Check@TableYesterday');
 // Table TableToday
 Route::get('/TableToday', 'Main_Check@TableToday');
 // ShowViewDatas
@@ -114,6 +112,8 @@ Route::post('/SendToRegister', 'MainUsers@SendToRegister');
 Route::post('/Calculate_renewal', 'MainUsers@Calculate_renewal');
 // Table Tab 1
 Route::post('/Table_tab_1', 'Setting@Table_tab_1');
+// Check_K_bank
+Route::get('/Check_K_bank', 'Choose_Main@Check_K_bank');
 // StopMB
 Route::post('/StopMB', 'MainUsers@StopMB');
 // Edit Member

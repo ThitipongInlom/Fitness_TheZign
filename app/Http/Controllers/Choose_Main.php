@@ -16,4 +16,19 @@ class Choose_Main extends Controller
     {
     	return view('Dashboard');
     }
+
+    public function Check_K_bank()
+    {
+        date_default_timezone_set("Asia/Bangkok");
+        $today = now();
+        $Data = DB::table('member')->where('type', '1D-Kbank')->count();
+        if($Data >= '10'){
+            $class = 'btn-danger';
+        }else{
+            $class = 'btn-success';
+        }
+
+        $ResArray = ['Count' => $Data,'Class' => $class];
+        return \Response::json($ResArray);
+    }
 }

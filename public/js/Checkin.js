@@ -12,6 +12,7 @@ $(document).ready(function () {
         $("#namesearchingthezign").val('');
         $("#table_find_name_thezign").html('');
     });
+    Check_K_bank();
     // Ajax Get Data TO Fake Data
     setTimeout(function () {
         DisplayTable();
@@ -970,6 +971,16 @@ var Charge_modal = function Charge_modal(e) {
         success: function (callback) {
             var res = jQuery.parseJSON(callback);
             $("#Charge_Display").html(res.Table);
+        }
+    });
+}
+
+var Check_K_bank = function Check_K_bank() {
+    $.ajax({
+        url: 'Check_K_bank',
+        type: 'GET',
+        success: function (res) {
+            $("#count_kbank").html('<button style="margin-left:10px;" class="btn btn-sm ' + res.Class + '" id="count_kbank">ลูกค้า K-bank ' + res.Count + ' คน</button>');
         }
     });
 }
