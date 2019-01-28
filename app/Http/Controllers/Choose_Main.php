@@ -21,7 +21,7 @@ class Choose_Main extends Controller
     {
         date_default_timezone_set("Asia/Bangkok");
         $today = now();
-        $Data = DB::table('member')->where('type', '1D-Kbank')->count();
+        $Data = DB::table('member')->where('type', '1D-Kbank')->where('start', $today)->count();
         if($Data >= '10'){
             $class = 'btn-danger';
         }else{
