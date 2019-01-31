@@ -84,6 +84,7 @@ class Report extends Controller
     $Table .= "<tbody>";
     $i = 1;
     $member_count = 0;
+    $k_bank = 0;
     $hotel_count = 0;
     $gusetpass = 0;
     foreach ($DATA as $key => $row) {
@@ -107,6 +108,8 @@ class Report extends Controller
         $hotel_count++;
       }elseif ($row->type == '1DM') {
         $gusetpass++;
+      }elseif ($row->type == '1D-Kbank') {
+        $k_bank++;
       }else{
         $member_count++;
       }
@@ -117,8 +120,8 @@ class Report extends Controller
     $Table .= "<hr>";
     $Table .= "<div class='container'><div class='row'><div class='col-md-12'>";
     $Table .= "<table class='table table-bordered table-sm'>";
-    $Table .= "<thead align='center'><tr><th>จำนวน(คน)</th><th>Member</th><th>Hotel</th><th>Guest Pass</th><th>ผืนใหญ่</th><th>ผืนเล็ก</th><th>เสื้อคลุม</th></tr></thead>";
-    $Table .= "<tbody><tr align='center'><td>$re_i</td><td>$member_count</td><td>$hotel_count</td><td>$gusetpass</td><td>$Sum_L3</td><td>$Sum_L1</td><td>$Sum_L2</td></tr></tbody>";
+    $Table .= "<thead align='center'><tr><th>จำนวน(คน)</th><th>Member</th><th>Hotel</th><th>Guest Pass</th><th>K-bank</th><th>ผืนใหญ่</th><th>ผืนเล็ก</th><th>เสื้อคลุม</th></tr></thead>";
+    $Table .= "<tbody><tr align='center'><td>$re_i</td><td>$member_count</td><td>$hotel_count</td><td>$gusetpass</td><td>$k_bank</td><td>$Sum_L3</td><td>$Sum_L1</td><td>$Sum_L2</td></tr></tbody>";
     $Table .= "</table>";
     $Table .= "</div></div></div>";
     // Encode To Json

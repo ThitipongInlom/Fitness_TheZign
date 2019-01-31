@@ -20,7 +20,7 @@ class Choose_Main extends Controller
     public function Check_K_bank()
     {
         date_default_timezone_set("Asia/Bangkok");
-        $today = now();
+        $today = date("Y-m-d");
         $Data = DB::table('member')->where('type', '1D-Kbank')->where('start', $today)->count();
         if($Data >= '10'){
             $class = 'btn-danger';
@@ -28,7 +28,7 @@ class Choose_Main extends Controller
             $class = 'btn-success';
         }
 
-        $ResArray = ['Count' => $Data,'Class' => $class];
+        $ResArray = ['Count' => $Data,'Class' => $class,'Date' => $today];
         return \Response::json($ResArray);
     }
 }
