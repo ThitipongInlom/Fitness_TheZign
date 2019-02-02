@@ -25,14 +25,34 @@ class MainUsers extends Controller
         return Datatables::of($users)
         ->filter(function ($query) use ($request) {
             if ($request->has('searchingcode')) {
+                if ($request->get('searchingselect') == 'Active') {
                 $query->where('code', 'not like', "H%");
+                if($request->get('searchingcode') != null){
                 $query->where('code', 'like', "%{$request->get('searchingcode')}%");
-                $query->orWhere('name', 'like', "%{$request->get('searchingcode')}%");
+                $query->orWhere('name', 'like', "%{$request->get('searchingcode')}%");   
+                }            
+                }elseif($request->get('searchingselect') == 'Expired'){
+                $query->where('code', 'not like', "H%");
+                if($request->get('searchingcode') != null){
+                $query->where('code', 'like', "%{$request->get('searchingcode')}%");
+                $query->orWhere('name', 'like', "%{$request->get('searchingcode')}%");   
+                }  
+                }elseif($request->get('searchingselect') == 'Hotel'){
+                $query->where('code', 'like', "H%");
+                $query->where('code', 'like', "%{$request->get('searchingcode')}%");
+                $query->orWhere('name', 'like', "%{$request->get('searchingcode')}%");                    
+                }else{
+                $query->where('code', 'like', "%{$request->get('searchingcode')}%");
+                $query->orWhere('name', 'like', "%{$request->get('searchingcode')}%");              
+                }
             }
             if ($request->has('searchingselect')) {
-                if ($request->get('searchingselect') == 'Active' OR $request->get('searchingselect') == 'Expired') {
-                  $query->where('status', 'like', "{$request->get('searchingselect')}");
+                if ($request->get('searchingselect') == 'Active') {
+                  $query->where('status', "Active");
                   $query->where('type', '<>', 'Hotel');
+                }elseif($request->get('searchingselect') == 'Expired'){
+                  $query->where('status', "Expired");
+                  $query->where('type', '<>', 'Hotel');                  
                 }elseif ($request->get('searchingselect') == 'Hotel') {
                   $query->where('type', '=', 'Hotel');
                 }else{
