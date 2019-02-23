@@ -1,5 +1,5 @@
 require('./bootstrap');
-require('fontawesome-free/js/all.js');
+require('fortawesome/fontawesome-free/js/all.js');
 require('jquery.redirect');
 // datepicker
 require('air-datepicker/dist/js/datepicker');
