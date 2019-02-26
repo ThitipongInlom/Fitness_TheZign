@@ -52,5 +52,19 @@ class Setting extends Controller
             ->make(true);
     }
 
+    public function Get_type_data(Request $request)
+    {
+      $Type = DB::table('type')->where('type_id', $request->post('type_id'))->get();
+      foreach ($Type as $key => $row) {
+        $Jsonencode = json_encode($row);
+        echo $Jsonencode;
+      }
+    }
+
+    public function Add_Data_Type(Request $request)
+    {
+      print_r($_POST);
+    }
+
     
 }

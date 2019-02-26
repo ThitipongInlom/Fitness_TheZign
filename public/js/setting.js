@@ -7,6 +7,7 @@ $('#tab1').on('show.bs.collapse', function () {
 // Hide Tab 1
 $('#tab1').on('hide.bs.collapse', function () {
     $("#btn_tab1").removeClass('active');
+    console.log('Teb 1 Hide');
 });
 // Show Tab2
 $('#tab2').on('show.bs.collapse', function () {
@@ -17,19 +18,76 @@ $('#tab2').on('show.bs.collapse', function () {
 // Show Tab2
 $('#tab2').on('hide.bs.collapse', function () {
     $("#btn_tab2").removeClass('active');
+    console.log('Teb 2 Hide');
 });
 
 var Edit_Type = function Edit_Type(e) {
     // Show Modal
     $("#Edit_Type").modal('show');
     $("body").css("padding-right", "0");
-    console.log(e);
+    var Data = new FormData();
+    Data.append('type_id', e);
+    $.ajax({
+        url: 'Get_type_data',
+        type: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        dataType: 'text',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: Data,
+        success: function (callback) {
+            var res = jQuery.parseJSON(callback);
+            $("#edit_type_code").val(res.type_code);
+            $("#edit_type_name").val(res.type_value);
+            $("#edit_type_commitment").val(res.type_commitment);
+            $("#edit_type_day").val(res.type_day);
+            $("#edit_type_month").val(res.type_month);
+            $("#edit_type_year").val(res.type_year);
+            $("#edit_price").val(res.type_price);
+        }
+    });
+}
+
+var Add_type = function Add_type() {
+    // Show Modal
+    $("#Add_type").modal('show');
+    $("body").css("padding-right", "0");
+}
+
+var Save_Add_Data = function Save_Add_Data() {
+    //Add Data To Form
+    var Data = new FormData();
+    Data.append('add_type_code', $("#add_type_code").val());
+    Data.append('add_type_name', $("#add_type_name").val());
+    Data.append('add_type_commitment', $("#add_type_commitment").val());
+    Data.append('add_type_day', $("#add_type_day").val());
+    Data.append('add_type_month', $("#add_type_month").val());
+    Data.append('add_type_year', $("#add_type_year").val());
+    Data.append('add_price', $("#add_price").val());
+    $.ajax({
+        url: 'Add_Data_Type',
+        type: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        dataType: 'text',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: Data,
+        success: function (callback) {
+            console.log(callback);
+        }
+    });
 }
 
 // Table Tab1
 $.fn.dataTable.ext.errMode = 'throw';
 var Table_tab1 = $('#Table_tab1').DataTable({
-    "dom": "<'row'<'col-sm-1'l><'col-sm-7'><'col-sm-4'>>" +
+    "dom": "<'row'<'col-sm-1'><'col-sm-7'><'col-sm-4'>>" +
         "<'row'<'col-sm-12'tr>>" +
         "<'row'<'col-sm-1'i><'col-sm-7'><'col-sm-4'p>>",
     "processing": true,
