@@ -40,6 +40,7 @@ var Edit_Type = function Edit_Type(e) {
         data: Data,
         success: function (callback) {
             var res = jQuery.parseJSON(callback);
+            $("#hidden_type_id").val(res.type_id);
             $("#edit_type_code").val(res.type_code);
             $("#edit_type_name").val(res.type_value);
             $("#edit_type_commitment").val(res.type_commitment);
@@ -56,8 +57,27 @@ var Add_type = function Add_type() {
     $("#Add_type").modal('show');
     $("body").css("padding-right", "0");
 }
+$('#Add_type').on('hidden.bs.modal', function (e) {
+    $("#add_type_code").val('');
+    $("#add_type_name").val('');
+    $("#add_type_commitment").val('0');
+    $("#add_type_day").val('0');
+    $("#add_type_month").val('0');
+    $("#add_type_year").val('0');
+    $("#add_price").val('');
+})
 
 var Save_Add_Data = function Save_Add_Data() {
+    if ($("#add_type_code").val() == '') {
+        alert('กรุณา กรอก Code');
+        $("#add_type_code").focus();
+    } else if ($("#add_type_name").val() == '') {
+        alert('กรุณา กรอก Name');
+        $("#add_type_name").focus();
+    } else if ($("#add_price").val() == '') {
+        alert('กรุณา กรอก Price');
+        $("#add_price").focus();
+    }else{
     //Add Data To Form
     var Data = new FormData();
     Data.append('add_type_code', $("#add_type_code").val());
@@ -79,9 +99,55 @@ var Save_Add_Data = function Save_Add_Data() {
         processData: false,
         data: Data,
         success: function (callback) {
-            console.log(callback);
+            if (callback == 'OK') {
+                $("#Add_type").modal('hide');
+                Table_tab1.draw();
+            }
         }
     });
+    }
+}
+
+var Save_Edit_Data = function Save_Edit_Data() {
+    if ($("#edit_type_code").val() == '') {
+        alert('กรุณา กรอก Code');
+        $("#edit_type_code").focus();
+    } else if ($("#edit_type_name").val() == '') {
+        alert('กรุณา กรอก Name');
+        $("#edit_type_name").focus();
+    } else if ($("#edit_price").val() == '') {
+        alert('กรุณา กรอก Price');
+        $("#edit_price").focus();
+    } else {
+        //Add Data To Form
+        var Data = new FormData();
+        Data.append('edit_id', $("#hidden_type_id").val());
+        Data.append('edit_type_code', $("#edit_type_code").val());
+        Data.append('edit_type_name', $("#edit_type_name").val());
+        Data.append('edit_type_commitment', $("#edit_type_commitment").val());
+        Data.append('edit_type_day', $("#edit_type_day").val());
+        Data.append('edit_type_month', $("#edit_type_month").val());
+        Data.append('edit_type_year', $("#edit_type_year").val());
+        Data.append('edit_price', $("#edit_price").val());
+        $.ajax({
+            url: 'Edit_Data_Type',
+            type: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            dataType: 'text',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: Data,
+            success: function (callback) {
+                if (callback == 'OK') {
+                    $("#Edit_Type").modal('hide');
+                    Table_tab1.draw();
+                }
+            }
+        });
+    }
 }
 
 // Table Tab1

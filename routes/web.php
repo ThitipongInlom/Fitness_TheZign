@@ -124,5 +124,7 @@ Route::post('/Remember_reconnent_airlink', 'MainUsers@Remember_reconnent_airlink
 Route::post('/Get_type_data', 'Setting@Get_type_data');
 // Save Add Data Type
 Route::post('/Add_Data_Type', 'Setting@Add_Data_Type');
+// Save Edit Data Type
+Route::post('/Edit_Data_Type', 'Setting@Edit_Data_Type');
 // Dev Create user
 Route::get('/Create/{user}/{password}/{name}/{email}/{status}/{token}', 'Controller@Create_user_dev');

@@ -22,7 +22,7 @@
         <div class="col-md-2">
             <ul class="list-group">
                 <li class="list-group-item" id="btn_tab1" style="cursor: pointer;" data-toggle="collapse" data-target="#tab1" aria-expanded="true" aria-controls="tab1">ตั้งค่าประเภท</li>
-                <li class="list-group-item" id="btn_tab2" style="cursor: pointer;" data-toggle="collapse" data-target="#tab2" aria-expanded="false" aria-controls="tab2">ตั้งค่าที่2</li>
+                <li class="list-group-item" id="btn_tab2" style="cursor: pointer;" data-toggle="collapse" data-target="#tab2" aria-expanded="false" aria-controls="tab2">คั้งค่า โค๊ช</li>
             </ul>
         </div>
         <div class="col-md-10">
@@ -332,7 +332,7 @@
                         </select>
                     </div>
                     <div class="col-md-4">
-                        <label for="edit_type_day"><b>เลือกเดือน</b></label>
+                        <label for="edit_type_month"><b>เลือกเดือน</b></label>
                         <select class="form-control" id="edit_type_month">
                         <option value="0">0</option>
                         <option value="1">1</option>
@@ -372,7 +372,7 @@
                   </div>
                   <hr>
                   <div align="center">
-                      <button type="button" class="btn btn-success">ยืนยันการแก้ไข</button>
+                      <button type="button" class="btn btn-success" onclick="Save_Edit_Data();">ยืนยันการแก้ไข</button>
                       <button type="button" class="btn btn-danger" data-dismiss="modal">ปิด</button>
                   </div>
                 </div>

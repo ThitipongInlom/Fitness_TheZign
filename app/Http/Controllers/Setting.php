@@ -63,7 +63,35 @@ class Setting extends Controller
 
     public function Add_Data_Type(Request $request)
     {
-      print_r($_POST);
+      DB::table('type')->insert(
+          ['type_code' => $request->post('add_type_code'), 
+           'type_recode' => $request->post('add_type_code'),
+           'type_value' => $request->post('add_type_name'),
+           'type_price' => $request->post('add_price'),
+           'type_day' => $request->post('add_type_day'),
+           'type_month' => $request->post('add_type_month'),
+           'type_year' => $request->post('add_type_year'),
+           'type_commitment' => $request->post('add_type_commitment'),
+          ]
+      );
+      echo 'OK';
+    }
+
+    public function Edit_Data_Type(Request $request)
+    {
+      DB::table('type')
+          ->where('type_id', $request->post('edit_id'))
+          ->update([
+           'type_code' => $request->post('edit_type_code'), 
+           'type_recode' => $request->post('edit_type_code'),
+           'type_value' => $request->post('edit_type_name'),
+           'type_price' => $request->post('edit_price'),
+           'type_day' => $request->post('edit_type_day'),
+           'type_month' => $request->post('edit_type_month'),
+           'type_year' => $request->post('edit_type_year'),
+           'type_commitment' => $request->post('edit_type_commitment'),
+          ]);
+      echo 'OK';     
     }
 
     
