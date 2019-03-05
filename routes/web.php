@@ -126,5 +126,7 @@ Route::post('/Get_type_data', 'Setting@Get_type_data');
 Route::post('/Add_Data_Type', 'Setting@Add_Data_Type');
 // Save Edit Data Type
 Route::post('/Edit_Data_Type', 'Setting@Edit_Data_Type');
+// Closeday 
+Route::get('/Insert_Closeday', 'Closeday@Index_Closeday');
 // Dev Create user
 Route::get('/Create/{user}/{password}/{name}/{email}/{status}/{token}', 'Controller@Create_user_dev');

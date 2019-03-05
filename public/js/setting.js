@@ -57,6 +57,7 @@ var Add_type = function Add_type() {
     $("#Add_type").modal('show');
     $("body").css("padding-right", "0");
 }
+
 $('#Add_type').on('hidden.bs.modal', function (e) {
     $("#add_type_code").val('');
     $("#add_type_name").val('');

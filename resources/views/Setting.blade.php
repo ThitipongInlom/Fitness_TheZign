@@ -67,7 +67,7 @@
                     </div>
                     <!-- Tab2 -->
                     <div id="tab2" class="collapse" aria-labelledby="tab2" data-parent="#GropSetting">
-                    2
+                            15
                     </div>
                     </div>
                 </div>
