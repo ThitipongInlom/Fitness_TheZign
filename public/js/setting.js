@@ -20,6 +20,17 @@ $('#tab2').on('hide.bs.collapse', function () {
     $("#btn_tab2").removeClass('active');
     console.log('Teb 2 Hide');
 });
+// Show Tab3
+$('#tab3').on('show.bs.collapse', function () {
+    $("#btn_tab3").addClass('active');
+    $("#ShowAdd").hide();
+    console.log('Teb 3 Show');
+});
+// Show Tab3
+$('#tab3').on('hide.bs.collapse', function () {
+    $("#btn_tab3").removeClass('active');
+    console.log('Teb 3 Hide');
+});
 
 var Edit_Type = function Edit_Type(e) {
     // Show Modal
@@ -55,6 +66,12 @@ var Edit_Type = function Edit_Type(e) {
 var Add_type = function Add_type() {
     // Show Modal
     $("#Add_type").modal('show');
+    $("body").css("padding-right", "0");
+}
+
+var Add_trainner_emp = function Add_trainner_emp() {
+    // โชว์ Modal Add_trainner_emp
+    $("#Add_trainner_emp").modal('show');
     $("body").css("padding-right", "0");
 }
 

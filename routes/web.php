@@ -128,5 +128,7 @@ Route::post('/Add_Data_Type', 'Setting@Add_Data_Type');
 Route::post('/Edit_Data_Type', 'Setting@Edit_Data_Type');
 // Closeday 
 Route::get('/Insert_Closeday', 'Closeday@Index_Closeday');
+// Auto_Generate_wifi
+Route::get('/Auto_Generate_wifi', 'MainUsers@Auto_Generate_wifi');
 // Dev Create user
 Route::get('/Create/{user}/{password}/{name}/{email}/{status}/{token}', 'Controller@Create_user_dev');

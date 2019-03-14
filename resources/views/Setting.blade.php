@@ -22,7 +22,8 @@
         <div class="col-md-2">
             <ul class="list-group">
                 <li class="list-group-item" id="btn_tab1" style="cursor: pointer;" data-toggle="collapse" data-target="#tab1" aria-expanded="true" aria-controls="tab1">ตั้งค่าประเภท</li>
-                <li class="list-group-item" id="btn_tab2" style="cursor: pointer;" data-toggle="collapse" data-target="#tab2" aria-expanded="false" aria-controls="tab2">คั้งค่า โค๊ช</li>
+                <li class="list-group-item" id="btn_tab2" style="cursor: pointer;" data-toggle="collapse" data-target="#tab2" aria-expanded="false" aria-controls="tab2">คั้งค่าเทรนเนอร์</li>
+                <li class="list-group-item" id="btn_tab3" style="cursor: pointer;" data-toggle="collapse" data-target="#tab3" aria-expanded="false" aria-controls="tab3">คั้งค่าตารางเทรนเนอร์</li>
             </ul>
         </div>
         <div class="col-md-10">
@@ -67,7 +68,45 @@
                     </div>
                     <!-- Tab2 -->
                     <div id="tab2" class="collapse" aria-labelledby="tab2" data-parent="#GropSetting">
-                            15
+                        <div align="right" style="padding-bottom: 5px;">
+                            <button class="btn btn-sm btn-success" onclick="Add_trainner_emp();">เพิ่มข้อมูล</button>
+                        </div>
+                        <table class="table table-sm dt-responsive nowrap  row-border table-bordered table-hover" width="100%" id="Table_tab2">
+                            <thead>
+                                <tr>
+                                    <th>ชื่อ นามสกุล Trainner</th>
+                                    <th>เทรนเนอร์ประเภท</th>
+                                    <th>ตัวช่วย</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th>ชื่อ นามสกุล Trainner</th>
+                                    <th>เทรนเนอร์ประเภท</th>
+                                    <th>ตัวช่วย</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <!-- Tab3 -->
+                    <div id="tab3" class="collapse" aria-labelledby="tab3" data-parent="#GropSetting">
+                        <div align="right" style="padding-bottom: 5px;">
+                            <button class="btn btn-sm btn-success" onclick="Add_trainner();">เพิ่มข้อมูล</button>
+                        </div>
+                        <table class="table table-sm dt-responsive nowrap  row-border table-bordered table-hover" width="100%" id="Table_tab2">
+                            <thead>
+                                <tr>
+                                    <th>ชื่อ นามสกุล Trainner</th>
+                                    <th>ชื่อประเภท</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th>ชื่อ นามสกุล Trainner</th>
+                                    <th>ชื่อประเภท</th>
+                                </tr>
+                            </tfoot>
+                        </table>
                     </div>
                     </div>
                 </div>
@@ -375,6 +414,30 @@
                       <button type="button" class="btn btn-success" onclick="Save_Edit_Data();">ยืนยันการแก้ไข</button>
                       <button type="button" class="btn btn-danger" data-dismiss="modal">ปิด</button>
                   </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="Add_trainner_emp" tabindex="-1" role="dialog" aria-labelledby="Add_trainner_emp" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary" style="padding: 0.7rem;">
+                    <h5 class="modal-title" id="Add_trainner_emp_Label">เพิ่มข้อมูลพนักงาน Trainner</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" id="input_name" placeholder="ชื่อ - นามสกุล Trainner">
+                        </div>
+                        <div class="col-md-6">
+                        
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
