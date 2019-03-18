@@ -2,34 +2,28 @@
 $('#tab1').on('show.bs.collapse', function () {
     $("#btn_tab1").addClass('active');
     $("#ShowAdd").hide();
-    console.log('Teb 1 Show');
 });
 // Hide Tab 1
 $('#tab1').on('hide.bs.collapse', function () {
     $("#btn_tab1").removeClass('active');
-    console.log('Teb 1 Hide');
 });
 // Show Tab2
 $('#tab2').on('show.bs.collapse', function () {
     $("#btn_tab2").addClass('active');
     $("#ShowAdd").hide();
-    console.log('Teb 2 Show');
 });
 // Show Tab2
 $('#tab2').on('hide.bs.collapse', function () {
     $("#btn_tab2").removeClass('active');
-    console.log('Teb 2 Hide');
 });
 // Show Tab3
 $('#tab3').on('show.bs.collapse', function () {
     $("#btn_tab3").addClass('active');
     $("#ShowAdd").hide();
-    console.log('Teb 3 Show');
 });
 // Show Tab3
 $('#tab3').on('hide.bs.collapse', function () {
     $("#btn_tab3").removeClass('active');
-    console.log('Teb 3 Hide');
 });
 
 var Edit_Type = function Edit_Type(e) {
@@ -63,6 +57,33 @@ var Edit_Type = function Edit_Type(e) {
     });
 }
 
+var Edit_Trainner_emp = function Edit_Trainner_emp (e) {
+    // Show Modal
+    $("#Edit_Trainner_emp").modal('show');
+    $("body").css("padding-right", "0");
+    var Data = new FormData();
+    Data.append('tn_emp_id', e);
+    $.ajax({
+        url: 'Get_Trainner_emp_data',
+        type: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        dataType: 'text',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: Data,
+        success: function (callback) {
+            var res = jQuery.parseJSON(callback);
+            $("#hidden_trainner_emp_id").val(res.tn_emp_id);
+            $("#firstname_trainner_edit").val(res.fname);
+            $("#lastname_trainner_edit").val(res.lname);
+            $("#classname_trainner_edit").val(res.status_emp);
+        }
+    });
+}
+
 var Add_type = function Add_type() {
     // Show Modal
     $("#Add_type").modal('show');
@@ -83,7 +104,84 @@ $('#Add_type').on('hidden.bs.modal', function (e) {
     $("#add_type_month").val('0');
     $("#add_type_year").val('0');
     $("#add_price").val('');
-})
+});
+
+var Save_Trainner_emp = function Save_Trainner_emp() {
+    var Fname = $("#firstname_trainner").val();
+    var Lname = $("#lastname_trainner").val();
+    var Class = $("#classname_trainner").val();
+    if (Fname == '') {
+        alert("กรอก ชื่อ - ผุ้สอน");
+        $("#firstname_trainner").focus();
+    } else if (Lname == '') {
+        alert("กรอก นามสกุล - ผู้สอน");
+        $("#lastname_trainner").focus();
+    } else if (Class == '0') {
+        alert('เลือก Class ที่ เทรนเนอร์ สอน');
+        $("#classname_trainner").focus();
+    } else if ($("#classname_trainner").val() == '0') {
+        alert('กรุณาเลือกประเภทการสอน');
+    }else{
+        //Add Data To Form
+        var Data = new FormData();
+        Data.append('firstname', Fname);
+        Data.append('lastname', Lname);
+        Data.append('classname', Class);
+        $.ajax({
+            url: 'Save_Trainner_emp',
+            type: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            dataType: 'text',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: Data,
+            success: function (callback) {
+            $("#Add_trainner_emp").modal('hide');
+            }
+        });   
+    }
+}
+
+var Save_edit_Trainner_emp = function Save_edit_Trainner_emp () {
+    if ($("#firstname_trainner_edit").val() == '') {
+        alert('กรุณา กรอก Code');
+        $("#firstname_trainner_edit").focus();
+    } else if ($("#lastname_trainner_edit").val() == '') {
+        alert('กรุณา กรอก Name');
+        $("#lastname_trainner_edit").focus();
+    } else if ($("#classname_trainner_edit").val() == '') {
+        alert('กรุณา กรอก Price');
+        $("#classname_trainner_edit").focus();
+    } else if ($("#classname_trainner_edit").val() == '0') {
+        alert('กรุณาเลือกประเภทการสอน');
+    } else {
+        //Add Data To Form
+        var Data = new FormData();
+        Data.append('firstname', $("#firstname_trainner_edit").val());
+        Data.append('lastname', $("#lastname_trainner_edit").val());
+        Data.append('classname', $("#classname_trainner_edit").val());
+        Data.append('id_emp', $("#hidden_trainner_emp_id").val());
+        $.ajax({
+            url: 'Save_edit_Trainner_emp',
+            type: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            dataType: 'text',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: Data,
+            success: function (callback) {
+                $("#Edit_Trainner_emp").modal('hide');
+                Table_trainner_emp.draw();
+            }
+        });   
+    }
+}
 
 var Save_Add_Data = function Save_Add_Data() {
     if ($("#add_type_code").val() == '') {
@@ -188,12 +286,6 @@ var Table_tab1 = $('#Table_tab1').DataTable({
         "headers": {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
-        /*
-        data: function (d) {
-            d.searchingcode = $("#searchingcode").val();
-            d.searchingselect = $("#searchingselect").val();
-        }
-        */
     },
     "columns": [{
             "data": 'type_code',
@@ -240,6 +332,71 @@ var Table_tab1 = $('#Table_tab1').DataTable({
             "className": 'text-right',
             "targets": [2,3,4,5,6]
         },
+    ],
+    "language": {
+        "lengthMenu": "แสดง _MENU_ คน",
+        "search": "ค้นหา:",
+        "info": "แสดง _START_ ถึง _END_ ทั้งหมด _TOTAL_ คน",
+        "infoEmpty": "แสดง 0 ถึง 0 ทั้งหมด 0 คน",
+        "infoFiltered": "(จาก ทั้งหมด _MAX_ ทั้งหมด คน)",
+        "processing": "กำลังโหลดข้อมูล...",
+        "zeroRecords": "ไม่มีข้อมูล",
+        "paginate": {
+            "first": "หน้าแรก",
+            "last": "หน้าสุดท้าย",
+            "next": "ต่อไป",
+            "previous": "ย้อนกลับ"
+        },
+    },
+    search: {
+        "regex": true
+    },
+});
+
+var Table_trainner_emp = $('#Table_trainner_emp').DataTable({
+    "dom": "<'row'<'col-sm-1'><'col-sm-7'><'col-sm-4'>>" +
+        "<'row'<'col-sm-12'tr>>" +
+        "<'row'<'col-sm-1'i><'col-sm-7'><'col-sm-4'p>>",
+    "processing": true,
+    "serverSide": true,
+    "bPaginate": true,
+    "responsive": true,
+    "aLengthMenu": [
+        [8, 25, 50, -1],
+        ["8", "25", "50", "ทั้งหมด"]
+    ],
+    "ajax": {
+        "url": 'Table_trainner_emp',
+        "type": 'POST',
+        "headers": {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+    },
+    "columns": [{
+        "data": 'name_emp',
+        "name": 'name_emp',
+    },
+    {
+        "data": 'status_emp',
+        "name": 'status_emp'
+    },
+    {
+        "data": 'action',
+        "name": 'action',
+    },
+    ],
+    "columnDefs": [{
+        "className": 'text-left',
+        "targets": [0]
+    },
+    {
+        "className": 'text-center',
+        "targets": [1,2]
+    },
+    {
+        "className": 'text-right',
+        "targets": []
+    },
     ],
     "language": {
         "lengthMenu": "แสดง _MENU_ คน",

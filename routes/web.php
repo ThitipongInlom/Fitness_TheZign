@@ -112,6 +112,8 @@ Route::post('/SendToRegister', 'MainUsers@SendToRegister');
 Route::post('/Calculate_renewal', 'MainUsers@Calculate_renewal');
 // Table Tab 1
 Route::post('/Table_tab_1', 'Setting@Table_tab_1');
+// Table_trainner_emp
+Route::post('/Table_trainner_emp', 'Setting@Table_trainner_emp');
 // Check_K_bank
 Route::get('/Check_K_bank', 'Choose_Main@Check_K_bank');
 // StopMB
@@ -122,6 +124,8 @@ Route::post('/Edit_member', 'MainUsers@Edit_member');
 Route::post('/Remember_reconnent_airlink', 'MainUsers@Remember_reconnent_airlink');
 // Get Type Data
 Route::post('/Get_type_data', 'Setting@Get_type_data');
+// Get_Trainner_emp_data
+Route::post('/Get_Trainner_emp_data', 'Setting@Get_Trainner_emp_data');
 // Save Add Data Type
 Route::post('/Add_Data_Type', 'Setting@Add_Data_Type');
 // Save Edit Data Type
@@ -130,5 +134,9 @@ Route::post('/Edit_Data_Type', 'Setting@Edit_Data_Type');
 Route::get('/Insert_Closeday', 'Closeday@Index_Closeday');
 // Auto_Generate_wifi
 Route::get('/Auto_Generate_wifi', 'MainUsers@Auto_Generate_wifi');
+// Save_Trainner_emp
+Route::post('/Save_Trainner_emp', 'Setting@Save_Trainner_emp');
+// Save_edit_Trainner_emp
+Route::post('/Save_edit_Trainner_emp', 'Setting@Save_edit_Trainner_emp');
 // Dev Create user
 Route::get('/Create/{user}/{password}/{name}/{email}/{status}/{token}', 'Controller@Create_user_dev');

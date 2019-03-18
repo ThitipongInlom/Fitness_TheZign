@@ -52,10 +52,34 @@ class Setting extends Controller
             ->make(true);
     }
 
+    public function Table_trainner_emp(Request $request)
+    {
+      $users = DB::table('trainner_emp')->select('*');
+      return Datatables::of($users)
+            ->addColumn('name_emp', function($users) {
+                return $users->fname.' '.$users->lname;
+            })  
+            ->addColumn('action', function ($users) {
+                $Data  = '<button class="btn btn-sm btn-warning" id="'.$users->tn_emp_id.'" onclick="Edit_Trainner_emp('.$users->tn_emp_id.');"><i class="fas fa-edit"></i></i>แก้ไข</button> ';
+                return $Data;
+            })   
+            ->rawColumns(['action','name_emp'])                                            
+            ->make(true);
+    }
+
     public function Get_type_data(Request $request)
     {
       $Type = DB::table('type')->where('type_id', $request->post('type_id'))->get();
       foreach ($Type as $key => $row) {
+        $Jsonencode = json_encode($row);
+        echo $Jsonencode;
+      }
+    }
+
+    public function Get_Trainner_emp_data(Request $request)
+    {
+      $Trainner_emp = DB::table('trainner_emp')->where('tn_emp_id', $request->post('tn_emp_id'))->get();
+      foreach ($Trainner_emp as $key => $row) {
         $Jsonencode = json_encode($row);
         echo $Jsonencode;
       }
@@ -92,6 +116,28 @@ class Setting extends Controller
            'type_commitment' => $request->post('edit_type_commitment'),
           ]);
       echo 'OK';     
+    }
+
+    public function Save_Trainner_emp(Request $request)
+    {
+      DB::table('trainner_emp')->insert([
+        'fname' => $request->post('firstname'), 
+        'lname' => $request->post('lastname'),
+        'status_emp' => $request->post('classname'),
+      ]);
+      echo 'OK';
+    }
+
+    public function Save_edit_Trainner_emp(Request $request)
+    {
+      DB::table('trainner_emp')
+        ->where('tn_emp_id', $request->post('id_emp'))
+        ->update([
+          'fname' => $request->post('firstname'),
+          'lname' => $request->post('lastname'),
+          'status_emp' => $request->post('classname')
+        ]);
+      echo 'OK';
     }
 
     
