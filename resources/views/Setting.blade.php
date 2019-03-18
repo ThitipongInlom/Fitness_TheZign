@@ -15,6 +15,9 @@
     <title>Fitness</title>
     <!-- All Css -->
     <link rel="stylesheet" type="text/css" href="{{ url('css/app.css') }}">
+    <style>
+        .datepicker{z-index:9999 !important}
+    </style>
 </head>
 <body>
     @include('Head')
@@ -420,6 +423,42 @@
     </div>
 
     <!-- Modal -->
+    <div class="modal fade" id="Add_trainner" tabindex="-1" role="dialog" aria-labelledby="Add_trainner_Label" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary" style="padding: 0.7rem;">
+                    <h5 class="modal-title" id="Add_trainner_Label">เพิ่มข้อมูลเทรนเนอร์</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4 form-group">
+                            <label for="select_trianner_emp">เลือกผู้สอน เทรนเนอร์</label>
+                            <span id="select_trianner_emp"></span>                      
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="date_trainner">เลือก วันที่จะสอน</label>
+                            <div class="input-group">
+                            <input type="text" data-toggle="datepicker" data-date-format='dd/mm/yyyy' class="form-control" id="date_trainner"  placeholder="เลือกวันที่จะสอน">
+                            <div class="input-group-prepend">
+                            <div class="input-group-text"><i class="fas fa-calendar-alt"></i></div>
+                            <span id="foo"></span>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="select_trainner_class">เลือก คลาสที่จะสอน</label>
+                            <span id="select_trainner_class"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
     <div class="modal fade" id="Add_trainner_emp" tabindex="-1" role="dialog" aria-labelledby="Add_trainner_emp" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -517,4 +556,14 @@
 <script type="text/javascript" src="{{ url('js/Checkin.js') }}"></script>
 <!-- Setting -->
 <script type="text/javascript" src="{{ url('js/setting.js') }}"></script>
+<!-- Use Script -->
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('[data-toggle="tooltip"]').tooltip();
+        var datepicker = $('[data-toggle="datepicker"]').datepicker({
+          language: 'en',
+          autoClose: true,
+        });
+    });
+</script>
 </html>

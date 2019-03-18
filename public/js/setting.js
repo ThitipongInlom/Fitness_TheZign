@@ -96,6 +96,25 @@ var Add_trainner_emp = function Add_trainner_emp() {
     $("body").css("padding-right", "0");
 }
 
+var Add_trainner = function Add_trainner() {
+    // โชว์ Modal Add_trainner
+    $("#Add_trainner").modal('show');
+    $("body").css("padding-right", "0");
+    // Select Trianner emp
+    $.ajax({
+        url: 'Select_trianner_emp',
+        type: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function (callback) {
+            var res = jQuery.parseJSON(callback);
+            $("#select_trianner_emp").html(res.select);
+        }
+    });   
+    // Select Trianner class
+}
+
 $('#Add_type').on('hidden.bs.modal', function (e) {
     $("#add_type_code").val('');
     $("#add_type_name").val('');

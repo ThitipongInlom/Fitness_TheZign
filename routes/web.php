@@ -138,5 +138,7 @@ Route::get('/Auto_Generate_wifi', 'MainUsers@Auto_Generate_wifi');
 Route::post('/Save_Trainner_emp', 'Setting@Save_Trainner_emp');
 // Save_edit_Trainner_emp
 Route::post('/Save_edit_Trainner_emp', 'Setting@Save_edit_Trainner_emp');
+// Select_trianner_emp
+Route::post('/Select_trianner_emp', 'Setting@Select_trianner_emp');
 // Dev Create user
 Route::get('/Create/{user}/{password}/{name}/{email}/{status}/{token}', 'Controller@Create_user_dev');

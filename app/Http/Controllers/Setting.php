@@ -140,5 +140,19 @@ class Setting extends Controller
       echo 'OK';
     }
 
+    public function Select_trianner_emp(Request $request)
+    {
+      $Trainner_emp = DB::table('trainner_emp')->select('*')->get();
+
+      $Select = "<select class='custom-select'>";
+      foreach ($Trainner_emp as $key => $row) {
+        $Select .= "<option value='".$row->tn_emp_id."'>[".$row->status_emp."] ".$row->fname."  ".$row->lname."</option>";
+      }
+      $Select .= "</select>";
+      $ResArray = ['select' => $Select];
+      $Jsonencode = json_encode($ResArray);
+      echo $Jsonencode;
+    }
+
     
 }
