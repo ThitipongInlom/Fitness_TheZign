@@ -159,6 +159,7 @@ var Save_Trainner_emp = function Save_Trainner_emp() {
             data: Data,
             success: function (callback) {
             $("#Add_trainner_emp").modal('hide');
+            Table_trainner_emp.draw();
             }
         });   
     }

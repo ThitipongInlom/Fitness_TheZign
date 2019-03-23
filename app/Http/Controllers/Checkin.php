@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\DB as DB;
@@ -280,8 +281,9 @@ class Checkin extends Controller
         $Code = Input::post('Code');
         $Datajoin = DB::table('main_package')
                         ->select('*')
-                        ->where('Status', '=', 'Active')
-                        ->where('Code', '=', $Code)
+                        ->join('fake_package', 'main_package.main_package_id', '=', 'fake_package.main_package_id')
+                        ->where('main_package.Status', '=', 'Active')
+                        ->where('main_package.Code', '=', $Code)
                         ->get();
         $CheckNum = DB::table('main_package')->where('Code', $Code)->where('Status', '=', 'Active')->count();
         if ($CheckNum != '0') {
@@ -301,6 +303,22 @@ class Checkin extends Controller
         <button class="btn btn-sm btn-success" package_id="'.$Row->id.'" onclick="History_Package_Useing(this);">ประวัติ</button>
         </td>
         </tr>';
+
+          if ($Row->trainner_emp_id != '') {
+          $trainner_name = DB::table('trainner_emp')->where('tn_emp_id',  $Row->trainner_emp_id)->get();
+          foreach ($trainner_name as $key => $name) {
+            $Name = $name->fname .' '. $name->lname;
+          }
+          $Table .= '
+          <tr class="bg-warning animated flipInX">
+            <td colspan="5">
+              <div align="center">
+                <b>ผู้สอน:</b> '.$Name.'
+              </div>
+            </td>
+          </tr>';
+          }
+        
         }
         $Table .= '
         </tbody>
@@ -321,8 +339,9 @@ class Checkin extends Controller
         $Code = Input::post('Code');
         $Datajoin = DB::table('main_package')
                         ->select('*')
-                        ->where('Status', '=', 'Active')
-                        ->where('Code', '=', $Code)
+                        ->join('fake_package', 'main_package.main_package_id', '=', 'fake_package.main_package_id')
+                        ->where('main_package.Status', '=', 'Active')
+                        ->where('main_package.Code', '=', $Code)
                         ->get();
         $CheckNum = DB::table('main_package')->where('Code', $Code)->where('Status', '=', 'Active')->count();
         $CounMainOnline = DB::table('main_table')->where('Code', $Code)->where('Status', 'IN')->count();
@@ -338,11 +357,11 @@ class Checkin extends Controller
         $rehavesum = $data->have_sum;
         $Data .= "
         <tr class='bg-primary' class='animated flipInX'>
-        <td width='90%'>
+        <td width='70%'>
         <b>$data->name_package | คงเหลือ:</b> $rehavesum
         </td>
-        <td width='10%'>";
-        $Data .= "<button class='btn btn-sm btn-success' main_package_id='$data->id' package_detail_id='$data->main_package_id' code='$data->Code' total='$data->total_sum' havesum='$data->have_sum' onclick='OnUsePackage(this);'>เลือกใช้งาน</button>";
+        <td width='30%'>";
+        $Data .= "<button class='btn btn-sm btn-success' main_package_id='$data->id' package_detail_id='$data->main_package_id' code='$data->Code' total='$data->total_sum' havesum='$data->have_sum' trainner_emp='$data->trainner_emp_id' onclick='OnUsePackage(this);'>เลือกใช้งาน</button>";
         $Data .= "</td>
         </tr>";
         }
@@ -426,6 +445,15 @@ class Checkin extends Controller
           if ($DataDisplay->Fake_itemcodetype == 'T' AND $DataDisplay->Fake_itemtype == 'C') {
             $Data .= " <button class='btn btn-sm btn-danger' onclick='Delete_item(this);' fake_table_id='$DataDisplay->id'><i class='fas fa-trash'></i></button>";
           }else{
+            // ถ้า package มีจำนวนมากกว่า 1 ชั่วโมง ให้เพิ่มปุ่มเลือก ผู้สอน ยังไม่ได้ CheckIn
+            if ($DataDisplay->Fake_sum > 1) {
+              if ($DataDisplay->trainner_emp_id == '') {
+                $Data .="<button class='btn btn-sm btn-danger' fake_table_id='$DataDisplay->id'  onclick='trianner_emp_select_modal(this);'><i class='fas fa-user-tie'></i></button> ";  
+              }else{
+                $Data .="<button class='btn btn-sm btn-success' fake_table_id='$DataDisplay->id'  onclick='trianner_emp_select_modal(this);'><i class='fas fa-user-tie'></i></button> "; 
+              }
+            }
+            // ปุ่มลบ package Item ของ เวลา
             $Data .= "<button class='btn btn-sm btn-danger' onclick='Delete_item_time(this);' fake_table_id='$DataDisplay->id'><i class='fas fa-times'></i></button>";
           }
         }elseif ($DataDisplay->Fake_itemcodetype == 'F') {
@@ -462,6 +490,15 @@ class Checkin extends Controller
             if ($DataDisplay->Fake_itemcodetype == 'T' AND $DataDisplay->Fake_itemtype == 'C') {
               $Data .= " <button class='btn btn-sm btn-danger' onclick='Delete_item(this);' fake_table_id='$DataDisplay->id'><i class='fas fa-trash'></i></button>";
             }else{
+              // ถ้า package มีจำนวนมากกว่า 1 ชั่วโมง ให้เพิ่มปุ่มเลือก ผู้สอน CheckIn แล้ว
+              if ($DataDisplay->Fake_sum > 1) {
+                if ($DataDisplay->trainner_emp_id == '') {
+                  $Data .="<button class='btn btn-sm btn-danger' fake_table_id='$DataDisplay->id'  onclick='trianner_emp_select_modal(this);'><i class='fas fa-user-tie'></i></button> ";  
+                }else{
+                  $Data .="<button class='btn btn-sm btn-success' fake_table_id='$DataDisplay->id'  onclick='trianner_emp_select_modal(this);'><i class='fas fa-user-tie'></i></button> "; 
+                }  
+              }
+              // ปุ่มลบ package Item ของ เวลา
               $Data .= "<button class='btn btn-sm btn-danger' onclick='Delete_item_time(this);' fake_table_id='$DataDisplay->id'><i class='fas fa-times'></i></button>";
             }
           }
@@ -853,6 +890,7 @@ class Checkin extends Controller
         $code = Input::post('Code');
         $main_package_id = Input::post('main_package_id');
         $package_detail_id = Input::post('package_detail_id');
+        $trainner_emp_id = Input::post('trainner_emp_id');
         $total = Input::post('total');
         $havesum = Input::post('havesum');
         // New Have Sum
@@ -876,7 +914,8 @@ class Checkin extends Controller
         'total_sum' => $total,
         'havesum' => $newhavesum,
         'onuse' => '1',
-        'status' => 'N']);
+        'status' => 'N',
+        'trainner_emp_id' => $trainner_emp_id]);
         // Update Package Detail
         DB::table('package_detail')
             ->where('package_id', $package_detail_id)
@@ -964,16 +1003,22 @@ class Checkin extends Controller
       foreach ($Data as $key => $row) {
       $i++;
       $rehavesum = $row->havesum + 1;
+      if ($row->trainner_emp_id != '') {
+      $trainner_name = DB::table('trainner_emp')->where('tn_emp_id',  $row->trainner_emp_id)->get();
+      foreach ($trainner_name as $key => $name) {
+        $Name = $name->fname .' '. $name->lname;
+      }}else { $Name = '';}
       $Table .= "
            <tr align='center'>
               <td>$i</td>
-              <td>$row->name_package</td>
+              <td>$row->name_package <br>( <b>ผู้สอน: </b> $Name )</td>
               <td>$row->onuse ชั่วโมง</td>
               <td>ครั้งที่ $rehavesum</td>
            <td>";
       if ($i > 1) {
       $Table .="<button class='btn btn-sm btn-danger' disabled><i class='fas fa-trash'></i></button>";
       }else{
+      $Table .="<button class='btn btn-sm btn-warning' on_use_id='$row->package_onuse_id' onclick='trianner_emp_select_modal_edit(this);'><i class='fas fa-user-tie'></i></button> ";
       $Table .="<button class='btn btn-sm btn-danger' code='$row->code' package_onuse_id='$row->package_onuse_id' package_log_id='$row->package_log_id' main_package_id='$row->main_package_id' onusesum='$rehavesum' onclick='DeleteOnusePackage(this);'><i class='fas fa-trash'></i></button>";
       }
       $Table .="</td></tr>";
@@ -1123,5 +1168,56 @@ class Checkin extends Controller
         echo $json;
     }
 
+    public function Display_select_trainner_emp_model(Request $request)
+    {
+      $Trainner_emp = DB::table('trainner_emp')->select('*')->get();
+
+      $Select = "<div align='center'><select class='custom-select' id='select_emp_to_member'>";
+      foreach ($Trainner_emp as $key => $row) {
+        $Select .= "<option value='".$row->tn_emp_id."'>[".$row->status_emp."] ".$row->fname."  ".$row->lname."</option>";
+      }
+      $Select .= "</select></div>";
+      $Select .= "<hr><div align='center'><button class='btn btn-sm btn-success' fake_table_id='".$request->post('Fake_id')."' onclick='save_trainner_emp_select_modal(this);'>อัพเดต</button></div>";
+      $ResArray = ['select' => $Select,'request' => $request->post('Fake_id')];
+      $Jsonencode = json_encode($ResArray);
+      echo $Jsonencode;
+    }
+
+    public function Display_select_trainner_emp_model_edit(Request $request)
+    {
+      $Trainner_emp = DB::table('trainner_emp')->select('*')->get();
+
+      $Select = "<div align='center'><select class='custom-select' id='select_emp_to_member_edit'>";
+      foreach ($Trainner_emp as $key => $row) {
+        $Select .= "<option value='".$row->tn_emp_id."'>[".$row->status_emp."] ".$row->fname."  ".$row->lname."</option>";
+      }
+      $Select .= "</select></div>";
+      $Select .= "<hr><div align='center'><button class='btn btn-sm btn-success' fake_table_id='".$request->post('Fake_id')."' onclick='save_trainner_emp_select_modal_edit(this);'>อัพเดต</button></div>";
+      $ResArray = ['select' => $Select,'request' => $request->post('Fake_id')];
+      $Jsonencode = json_encode($ResArray);
+      echo $Jsonencode;
+    }
+
+    public function Save_select_trainner_emp_to_member(Request $request)
+    {
+      // Update Package Table
+      DB::table('fake_package')
+        ->where('fake_table_id', $request->post('Fake_id'))
+        ->update(['trainner_emp_id' => $request->post('Trainner_emp_id')]);
+      // Update Fake Table
+      DB::table('fake_table')
+        ->where('id', $request->post('Fake_id'))
+        ->update(['trainner_emp_id' => $request->post('Trainner_emp_id')]);
+        echo 'OK';
+    }
+
+    public function Save_select_trainner_emp_to_member_edit(Request $request)
+    {
+      // Update Package_onuse
+      DB::table('package_onuse')
+        ->where('package_onuse_id', $request->post('Fake_id'))
+        ->update(['trainner_emp_id' => $request->post('Trainner_emp_id')]);
+        echo 'OK';
+    }
 
 }

@@ -483,8 +483,8 @@
                         <div style="padding-bottom: 8px;"></div>
                         <select class="custom-select" id="classname_trainner">
                             <option value="0" selected>เลือก Class ที่ เทรนเนอร์ สอน</option>
-                            <option value="CL">[CL] คลาส</option>
-                            <option value="PT">[PT] เทรนเนอร์</option>
+                            <option value="Class">[CL] คลาส</option>
+                            <option value="Personal Trainer">[PT] เทรนเนอร์</option>
                             <option value="ALL">[ALL] ทั้งหมด</option>
                         </select>
                         </div>
@@ -529,8 +529,8 @@
                         <div style="padding-bottom: 8px;"></div>
                         <select class="custom-select" id="classname_trainner_edit">
                             <option value="0" selected>เลือก Class ที่ เทรนเนอร์ สอน</option>
-                            <option value="CL">[CL] คลาส</option>
-                            <option value="PT">[PT] เทรนเนอร์</option>
+                            <option value="Class">[CL] คลาส</option>
+                            <option value="Personal Trainer">[PT] เทรนเนอร์</option>
                             <option value="ALL">[ALL] ทั้งหมด</option>
                         </select>
                         </div>

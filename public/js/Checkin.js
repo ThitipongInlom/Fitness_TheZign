@@ -652,6 +652,7 @@ var OnUsePackage = function OnUsePackage(e) {
     var Code = $(e).attr('code');
     var total = $(e).attr('total');
     var havesum = $(e).attr('havesum');
+    var trainner_emp = $(e).attr('trainner_emp');
     // Create From Data
     var Data = new FormData();
     // Data Put Array
@@ -660,6 +661,7 @@ var OnUsePackage = function OnUsePackage(e) {
     Data.append('package_detail_id', package_detail_id);
     Data.append('total', total);
     Data.append('havesum', havesum);
+    Data.append('trainner_emp_id', trainner_emp);
     // Ajax Send Data
     $.ajax({
             url: 'OnUsePackage',
@@ -981,6 +983,99 @@ var Check_K_bank = function Check_K_bank() {
         type: 'GET',
         success: function (res) {
             $("#count_kbank").html('<button style="margin-left:10px;" class="btn btn-sm ' + res.Class + '" id="count_kbank">ลูกค้า K-bank ' + res.Count + ' คน</button>');
+        }
+    });
+}
+
+var trianner_emp_select_modal = function trianner_emp_select_modal(e) {
+    // Modal Show
+    $('#trianner_emp_select_modal').modal('show');
+    $("body").css("padding-right", "0");
+    var Data = new FormData();
+    Data.append('Fake_id', $(e).attr('fake_table_id'));
+    $.ajax({
+        url: 'Display_select_trainner_emp',
+        type: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        dataType: 'text',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: Data,
+        success: function (callback) {
+            var res = jQuery.parseJSON(callback);
+            $("#Display_select_trainner_emp").html(res.select);
+        }
+    });
+}
+
+var trianner_emp_select_modal_edit = function trianner_emp_select_modal_edit(e) {
+    // Modal Show
+    $('#trianner_emp_select_modal_edit').modal('show');
+    $("body").css("padding-right", "0");
+    var Data = new FormData();
+    Data.append('Fake_id', $(e).attr('on_use_id'));
+    $.ajax({
+        url: 'Display_select_trainner_emp_edit',
+        type: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        dataType: 'text',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: Data,
+        success: function (callback) {
+            var res = jQuery.parseJSON(callback);
+            $("#Display_select_trainner_emp_edit").html(res.select);
+        }
+    });
+}
+
+var save_trainner_emp_select_modal = function save_trainner_emp_select_modal(e) {
+    var Data = new FormData();
+    Data.append('Fake_id', $(e).attr('fake_table_id'));
+    Data.append('Trainner_emp_id', $("#select_emp_to_member").val());
+    $.ajax({
+        url: 'Save_select_trainner_emp_to_member',
+        type: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        dataType: 'text',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: Data,
+        success: function (callback) {
+            $('#trianner_emp_select_modal').modal('hide');
+            DisplayTable();
+            DisplayPackage();
+        }
+    });
+}
+
+var save_trainner_emp_select_modal_edit = function save_trainner_emp_select_modal_edit(e) {
+    var Data = new FormData();
+    Data.append('Fake_id', $(e).attr('fake_table_id'));
+    Data.append('Trainner_emp_id', $("#select_emp_to_member_edit").val());
+    $.ajax({
+        url: 'Save_select_trainner_emp_to_member_edit',
+        type: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        dataType: 'text',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: Data,
+        success: function (callback) {
+            $('#trianner_emp_select_modal_edit').modal('hide');
+            PackageOnuseDisplay();
         }
     });
 }

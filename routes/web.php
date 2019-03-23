@@ -140,5 +140,13 @@ Route::post('/Save_Trainner_emp', 'Setting@Save_Trainner_emp');
 Route::post('/Save_edit_Trainner_emp', 'Setting@Save_edit_Trainner_emp');
 // Select_trianner_emp
 Route::post('/Select_trianner_emp', 'Setting@Select_trianner_emp');
+// Display_select_trainner_emp
+Route::post('/Display_select_trainner_emp', 'Checkin@Display_select_trainner_emp_model');
+// Display_select_trainner_emp_edit
+Route::post('/Display_select_trainner_emp_edit', 'Checkin@Display_select_trainner_emp_model_edit');
+// Save_select_trainner_emp
+Route::post('/Save_select_trainner_emp_to_member', 'Checkin@Save_select_trainner_emp_to_member');
+// Save_select_trainner_emp_edit
+Route::post('/Save_select_trainner_emp_to_member_edit', 'Checkin@Save_select_trainner_emp_to_member_edit');
 // Dev Create user
 Route::get('/Create/{user}/{password}/{name}/{email}/{status}/{token}', 'Controller@Create_user_dev');
