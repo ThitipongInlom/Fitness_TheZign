@@ -272,6 +272,8 @@ class Checkin extends Controller
             ->where('Fake_code', $code)
             ->where('fake_package_id', $fake_package)
             ->update(['fake_table_id' => $fake_id]);
+        $Data = array('itemsetnumber' => $itemsetnumber, 'itemtype' => $itemtype, 'fake_id' => $fake_id);
+        echo json_encode($Data);
     }
 
     public function DisplayPackage()
@@ -527,11 +529,14 @@ class Checkin extends Controller
     	if ($CounCheckNull > 0) {
         // CheckData Main Online == 0
         if ($CounMainOnline == '0') {
-    	  $Data .= '
-    	<div align="center">
-    	<button class="btn btn-success animated pulse" data-toggle="tooltip" data-placement="bottom" title="ยืนยันเข้าใช้งานวันนี้" onclick="CheckInOnline(this);">เข้าใช้งาน</button>
-    	</div>';
+
+        $Data .= '
+        <div align="center">
+        <button class="btn btn-success animated pulse" data-toggle="tooltip" data-placement="bottom" title="ยืนยันเข้าใช้งานวันนี้" onclick="CheckInOnline(this);">เข้าใช้งาน</button>
+        </div>';
         }
+
+
         // CheckData Main Online == 1
         else{
         $Data .= '
@@ -1170,8 +1175,9 @@ class Checkin extends Controller
 
     public function Display_select_trainner_emp_model(Request $request)
     {
-      $Trainner_emp = DB::table('trainner_emp')->select('*')->get();
-
+      $Trainner_emp = DB::table('trainner_emp')->select('*')
+                        ->where('status_emp', '<>', 'Class')
+                        ->get();
       $Select = "<div align='center'><select class='custom-select' id='select_emp_to_member'>";
       foreach ($Trainner_emp as $key => $row) {
         $Select .= "<option value='".$row->tn_emp_id."'>[".$row->status_emp."] ".$row->fname."  ".$row->lname."</option>";
@@ -1185,8 +1191,9 @@ class Checkin extends Controller
 
     public function Display_select_trainner_emp_model_edit(Request $request)
     {
-      $Trainner_emp = DB::table('trainner_emp')->select('*')->get();
-
+      $Trainner_emp = DB::table('trainner_emp')->select('*')
+                        ->where('status_emp', '<>', 'Class')
+                        ->get();
       $Select = "<div align='center'><select class='custom-select' id='select_emp_to_member_edit'>";
       foreach ($Trainner_emp as $key => $row) {
         $Select .= "<option value='".$row->tn_emp_id."'>[".$row->status_emp."] ".$row->fname."  ".$row->lname."</option>";

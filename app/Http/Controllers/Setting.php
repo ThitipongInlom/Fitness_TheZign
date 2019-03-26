@@ -142,14 +142,28 @@ class Setting extends Controller
 
     public function Select_trianner_emp(Request $request)
     {
-      $Trainner_emp = DB::table('trainner_emp')->select('*')->get();
-
-      $Select = "<select class='custom-select'>";
+      // Trainner Emp
+      $Trainner_emp = DB::table('trainner_emp')
+                        ->where('status_emp', '<>' ,'Personal Trainer')
+                        ->select('*')
+                        ->get();
+      $trainner_emp = "<select class='custom-select'>";
       foreach ($Trainner_emp as $key => $row) {
-        $Select .= "<option value='".$row->tn_emp_id."'>[".$row->status_emp."] ".$row->fname."  ".$row->lname."</option>";
+        $trainner_emp .= "<option value='".$row->tn_emp_id."'>[".$row->status_emp."] ".$row->fname."  ".$row->lname."</option>";
       }
-      $Select .= "</select>";
-      $ResArray = ['select' => $Select];
+      $trainner_emp .= "</select>";
+      // Type Class
+      $Type_class = DB::table('item')
+                        ->where('item_type', 'C')
+                        ->select('*')
+                        ->get();
+      $type_class = "<select class='custom-select'>";
+      foreach ($Type_class as $key => $row) {
+        $type_class .= "<option value='".$row->item_code."'>[".$row->item_code."] ".$row->item_name."</option>";
+      }
+      $type_class .= "</select>";
+
+      $ResArray = ['trainner_emp' => $trainner_emp, 'type_class' => $type_class];
       $Jsonencode = json_encode($ResArray);
       echo $Jsonencode;
     }

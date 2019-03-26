@@ -163,6 +163,10 @@ var Item_To_Disktop = function Item_To_Disktop(e) {
             contentType: false,
             processData: false,
             data: Data,
+            success: function (callback) {
+                var res = jQuery.parseJSON(callback);
+                trianner_emp_select_modal('<div fake_table_id="' + res.fake_id + '"></div>');
+            }
         });
 
     }

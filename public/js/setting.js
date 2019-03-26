@@ -109,7 +109,13 @@ var Add_trainner = function Add_trainner() {
         },
         success: function (callback) {
             var res = jQuery.parseJSON(callback);
-            $("#select_trianner_emp").html(res.select);
+            $("#select_trianner_emp").html(res.trainner_emp);
+            $("#select_trainner_class").html(res.type_class);
+            $('.only-time').datepicker({
+                dateFormat: ' ',
+                timepicker: true,
+                classes: 'only-timepicker'
+            });
         }
     });   
     // Select Trianner class
@@ -124,6 +130,10 @@ $('#Add_type').on('hidden.bs.modal', function (e) {
     $("#add_type_year").val('0');
     $("#add_price").val('');
 });
+
+var Save_trainner = function Save_trainner() {
+    console.log('OK');
+}
 
 var Save_Trainner_emp = function Save_Trainner_emp() {
     var Fname = $("#firstname_trainner").val();
@@ -237,7 +247,7 @@ var Save_Add_Data = function Save_Add_Data() {
         success: function (callback) {
             if (callback == 'OK') {
                 $("#Add_type").modal('hide');
-                Table_tab1.draw();
+                Table_type.draw();
             }
         }
     });
@@ -279,7 +289,7 @@ var Save_Edit_Data = function Save_Edit_Data() {
             success: function (callback) {
                 if (callback == 'OK') {
                     $("#Edit_Type").modal('hide');
-                    Table_tab1.draw();
+                    Table_type.draw();
                 }
             }
         });
@@ -288,7 +298,7 @@ var Save_Edit_Data = function Save_Edit_Data() {
 
 // Table Tab1
 $.fn.dataTable.ext.errMode = 'throw';
-var Table_tab1 = $('#Table_tab1').DataTable({
+var Table_type = $('#Table_type').DataTable({
     "dom": "<'row'<'col-sm-1'><'col-sm-7'><'col-sm-4'>>" +
         "<'row'<'col-sm-12'tr>>" +
         "<'row'<'col-sm-1'i><'col-sm-7'><'col-sm-4'p>>",

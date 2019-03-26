@@ -17,6 +17,13 @@
     <link rel="stylesheet" type="text/css" href="{{ url('css/app.css') }}">
     <style>
         .datepicker{z-index:9999 !important}
+        .only-timepicker .datepicker--nav,
+        .only-timepicker .datepicker--content {
+            display: none;
+        }
+        .only-timepicker .datepicker--time {
+            border-top: none;
+        }
     </style>
 </head>
 <body>
@@ -42,7 +49,7 @@
                     <div align="right">
                         <button class="btn btn-sm btn-success" onclick="Add_type();">เพิ่มข้อมูล</button>
                     </div>
-                    <table class="table table-sm dt-responsive nowrap  row-border table-bordered table-hover" width="100%" id="Table_tab1">
+                    <table class="table table-sm dt-responsive nowrap  row-border table-bordered table-hover" width="100%" id="Table_type">
                         <thead>
                             <tr>
                                 <th>Code ประเภท</th>
@@ -96,17 +103,19 @@
                         <div align="right" style="padding-bottom: 5px;">
                             <button class="btn btn-sm btn-success" onclick="Add_trainner();">เพิ่มข้อมูล</button>
                         </div>
-                        <table class="table table-sm dt-responsive nowrap  row-border table-bordered table-hover" width="100%" id="Table_tab2">
+                        <table class="table table-sm dt-responsive nowrap  row-border table-bordered table-hover" width="100%" id="Table_trainner">
                             <thead>
                                 <tr>
-                                    <th>ชื่อ นามสกุล Trainner</th>
+                                    <th>ชื่อ นามสกุล</th>
                                     <th>ชื่อประเภท</th>
+                                    <th>วันที่สอนประจำ</th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
-                                    <th>ชื่อ นามสกุล Trainner</th>
+                                    <th>ชื่อ นามสกุล</th>
                                     <th>ชื่อประเภท</th>
+                                    <th>วันที่สอนประจำ</th>
                                 </tr>
                             </tfoot>
                         </table>
@@ -452,6 +461,51 @@
                             <label for="select_trainner_class">เลือก คลาสที่จะสอน</label>
                             <span id="select_trainner_class"></span>
                         </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 form-group">
+                            <label for="select_trainner_every_day">เลือกวันที่สอนประจำ</label>
+                            <select class="custom-select" id="select_trainner_every_day">
+                            <option value="Monday">วันจันทร์</option>
+                            <option value="Tuesday">วันอังคาร</option>
+                            <option value="Wednesday">วันพุธ</option>
+                            <option value="Thursday">วันพฤหัสบดี</option>
+                            <option value="Friday">วันศุกร์</option>
+                            <option value="Saturday">วันเสาร์</option>
+                            <option value="Sunday">วันอาทิตย์</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="input_trainner_time_start">เลือกเวลาที่เริ่มสอน</label>
+                            <input type="text" class="form-control only-time" id="input_trainner_time_start" placeholder="เลือกเวลาที่เริ่มสอน">
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="input_trainner_time_end">เลือกเวลาที่สอนสิ้นสุด</label>
+                            <input type="text" class="form-control only-time" id="input_trainner_time_end" placeholder="เลือกเวลาที่สอนสิ้นสุด">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 form-group">
+                            <div class="form-row">
+                            <div class="custom-control custom-checkbox">
+                               <div align="center">
+                               <input type="checkbox" class="custom-control-input" id="Check_1">
+                               <label class="custom-control-label" for="Check_1">ทำครั้งเดียว</label>
+                               </div>
+                            </div>
+                            <span style="padding-right:10px;"></span>
+                            <div class="custom-control custom-checkbox">
+                               <div align="center">
+                               <input type="checkbox" class="custom-control-input" id="Check_2">
+                               <label class="custom-control-label" for="Check_2">ทำตลอด</label>
+                               </div>
+                            </div>  
+                            </div>                   
+                        </div>
+                    </div>
+                    <hr>
+                    <div align="center">
+                        <button class="btn btn-sm btn-success" onclick="Save_trainner();">ยืนยันการสร้าง</button>
                     </div>
                 </div>
             </div>
