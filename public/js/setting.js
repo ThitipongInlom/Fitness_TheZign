@@ -132,7 +132,65 @@ $('#Add_type').on('hidden.bs.modal', function (e) {
 });
 
 var Save_trainner = function Save_trainner() {
-    console.log('OK');
+    var select_trainner_emp_add = $("#select_trainner_emp_add").val();
+    var date_trainner_add = $('#date_trainner_add').val();
+    var select_trainner_class_add = $("#select_trainner_class_add").val();
+    var select_trainner_every_day = $("#select_trainner_every_day").val();
+    var input_trainner_time_start = $("#input_trainner_time_start").val();
+    var input_trainner_time_end = $("#input_trainner_time_end").val();
+    var radioValue = $("input[name='exampleRadios']:checked").val();
+    // เช็ค ค่าว่าง ในแต่ล่ะ ฟิว
+    if (select_trainner_emp_add == '') {
+        alert("เลือกผู้สอน เทรนเนอร์");
+        $("#select_trainner_emp_add").focus();
+    }else if (date_trainner_add == '') {
+        alert("เลือก วันที่ จะสอน ");
+        $("#date_trainner_add").focus();
+    }else if (select_trainner_class_add == '') {
+        alert("เลือก คลาสที่จะสอน");
+        $("#select_trainner_class_add").focus();
+    }else if (select_trainner_every_day == '') {
+        alert("เลือกวันที่สอนประจำ");
+        $("#select_trainner_every_day").focus();
+    }else if (input_trainner_time_start == '') {
+        alert("เลือกเวลาที่เริ่มสอน");
+        $("#input_trainner_time_start").focus();
+    }else if (input_trainner_time_end == '') {
+        alert("เลือกเวลาที่สอนสิ้นสุด");
+        $("#input_trainner_time_end").focus();
+    }else {
+        //Add Data To Form
+        var Data = new FormData();
+        Data.append('select_trainner_emp_add', select_trainner_emp_add);
+        Data.append('date_trainner_add', date_trainner_add);
+        Data.append('select_trainner_class_add', select_trainner_class_add);
+        Data.append('select_trainner_every_day', select_trainner_every_day);
+        Data.append('input_trainner_time_start', input_trainner_time_start);
+        Data.append('input_trainner_time_end', input_trainner_time_end);
+        Data.append('radioValue', radioValue);
+        $.ajax({
+            url: 'Save_trainner',
+            type: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            dataType: 'text',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: Data,
+            success: function (callback) {
+                $("#select_trainner_emp_add").val('');
+                $("#date_trainner_add").val('');
+                $("#select_trainner_class_add").val('');
+                $("#select_trainner_every_day").val('Monday');
+                $("#input_trainner_time_start").val('');
+                $("#input_trainner_time_end").val('');
+                $("#Check_1").attr('checked', true);
+                $("#Add_trainner").modal('hide');
+            }
+        });  
+    }
 }
 
 var Save_Trainner_emp = function Save_Trainner_emp() {
@@ -427,6 +485,79 @@ var Table_trainner_emp = $('#Table_trainner_emp').DataTable({
         "className": 'text-right',
         "targets": []
     },
+    ],
+    "language": {
+        "lengthMenu": "แสดง _MENU_ คน",
+        "search": "ค้นหา:",
+        "info": "แสดง _START_ ถึง _END_ ทั้งหมด _TOTAL_ คน",
+        "infoEmpty": "แสดง 0 ถึง 0 ทั้งหมด 0 คน",
+        "infoFiltered": "(จาก ทั้งหมด _MAX_ ทั้งหมด คน)",
+        "processing": "กำลังโหลดข้อมูล...",
+        "zeroRecords": "ไม่มีข้อมูล",
+        "paginate": {
+            "first": "หน้าแรก",
+            "last": "หน้าสุดท้าย",
+            "next": "ต่อไป",
+            "previous": "ย้อนกลับ"
+        },
+    },
+    search: {
+        "regex": true
+    },
+});
+
+var Table_trainner = $('#Table_trainner').DataTable({
+    "dom": "<'row'<'col-sm-1'><'col-sm-7'><'col-sm-4'>>" +
+        "<'row'<'col-sm-12'tr>>" +
+        "<'row'<'col-sm-1'i><'col-sm-7'><'col-sm-4'p>>",
+    "processing": true,
+    "serverSide": true,
+    "bPaginate": true,
+    "responsive": true,
+    "aLengthMenu": [
+        [8, 25, 50, -1],
+        ["8", "25", "50", "ทั้งหมด"]
+    ],
+    "ajax": {
+        "url": 'Table_trainner',
+        "type": 'POST',
+        "headers": {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+    },
+    "columns": [{
+            "data": 'name_emp',
+            "name": 'name_emp',
+        },
+        {
+            "data": 'item_name',
+            "name": 'item_name'
+        },
+        {
+            "data": 'every_day',
+            "name": 'every_day'
+        },
+        {
+            "data": 'repeat_status',
+            "name": 'repeat_status'
+        },
+        {
+            "data": 'action',
+            "name": 'action'
+        },
+    ],
+    "columnDefs": [{
+            "className": 'text-left',
+            "targets": [0]
+        },
+        {
+            "className": 'text-center',
+            "targets": [1, 2,3]
+        },
+        {
+            "className": 'text-right',
+            "targets": []
+        },
     ],
     "language": {
         "lengthMenu": "แสดง _MENU_ คน",

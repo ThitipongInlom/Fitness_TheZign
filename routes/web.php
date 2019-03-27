@@ -112,6 +112,8 @@ Route::post('/SendToRegister', 'MainUsers@SendToRegister');
 Route::post('/Calculate_renewal', 'MainUsers@Calculate_renewal');
 // Table Tab 1
 Route::post('/Table_tab_1', 'Setting@Table_tab_1');
+// Table_trainner
+Route::post('/Table_trainner', 'Setting@Table_trainner');
 // Table_trainner_emp
 Route::post('/Table_trainner_emp', 'Setting@Table_trainner_emp');
 // Check_K_bank
@@ -132,6 +134,8 @@ Route::post('/Add_Data_Type', 'Setting@Add_Data_Type');
 Route::post('/Edit_Data_Type', 'Setting@Edit_Data_Type');
 // Closeday 
 Route::get('/Insert_Closeday', 'Closeday@Index_Closeday');
+// Save_trainner
+Route::post('/Save_trainner', 'Setting@Save_trainner');
 // Auto_Generate_wifi
 Route::get('/Auto_Generate_wifi', 'MainUsers@Auto_Generate_wifi');
 // Save_Trainner_emp

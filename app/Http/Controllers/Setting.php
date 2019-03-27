@@ -67,6 +67,33 @@ class Setting extends Controller
             ->make(true);
     }
 
+    public function Table_trainner(Request $request)
+    {
+      $users = DB::table('trainner')
+              ->select('*')
+              ->join('trainner_emp', 'trainner.tn_emp_id', '=', 'trainner_emp.tn_emp_id')
+              ->join('item', 'trainner.class_id', '=', 'item.item_code');
+      return Datatables::of($users)
+            ->addColumn('name_emp', function($users) {
+                return $users->fname.' '.$users->lname;
+            })  
+            ->addColumn('repeat_status', function($users) {
+                if ($users->repeat == 'Y') {
+                  return '<span class="badge badge-success">ทำครั้งเดียว</span>';
+                }elseif ($users->every_genday == 'Y') {
+                  return '<span class="badge badge-success">ทำซ้ำตลอด</span>';
+                }else {
+                  return '<span class="badge badge-secondary">ไม่ทำซ้ำ</span>';
+                }
+            })
+            ->addColumn('action', function ($users) {
+                $Data  = '<button class="btn btn-sm btn-warning" id="'.$users->tn_id.'" ><i class="fas fa-comment-slash"></i>ปิดการทำซ้ำ</button> ';
+                return $Data;
+            })  
+            ->rawColumns(['name_emp','repeat_status','action'])                                            
+            ->make(true);
+    }
+
     public function Get_type_data(Request $request)
     {
       $Type = DB::table('type')->where('type_id', $request->post('type_id'))->get();
@@ -128,6 +155,30 @@ class Setting extends Controller
       echo 'OK';
     }
 
+    public function Save_trainner(Request $request)
+    {
+      $Get_id = DB::table('trainner')->insertGetId([
+        'tn_emp_id' => $request->post('select_trainner_emp_add'), 
+        'train_date' => date('Y-m-d',strtotime(str_replace('/', '-', $request->post('date_trainner_add')))), 
+        'class_id' => $request->post('select_trainner_class_add'), 
+        'every_day' => $request->post('select_trainner_every_day'), 
+        'train_time_start' => str_replace(' ', '', $request->post('input_trainner_time_start')), 
+        'train_time_end' => str_replace(' ', '', $request->post('input_trainner_time_end')), 
+        'enable_status' => 'Y', 
+      ]);
+      // Update Status
+      if ($request->post('radioValue') == 'repeat') {
+        DB::table('trainner')
+            ->where('tn_id', $Get_id)
+            ->update(['repeat' => 'Y']);
+      }else if ($request->post('radioValue') == 'every_genday') {
+        DB::table('trainner')
+            ->where('tn_id', $Get_id)
+            ->update(['every_genday' => 'Y']);
+      }else { echo 'No Update - ';}
+      echo 'OK';
+    }
+
     public function Save_edit_Trainner_emp(Request $request)
     {
       DB::table('trainner_emp')
@@ -147,7 +198,7 @@ class Setting extends Controller
                         ->where('status_emp', '<>' ,'Personal Trainer')
                         ->select('*')
                         ->get();
-      $trainner_emp = "<select class='custom-select'>";
+      $trainner_emp = "<select class='custom-select' id='select_trainner_emp_add'>";
       foreach ($Trainner_emp as $key => $row) {
         $trainner_emp .= "<option value='".$row->tn_emp_id."'>[".$row->status_emp."] ".$row->fname."  ".$row->lname."</option>";
       }
@@ -157,7 +208,7 @@ class Setting extends Controller
                         ->where('item_type', 'C')
                         ->select('*')
                         ->get();
-      $type_class = "<select class='custom-select'>";
+      $type_class = "<select class='custom-select' id='select_trainner_class_add'>";
       foreach ($Type_class as $key => $row) {
         $type_class .= "<option value='".$row->item_code."'>[".$row->item_code."] ".$row->item_name."</option>";
       }

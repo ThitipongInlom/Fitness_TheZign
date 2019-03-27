@@ -109,6 +109,8 @@
                                     <th>ชื่อ นามสกุล</th>
                                     <th>ชื่อประเภท</th>
                                     <th>วันที่สอนประจำ</th>
+                                    <th>สถานะการทำซ้ำ</th>
+                                    <th>ตัวช่วย</th>
                                 </tr>
                             </thead>
                             <tfoot>
@@ -116,6 +118,8 @@
                                     <th>ชื่อ นามสกุล</th>
                                     <th>ชื่อประเภท</th>
                                     <th>วันที่สอนประจำ</th>
+                                    <th>สถานะการทำซ้ำ</th>
+                                    <th>ตัวช่วย</th>
                                 </tr>
                             </tfoot>
                         </table>
@@ -450,7 +454,7 @@
                         <div class="col-md-4 form-group">
                             <label for="date_trainner">เลือก วันที่จะสอน</label>
                             <div class="input-group">
-                            <input type="text" data-toggle="datepicker" data-date-format='dd/mm/yyyy' class="form-control" id="date_trainner"  placeholder="เลือกวันที่จะสอน">
+                            <input type="text" data-toggle="datepicker" data-date-format='dd/mm/yyyy' class="form-control" id="date_trainner_add"  placeholder="เลือกวันที่จะสอน">
                             <div class="input-group-prepend">
                             <div class="input-group-text"><i class="fas fa-calendar-alt"></i></div>
                             <span id="foo"></span>
@@ -486,21 +490,18 @@
                     </div>
                     <div class="row">
                         <div class="col-md-4 form-group">
-                            <div class="form-row">
-                            <div class="custom-control custom-checkbox">
-                               <div align="center">
-                               <input type="checkbox" class="custom-control-input" id="Check_1">
-                               <label class="custom-control-label" for="Check_1">ทำครั้งเดียว</label>
-                               </div>
+                            <div class="form-check">
+                               <input type="radio" class="form-check-input" name="exampleRadios" id="Check_1" checked value="no">
+                               <label class="form-check-label" for="Check_1">ไม่ทำซ้ำ</label>
                             </div>
-                            <span style="padding-right:10px;"></span>
-                            <div class="custom-control custom-checkbox">
-                               <div align="center">
-                               <input type="checkbox" class="custom-control-input" id="Check_2">
-                               <label class="custom-control-label" for="Check_2">ทำตลอด</label>
-                               </div>
-                            </div>  
-                            </div>                   
+                            <div class="form-check">
+                               <input type="radio" class="form-check-input" name="exampleRadios" id="Check_2" value="repeat">
+                               <label class="form-check-label" for="Check_2">ทำครั้งเดียว</label>
+                            </div>
+                            <div class="form-check">
+                               <input type="radio" class="form-check-input" name="exampleRadios" id="Check_3" value="every_genday">
+                               <label class="form-check-label" for="Check_2">ทำตลอด</label>
+                            </div>                  
                         </div>
                     </div>
                     <hr>
