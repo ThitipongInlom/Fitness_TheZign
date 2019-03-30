@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="{{ app()->getLocale() }}">
-@if (Session::get('Login.status') == '0')
+@if (Session::get('Login.access_rights_setting') == '0')
 
 @else
   <script>
@@ -109,6 +109,7 @@
                                     <th>ชื่อ นามสกุล</th>
                                     <th>ชื่อประเภท</th>
                                     <th>วันที่สอนประจำ</th>
+                                    <th>วันที่ทำการ</th>
                                     <th>สถานะการทำซ้ำ</th>
                                     <th>ตัวช่วย</th>
                                 </tr>
@@ -118,6 +119,7 @@
                                     <th>ชื่อ นามสกุล</th>
                                     <th>ชื่อประเภท</th>
                                     <th>วันที่สอนประจำ</th>
+                                    <th>วันที่ทำการ</th>
                                     <th>สถานะการทำซ้ำ</th>
                                     <th>ตัวช่วย</th>
                                 </tr>
@@ -469,7 +471,8 @@
                     <div class="row">
                         <div class="col-md-4 form-group">
                             <label for="select_trainner_every_day">เลือกวันที่สอนประจำ</label>
-                            <select class="custom-select" id="select_trainner_every_day">
+                            <select class="custom-select" id="select_trainner_every_day" disabled>
+                            <option value="No">ปิด</option>
                             <option value="Monday">วันจันทร์</option>
                             <option value="Tuesday">วันอังคาร</option>
                             <option value="Wednesday">วันพุธ</option>

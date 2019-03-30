@@ -562,7 +562,7 @@ class Checkin extends Controller
     public function TablePane()
     {
         $Code = Input::post('Code');
-        $Item = DB::table('item')->get();
+        $Item = DB::table('item')->where('item_eye_hide', '0')->get();
         $CounMainOnline = DB::table('main_table')->where('Code', $Code)->where('Status', 'IN')->count();
         //Nav tab
         $Navtab = '

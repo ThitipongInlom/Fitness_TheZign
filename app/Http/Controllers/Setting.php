@@ -77,20 +77,37 @@ class Setting extends Controller
             ->addColumn('name_emp', function($users) {
                 return $users->fname.' '.$users->lname;
             })  
+            ->editColumn('train_date', function($users) {
+                return  date('d/m/Y', strtotime($users->train_date));
+            }) 
             ->addColumn('repeat_status', function($users) {
-                if ($users->repeat == 'Y') {
-                  return '<span class="badge badge-success">ทำครั้งเดียว</span>';
-                }elseif ($users->every_genday == 'Y') {
-                  return '<span class="badge badge-success">ทำซ้ำตลอด</span>';
+                if ($users->enable_status == 'Y') {
+                  $enable_status = '<span class="badge badge-success">เปิดการทำซ้ำ</span>';
                 }else {
-                  return '<span class="badge badge-secondary">ไม่ทำซ้ำ</span>';
+                  $enable_status = '<span class="badge badge-danger">ปิดการทำซ้ำ</span>';
+                }
+                // Repeat
+                if ($users->repeat == 'Y') {
+                  return '<span class="badge badge-success">ทำครั้งเดียว</span> / '.$enable_status;
+                }elseif ($users->every_genday == 'Y') {
+                  return '<span class="badge badge-success">ทำซ้ำตลอด</span> / '.$enable_status;
+                }else {
+                  return '<span class="badge badge-secondary">ไม่ทำซ้ำ</span> / '.$enable_status;
                 }
             })
+            ->addColumn('day_next', function($users) {
+                $next_day = date('d/m/Y', strtotime("next ".$users->every_day));
+                return  $next_day;
+            }) 
             ->addColumn('action', function ($users) {
-                $Data  = '<button class="btn btn-sm btn-warning" id="'.$users->tn_id.'" ><i class="fas fa-comment-slash"></i>ปิดการทำซ้ำ</button> ';
+                if ($users->enable_status == 'Y') {
+                $Data = '<button class="btn btn-sm btn-danger" id="'.$users->tn_id.'" ><i class="fas fa-comment-slash"></i>ปิดการทำซ้ำ</button> ';  
+                }else {
+                $Data = '';
+                }
                 return $Data;
             })  
-            ->rawColumns(['name_emp','repeat_status','action'])                                            
+            ->rawColumns(['name_emp','train_date','repeat_status','day_next','action'])                                            
             ->make(true);
     }
 
@@ -164,17 +181,16 @@ class Setting extends Controller
         'every_day' => $request->post('select_trainner_every_day'), 
         'train_time_start' => str_replace(' ', '', $request->post('input_trainner_time_start')), 
         'train_time_end' => str_replace(' ', '', $request->post('input_trainner_time_end')), 
-        'enable_status' => 'Y', 
       ]);
       // Update Status
       if ($request->post('radioValue') == 'repeat') {
         DB::table('trainner')
             ->where('tn_id', $Get_id)
-            ->update(['repeat' => 'Y']);
+            ->update(['repeat' => 'Y', 'enable_status' => 'Y']);
       }else if ($request->post('radioValue') == 'every_genday') {
         DB::table('trainner')
             ->where('tn_id', $Get_id)
-            ->update(['every_genday' => 'Y']);
+            ->update(['every_genday' => 'Y', 'enable_status' => 'Y']);
       }else { echo 'No Update - ';}
       echo 'OK';
     }

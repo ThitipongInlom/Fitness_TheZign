@@ -657,6 +657,75 @@ class MainUsers extends Controller
           foreach ($Connect_Status as $key => $row) {
             $Data_Connect_Status = $row->connect_detail;
           }
+          // Free
+          $remember_freepro = DB::table('type')->where('type_code', $request->post('type'))->get();
+          foreach ($remember_freepro as $key => $row) {
+            $type_pt_free = $row->type_pt_free;
+          }
+          if ($type_pt_free > '0') {
+          DB::table('detail_table')->insert([
+			    'code' => $request->post('code'),
+			    'date_time' => $Today,
+          'itemcode' => 'P',
+			    'itemcodetype'  => 'P15',
+			    'itemtype'  => 'T',
+			    'itemname'  => 'โปรโมชั่น เทรนเนอร์ ฟรี',
+			    'price'     => '0',
+			    'sum'       => $type_pt_free,
+          ]);
+          $today = $Today;
+          $date = date("Y-m-d");
+          $code = $request->post('code');
+          $itemcode = 'P';
+          $itemtype = 'T';
+          $itemname = 'โปรโมชั่น เทรนเนอร์ ฟรี';
+          $itemprice= '0';
+          $itemcodetype = 'P15';
+          $itemsetnumber = $type_pt_free;
+          // Insert Data Package Fake
+          $fake_package = DB::table('fake_package')->insertGetId([
+          'fake_code' => $code,
+          'fake_datetime' => $today,
+          'fake_itemcode' => $itemcode,
+          'fake_typeitemcode' => $itemcodetype,
+          'fake_typeitem' => $itemtype,
+          'fake_itemname' => $itemname,
+          'fake_price'    => $itemprice,
+          'fake_sum'      => $itemsetnumber,
+          'Status'        => 'BUY'
+          ]);
+          // Insert Data Package Main
+          $package_detail_id = DB::table('package_detail')->insertGetId([
+          'fake_code' => $code,
+          'fake_datetime' => $today,
+          'fake_itemcode' => $itemcode,
+          'fake_typeitemcode' => $itemcodetype,
+          'fake_typeitem' => $itemtype,
+          'fake_itemname' => $itemname,
+          'fake_price'    => $itemprice,
+          'fake_sum'      => $itemsetnumber,
+          ]);
+          // Insert Package Main
+          $idpackage = DB::table('main_package')->insertGetId([
+          'main_package_id' => $package_detail_id,
+          'Code' => $code,
+          'date' => $date,
+          'Status' => 'Active',
+          'name_package' => $itemname,
+          'total_sum' => $itemsetnumber,
+          'have_sum' => $itemsetnumber]);
+          // Update Main Id
+          DB::table('fake_package')
+              ->where('fake_code', $code)
+              ->where('fake_package_id', $fake_package)
+              ->update(['main_package_id' => $idpackage]);
+          // Update Package Main
+          DB::table('package_detail')
+              ->where('fake_code', $code)
+              ->where('package_id', $package_detail_id)
+              ->update(['main_package_id' => $idpackage]);
+          }
+
           if ($Data_Connect_Status == '0') {
               if ($Username_Airlink_H == '1') {
               // Get Data Type
@@ -1076,12 +1145,78 @@ class MainUsers extends Controller
           }else{
               $StopMB = '0';
           }
+          $type_pt_free = $row->type_pt_free;
         }
-        if ($request->post('Birthday_Add') == '1970-01-01' OR $request->post('Birthday_Add') == '') {
-              $Rebirthday = '0000-00-00';
-        }else{
-              $Rebirthday = $Birth_POST;
-        }
+          // Format 
+          if ($request->post('Birthday_Add') == '1970-01-01' OR $request->post('Birthday_Add') == '') {
+                $Rebirthday = '0000-00-00';
+          }else{
+                $Rebirthday = $Birth_POST;
+          }
+          // Free Item
+          if ($type_pt_free > '0') {
+          DB::table('detail_table')->insert([
+			    'code' => $request->post('Code_Add'),
+			    'date_time' => $Today,
+          'itemcode' => 'P',
+			    'itemcodetype'  => 'P15',
+			    'itemtype'  => 'T',
+			    'itemname'  => 'โปรโมชั่น เทรนเนอร์ ฟรี',
+			    'price'     => '0',
+			    'sum'       => $type_pt_free,
+          ]);
+          $today = $Today;
+          $date = date("Y-m-d");
+          $code = $request->post('Code_Add');
+          $itemcode = 'P';
+          $itemtype = 'T';
+          $itemname = 'โปรโมชั่น เทรนเนอร์ ฟรี';
+          $itemprice= '0';
+          $itemcodetype = 'P15';
+          $itemsetnumber = $type_pt_free;
+          // Insert Data Package Fake
+          $fake_package = DB::table('fake_package')->insertGetId([
+          'fake_code' => $code,
+          'fake_datetime' => $today,
+          'fake_itemcode' => $itemcode,
+          'fake_typeitemcode' => $itemcodetype,
+          'fake_typeitem' => $itemtype,
+          'fake_itemname' => $itemname,
+          'fake_price'    => $itemprice,
+          'fake_sum'      => $itemsetnumber,
+          'Status'        => 'BUY'
+          ]);
+          // Insert Data Package Main
+          $package_detail_id = DB::table('package_detail')->insertGetId([
+          'fake_code' => $code,
+          'fake_datetime' => $today,
+          'fake_itemcode' => $itemcode,
+          'fake_typeitemcode' => $itemcodetype,
+          'fake_typeitem' => $itemtype,
+          'fake_itemname' => $itemname,
+          'fake_price'    => $itemprice,
+          'fake_sum'      => $itemsetnumber,
+          ]);
+          // Insert Package Main
+          $idpackage = DB::table('main_package')->insertGetId([
+          'main_package_id' => $package_detail_id,
+          'Code' => $code,
+          'date' => $date,
+          'Status' => 'Active',
+          'name_package' => $itemname,
+          'total_sum' => $itemsetnumber,
+          'have_sum' => $itemsetnumber]);
+          // Update Main Id
+          DB::table('fake_package')
+              ->where('fake_code', $code)
+              ->where('fake_package_id', $fake_package)
+              ->update(['main_package_id' => $idpackage]);
+          // Update Package Main
+          DB::table('package_detail')
+              ->where('fake_code', $code)
+              ->where('package_id', $package_detail_id)
+              ->update(['main_package_id' => $idpackage]);
+          }
           // Insert To DB Member
           $ID_New_Code = DB::table('member')->insertGetId([
           'code' =>    $request->post('Code_Add'),

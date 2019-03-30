@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="{{ app()->getLocale() }}">
-@if (Session::get('Login.status') == '0')
+@if (Session::get('Login.access_rights_member') == '0')
 
 @else
   <script>

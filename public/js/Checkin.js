@@ -1057,6 +1057,7 @@ var save_trainner_emp_select_modal = function save_trainner_emp_select_modal(e) 
         success: function (callback) {
             $('#trianner_emp_select_modal').modal('hide');
             DisplayTable();
+            PackageItem();
             DisplayPackage();
         }
     });
@@ -1079,6 +1080,7 @@ var save_trainner_emp_select_modal_edit = function save_trainner_emp_select_moda
         data: Data,
         success: function (callback) {
             $('#trianner_emp_select_modal_edit').modal('hide');
+            PackageItem();
             PackageOnuseDisplay();
         }
     });

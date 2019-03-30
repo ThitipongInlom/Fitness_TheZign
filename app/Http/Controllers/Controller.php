@@ -25,9 +25,10 @@ class Controller extends BaseController
                 	'name' => $users_data[0]->name,
                 	'email'=> $users_data[0]->email,
                 	'username'=> $users_data[0]->username,
-                	'status'=> $users_data[0]->status,
                 	'created_at'=> $users_data[0]->created_at,
-                	'updated_at' => $users_data[0]->updated_at);
+                    'updated_at' => $users_data[0]->updated_at,
+                    'access_rights_member'=> $users_data[0]->access_rights_member,
+                    'access_rights_setting'=> $users_data[0]->access_rights_setting);
 				Session::put('Login', $arrayData);
                 date_default_timezone_set("Asia/Bangkok");
                 $today = now();
@@ -42,9 +43,10 @@ class Controller extends BaseController
                 	'name' => $users_data[0]->name,
                 	'email'=> $users_data[0]->email,
                 	'username'=> $users_data[0]->username,
-                	'status'=> $users_data[0]->status,
                 	'created_at'=> $users_data[0]->created_at,
-                	'updated_at' => $users_data[0]->updated_at);
+                    'updated_at' => $users_data[0]->updated_at,
+                    'access_rights_member'=> $users_data[0]->access_rights_member,
+                    'access_rights_setting'=> $users_data[0]->access_rights_setting);
 				Session::put('Login', $arrayData);
                 date_default_timezone_set("Asia/Bangkok");
                 $today = now();

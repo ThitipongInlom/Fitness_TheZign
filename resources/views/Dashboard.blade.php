@@ -16,7 +16,7 @@
     <div class="container">
         <div class="row">
             <!-- MainCheck -->
-            <div class="col-lg-4 col-6" onclick="Report();">
+            <div class="col-lg-3 col-6" onclick="Report();">
                 <div class="small-box bg-info shadow" style="cursor: pointer;">
                     <div class="inner">
                         <h3 class="text-white" style="cursor: pointer;">Report</h3>
@@ -28,11 +28,11 @@
                 </div>
             </div>
             <!-- users -->
-            <div class="col-lg-4 col-6" onclick="MainUsers();">
+            <div class="col-lg-3 col-6" onclick="MainUsers();">
                 <div class="small-box bg-success shadow" style="cursor: pointer;">
                     <div class="inner">
                         <h3 class="text-white" style="cursor: pointer;">Member</h3>
-                        <p class="text-white" style="cursor: pointer;">เพิ่ม Member เข้าสู่ระบบและสร้าง WiFi</p>
+                        <p class="text-white" style="cursor: pointer;">เพิ่ม Member</p>
                     </div>
                     <div class="icon">
                         <i class="fas fa-users"></i>
@@ -40,7 +40,7 @@
                 </div>
             </div>
             <!-- sliders -->
-            <div class="col-lg-4 col-6" onclick="Setting();">
+            <div class="col-lg-3 col-6" onclick="Setting();">
                 <div class="small-box bg-danger shadow" style="cursor: pointer;">
                     <div class="inner">
                         <h3 class="text-white" style="cursor: pointer;">Setting</h3>
@@ -146,14 +146,22 @@
     $(document).ready(function() {
         $('[data-toggle="tooltip"]').tooltip();
     });
-    var MainUsers = function MainUsers() {
-        window.location = "{{ url('/MainUsers') }}";
-    }
     var Report = function Report() {
         window.location = "{{ url('/Report') }}";
     }
+    var MainUsers = function MainUsers() {
+        if ({{ Session::get('Login.access_rights_member') }} == '0') {
+            window.location = "{{ url('/MainUsers') }}";
+        }else {
+            alert('ไม่มีสิทธ์การเข้าการใช้งานส่วนนี้');
+        }
+    }
     var Setting = function Setting(){
-        window.location = "{{ url('/Setting') }}";
+        if ({{ Session::get('Login.access_rights_setting') }} == '0') {
+            window.location = "{{ url('/Setting') }}";
+        }else {
+            alert('ไม่มีสิทธ์การเข้าการใช้งานส่วนนี้');
+        }
     }
 </script>
 

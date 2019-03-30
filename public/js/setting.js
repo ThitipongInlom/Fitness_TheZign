@@ -188,6 +188,7 @@ var Save_trainner = function Save_trainner() {
                 $("#input_trainner_time_end").val('');
                 $("#Check_1").attr('checked', true);
                 $("#Add_trainner").modal('hide');
+                Table_trainner.draw();
             }
         });  
     }
@@ -538,6 +539,10 @@ var Table_trainner = $('#Table_trainner').DataTable({
             "name": 'every_day'
         },
         {
+            "data": 'train_date',
+            "name": 'train_date'
+        },
+        {
             "data": 'repeat_status',
             "name": 'repeat_status'
         },
@@ -552,7 +557,7 @@ var Table_trainner = $('#Table_trainner').DataTable({
         },
         {
             "className": 'text-center',
-            "targets": [1, 2,3]
+            "targets": [1,2,3,4]
         },
         {
             "className": 'text-right',
