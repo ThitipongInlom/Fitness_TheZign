@@ -15,6 +15,12 @@
       body{
         font-size: 12px;
       }
+      .free_package {
+        background-color: #ff0b0b38 !important;
+      }
+      .buy_package {
+        background-color: #dcc534 !important;     
+      }
     </style>
 </head>
 

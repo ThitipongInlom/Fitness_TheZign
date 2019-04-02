@@ -294,32 +294,32 @@ class Checkin extends Controller
         <tbody>';
         foreach ($Datajoin as $key => $Row) {
         $rehavesum = $Row->have_sum;
+        // เช็คว่า มี เทรนเนอร์ หรือไม่
+        if ($Row->trainner_emp_id != '') {
+        $trainner_name = DB::table('trainner_emp')->where('tn_emp_id',  $Row->trainner_emp_id)->get();
+        foreach ($trainner_name as $key => $name) {
+          $Name = '<b>ผู้สอน: </b>'.$name->fname .' '. $name->lname;
+        }}else{
+          $Name = "";
+        }
+        // เช็คว่า Package ฟรี หรือไม่ แยกสี ถ้าฟรี = P15
+        if ($Row->fake_typeitemcode == 'P15') {
         $Table .= "
-        <tr class='bg-warning animated flipInX'>
-        <td><b>แพ็กเกจ:</b> $Row->name_package</td>
+        <tr class='free_package animated flipInX'>
+        <td><b>แพ็กเกจ:</b> $Row->name_package<br>$Name</td>
         <td><b>วันที่ซื้อ:</b> ".date('d/m/Y', strtotime($Row->date))."</td>
         <td><b>จำนวนที่ซื้อ:<b> $Row->total_sum ครั้ง</td>
-        <td><b>จำนวนคงเหลือ:</b> $rehavesum ครั้ง</td>
-        <td>";
-        $Table .='
-        <button class="btn btn-sm btn-success" package_id="'.$Row->id.'" onclick="History_Package_Useing(this);">ประวัติ</button>
-        </td>
-        </tr>';
-
-          if ($Row->trainner_emp_id != '') {
-          $trainner_name = DB::table('trainner_emp')->where('tn_emp_id',  $Row->trainner_emp_id)->get();
-          foreach ($trainner_name as $key => $name) {
-            $Name = $name->fname .' '. $name->lname;
-          }
-          $Table .= '
-          <tr class="bg-warning animated flipInX">
-            <td colspan="5">
-              <div align="center">
-                <b>ผู้สอน:</b> '.$Name.'
-              </div>
-            </td>
-          </tr>';
-          }
+        <td><b>จำนวนคงเหลือ:</b> $rehavesum ครั้ง</td>";
+        $Table .='<td><button class="btn btn-sm btn-success" package_id="'.$Row->id.'" onclick="History_Package_Useing(this);">ประวัติ</button></td></tr>';
+        }else {
+        $Table .= "
+        <tr class='buy_package animated flipInX'>
+        <td><b>แพ็กเกจ:</b> $Row->name_package<br>$Name</td>
+        <td><b>วันที่ซื้อ:</b> ".date('d/m/Y', strtotime($Row->date))."</td>
+        <td><b>จำนวนที่ซื้อ:<b> $Row->total_sum ครั้ง</td>
+        <td><b>จำนวนคงเหลือ:</b> $rehavesum ครั้ง</td>";
+        $Table .='<td><button class="btn btn-sm btn-success" package_id="'.$Row->id.'" onclick="History_Package_Useing(this);">ประวัติ</button></td></tr>';         
+        }
         
         }
         $Table .= '
@@ -357,8 +357,10 @@ class Checkin extends Controller
         <tr class="bg-primary" align="center"><td><b>รายการ</b></td><td><b>ตัวช่วย</b></td></tr>';
         foreach ($Datajoin as $key => $data) {
         $rehavesum = $data->have_sum;
+        // เช็คว่า Package ฟรี หรือไม่ แยกสี ถ้าฟรี = P15
+        if ($data->fake_typeitemcode == 'P15') {
         $Data .= "
-        <tr class='bg-primary' class='animated flipInX'>
+        <tr class='free_package' class='animated flipInX'>
         <td width='70%'>
         <b>$data->name_package | คงเหลือ:</b> $rehavesum
         </td>
@@ -366,6 +368,17 @@ class Checkin extends Controller
         $Data .= "<button class='btn btn-sm btn-success' main_package_id='$data->id' package_detail_id='$data->main_package_id' code='$data->Code' total='$data->total_sum' havesum='$data->have_sum' trainner_emp='$data->trainner_emp_id' onclick='OnUsePackage(this);'>เลือกใช้งาน</button>";
         $Data .= "</td>
         </tr>";
+        }else{
+        $Data .= "
+        <tr class='buy_package' class='animated flipInX'>
+        <td width='70%'>
+        <b>$data->name_package | คงเหลือ:</b> $rehavesum
+        </td>
+        <td width='30%'>";
+        $Data .= "<button class='btn btn-sm btn-success' main_package_id='$data->id' package_detail_id='$data->main_package_id' code='$data->Code' total='$data->total_sum' havesum='$data->have_sum' trainner_emp='$data->trainner_emp_id' onclick='OnUsePackage(this);'>เลือกใช้งาน</button>";
+        $Data .= "</td>
+        </tr>";         
+        }
         }
         $Data .= '
         </tbody>

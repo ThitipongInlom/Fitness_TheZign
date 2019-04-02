@@ -109,8 +109,8 @@
                                     <th>ชื่อ นามสกุล</th>
                                     <th>ชื่อประเภท</th>
                                     <th>วันที่สอนประจำ</th>
-                                    <th>วันที่ทำการ</th>
-                                    <th>สถานะการทำซ้ำ</th>
+                                    <th>วันที่ทำการสอน</th>
+                                    <th>เวลาที่สอน</th>
                                     <th>ตัวช่วย</th>
                                 </tr>
                             </thead>
@@ -119,8 +119,8 @@
                                     <th>ชื่อ นามสกุล</th>
                                     <th>ชื่อประเภท</th>
                                     <th>วันที่สอนประจำ</th>
-                                    <th>วันที่ทำการ</th>
-                                    <th>สถานะการทำซ้ำ</th>
+                                    <th>วันที่ทำการสอน</th>
+                                    <th>เวลาที่สอน</th>
                                     <th>ตัวช่วย</th>
                                 </tr>
                             </tfoot>
@@ -303,7 +303,22 @@
                   </div>
                   <br>
                   <div class="row">
-                    <div class="col-md-4"></div>
+                    <div class="col-md-4">
+                        <label for="add_free_sum_package"><b>จำนวนที่จะแถม เทรนเนอร์ ฟรี</b></label>
+                        <select class="form-control" id="add_free_sum_package">
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        </select>           
+                    </div>
                     <div class="col-md-4">
                         <label for="add_price"><b>ราคา</b></label>
                         <input type="text" class="form-control" id="add_price" placeholder="ราคา">         
@@ -420,7 +435,22 @@
                   </div>
                   <br>
                   <div class="row">
-                    <div class="col-md-4"></div>
+                    <div class="col-md-4">
+                        <label for="edit_free_sum_package"><b>จำนวนที่จะแถม เทรนเนอร์ ฟรี</b></label>
+                        <select class="form-control" id="edit_free_sum_package">
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        </select>    
+                    </div>
                     <div class="col-md-4">
                         <label for="edit_price"><b>ราคา</b></label>
                         <input type="text" class="form-control" id="edit_price" placeholder="ราคา">         
@@ -469,18 +499,19 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-4 form-group">
-                            <label for="select_trainner_every_day">เลือกวันที่สอนประจำ</label>
-                            <select class="custom-select" id="select_trainner_every_day" disabled>
-                            <option value="No">ปิด</option>
-                            <option value="Monday">วันจันทร์</option>
-                            <option value="Tuesday">วันอังคาร</option>
-                            <option value="Wednesday">วันพุธ</option>
-                            <option value="Thursday">วันพฤหัสบดี</option>
-                            <option value="Friday">วันศุกร์</option>
-                            <option value="Saturday">วันเสาร์</option>
-                            <option value="Sunday">วันอาทิตย์</option>
-                            </select>
+                        <div class="col-md-4">
+                            <div class="form-check">
+                               <input type="radio" class="form-check-input" name="exampleRadios" id="Check_1" checked value="no">
+                               <label class="form-check-label" for="Check_1">ไม่ทำซ้ำ</label>
+                            </div>
+                            <div class="form-check">
+                               <input type="radio" class="form-check-input" name="exampleRadios" id="Check_2" value="repeat">
+                               <label class="form-check-label" for="Check_2">ทำซ้ำครั้งเดียว</label>
+                            </div>
+                            <div class="form-check">
+                               <input type="radio" class="form-check-input" name="exampleRadios" id="Check_3" value="every_genday">
+                               <label class="form-check-label" for="Check_2">ทำซ้ำตลอด</label>
+                            </div>   
                         </div>
                         <div class="col-md-4 form-group">
                             <label for="input_trainner_time_start">เลือกเวลาที่เริ่มสอน</label>
@@ -491,25 +522,73 @@
                             <input type="text" class="form-control only-time" id="input_trainner_time_end" placeholder="เลือกเวลาที่สอนสิ้นสุด">
                         </div>
                     </div>
+                    <hr>
+                    <div align="center">
+                        <button class="btn btn-sm btn-success" onclick="Save_trainner();">ยืนยันการสร้าง</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="Edit_trainner" tabindex="-1" role="dialog" aria-labelledby="Add_trainner_Label" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary" style="padding: 0.7rem;">
+                    <h5 class="modal-title" id="Add_trainner_Label">เพิ่มข้อมูลเทรนเนอร์</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
                     <div class="row">
                         <div class="col-md-4 form-group">
+                            <label for="select_trianner_emp">เลือกผู้สอน เทรนเนอร์</label>
+                            <span id="select_trianner_emp"></span>                      
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="date_trainner">เลือก วันที่จะสอน</label>
+                            <div class="input-group">
+                            <input type="text" data-toggle="datepicker" data-date-format='dd/mm/yyyy' class="form-control" id="date_trainner_edit"  placeholder="เลือกวันที่จะสอน">
+                            <div class="input-group-prepend">
+                            <div class="input-group-text"><i class="fas fa-calendar-alt"></i></div>
+                            <span id="foo"></span>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="select_trainner_class">เลือก คลาสที่จะสอน</label>
+                            <span id="select_trainner_class"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
                             <div class="form-check">
-                               <input type="radio" class="form-check-input" name="exampleRadios" id="Check_1" checked value="no">
+                               <input type="radio" class="form-check-input" name="exampleRadios" id="Check_1_edit" checked value="no">
                                <label class="form-check-label" for="Check_1">ไม่ทำซ้ำ</label>
                             </div>
                             <div class="form-check">
-                               <input type="radio" class="form-check-input" name="exampleRadios" id="Check_2" value="repeat">
-                               <label class="form-check-label" for="Check_2">ทำครั้งเดียว</label>
+                               <input type="radio" class="form-check-input" name="exampleRadios" id="Check_2_edit" value="repeat">
+                               <label class="form-check-label" for="Check_2">ทำซ้ำครั้งเดียว</label>
                             </div>
                             <div class="form-check">
-                               <input type="radio" class="form-check-input" name="exampleRadios" id="Check_3" value="every_genday">
-                               <label class="form-check-label" for="Check_2">ทำตลอด</label>
-                            </div>                  
+                               <input type="radio" class="form-check-input" name="exampleRadios" id="Check_3_edit" value="every_genday">
+                               <label class="form-check-label" for="Check_2">ทำซ้ำตลอด</label>
+                            </div>   
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="input_trainner_time_start">เลือกเวลาที่เริ่มสอน</label>
+                            <input type="text" class="form-control only-time" id="input_trainner_time_start_edit" placeholder="เลือกเวลาที่เริ่มสอน">
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="input_trainner_time_end">เลือกเวลาที่สอนสิ้นสุด</label>
+                            <input type="text" class="form-control only-time" id="input_trainner_time_end_edit" placeholder="เลือกเวลาที่สอนสิ้นสุด">
                         </div>
                     </div>
                     <hr>
                     <div align="center">
-                        <button class="btn btn-sm btn-success" onclick="Save_trainner();">ยืนยันการสร้าง</button>
+                        <button class="btn btn-sm btn-success" onclick="Save_trainner_edit();">ยืนยันการสร้าง</button>
                     </div>
                 </div>
             </div>

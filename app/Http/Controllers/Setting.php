@@ -18,6 +18,62 @@ class Setting extends Controller
       return view('Setting');
     }
 
+    public function Auto_Check_and_insert_trainner()
+    {
+      date_default_timezone_set("Asia/Bangkok");
+      $today = now();
+      $trainner = DB::table('trainner')
+                    ->whereNull('autocheck')
+                    ->get();
+      foreach ($trainner as $key => $row) {
+
+          // ถ้า ทำ ซ้ำแค่ครั้งเดียว 
+          if($row->repeat == 'Y' AND $row->enable_status == 'Y') {
+            $train_date = date("Y-m-d",strtotime($row->train_date.'+1 week'));
+            DB::table('trainner')->insert([
+              'tn_emp_id' => $row->tn_emp_id,
+              'train_date' => $train_date,
+              'class_id' => $row->class_id, 
+              'every_day' => $row->every_day,
+              'train_time_start' => $row->train_time_start,
+              'train_time_end' => $row->train_time_end,
+            ]);
+            DB::table('trainner')
+            ->where('tn_id', $row->tn_id)
+            ->update(['enable_status' => NULL,'autocheck' => 'Y', 'auto_today' => $today]);
+          }
+          // ถ้า ทำ ซ้ำทุกครั้ง
+          elseif ($row->every_genday == 'Y' AND $row->enable_status == 'Y') {
+            $train_date = date("Y-m-d",strtotime($row->train_date.'+1 week'));
+            $today = date('Y-m-d');
+            if ($today == $row->train_date) {
+            DB::table('trainner')->insert([
+              'tn_emp_id' => $row->tn_emp_id,
+              'train_date' => $train_date,
+              'class_id' => $row->class_id, 
+              'every_day' => $row->every_day,
+              'train_time_start' => $row->train_time_start,
+              'train_time_end' => $row->train_time_end,
+              'every_genday' => 'Y',
+              'enable_status' => 'Y'
+            ]);            
+            DB::table('trainner')
+            ->where('tn_id', $row->tn_id)
+            ->update(['enable_status' => NULL,'autocheck' => 'Y', 'auto_today' => $today]);
+            }
+          }
+          // ถ้า ไม่ทำซ้ำ
+          else {
+            DB::table('trainner')
+            ->where('tn_id', $row->tn_id)
+            ->update(['autocheck' => 'Y', 'auto_today' => $today]);
+          }
+
+          print_r($row);
+          echo '<br>';
+      }
+    }
+
     public function Table_tab_1(Request $request)
     {
       $users = DB::table('type')
@@ -69,45 +125,42 @@ class Setting extends Controller
 
     public function Table_trainner(Request $request)
     {
+      $today = date('Y-m-d', strtotime("-1 day", strtotime(now())));
       $users = DB::table('trainner')
               ->select('*')
+              ->where('trainner.train_date', '>', $today)
               ->join('trainner_emp', 'trainner.tn_emp_id', '=', 'trainner_emp.tn_emp_id')
               ->join('item', 'trainner.class_id', '=', 'item.item_code');
       return Datatables::of($users)
+            ->setRowClass(function ($users) {
+              $today = date('Y-m-d');
+              if ($users->enable_status == 'Y') {
+                return 'bg-success';
+              }elseif ($users->train_date == $today) {
+                return 'bg-info';
+              }elseif ($users->enable_status == Null) {
+                return 'bg-secondary';
+              }
+            })
             ->addColumn('name_emp', function($users) {
                 return $users->fname.' '.$users->lname;
             })  
             ->editColumn('train_date', function($users) {
                 return  date('d/m/Y', strtotime($users->train_date));
             }) 
-            ->addColumn('repeat_status', function($users) {
-                if ($users->enable_status == 'Y') {
-                  $enable_status = '<span class="badge badge-success">เปิดการทำซ้ำ</span>';
-                }else {
-                  $enable_status = '<span class="badge badge-danger">ปิดการทำซ้ำ</span>';
-                }
-                // Repeat
-                if ($users->repeat == 'Y') {
-                  return '<span class="badge badge-success">ทำครั้งเดียว</span> / '.$enable_status;
-                }elseif ($users->every_genday == 'Y') {
-                  return '<span class="badge badge-success">ทำซ้ำตลอด</span> / '.$enable_status;
-                }else {
-                  return '<span class="badge badge-secondary">ไม่ทำซ้ำ</span> / '.$enable_status;
-                }
-            })
             ->addColumn('day_next', function($users) {
                 $next_day = date('d/m/Y', strtotime("next ".$users->every_day));
                 return  $next_day;
             }) 
+            ->addColumn('train_time_sum', function($users) {
+                $train_time_sum = $users->train_time_start.' - '.$users->train_time_end;
+                return  $train_time_sum;
+            }) 
             ->addColumn('action', function ($users) {
-                if ($users->enable_status == 'Y') {
-                $Data = '<button class="btn btn-sm btn-danger" id="'.$users->tn_id.'" ><i class="fas fa-comment-slash"></i>ปิดการทำซ้ำ</button> ';  
-                }else {
-                $Data = '';
-                }
+                $Data  = '<button class="btn btn-sm btn-warning" id="'.$users->tn_id.'" onclick="Edit_trainner(this);"><i class="fas fa-edit"></i></i>แก้ไข</button> ';
                 return $Data;
             })  
-            ->rawColumns(['name_emp','train_date','repeat_status','day_next','action'])                                            
+            ->rawColumns(['name_emp','train_date','train_time_sum','day_next','action'])                                            
             ->make(true);
     }
 
@@ -140,6 +193,7 @@ class Setting extends Controller
            'type_month' => $request->post('add_type_month'),
            'type_year' => $request->post('add_type_year'),
            'type_commitment' => $request->post('add_type_commitment'),
+           'type_pt_free' => $request->post('add_free_sum_package'),
           ]
       );
       echo 'OK';
@@ -158,6 +212,7 @@ class Setting extends Controller
            'type_month' => $request->post('edit_type_month'),
            'type_year' => $request->post('edit_type_year'),
            'type_commitment' => $request->post('edit_type_commitment'),
+           'type_pt_free' => $request->post('edit_free_sum_package'),
           ]);
       echo 'OK';     
     }
@@ -174,11 +229,13 @@ class Setting extends Controller
 
     public function Save_trainner(Request $request)
     {
+      $train_date = date('Y-m-d',strtotime(str_replace('/', '-', $request->post('date_trainner_add'))));
+      $every_day = date("l", strtotime($train_date));
       $Get_id = DB::table('trainner')->insertGetId([
         'tn_emp_id' => $request->post('select_trainner_emp_add'), 
-        'train_date' => date('Y-m-d',strtotime(str_replace('/', '-', $request->post('date_trainner_add')))), 
+        'train_date' => $train_date, 
         'class_id' => $request->post('select_trainner_class_add'), 
-        'every_day' => $request->post('select_trainner_every_day'), 
+        'every_day' => $every_day, 
         'train_time_start' => str_replace(' ', '', $request->post('input_trainner_time_start')), 
         'train_time_end' => str_replace(' ', '', $request->post('input_trainner_time_end')), 
       ]);

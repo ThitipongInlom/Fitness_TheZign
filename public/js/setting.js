@@ -53,6 +53,7 @@ var Edit_Type = function Edit_Type(e) {
             $("#edit_type_month").val(res.type_month);
             $("#edit_type_year").val(res.type_year);
             $("#edit_price").val(res.type_price);
+            $("#edit_free_sum_package").val(res.type_pt_free);
         }
     });
 }
@@ -84,13 +85,13 @@ var Edit_Trainner_emp = function Edit_Trainner_emp (e) {
     });
 }
 
-var Add_type = function Add_type() {
+var Add_type = function Add_type () {
     // Show Modal
     $("#Add_type").modal('show');
     $("body").css("padding-right", "0");
 }
 
-var Add_trainner_emp = function Add_trainner_emp() {
+var Add_trainner_emp = function Add_trainner_emp () {
     // โชว์ Modal Add_trainner_emp
     $("#Add_trainner_emp").modal('show');
     $("body").css("padding-right", "0");
@@ -121,6 +122,14 @@ var Add_trainner = function Add_trainner() {
     // Select Trianner class
 }
 
+var Edit_trainner = function Edit_trainner (e) {
+    var trainner_id = $(e).attr('id');
+    // โชว์ Modal Edit_trainner
+    $("#Edit_trainner").modal('show');
+    $("body").css("padding-right", "0");
+    console.log(trainner_id);
+}
+
 $('#Add_type').on('hidden.bs.modal', function (e) {
     $("#add_type_code").val('');
     $("#add_type_name").val('');
@@ -135,7 +144,6 @@ var Save_trainner = function Save_trainner() {
     var select_trainner_emp_add = $("#select_trainner_emp_add").val();
     var date_trainner_add = $('#date_trainner_add').val();
     var select_trainner_class_add = $("#select_trainner_class_add").val();
-    var select_trainner_every_day = $("#select_trainner_every_day").val();
     var input_trainner_time_start = $("#input_trainner_time_start").val();
     var input_trainner_time_end = $("#input_trainner_time_end").val();
     var radioValue = $("input[name='exampleRadios']:checked").val();
@@ -149,9 +157,6 @@ var Save_trainner = function Save_trainner() {
     }else if (select_trainner_class_add == '') {
         alert("เลือก คลาสที่จะสอน");
         $("#select_trainner_class_add").focus();
-    }else if (select_trainner_every_day == '') {
-        alert("เลือกวันที่สอนประจำ");
-        $("#select_trainner_every_day").focus();
     }else if (input_trainner_time_start == '') {
         alert("เลือกเวลาที่เริ่มสอน");
         $("#input_trainner_time_start").focus();
@@ -164,7 +169,6 @@ var Save_trainner = function Save_trainner() {
         Data.append('select_trainner_emp_add', select_trainner_emp_add);
         Data.append('date_trainner_add', date_trainner_add);
         Data.append('select_trainner_class_add', select_trainner_class_add);
-        Data.append('select_trainner_every_day', select_trainner_every_day);
         Data.append('input_trainner_time_start', input_trainner_time_start);
         Data.append('input_trainner_time_end', input_trainner_time_end);
         Data.append('radioValue', radioValue);
@@ -183,7 +187,6 @@ var Save_trainner = function Save_trainner() {
                 $("#select_trainner_emp_add").val('');
                 $("#date_trainner_add").val('');
                 $("#select_trainner_class_add").val('');
-                $("#select_trainner_every_day").val('Monday');
                 $("#input_trainner_time_start").val('');
                 $("#input_trainner_time_end").val('');
                 $("#Check_1").attr('checked', true);
@@ -292,6 +295,7 @@ var Save_Add_Data = function Save_Add_Data() {
     Data.append('add_type_month', $("#add_type_month").val());
     Data.append('add_type_year', $("#add_type_year").val());
     Data.append('add_price', $("#add_price").val());
+    Data.append('add_free_sum_package', $("#add_free_sum_package").val());
     $.ajax({
         url: 'Add_Data_Type',
         type: 'POST',
@@ -334,6 +338,7 @@ var Save_Edit_Data = function Save_Edit_Data() {
         Data.append('edit_type_month', $("#edit_type_month").val());
         Data.append('edit_type_year', $("#edit_type_year").val());
         Data.append('edit_price', $("#edit_price").val());
+        Data.append('edit_free_sum_package', $("#edit_free_sum_package").val());
         $.ajax({
             url: 'Edit_Data_Type',
             type: 'POST',
@@ -359,8 +364,8 @@ var Save_Edit_Data = function Save_Edit_Data() {
 $.fn.dataTable.ext.errMode = 'throw';
 var Table_type = $('#Table_type').DataTable({
     "dom": "<'row'<'col-sm-1'><'col-sm-7'><'col-sm-4'>>" +
-        "<'row'<'col-sm-12'tr>>" +
-        "<'row'<'col-sm-1'i><'col-sm-7'><'col-sm-4'p>>",
+           "<'row'<'col-sm-12'tr>>" +
+           "<'row'<'col-sm-1'i><'col-sm-7'><'col-sm-4'p>>",
     "processing": true,
     "serverSide": true,
     "bPaginate": true,
@@ -437,15 +442,15 @@ var Table_type = $('#Table_type').DataTable({
             "previous": "ย้อนกลับ"
         },
     },
-    search: {
+    "search": {
         "regex": true
     },
 });
 
 var Table_trainner_emp = $('#Table_trainner_emp').DataTable({
     "dom": "<'row'<'col-sm-1'><'col-sm-7'><'col-sm-4'>>" +
-        "<'row'<'col-sm-12'tr>>" +
-        "<'row'<'col-sm-1'i><'col-sm-7'><'col-sm-4'p>>",
+           "<'row'<'col-sm-12'tr>>" +
+           "<'row'<'col-sm-1'i><'col-sm-7'><'col-sm-4'p>>",
     "processing": true,
     "serverSide": true,
     "bPaginate": true,
@@ -502,15 +507,15 @@ var Table_trainner_emp = $('#Table_trainner_emp').DataTable({
             "previous": "ย้อนกลับ"
         },
     },
-    search: {
+    "search": {
         "regex": true
     },
 });
 
 var Table_trainner = $('#Table_trainner').DataTable({
     "dom": "<'row'<'col-sm-1'><'col-sm-7'><'col-sm-4'>>" +
-        "<'row'<'col-sm-12'tr>>" +
-        "<'row'<'col-sm-1'i><'col-sm-7'><'col-sm-4'p>>",
+           "<'row'<'col-sm-12'tr>>" +
+           "<'row'<'col-sm-1'i><'col-sm-7'><'col-sm-4'p>>",
     "processing": true,
     "serverSide": true,
     "bPaginate": true,
@@ -543,21 +548,21 @@ var Table_trainner = $('#Table_trainner').DataTable({
             "name": 'train_date'
         },
         {
-            "data": 'repeat_status',
-            "name": 'repeat_status'
+            "data": 'train_time_sum',
+            "name": 'train_time_sum'
         },
         {
             "data": 'action',
             "name": 'action'
-        },
+        }
     ],
     "columnDefs": [{
             "className": 'text-left',
-            "targets": [0]
+            "targets": [0, 1, 2]
         },
         {
             "className": 'text-center',
-            "targets": [1,2,3,4]
+            "targets": [3, 4, 5]
         },
         {
             "className": 'text-right',
@@ -579,7 +584,8 @@ var Table_trainner = $('#Table_trainner').DataTable({
             "previous": "ย้อนกลับ"
         },
     },
-    search: {
+    "search": {
         "regex": true
     },
+    "order": [[3, "asc"]]
 });

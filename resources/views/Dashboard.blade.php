@@ -51,6 +51,18 @@
                     </div>
                 </div>
             </div>
+            <!-- sliders -->
+            <div class="col-lg-3 col-6" >
+                <div class="small-box bg-info shadow" style="cursor: pointer;">
+                    <div class="inner">
+                        <h3 class="text-white" style="cursor: pointer;">Wait</h3>
+                        <p class="text-white" style="cursor: pointer;">รออัพเดต</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-sliders-h"></i>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

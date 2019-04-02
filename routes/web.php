@@ -152,5 +152,7 @@ Route::post('/Display_select_trainner_emp_edit', 'Checkin@Display_select_trainne
 Route::post('/Save_select_trainner_emp_to_member', 'Checkin@Save_select_trainner_emp_to_member');
 // Save_select_trainner_emp_edit
 Route::post('/Save_select_trainner_emp_to_member_edit', 'Checkin@Save_select_trainner_emp_to_member_edit');
+// API Auto Trainner
+Route::get('/Auto_Check_and_insert_trainner', 'Setting@Auto_Check_and_insert_trainner');
 // Dev Create user
 Route::get('/Create/{user}/{password}/{name}/{email}/{status}/{token}', 'Controller@Create_user_dev');
