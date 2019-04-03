@@ -135,9 +135,9 @@ class Setting extends Controller
             ->setRowClass(function ($users) {
               $today = date('Y-m-d');
               if ($users->enable_status == 'Y') {
-                return 'bg-success';
+                return 'bg-warning';
               }elseif ($users->train_date == $today) {
-                return 'bg-info';
+                return 'bg-success';
               }elseif ($users->enable_status == Null) {
                 return 'bg-secondary';
               }
@@ -157,7 +157,7 @@ class Setting extends Controller
                 return  $train_time_sum;
             }) 
             ->addColumn('action', function ($users) {
-                $Data  = '<button class="btn btn-sm btn-warning" id="'.$users->tn_id.'" onclick="Edit_trainner(this);"><i class="fas fa-edit"></i></i>แก้ไข</button> ';
+                $Data  = '<button class="btn btn-sm btn-primary" id="'.$users->tn_id.'" onclick="Edit_trainner(this);"><i class="fas fa-edit"></i></i>แก้ไข</button> ';
                 return $Data;
             })  
             ->rawColumns(['name_emp','train_date','train_time_sum','day_next','action'])                                            
@@ -180,6 +180,132 @@ class Setting extends Controller
         $Jsonencode = json_encode($row);
         echo $Jsonencode;
       }
+    }
+
+    public function Get_data_trainner(Request $request)
+    {
+      $Trainner = DB::table('trainner')->where('tn_id', $request->post('trainner_id'))->get();
+      $trainnerid = $request->post('trainner_id');
+      foreach ($Trainner as $key => $row) {
+      if ($row->repeat == 'Y') {
+        $radio_select = 'repeat';
+      }elseif ($row->every_genday == 'Y') {
+        $radio_select = 'every_genday';
+      }else{
+        $radio_select = 'no';
+      }
+      // Trainner Emp
+      $Trainner_emp = DB::table('trainner_emp')
+                        ->where('status_emp', '<>' ,'Personal Trainer')
+                        ->select('*')
+                        ->get();
+      $trainner_emp = "<select class='custom-select' id='modal_trainner_emp_edit'>";
+      foreach ($Trainner_emp as $key => $row2) {
+        if($row2->tn_emp_id == $row->tn_emp_id) {
+          $trainner_emp .= "<option value='".$row2->tn_emp_id."' selected='selected'>[".$row2->status_emp."] ".$row2->fname."  ".$row2->lname."</option>";
+        }else{
+          $trainner_emp .= "<option value='".$row2->tn_emp_id."'>[".$row2->status_emp."] ".$row2->fname."  ".$row2->lname."</option>";
+        }
+      }
+      $trainner_emp .= "</select>";
+      // Type Class
+      $Type_class = DB::table('item')
+                        ->where('item_type', 'C')
+                        ->select('*')
+                        ->get();
+      $type_class = "<select class='custom-select' id='modal_trainner_class_edit'>";
+      foreach ($Type_class as $key => $row3) {
+        if($row3->item_code == $row->class_id) {
+          $type_class .= "<option value='".$row3->item_code."' selected='selected'>[".$row3->item_code."] ".$row3->item_name."</option>";
+        }else{
+          $type_class .= "<option value='".$row3->item_code."'>[".$row3->item_code."] ".$row3->item_name."</option>";
+        }
+      }
+      $type_class .= "</select><input type='hidden' id='trainnerid_edit_model' value='$trainnerid'>";
+      $ResArray = ['Data' => $row,'radio_select' => $radio_select,'trainner_emp' => $trainner_emp, 'type_class' => $type_class];
+      $Jsonencode = json_encode($ResArray);
+      echo $Jsonencode;
+      }
+    }
+
+    public function Save_trainner_edit(Request $request)
+    {
+      date_default_timezone_set("Asia/Bangkok");
+      $today = now();
+      if ($request->post('Radios_edit') == 'repeat') {
+      DB::table('trainner')
+          ->where('tn_id', $request->post('trainnerid_edit_model'))
+          ->update([
+           'tn_emp_id' => $request->post('modal_trainner_emp_edit'), 
+           'class_id' => $request->post('modal_trainner_class_edit'),
+           'repeat' => 'Y',
+           'every_genday' => NULL,
+           'train_time_start' => str_replace(' ', '', $request->post('input_trainner_time_start_edit')),
+           'train_time_end' => str_replace(' ', '', $request->post('input_trainner_time_end_edit')),
+           'enable_status' => 'Y',
+           'autocheck' => NULL,
+           'auto_today' => NULL,
+          ]);    
+        if ($request->post('date_trainner_edit') != '') {
+          $train_date = date('Y-m-d',strtotime(str_replace('/', '-', $request->post('date_trainner_edit'))));
+          $every_day = date("l", strtotime($train_date));
+          DB::table('trainner')
+              ->where('tn_id', $request->post('trainnerid_edit_model'))
+              ->update([
+              'train_date' => $train_date, 
+              'every_day' => $every_day,
+              ]); 
+        }
+      }elseif ($request->post('Radios_edit') == 'every_genday') {
+      DB::table('trainner')
+          ->where('tn_id', $request->post('trainnerid_edit_model'))
+          ->update([
+           'tn_emp_id' => $request->post('modal_trainner_emp_edit'), 
+           'class_id' => $request->post('modal_trainner_class_edit'),
+           'repeat' => NULL,
+           'every_genday' => 'Y',
+           'train_time_start' => str_replace(' ', '', $request->post('input_trainner_time_start_edit')),
+           'train_time_end' => str_replace(' ', '', $request->post('input_trainner_time_end_edit')),
+           'enable_status' => 'Y',
+           'autocheck' => NULL,
+           'auto_today' => NULL,
+          ]);    
+        if ($request->post('date_trainner_edit') != '') {
+          $train_date = date('Y-m-d',strtotime(str_replace('/', '-', $request->post('date_trainner_edit'))));
+          $every_day = date("l", strtotime($train_date));
+          DB::table('trainner')
+              ->where('tn_id', $request->post('trainnerid_edit_model'))
+              ->update([
+              'train_date' => $train_date, 
+              'every_day' => $every_day,
+              ]); 
+        }
+      }else{
+      DB::table('trainner')
+          ->where('tn_id', $request->post('trainnerid_edit_model'))
+          ->update([
+           'tn_emp_id' => $request->post('modal_trainner_emp_edit'), 
+           'class_id' => $request->post('modal_trainner_class_edit'),
+           'repeat' => NULL,
+           'every_genday' => NULL,
+           'train_time_start' => str_replace(' ', '', $request->post('input_trainner_time_start_edit')),
+           'train_time_end' => str_replace(' ', '', $request->post('input_trainner_time_end_edit')),
+           'enable_status' => NULL,
+           'autocheck' => NULL,
+           'auto_today' => NULL,
+          ]);    
+        if ($request->post('date_trainner_edit') != '') {
+          $train_date = date('Y-m-d',strtotime(str_replace('/', '-', $request->post('date_trainner_edit'))));
+          $every_day = date("l", strtotime($train_date));
+          DB::table('trainner')
+              ->where('tn_id', $request->post('trainnerid_edit_model'))
+              ->update([
+              'train_date' => $train_date, 
+              'every_day' => $every_day,
+              ]); 
+        }
+      }
+      echo 'OK';
     }
 
     public function Add_Data_Type(Request $request)

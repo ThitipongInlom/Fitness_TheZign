@@ -536,7 +536,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-primary" style="padding: 0.7rem;">
-                    <h5 class="modal-title" id="Add_trainner_Label">เพิ่มข้อมูลเทรนเนอร์</h5>
+                    <h5 class="modal-title" id="Add_trainner_Label">แก้ไขข้อมูลเทรนเนอร์</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -544,8 +544,8 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-4 form-group">
-                            <label for="select_trianner_emp">เลือกผู้สอน เทรนเนอร์</label>
-                            <span id="select_trianner_emp"></span>                      
+                            <label for="select_trianner_emp_edit">เลือกผู้สอน เทรนเนอร์</label>
+                            <span id="select_trianner_emp_edit"></span>                      
                         </div>
                         <div class="col-md-4 form-group">
                             <label for="date_trainner">เลือก วันที่จะสอน</label>
@@ -558,22 +558,22 @@
                             </div>
                         </div>
                         <div class="col-md-4 form-group">
-                            <label for="select_trainner_class">เลือก คลาสที่จะสอน</label>
-                            <span id="select_trainner_class"></span>
+                            <label for="select_trainner_class_edit">เลือก คลาสที่จะสอน</label>
+                            <span id="select_trainner_class_edit"></span>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-check">
-                               <input type="radio" class="form-check-input" name="exampleRadios" id="Check_1_edit" checked value="no">
+                               <input type="radio" class="form-check-input" name="exampleRadios_edit" id="Check_1_edit" value="no">
                                <label class="form-check-label" for="Check_1">ไม่ทำซ้ำ</label>
                             </div>
                             <div class="form-check">
-                               <input type="radio" class="form-check-input" name="exampleRadios" id="Check_2_edit" value="repeat">
+                               <input type="radio" class="form-check-input" name="exampleRadios_edit" id="Check_2_edit" value="repeat">
                                <label class="form-check-label" for="Check_2">ทำซ้ำครั้งเดียว</label>
                             </div>
                             <div class="form-check">
-                               <input type="radio" class="form-check-input" name="exampleRadios" id="Check_3_edit" value="every_genday">
+                               <input type="radio" class="form-check-input" name="exampleRadios_edit" id="Check_3_edit" value="every_genday">
                                <label class="form-check-label" for="Check_2">ทำซ้ำตลอด</label>
                             </div>   
                         </div>

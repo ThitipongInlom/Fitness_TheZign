@@ -275,6 +275,23 @@
     </div>
 
     <!-- Modal -->
+    <div class="modal fade" id="Edit_Other" tabindex="-1" role="dialog" aria-labelledby="Edit_Other_Label" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary" style="padding: 0.7rem;">
+                    <h5 class="modal-title" id="Edit_Other_Label">แก้ไขสถานที่ อื่นๆ</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="Edit_Other_display_key"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
     <div class="modal fade" id="History" tabindex="-1" role="dialog" aria-labelledby="History_Label" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">

@@ -42,6 +42,12 @@
       .formmaginsetnone{
         margin-bottom: 0rem !important;
       }
+      .bg-tablecolor {
+        background-color: #d7e4ef !important;
+      }
+      .bg-tablecolor_set {
+        background-color: #96c8f1 !important;
+      }
       .devcon-badge {
           z-index: 100;
           background: linear-gradient(90deg,#fca09a,#fcccd3,#ffcc9d,#98ddad,#81d7ec,#a0aaed);
@@ -81,7 +87,7 @@
             <div class="row">
             <div class="col-md-12">
             <div class="table-responsive">
-            <table class="table table-sm dt-responsive nowrap  row-border table-bordered table-hover TableDisplay" cellspacing="0" cellpadding="0" id="TableDisplay">
+            <table class="table table-sm dt-responsive nowrap row-border table-bordered table-hover TableDisplay" cellspacing="0" cellpadding="0" id="TableDisplay">
                 <thead>
                     <tr align="center" class="bg-primary">
                         <th>Code</th>

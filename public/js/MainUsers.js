@@ -29,6 +29,7 @@ var TableDisplay = $('#TableDisplay').DataTable({
     "serverSide": true,
     "bPaginate": true,
     "responsive": true,
+    "order": [[4, 'desc'],[9, 'asc']],
     "aLengthMenu": [
         [10, 50, 100, -1],
         ["10", "50", "100", "ทั้งหมด"]

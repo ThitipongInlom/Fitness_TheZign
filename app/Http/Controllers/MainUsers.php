@@ -19,9 +19,34 @@ class MainUsers extends Controller
 
     public function Data(Request $request)
     {
+        DB::statement(DB::raw('set @rownum=0'));
         $users = DB::table('member')
-                  ->select('*')
-                  ->orderBy('start', 'desc');
+                  ->select([
+                    DB::raw('@rownum  := @rownum  + 1 AS rownum'),
+                    "id",
+                    "code",
+                    "name",
+                    "start",
+                    "expire",
+                    "phone",
+                    "type_detail",
+                    "type",
+                    "address",
+                    "status",
+                    "daystop",
+                    "fullprice",
+                    "alldis",
+                    "remark",
+                    "resultprice",
+                    "user_seting",
+                    "today",
+                    "wifiusername",
+                    "wifipassword",
+                    "wifidate",
+                    "birthday",
+                    "Img",
+                    "id_card",
+                    ]);
         return Datatables::of($users)
         ->filter(function ($query) use ($request) {
             if ($request->has('searchingcode')) {
@@ -66,9 +91,9 @@ class MainUsers extends Controller
                     $FormatToDay = date('d-m');
                     $FormatBirthday = date('d-m', strtotime($users->birthday));
                     if ($users->status == 'Active' AND $FormatBirthday == $FormatToDay) {
-                    $reclass = "devcon-badge";
+                      $reclass = "devcon-badge";
                     }else{
-                    $reclass = "bg-info";
+                      $reclass = $users->rownum % 2 == 0 ? 'bg-tablecolor_set' : 'bg-tablecolor';
                     }
                 }elseif ($users->status == 'Expired') {
                     $reclass = "bg-danger";
@@ -768,6 +793,7 @@ class MainUsers extends Controller
                  'alldis' => $Discount,
                  'resultprice' => $Price_total,
                  'wifidate' => $End_Date,
+                 'today' => $Today,
                 ]);
                 // Member_Detail
                 $this->Insert_Member_Detail($Username_Code,'Stop Member');
@@ -777,12 +803,14 @@ class MainUsers extends Controller
                 ->update(
                 ['start' => $Start_Date,
                  'expire' => $End_Date,
+                 'type_detail' => $Type,
                  'type' => $Type,
                  'status' => 'Active',
                  'fullprice' => $Price_full,
                  'alldis' => $Discount,
                  'resultprice' => $Price_total,
                  'wifidate' => $End_Date,
+                 'today' => $Today,
                 ]);
                 // Member_Detail
                 $this->Insert_Member_Detail($Username_Code,'ต่ออายุการใช้งาน');
@@ -817,6 +845,7 @@ class MainUsers extends Controller
                'fullprice' => $Price_full,
                'alldis' => $Discount,
                'resultprice' => $Price_total,
+               'today' => $Today,
               ]);
               // Member_Detail
               $this->Insert_Member_Detail($Username_Code,'Stop Member');
@@ -831,11 +860,13 @@ class MainUsers extends Controller
                ->where('code', $Username_Code)
                ->update(
                ['expire' => $End_Date,
+                'type_detail' => $Type,
                 'type' => $Type,
                 'status' => 'Active',
                 'fullprice' => $Price_full,
                 'alldis' => $Discount,
                 'resultprice' => $Price_total,
+                'today' => $Today,
                ]);
               }else{
               // ต่อายุการใช้งาน แบบ หมดอายุ
@@ -844,11 +875,13 @@ class MainUsers extends Controller
                 ->update(
                 ['start' => $Start_Date,
                  'expire' => $End_Date,
+                 'type_detail' => $Type,
                  'type' => $Type,
                  'status' => 'Active',
                  'fullprice' => $Price_full,
                  'alldis' => $Discount,
                  'resultprice' => $Price_total,
+                 'today' => $Today,
                 ]);
               }
               // Member_Detail

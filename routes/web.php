@@ -56,6 +56,8 @@ Route::post('/Dologout', 'Checkout@Dologout');
 Route::post('/Edit_Number', 'Checkin@EditNumber');
 // Edit_Number_Key
 Route::post('/Edit_Number_Key', 'Checkin@Edit_Number_Key');
+// Edit_Other
+Route::post('/Edit_Other', 'Checkin@Edit_Other');
 // Discount
 Route::post('/Discount', 'Checkin@Discount');
 // Discount_Save
@@ -136,8 +138,12 @@ Route::post('/Edit_Data_Type', 'Setting@Edit_Data_Type');
 Route::get('/Insert_Closeday', 'Closeday@Index_Closeday');
 // Save_trainner
 Route::post('/Save_trainner', 'Setting@Save_trainner');
+// Save_trainner_edit
+Route::post('/Save_trainner_edit', 'Setting@Save_trainner_edit');
 // Auto_Generate_wifi
 Route::get('/Auto_Generate_wifi', 'MainUsers@Auto_Generate_wifi');
+// Get_data_trainner
+Route::post('Get_data_trainner','Setting@Get_data_trainner');
 // Save_Trainner_emp
 Route::post('/Save_Trainner_emp', 'Setting@Save_Trainner_emp');
 // Save_edit_Trainner_emp

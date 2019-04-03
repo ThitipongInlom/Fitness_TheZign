@@ -127,8 +127,39 @@ var Edit_trainner = function Edit_trainner (e) {
     // โชว์ Modal Edit_trainner
     $("#Edit_trainner").modal('show');
     $("body").css("padding-right", "0");
-    console.log(trainner_id);
+    $('.only-time').datepicker({
+         dateFormat: ' ',
+        timepicker: true,
+        classes: 'only-timepicker'
+    });
+    //Add Data To Form
+    var Data = new FormData();
+    Data.append('trainner_id', trainner_id);
+    $.ajax({
+        url: 'Get_data_trainner',
+        type: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        dataType: 'text',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: Data,
+        success: function (callback) {
+            var res = jQuery.parseJSON(callback);
+            $("#select_trianner_emp_edit").html(res.trainner_emp);
+            $("#select_trainner_class_edit").html(res.type_class);
+            $("input[name=exampleRadios_edit][value=" + res.radio_select + "]").attr('checked', 'checked');
+            $("#input_trainner_time_start_edit").val(res.Data.train_time_start);
+            $("#input_trainner_time_end_edit").val(res.Data.train_time_end);
+        }
+    });
 }
+
+$('#Edit_trainner').on('hidden.bs.modal', function (e) {
+    $('[name="exampleRadios_edit"]').removeAttr('checked');
+});
 
 $('#Add_type').on('hidden.bs.modal', function (e) {
     $("#add_type_code").val('');
@@ -195,6 +226,42 @@ var Save_trainner = function Save_trainner() {
             }
         });  
     }
+}
+
+var Save_trainner_edit = function Save_trainner_edit () {
+    var date_trainner_edit = $("#date_trainner_edit").val();
+    var modal_trainner_emp_edit = $("#modal_trainner_emp_edit").val();
+    var modal_trainner_class_edit = $("#modal_trainner_class_edit").val();
+    var Radios_edit = $("input[name='exampleRadios_edit']:checked").val();
+    var input_trainner_time_start_edit = $("#input_trainner_time_start_edit").val();
+    var input_trainner_time_end_edit = $("#input_trainner_time_end_edit").val();
+    var trainnerid_edit_model = $("#trainnerid_edit_model").val();
+    //เอาข้อมูลเข้า Array
+    var Data = new FormData();
+    Data.append('date_trainner_edit', date_trainner_edit);
+    Data.append('modal_trainner_emp_edit', modal_trainner_emp_edit);
+    Data.append('modal_trainner_class_edit', modal_trainner_class_edit);
+    Data.append('Radios_edit', Radios_edit);
+    Data.append('input_trainner_time_start_edit', input_trainner_time_start_edit);
+    Data.append('input_trainner_time_end_edit', input_trainner_time_end_edit);
+    Data.append('trainnerid_edit_model', trainnerid_edit_model);
+    $.ajax({
+        url: 'Save_trainner_edit',
+        type: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        dataType: 'text',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: Data,
+        success: function (callback) {
+            $("#date_trainner_edit").val('');
+            $("#Edit_trainner").modal('hide');
+            Table_trainner.draw();
+        }
+    });  
 }
 
 var Save_Trainner_emp = function Save_Trainner_emp() {
@@ -481,11 +548,11 @@ var Table_trainner_emp = $('#Table_trainner_emp').DataTable({
     ],
     "columnDefs": [{
         "className": 'text-left',
-        "targets": [0]
+        "targets": [0,1]
     },
     {
         "className": 'text-center',
-        "targets": [1,2]
+        "targets": [2]
     },
     {
         "className": 'text-right',

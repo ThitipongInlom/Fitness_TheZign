@@ -327,6 +327,35 @@ var Edit_Number_Key = function Edit_Number_Key(e) {
     });
 }
 
+var Edit_Other = function Edit_Other(e) {
+    // Modal Show
+    $('#Edit_Other').modal('show');
+    $("body").css("padding-right", "0");
+    // Data SetToSend
+    var Fake_table_id = $(e).attr('fake_table_id');
+    // Create From Data
+    var Data = new FormData();
+    // Data Put Array
+    Data.append('Fake_table_id', Fake_table_id);
+    // Ajax To Send
+    $.ajax({
+        url: 'Edit_Other',
+        type: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        dataType: 'text',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: Data,
+        success: function (callback) {
+            var res = jQuery.parseJSON(callback);
+            $("#Edit_Other_display_key").html(res.From);
+        }
+    });
+}
+
 var Delete_item = function Delete_item(e) {
     // Data SetToSend
     var Fake_table_id = $(e).attr('fake_table_id');
@@ -439,6 +468,37 @@ var Foronchangenumkey = function Foronchangenumkey(e) {
             setTimeout(function () {
                 // Modal Hide
                 $('#Edit_Number_Key').modal('hide');
+                DisplayTable();
+            }, 10);
+        }
+    });
+}
+
+var ForonEdit_Other = function ForonEdit_Other(e) {
+    // Data SetToSend
+    var NewNum = $('#newnumitem').val();
+    var Fake_table_id = $(e).attr('Fake_table_id');
+    // Create From Data
+    var Data = new FormData();
+    // Data Put Array
+    Data.append('Fake_table_id', Fake_table_id);
+    Data.append('NewNum', NewNum);
+    // Ajax To Send
+    $.ajax({
+        url: 'Foronchangenum',
+        type: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        dataType: 'text',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: Data,
+        success: function (callback) {
+            setTimeout(function () {
+                // Modal Hide
+                $('#Edit_Other').modal('hide');
                 DisplayTable();
             }, 10);
         }

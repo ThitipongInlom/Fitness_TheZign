@@ -449,10 +449,17 @@ class Checkin extends Controller
       <td>".number_format($DataDisplay->Fake_price)." ฿</td>";
       if ($DataDisplay->Fake_itemcodetype == 'F') {
         $Data .= "<td>เลขกุญแจ $DataDisplay->Fake_sum#</td>";
+      }elseif ($DataDisplay->Fake_itemcodetype == 'O') {
+        // ค่าเริ่มต้นคือว่าง
+        if($DataDisplay->Fake_sum == '1') {
+          $Data .= "<td>ว่าง</td>"; 
+        }else{
+          $Data .= "<td>$DataDisplay->Fake_sum</td>";  
+        }
       }else{
         $Data .= "<td>$DataDisplay->Fake_sum $Itemtypcode</td>";
       }
-    	$Data .= "<td>";
+    	$Data .= "<td align='right'>";
         // Now Not Online User
         if ($CounMainOnline == '0') {
         // ItemCodeType == T
@@ -474,6 +481,9 @@ class Checkin extends Controller
         }elseif ($DataDisplay->Fake_itemcodetype == 'F') {
           $Data .= "<button class='btn btn-sm btn-primary' onclick='Edit_Number_Key(this);' fake_table_id='$DataDisplay->id'><i class='fas fa-key'></i></button>
                     <button class='btn btn-sm btn-danger' onclick='Delete_item(this);' fake_table_id='$DataDisplay->id'><i class='fas fa-trash'></i></button>";
+        }elseif ($DataDisplay->Fake_itemcodetype == 'O') {
+          $Data .= "<button class='btn btn-sm btn-primary' onclick='Edit_Other(this);' fake_table_id='$DataDisplay->id'><i class='fas fa-exclamation-triangle'></i></button>
+                    <button class='btn btn-sm btn-danger' onclick='Delete_item(this);' fake_table_id='$DataDisplay->id'><i class='fas fa-trash'></i></button>";         
         }
         // ItemCodeType != T
         else{
@@ -501,6 +511,9 @@ class Checkin extends Controller
           }elseif ($DataDisplay->Fake_itemcodetype == 'F') {
             $Data .= "<button class='btn btn-sm btn-warning' onclick='Charge_modal(this);' fake_table_id='$DataDisplay->id'>Charge</button> ";
             $Data .= "<button class='btn btn-sm btn-primary' onclick='Edit_Number_Key(this);' fake_table_id='$DataDisplay->id'><i class='fas fa-key'></i></button>";
+          }elseif ($DataDisplay->Fake_itemcodetype == 'O') {
+            $Data .= "<button class='btn btn-sm btn-primary' onclick='Edit_Other(this);' fake_table_id='$DataDisplay->id'><i class='fas fa-exclamation-triangle'></i></button>
+                      <button class='btn btn-sm btn-danger' onclick='Delete_item(this);' fake_table_id='$DataDisplay->id'><i class='fas fa-trash'></i></button>";
           }elseif ($DataDisplay->Fake_itemcodetype == 'T') {
             if ($DataDisplay->Fake_itemcodetype == 'T' AND $DataDisplay->Fake_itemtype == 'C') {
               $Data .= " <button class='btn btn-sm btn-danger' onclick='Delete_item(this);' fake_table_id='$DataDisplay->id'><i class='fas fa-trash'></i></button>";
@@ -746,6 +759,39 @@ class Checkin extends Controller
         $From .= "</div>
         <hr>
         <button class='btn btn-primary' Fake_table_id='$Fake_table_id' onclick='Foronchangenumkey(this);'>ยืนยันเปลี่ยนหมายเลขกุญแจ</button>
+        </div>
+        </div>";
+        // Show Json
+        $array = array('From' => $From);
+        $json = json_encode($array);
+        echo $json;
+    }
+
+    public function Edit_Other()
+    {
+        $Fake_table_id = Input::post('Fake_table_id');
+        $Fake_Table  = DB::table('fake_table')->where('id', $Fake_table_id)->get();
+        foreach ($Fake_Table as $key => $GetItemFull) {
+            $TableItem = DB::table('item')->where('item_code', $GetItemFull->Fake_itemcode)->get();
+        }
+        $From = "
+        <div class='row'>
+        <div class='col-md-6' align='center'>";
+        foreach ($TableItem as $key => $row) {
+            $From .= "<h5><b>รายการ:</b> $row->item_name</h5>";
+        }
+        $From .= "</div><div class='col-md-6' align='center'>";
+        $From .= "</div></div>";
+        $From .= "
+        <div class='row'>
+        <div class='col-md-12' align='center'>
+        <div class='col-sm-4'>";
+        foreach ($Fake_Table as $key => $GetItemFull) {
+           $From .= "<input type='text' class='form-control' autofocus id='newnumitem' placeholder='รายละเอียด'>";
+        }
+        $From .= "</div>
+        <hr>
+        <button class='btn btn-primary' Fake_table_id='$Fake_table_id' onclick='ForonEdit_Other(this);'>ยืนยันเปลี่ยนรายละเอียด</button>
         </div>
         </div>";
         // Show Json
