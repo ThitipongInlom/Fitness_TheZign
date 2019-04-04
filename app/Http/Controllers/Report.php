@@ -87,6 +87,7 @@ class Report extends Controller
     $k_bank = 0;
     $hotel_count = 0;
     $gusetpass = 0;
+    $day1 = 0;
     foreach ($DATA as $key => $row) {
       $Sumdate = date("H:i:s",(strtotime($row->Guset_out) - strtotime($row->Guset_in)));
       $getkey = DB::table('detail_table')->where('main_id', '=', "$row->main_id")->where('itemcode', '=', "P14")->limit(1)->get();
@@ -106,6 +107,8 @@ class Report extends Controller
       $i++;
       if ($row->type == 'Hotel') {
         $hotel_count++;
+      }elseif ($row->type == '1D'){
+        $day1++;
       }elseif ($row->type == '1DM') {
         $gusetpass++;
       }elseif ($row->type == '1D-Kbank') {
@@ -120,8 +123,8 @@ class Report extends Controller
     $Table .= "<hr>";
     $Table .= "<div class='container'><div class='row'><div class='col-md-12'>";
     $Table .= "<table class='table table-bordered table-sm'>";
-    $Table .= "<thead align='center'><tr><th>จำนวน(คน)</th><th>Member</th><th>Hotel</th><th>Guest Pass</th><th>K-bank</th><th>ผืนใหญ่</th><th>ผืนเล็ก</th><th>เสื้อคลุม</th></tr></thead>";
-    $Table .= "<tbody><tr align='center'><td>$re_i</td><td>$member_count</td><td>$hotel_count</td><td>$gusetpass</td><td>$k_bank</td><td>$Sum_L3</td><td>$Sum_L1</td><td>$Sum_L2</td></tr></tbody>";
+    $Table .= "<thead align='center'><tr><th>จำนวน(คน)</th><th>Member</th><th>1Day</th><th>Hotel</th><th>Guest Pass</th><th>K-bank</th><th>ผืนใหญ่</th><th>ผืนเล็ก</th><th>เสื้อคลุม</th></tr></thead>";
+    $Table .= "<tbody><tr align='center'><td>$re_i</td><td>$member_count</td><td>$day1</td><td>$hotel_count</td><td>$gusetpass</td><td>$k_bank</td><td>$Sum_L3</td><td>$Sum_L1</td><td>$Sum_L2</td></tr></tbody>";
     $Table .= "</table>";
     $Table .= "</div></div></div>";
     // Encode To Json
