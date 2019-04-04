@@ -32,8 +32,8 @@
         <div class="col-md-2">
             <ul class="list-group">
                 <li class="list-group-item" id="btn_tab1" style="cursor: pointer;" data-toggle="collapse" data-target="#tab1" aria-expanded="true" aria-controls="tab1">ตั้งค่าประเภท</li>
-                <li class="list-group-item" id="btn_tab2" style="cursor: pointer;" data-toggle="collapse" data-target="#tab2" aria-expanded="false" aria-controls="tab2">คั้งค่าเทรนเนอร์</li>
-                <li class="list-group-item" id="btn_tab3" style="cursor: pointer;" data-toggle="collapse" data-target="#tab3" aria-expanded="false" aria-controls="tab3">คั้งค่าตารางเทรนเนอร์</li>
+                <li class="list-group-item" id="btn_tab2" style="cursor: pointer;" data-toggle="collapse" data-target="#tab2" aria-expanded="false" aria-controls="tab2">คั้งค่าคลาส</li>
+                <li class="list-group-item" id="btn_tab3" style="cursor: pointer;" data-toggle="collapse" data-target="#tab3" aria-expanded="false" aria-controls="tab3">คั้งค่าตารางคลาส</li>
             </ul>
         </div>
         <div class="col-md-10">
