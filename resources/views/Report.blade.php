@@ -16,25 +16,25 @@
     }
     </style>
     <style media="print">
-    @media screen {
-    #printSection {
-    display: none;
-    }
-    }
-    @media print {
-    body * {
-    visibility:hidden;
-    }
-    #printSection, #printSection * {
-    visibility:visible;
-    }
-    #printSection {
-    position:absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    }
+      @media screen {
+      #printSection {
+      display: none;
+      }
+      }
+      @media print {
+      body * {
+      visibility:hidden;
+      }
+      #printSection, #printSection * {
+      visibility:visible;
+      }
+      #printSection {
+      position:absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      }
     </style>
 </head>
 
@@ -120,6 +120,13 @@
                               <div class="col-auto my-1">
                                 <button type="button" class="btn btn-sm btn-primary" onclick="Showthb2();">ค้นหา</button>
                                 <button type="button" class="btn btn-sm btn-success" onclick="printElement(document.getElementById('Print_Report2'));"><i class="fas fa-print"></i></button>
+                              </div>
+                              <div class="col-auto my-1">
+                                <select class="custom-select custom-select-sm" id="Tab_2_select">
+                                  <option selected value="0">เลือกประเภทการแสดง</option>
+                                  <option value="1">ค้นหาตามชื่อ</option>
+                                  <option value="2">ค้นหาตามคลาส</option>
+                                </select>
                               </div>
                             </div>
                           </form>

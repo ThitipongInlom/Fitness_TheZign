@@ -28,6 +28,7 @@ var Showthb2 = function Showthb2() {
     // Data Put Array
     Data.append('start', $("#Tab_2_start").val());
     Data.append('end', $("#Tab_2_end").val());
+    Data.append('select', $("#Tab_2_select").val());
     $.ajax({
         url: 'Report_tab_2',
         type: 'POST',
