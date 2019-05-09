@@ -385,7 +385,7 @@ class MainUsers extends Controller
                       }else{
                         $View .=  "<input type='text' class='form-control form-control-sm' disabled value='ยังไม่มีข้อมูล Password'>";
                       }
-      $View .=  "     </th>
+        $View .=  " </th>
                       <th></th>
                       <th></th>
                     </tr>
@@ -817,7 +817,76 @@ class MainUsers extends Controller
               }
               }else{
               // Not Have Username In Airlink
-
+              $Data_Type = DB::table('type')->where('type_code', $request->post('type'))->get();
+              $Username_Code = $request->post('code');
+              $Password = rand(1,100000);
+              $Start_Str = str_replace('/', '-', $request->post('start_date'));
+              $End_Str = str_replace('/', '-', $request->post('end_date'));
+              $Start_Date = date("Y-m-d",strtotime($Start_Str));
+              $End_Date = date("Y-m-d",strtotime($End_Str));
+              $Valid = date("Y-m-d",strtotime($End_Str))."T23:59:59";
+              $Expired = strftime("%B %d %Y",strtotime($End_Str))." 23:59:59";
+              $Type = $request->post('type');
+              $STOP_MB = $request->post('stopmb');
+              $Price_full = $request->post('price_full');
+              $Discount = $request->post('discount');
+              $Price_total = $request->post('price_total');
+              $profile = $this->SetData($request->post('Name_Add'),$request->post('Phone_Add'));
+              $Data_Billingplan = DB::connection('apimysql')->table("billingplan")->where('name', 'fitness')->get();
+              foreach ($Data_Billingplan as $key => $row) {
+                $Group = $row->groupname;
+                $Ggroupname = $row->name;
+                $Up = $row->bw_upload;
+                $Down = $row->bw_download;
+                $Re_url = $row->redirect_url;
+                $Idle = $row->IdleTimeout;
+                $Billplan = $row->name;
+              }
+              // Check Username In Airlink
+              $Radusergroup = DB::connection('apimysql')->table("radusergroup")->where('username', $Username_Code)->count();
+              // Insert UserName radcheck
+              DB::connection('apimysql')->table("radcheck")->insert([
+                  ['username' => $Username_Code, 'attribute' => 'Password', 'op' => ':=', 'value' => $Password],
+                  ['username' => $Username_Code, 'attribute' => 'Expiration', 'op' => ':=', 'value' => $Expired],
+                  ['username' => $Username_Code, 'attribute' => 'Auth-Type', 'op' => ':=', 'value' => 'Local']]);
+              // Insert UserName radreply
+              DB::connection('apimysql')->table("radreply")->insert([
+                  ['username' => $Username_Code, 'attribute' => 'WISPr-Bandwidth-Max-Down', 'op' => ':=', 'value' => $Down],
+                  ['username' => $Username_Code, 'attribute' => 'WISPr-Bandwidth-Max-Up', 'op' => ':=', 'value' => $Up],
+                  ['username' => $Username_Code, 'attribute' => 'WISPr-Redirection-URL', 'op' => ':=', 'value' => $Re_url]]);
+              // Insert UserName radusergroup
+              DB::connection('apimysql')->table("radusergroup")->insert([
+                  ['username' => $Username_Code, 'groupname' => $Group, 'priority' => '1']]);
+              // Insert Username voucher
+              DB::connection('apimysql')->table("voucher")->insert([ 
+                  ['username' => $Username_Code,
+                   'password' => $Password,
+                   'billingplan' => $Billplan,
+                   'created_by' => $username,
+                   'IdleTimeout' => $Idle,
+                   'valid_until' => $Valid,
+                   'isprinted' => '0',
+                   'profile' => $profile,
+                   'encryption' => 'clear',
+                   'money' => '0']]);
+              //  Update UserName And Password To member
+              DB::table('member')->where('id', $Username_Code)->update(['wifiusername' => $Username_Code,'wifipassword' => $Password, 'wifidate' => $End_Date]);
+              DB::table('member')
+                ->where('code', $Username_Code)
+                ->update(
+                ['start' => $Start_Date,
+                 'expire' => $End_Date,
+                 'type_detail' => $Type,
+                 'type' => $Type,
+                 'status' => 'Active',
+                 'fullprice' => $Price_full,
+                 'alldis' => $Discount,
+                 'resultprice' => $Price_total,
+                 'wifidate' => $End_Date,
+                 'today' => $Today,
+                ]);
+                // Member_Detail
+                $this->Insert_Member_Detail($Username_Code,'ต่ออายุการใช้งาน');
               }
           }else{
             $Data_Type = DB::table('type')->where('type_code', $request->post('type'))->get();

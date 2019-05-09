@@ -518,3 +518,38 @@ var remember_reconnent_airlink = function remember_reconnent_airlink() {
         }
     });
 }
+
+var Getdatacard = function Getdatacard() {
+    $.ajax({
+        url: "http://172.16.1.239:3000",
+        type: "GET",
+        crossDomain: true,
+        success: function (data) {
+            if (data.status == 'Remove') {
+                alert('กรุณาใส่ บัตรประชาชน');
+            } else if (data.status == 'Inserted') {
+                alert('กำลังอ่าน บัตรประชาชน กรุณารอซักครู่');
+                setTimeout(function () {
+                    Getdatacard();
+                }, 3000);
+            } else if (data.status == 'Reading') {
+                alert('กำลังอ่าน บัตรประชาชน กรุณารอซักครู่');
+                setTimeout(function() {
+                   Getdatacard();
+                }, 3000);
+            } else if (data.status == 'Success') {
+                var newdate = new Date(data.birthday);
+                var date = newdate.getDate();
+                var month = newdate.getMonth() + 1;
+                var year = newdate.getFullYear();
+                $("#Birthday_Add").val(date + '/' + month + '/' + year);
+                $("#Name_Add").val(data.firstNameTH + ' ' + data.lastNameTH);
+                $("#Address_Add").val(data.address);
+                alert('ใส่ข้อมูล เสร็จสิ้น');
+            }
+        },
+        error: function () {
+            alert('กรุณา เปิด รัน Service Card');
+        }
+    });
+}

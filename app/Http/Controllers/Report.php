@@ -161,19 +161,34 @@ class Report extends Controller
         $Table .= "</table>";
       }elseif ($select_teb == '2') {
         // Query DATA
-        $DATA = DB::table('main_table')
-                ->join('detail_table', 'main_table.ID', '=', 'detail_table.main_id')
-                ->where('detail_table.itemtype', 'like', 'C')
-                ->where('main_table.Status', '=', 'OUT')
-                ->whereBetween('date', [$reformat_start, $reformat_end])
+        $DATA = DB::table('trainner')
+                ->join('item', 'trainner.class_id', '=', 'item.item_code')
+                ->join('trainner_emp', 'trainner.tn_emp_id', '=', 'trainner_emp.tn_emp_id')
+                ->whereBetween('train_date', [$reformat_start, $reformat_end])
                 ->get();
+        $Table  = "<div align='center'><h4><b>รายงานการใช้บริการคลาส</b></h4></div>";
+        $Table .= "<div align='center'><b>ระหว่างวันที่ ".Input::post('start')." ถึงวันที่ ".Input::post('end')."</b></div>";
+        $Table .= "<table class='table table-sm'>";
+        $Table .= "<thead align='center'><tr><th>ลำดับ</th><th>วันที่</th><th>คลาสที่ใช้งาน</th><th>ชื่อ เทรนเนอร์</th><th>เวลาเริ่ม</th><th>เวลาสิ้นสุด</th><th>จำนวนคนที่ใช้งาน</th></tr></thead>";
+        $Table .= "<tbody>";
+        $i = 1;
         foreach ($DATA as $key => $row) {
-          //$Table = "รอ";
-          print_r($row);
+        $train_start = date('Y-m-d H:i:s', strtotime($row->train_date.' '.$row->train_time_start));
+        $train_end = date('Y-m-d H:i:s', strtotime($row->train_date.' '.$row->train_time_end));
+        $DATAF = DB::table('main_table')
+                ->join('detail_table', 'main_table.ID', '=', 'detail_table.main_id')
+                ->where('detail_table.itemcode', $row->class_id)
+                ->where('main_table.Status', '=', 'OUT')
+                //->whereBetween('main_table.Guset_in', [$train_start, $train_end])
+                ->whereBetween('main_table.date', [$row->train_date, $row->train_date])
+                ->count();
+        $Table .= "<tr align='center'><td>$i</td><td>".date('d/m/Y', strtotime($row->train_date))."</td><td>$row->item_name</td><td align='left'>$row->fname $row->lname</td><td>$row->train_time_start</td><td>$row->train_time_end</td><td>$DATAF คน</td></tr>";
+        $i++;  
         }
-        exit();
+        $Table .= "</tbody>";
+        $Table .= "</table>";
       }else{
-        $Table = "เลือก";
+        $Table = "<div align='center'><h5 style='color:red;'>กรุณาเลือก ประเภทในการ แสดง</h5></div>";
       }
       // Encode To Json
       $arrayTable = array('Table' => $Table);

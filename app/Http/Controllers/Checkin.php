@@ -110,7 +110,8 @@ class Checkin extends Controller
 	    	'Name' => $row->name,
 	    	'Guset_in' => $today,
 	    	'Status' => 'IN',
-            'date' => $date]);
+        'date' => $date,
+        'time_in' => $today]);
         // Update Main Id
         DB::table('fake_table')
             ->where('Fake_code', $Code)

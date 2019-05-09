@@ -486,7 +486,7 @@
                         <div class="col-md-4 form-group">
                             <label for="date_trainner">เลือก วันที่จะสอน</label>
                             <div class="input-group">
-                            <input type="text" data-toggle="datepicker" data-date-format='dd/mm/yyyy' class="form-control" id="date_trainner_add"  placeholder="เลือกวันที่จะสอน">
+                            <input type="text" data-toggle="datepicker" data-date-format='dd/mm/yyyy' class="form-control" id="date_trainner_add"  placeholder="เลือกวันที่จะสอน" autocomplete="off">
                             <div class="input-group-prepend">
                             <div class="input-group-text"><i class="fas fa-calendar-alt"></i></div>
                             <span id="foo"></span>
@@ -515,11 +515,11 @@
                         </div>
                         <div class="col-md-4 form-group">
                             <label for="input_trainner_time_start">เลือกเวลาที่เริ่มสอน</label>
-                            <input type="text" class="form-control only-time" id="input_trainner_time_start" placeholder="เลือกเวลาที่เริ่มสอน">
+                            <input type="text" class="form-control only-time" id="input_trainner_time_start" placeholder="เลือกเวลาที่เริ่มสอน" autocomplete="off">
                         </div>
                         <div class="col-md-4 form-group">
                             <label for="input_trainner_time_end">เลือกเวลาที่สอนสิ้นสุด</label>
-                            <input type="text" class="form-control only-time" id="input_trainner_time_end" placeholder="เลือกเวลาที่สอนสิ้นสุด">
+                            <input type="text" class="form-control only-time" id="input_trainner_time_end" placeholder="เลือกเวลาที่สอนสิ้นสุด" autocomplete="off">
                         </div>
                     </div>
                     <hr>

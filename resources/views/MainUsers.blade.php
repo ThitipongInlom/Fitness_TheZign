@@ -258,8 +258,14 @@
                           </div>
                         </div>
                       </form>
-                      <div align="center">
-                        <button class="btn btn-sm btn-success" onclick="GenerateWiFi();">เพิ่มลูกค้า</button>
+                      <div class="row">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4" align="center">
+                          <button class="btn btn-sm btn-success" onclick="GenerateWiFi();">เพิ่มลูกค้า</button>
+                        </div>
+                        <div class="col-md-4" align="right">
+                          <button class="btn btn-sm btn-primary" onclick="Getdatacard();">ดึงข้อมูลจาก Card</button>
+                        </div>
                       </div>
                     </div>
                 </div>
