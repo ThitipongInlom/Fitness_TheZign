@@ -187,6 +187,29 @@ class Report extends Controller
         }
         $Table .= "</tbody>";
         $Table .= "</table>";
+      }elseif ($select_teb == '3') {
+         // Query DATA
+        $DATA = DB::table('package_log')
+                ->join('package_detail', 'package_log.main_package_id', '=', 'package_detail.package_id')
+                ->join('member', 'package_log.code', '=', 'member.code')
+                ->join('main_table', 'package_log.code', '=', 'main_table.code')
+                ->groupBy('package_log.package_log_id')
+                ->orderBy('package_log.package_log_id', 'ASC')
+                ->where('package_log.status', '=', 'U')
+                ->whereBetween('package_log.date', [$reformat_start, $reformat_end])
+                ->get();
+        $Table  = "<div align='center'><h4><b>รายงานการใช้บริการคลาส</b></h4></div>";
+        $Table .= "<div align='center'><b>ระหว่างวันที่ ".Input::post('start')." ถึงวันที่ ".Input::post('end')."</b></div>";
+        $Table .= "<table class='table table-sm'>";
+        $Table .= "<thead align='center'><tr><th>ลำดับ</th><th>รหัสสมาชิก</th><th>ชื่อนามสกุล</th><th>วันที่</th><th>เวลาเข้า</th><th>เวลาออก</th><th>คลาสที่ใช้</th><th>ใช้งานทั้งหมด</th></tr></thead>";
+        $Table .= "<tbody>";
+        $i = 1;
+        foreach ($DATA as $key => $row) {
+        $Table .= "<tr align='center'><td>$i</td><td>$row->code</td><td align='left'>$row->Name</td><td>".date('d/m/Y', strtotime($row->Guset_in))."</td><td>".date('H:i:s', strtotime($row->Guset_in))."</td><td>".date('H:i:s', strtotime($row->Guset_out))."</td><td>$row->fake_itemname</td><td>$row->onuse ซ.ม</td></tr>";
+        $i++;
+        }
+        $Table .= "</tbody>";
+        $Table .= "</table>";
       }else{
         $Table = "<div align='center'><h5 style='color:red;'>กรุณาเลือก ประเภทในการ แสดง</h5></div>";
       }

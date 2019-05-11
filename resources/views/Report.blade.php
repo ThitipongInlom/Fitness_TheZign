@@ -124,8 +124,9 @@
                               <div class="col-auto my-1">
                                 <select class="custom-select custom-select-sm" id="Tab_2_select">
                                   <option selected value="0">เลือกประเภทการแสดง</option>
-                                  <option value="1">ค้นหาตามชื่อ</option>
+                                  <option value="1">ค้นหาตามชื่อคลาส</option>
                                   <option value="2">ค้นหาตามคลาส</option>
+                                  <option value="3">ค้นหาตามชื่อเทรนเนอร์</option>
                                 </select>
                               </div>
                             </div>
