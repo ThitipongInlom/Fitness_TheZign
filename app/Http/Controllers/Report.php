@@ -219,6 +219,88 @@ class Report extends Controller
       echo $Jsonencode;
     }
 
+    public function Report_tab_3()
+    {
+      $reformat_start = date('Y-m-d', strtotime(str_replace('/', '-', Input::post('start'))));
+      $reformat_end = date('Y-m-d', strtotime(str_replace('/', '-', Input::post('end'))));
+      $select_name = Input::post('select_name');
+      $select_class = Input::post('select_class');
+      // 0 เท่ากับ class
+      if (Input::post('select_class') == '0') {
+        // Query DATA
+        $DATA = DB::table('trainner')
+                ->join('item', 'trainner.class_id', '=', 'item.item_code')
+                ->join('trainner_emp', 'trainner.tn_emp_id', '=', 'trainner_emp.tn_emp_id')
+                ->where('trainner.tn_emp_id',  $select_name)
+                ->whereBetween('train_date', [$reformat_start, $reformat_end])
+                ->get();
+        $Table  = "<div align='center'><h4><b>รายงานการใช้บริการคลาส</b></h4></div>";
+        $Table .= "<div align='center'><b>ระหว่างวันที่ ".Input::post('start')." ถึงวันที่ ".Input::post('end')."</b></div>";
+        $Table .= "<table class='table table-sm'>";
+        $Table .= "<thead align='center'><tr><th>ลำดับ</th><th>วันที่</th><th>คลาสที่ใช้งาน</th><th>ชื่อ เทรนเนอร์</th><th>เวลาเริ่ม</th><th>เวลาสิ้นสุด</th><th>จำนวนคนที่ใช้งาน</th></tr></thead>";
+        $Table .= "<tbody>";
+        $i = 1;
+        foreach ($DATA as $key => $row) {
+        $train_start = date('Y-m-d H:i:s', strtotime($row->train_date.' '.$row->train_time_start));
+        $train_end = date('Y-m-d H:i:s', strtotime($row->train_date.' '.$row->train_time_end));
+        $DATAF = DB::table('main_table')
+                ->join('detail_table', 'main_table.ID', '=', 'detail_table.main_id')
+                ->where('detail_table.itemcode', $row->class_id)
+                ->where('main_table.Status', '=', 'OUT')
+                //->whereBetween('main_table.Guset_in', [$train_start, $train_end])
+                ->whereBetween('main_table.date', [$row->train_date, $row->train_date])
+                ->count();
+        $Table .= "<tr align='center'><td>$i</td><td>".date('d/m/Y', strtotime($row->train_date))."</td><td>$row->item_name</td><td align='left'>$row->fname $row->lname</td><td>$row->train_time_start</td><td>$row->train_time_end</td><td>$DATAF คน</td></tr>";
+        $i++;  
+        }
+        $Table .= "</tbody>";
+        $Table .= "</table>";
+      }else{
+         // Query DATA
+        $DATA = DB::table('package_log')
+                ->join('package_detail', 'package_log.main_package_id', '=', 'package_detail.package_id')
+                ->join('member', 'package_log.code', '=', 'member.code')
+                ->join('main_table', 'package_log.code', '=', 'main_table.code')
+                ->groupBy('package_log.package_log_id')
+                ->orderBy('package_log.package_log_id', 'ASC')
+                ->where('package_log.status', '=', 'U')
+                ->where('package_log.trainner_emp_id',  $select_name)
+                ->whereBetween('package_log.date', [$reformat_start, $reformat_end])
+                ->get();
+        $Table  = "<div align='center'><h4><b>รายงานการใช้บริการคลาส</b></h4></div>";
+        $Table .= "<div align='center'><b>ระหว่างวันที่ ".Input::post('start')." ถึงวันที่ ".Input::post('end')."</b></div>";
+        $Table .= "<table class='table table-sm'>";
+        $Table .= "<thead align='center'><tr><th>ลำดับ</th><th>รหัสสมาชิก</th><th>ชื่อนามสกุล</th><th>วันที่</th><th>เวลาเข้า</th><th>เวลาออก</th><th>คลาสที่ใช้</th><th>ใช้งานทั้งหมด</th></tr></thead>";
+        $Table .= "<tbody>";
+        $i = 1;
+        foreach ($DATA as $key => $row) {
+        $Table .= "<tr align='center'><td>$i</td><td>$row->code</td><td align='left'>$row->Name</td><td>".date('d/m/Y', strtotime($row->Guset_in))."</td><td>".date('H:i:s', strtotime($row->Guset_in))."</td><td>".date('H:i:s', strtotime($row->Guset_out))."</td><td>$row->fake_itemname</td><td>$row->onuse ซ.ม</td></tr>";
+        $i++;
+        }
+        $Table .= "</tbody>";
+        $Table .= "</table>";
+      }
+      // Encode To Json
+      $arrayTable = array('Table' => $Table);
+      $Jsonencode = json_encode($arrayTable);
+      echo $Jsonencode;
+    }
+
+    public function API_Trainner()
+    {
+      // Query DATA
+      $DATA = DB::table('trainner_emp')->get();
+      foreach ($DATA as $key => $row) {
+        $option[] = "<option value='$row->tn_emp_id'>$row->fname $row->lname - $row->status_emp</option>";
+      }
+      // Encode To Json
+      $arrayTable = array('option' => $option);
+      $Jsonencode = json_encode($arrayTable);
+      echo $Jsonencode;
+    }
+
+    
+
 
 
 

@@ -106,6 +106,8 @@ Route::post('/GenerateWiFi', 'MainUsers@GenerateWiFi');
 Route::post('/Report_tab_1', 'Report@Report_tab_1');
 // Report Tab 2
 Route::post('/Report_tab_2', 'Report@Report_tab_2');
+// Report Tab 3
+Route::post('/Report_tab_3', 'Report@Report_tab_3');
 // Airlink Modal Data
 Route::post('/Airlink_modal_data', 'MainUsers@Airlink_modal_data');
 // Send To Register
@@ -160,5 +162,7 @@ Route::post('/Save_select_trainner_emp_to_member', 'Checkin@Save_select_trainner
 Route::post('/Save_select_trainner_emp_to_member_edit', 'Checkin@Save_select_trainner_emp_to_member_edit');
 // API Auto Trainner
 Route::get('/Auto_Check_and_insert_trainner', 'Setting@Auto_Check_and_insert_trainner');
+// API Get Trainner
+Route::post('/API_Trainner', 'Report@API_Trainner');
 // Dev Create user
 Route::get('/Create/{user}/{password}/{name}/{email}/{status}/{token}', 'Controller@Create_user_dev');

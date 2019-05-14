@@ -968,6 +968,7 @@ class Checkin extends Controller
         'total_sum' => $total,
         'havesum' => $newhavesum,
         'onuse' => '1',
+        'trainner_emp_id' => $trainner_emp_id,
         'status' => 'U']);
         // Insert Package OnUsePackage
         $package_onuse_id = DB::table('package_onuse')->insertGetId([

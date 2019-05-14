@@ -168,6 +168,18 @@ class Main_Check extends Controller
 									</tr>";
 							}
 						}else{
+							if ($GuestHotel[0]->type == 'Hotel') { 
+							$Table .= "
+	                <tr align='center'>
+	                  <td>$i</td>
+	                  <td>$row->Code</td>
+	                  <td align='left'><span style='cursor: pointer;' data-toggle='tooltip' data-placement='top' title='$row->Name'>$row->Nameshot... ($ModifyTimeOnline)</span> (<i class='fas fa-door-open'></i> ". $GuestHotel[0]->wifipassword .") $Class</td>
+	                  <td>
+	                  <button class='btn btn-sm btn-primary' onclick='ShowViewData(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
+	                  <button class='btn btn-sm btn-secondary' onclick='GoPostCodeEdit(this)' code='$row->Code'><i class='fas fa-edit'></i></button>
+	                  </td>
+									</tr>";
+							}else{
 							$Table .= "
 	                <tr align='center'>
 	                  <td>$i</td>
@@ -177,7 +189,8 @@ class Main_Check extends Controller
 	                  <button class='btn btn-sm btn-primary' onclick='ShowViewData(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
 	                  <button class='btn btn-sm btn-secondary' onclick='GoPostCodeEdit(this)' code='$row->Code'><i class='fas fa-edit'></i></button>
 	                  </td>
-	                </tr>";
+									</tr>";
+							}
 						}
             }
             $Table .= '</tbody></table>';

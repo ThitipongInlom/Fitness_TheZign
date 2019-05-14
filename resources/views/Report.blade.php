@@ -9,31 +9,34 @@
     <title>Fitness</title>
     <!-- All Css -->
     <link rel="stylesheet" type="text/css" href="{{ url('css/app.css') }}">
+    <!-- Style Css Nav -->
     <style>
-    .nav-pills .nav-link.tab_1.active, .nav-pills .show > .nav-link  {
-        color: #fff;
-        background-color: #87CEEB;
-    }
+      .nav-pills .nav-link.tab_1.active, .nav-pills .show > .nav-link  {
+          color: #fff;
+          background-color: #87CEEB;
+      }
     </style>
+    <!-- Style Css Print -->
     <style media="print">
       @media screen {
-      #printSection {
-      display: none;
-      }
+        #printSection {
+          display: none;
+        }
       }
       @media print {
-      body * {
-      visibility:hidden;
-      }
-      #printSection, #printSection * {
-      visibility:visible;
-      }
-      #printSection {
-      position:absolute;
-      left: 0;
-      right: 0;
-      top: 0;
-      bottom: 0;
+        body * {
+          visibility:hidden;
+        }
+        #printSection, #printSection * {
+          visibility:visible;
+        }
+        #printSection {
+          position:absolute;
+          left: 0;
+          right: 0;
+          top: 0;
+          bottom: 0;
+        }
       }
     </style>
 </head>
@@ -46,6 +49,7 @@
             <ul class="nav nav-pills ml-auto p-2">
                 <li class="nav-item"><a class="nav-link tab_1 active show" href="#tab_1" data-toggle="tab">สรุปจำนวนลูกค้าที่มาใช้บริการ</a></li>
                 <li class="nav-item"><a class="nav-link tab_2" href="#tab_2" data-toggle="tab">สรุปจำนวนลูกค้าการใช้คลาส</a></li>
+                <li class="nav-item"><a class="nav-link tab_3" href="#tab_3" data-toggle="tab">สรุปจำนวนของผู้สอน</a></li>
             </ul>
         </div><!-- /.card-header -->
         <div class="card-body" style="padding: 0.5rem;">
@@ -134,6 +138,55 @@
                           <hr>
                           <div id="Print_Report2" style="background-color: #ffffff;">
                           <div id="Tab2_Display"></div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="tab_3">
+                    <div class="row">
+                        <div class="col-md-12">
+                          <form>
+                            <div class="form-row align-items-center">
+                              วันที่:
+                              <div class="col-sm-2 my-1">
+                                <div class="input-group">
+                                  <input type="text" data-toggle="datepicker" data-date-format='dd/mm/yyyy' class="form-control form-control-sm" id="Tab_3_start" placeholder="เลือกวันที่">
+                                  <div class="input-group-append">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary docs-datepicker-trigger" disabled="">
+                                      <i class="fa fa-calendar" aria-hidden="true"></i>
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                              ถึง:
+                              <div class="col-sm-2 my-1">
+                                <div class="input-group">
+                                  <input type="text" data-toggle="datepicker" data-date-format='dd/mm/yyyy' class="form-control form-control-sm" id="Tab_3_end" placeholder="เลือกวันที่">
+                                  <div class="input-group-append">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary docs-datepicker-trigger" disabled="">
+                                      <i class="fa fa-calendar" aria-hidden="true"></i>
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-auto my-1">
+                                <button type="button" class="btn btn-sm btn-primary" onclick="Showthb3();">ค้นหา</button>
+                                <button type="button" class="btn btn-sm btn-success" onclick="printElement(document.getElementById('Print_Report2'));"><i class="fas fa-print"></i></button>
+                              </div>
+                              <div class="col-auto my-1">
+                                <select class="custom-select custom-select-sm" id="Tab_3_select"></select>
+                              </div>
+                              <div class="col-auto my-1">
+                                <select class="custom-select custom-select-sm" id="Tab_3_select_class">
+                                  <option value="0">คลาส</option>
+                                  <option value="1">เทรนเนอร์</option>
+                                </select>
+                              </div>
+                            </div>
+                          </form>
+                          <hr>
+                          <div id="Print_Report3" style="background-color: #ffffff;">
+                          <div id="Tab3_Display"></div>
                           </div>
                         </div>
                     </div>
