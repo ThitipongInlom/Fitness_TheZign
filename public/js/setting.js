@@ -58,7 +58,7 @@ var Edit_Type = function Edit_Type(e) {
     });
 }
 
-var Edit_Trainner_emp = function Edit_Trainner_emp (e) {
+var Edit_Trainner_emp = function Edit_Trainner_emp(e) {
     // Show Modal
     $("#Edit_Trainner_emp").modal('show');
     $("body").css("padding-right", "0");
@@ -85,13 +85,13 @@ var Edit_Trainner_emp = function Edit_Trainner_emp (e) {
     });
 }
 
-var Add_type = function Add_type () {
+var Add_type = function Add_type() {
     // Show Modal
     $("#Add_type").modal('show');
     $("body").css("padding-right", "0");
 }
 
-var Add_trainner_emp = function Add_trainner_emp () {
+var Add_trainner_emp = function Add_trainner_emp() {
     // โชว์ Modal Add_trainner_emp
     $("#Add_trainner_emp").modal('show');
     $("body").css("padding-right", "0");
@@ -118,17 +118,17 @@ var Add_trainner = function Add_trainner() {
                 classes: 'only-timepicker'
             });
         }
-    });   
+    });
     // Select Trianner class
 }
 
-var Edit_trainner = function Edit_trainner (e) {
+var Edit_trainner = function Edit_trainner(e) {
     var trainner_id = $(e).attr('id');
     // โชว์ Modal Edit_trainner
     $("#Edit_trainner").modal('show');
     $("body").css("padding-right", "0");
     $('.only-time').datepicker({
-         dateFormat: ' ',
+        dateFormat: ' ',
         timepicker: true,
         classes: 'only-timepicker'
     });
@@ -182,19 +182,19 @@ var Save_trainner = function Save_trainner() {
     if (select_trainner_emp_add == '') {
         alert("เลือกผู้สอน เทรนเนอร์");
         $("#select_trainner_emp_add").focus();
-    }else if (date_trainner_add == '') {
+    } else if (date_trainner_add == '') {
         alert("เลือก วันที่ จะสอน ");
         $("#date_trainner_add").focus();
-    }else if (select_trainner_class_add == '') {
+    } else if (select_trainner_class_add == '') {
         alert("เลือก คลาสที่จะสอน");
         $("#select_trainner_class_add").focus();
-    }else if (input_trainner_time_start == '') {
+    } else if (input_trainner_time_start == '') {
         alert("เลือกเวลาที่เริ่มสอน");
         $("#input_trainner_time_start").focus();
-    }else if (input_trainner_time_end == '') {
+    } else if (input_trainner_time_end == '') {
         alert("เลือกเวลาที่สอนสิ้นสุด");
         $("#input_trainner_time_end").focus();
-    }else {
+    } else {
         //Add Data To Form
         var Data = new FormData();
         Data.append('select_trainner_emp_add', select_trainner_emp_add);
@@ -224,11 +224,11 @@ var Save_trainner = function Save_trainner() {
                 $("#Add_trainner").modal('hide');
                 Table_trainner.draw();
             }
-        });  
+        });
     }
 }
 
-var Save_trainner_edit = function Save_trainner_edit () {
+var Save_trainner_edit = function Save_trainner_edit() {
     var date_trainner_edit = $("#date_trainner_edit").val();
     var modal_trainner_emp_edit = $("#modal_trainner_emp_edit").val();
     var modal_trainner_class_edit = $("#modal_trainner_class_edit").val();
@@ -261,7 +261,7 @@ var Save_trainner_edit = function Save_trainner_edit () {
             $("#Edit_trainner").modal('hide');
             Table_trainner.draw();
         }
-    });  
+    });
 }
 
 var Save_Trainner_emp = function Save_Trainner_emp() {
@@ -279,7 +279,7 @@ var Save_Trainner_emp = function Save_Trainner_emp() {
         $("#classname_trainner").focus();
     } else if ($("#classname_trainner").val() == '0') {
         alert('กรุณาเลือกประเภทการสอน');
-    }else{
+    } else {
         //Add Data To Form
         var Data = new FormData();
         Data.append('firstname', Fname);
@@ -297,14 +297,14 @@ var Save_Trainner_emp = function Save_Trainner_emp() {
             processData: false,
             data: Data,
             success: function (callback) {
-            $("#Add_trainner_emp").modal('hide');
-            Table_trainner_emp.draw();
+                $("#Add_trainner_emp").modal('hide');
+                Table_trainner_emp.draw();
             }
-        });   
+        });
     }
 }
 
-var Save_edit_Trainner_emp = function Save_edit_Trainner_emp () {
+var Save_edit_Trainner_emp = function Save_edit_Trainner_emp() {
     if ($("#firstname_trainner_edit").val() == '') {
         alert('กรุณา กรอก Code');
         $("#firstname_trainner_edit").focus();
@@ -338,7 +338,7 @@ var Save_edit_Trainner_emp = function Save_edit_Trainner_emp () {
                 $("#Edit_Trainner_emp").modal('hide');
                 Table_trainner_emp.draw();
             }
-        });   
+        });
     }
 }
 
@@ -352,35 +352,35 @@ var Save_Add_Data = function Save_Add_Data() {
     } else if ($("#add_price").val() == '') {
         alert('กรุณา กรอก Price');
         $("#add_price").focus();
-    }else{
-    //Add Data To Form
-    var Data = new FormData();
-    Data.append('add_type_code', $("#add_type_code").val());
-    Data.append('add_type_name', $("#add_type_name").val());
-    Data.append('add_type_commitment', $("#add_type_commitment").val());
-    Data.append('add_type_day', $("#add_type_day").val());
-    Data.append('add_type_month', $("#add_type_month").val());
-    Data.append('add_type_year', $("#add_type_year").val());
-    Data.append('add_price', $("#add_price").val());
-    Data.append('add_free_sum_package', $("#add_free_sum_package").val());
-    $.ajax({
-        url: 'Add_Data_Type',
-        type: 'POST',
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        dataType: 'text',
-        cache: false,
-        contentType: false,
-        processData: false,
-        data: Data,
-        success: function (callback) {
-            if (callback == 'OK') {
-                $("#Add_type").modal('hide');
-                Table_type.draw();
+    } else {
+        //Add Data To Form
+        var Data = new FormData();
+        Data.append('add_type_code', $("#add_type_code").val());
+        Data.append('add_type_name', $("#add_type_name").val());
+        Data.append('add_type_commitment', $("#add_type_commitment").val());
+        Data.append('add_type_day', $("#add_type_day").val());
+        Data.append('add_type_month', $("#add_type_month").val());
+        Data.append('add_type_year', $("#add_type_year").val());
+        Data.append('add_price', $("#add_price").val());
+        Data.append('add_free_sum_package', $("#add_free_sum_package").val());
+        $.ajax({
+            url: 'Add_Data_Type',
+            type: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            dataType: 'text',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: Data,
+            success: function (callback) {
+                if (callback == 'OK') {
+                    $("#Add_type").modal('hide');
+                    Table_type.draw();
+                }
             }
-        }
-    });
+        });
     }
 }
 
@@ -431,8 +431,8 @@ var Save_Edit_Data = function Save_Edit_Data() {
 $.fn.dataTable.ext.errMode = 'throw';
 var Table_type = $('#Table_type').DataTable({
     "dom": "<'row'<'col-sm-1'><'col-sm-7'><'col-sm-4'>>" +
-           "<'row'<'col-sm-12'tr>>" +
-           "<'row'<'col-sm-1'i><'col-sm-7'><'col-sm-4'p>>",
+        "<'row'<'col-sm-12'tr>>" +
+        "<'row'<'col-sm-1'i><'col-sm-7'><'col-sm-4'p>>",
     "processing": true,
     "serverSide": true,
     "bPaginate": true,
@@ -483,7 +483,7 @@ var Table_type = $('#Table_type').DataTable({
     ],
     "columnDefs": [{
             "className": 'text-left',
-            "targets": [0,1]
+            "targets": [0, 1]
         },
         {
             "className": 'text-center',
@@ -491,7 +491,7 @@ var Table_type = $('#Table_type').DataTable({
         },
         {
             "className": 'text-right',
-            "targets": [2,3,4,5,6]
+            "targets": [2, 3, 4, 5, 6]
         },
     ],
     "language": {
@@ -516,8 +516,8 @@ var Table_type = $('#Table_type').DataTable({
 
 var Table_trainner_emp = $('#Table_trainner_emp').DataTable({
     "dom": "<'row'<'col-sm-1'><'col-sm-7'><'col-sm-4'>>" +
-           "<'row'<'col-sm-12'tr>>" +
-           "<'row'<'col-sm-1'i><'col-sm-7'><'col-sm-4'p>>",
+        "<'row'<'col-sm-12'tr>>" +
+        "<'row'<'col-sm-1'i><'col-sm-7'><'col-sm-4'p>>",
     "processing": true,
     "serverSide": true,
     "bPaginate": true,
@@ -534,30 +534,30 @@ var Table_trainner_emp = $('#Table_trainner_emp').DataTable({
         },
     },
     "columns": [{
-        "data": 'name_emp',
-        "name": 'name_emp',
-    },
-    {
-        "data": 'status_emp',
-        "name": 'status_emp'
-    },
-    {
-        "data": 'action',
-        "name": 'action',
-    },
+            "data": 'name_emp',
+            "name": 'name_emp',
+        },
+        {
+            "data": 'status_emp',
+            "name": 'status_emp'
+        },
+        {
+            "data": 'action',
+            "name": 'action',
+        },
     ],
     "columnDefs": [{
-        "className": 'text-left',
-        "targets": [0,1]
-    },
-    {
-        "className": 'text-center',
-        "targets": [2]
-    },
-    {
-        "className": 'text-right',
-        "targets": []
-    },
+            "className": 'text-left',
+            "targets": [0, 1]
+        },
+        {
+            "className": 'text-center',
+            "targets": [2]
+        },
+        {
+            "className": 'text-right',
+            "targets": []
+        },
     ],
     "language": {
         "lengthMenu": "แสดง _MENU_ คน",
@@ -581,8 +581,8 @@ var Table_trainner_emp = $('#Table_trainner_emp').DataTable({
 
 var Table_trainner = $('#Table_trainner').DataTable({
     "dom": "<'row'<'col-sm-1'><'col-sm-7'><'col-sm-4'>>" +
-           "<'row'<'col-sm-12'tr>>" +
-           "<'row'<'col-sm-1'i><'col-sm-7'><'col-sm-4'p>>",
+        "<'row'<'col-sm-12'tr>>" +
+        "<'row'<'col-sm-1'i><'col-sm-7'><'col-sm-4'p>>",
     "processing": true,
     "serverSide": true,
     "bPaginate": true,
@@ -654,5 +654,7 @@ var Table_trainner = $('#Table_trainner').DataTable({
     "search": {
         "regex": true
     },
-    "order": [[3, "asc"]]
+    "order": [
+        [3, "asc"]
+    ]
 });

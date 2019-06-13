@@ -29,7 +29,10 @@ var TableDisplay = $('#TableDisplay').DataTable({
     "serverSide": true,
     "bPaginate": true,
     "responsive": true,
-    "order": [[4, 'desc'],[9, 'asc']],
+    "order": [
+        [4, 'desc'],
+        [9, 'asc']
+    ],
     "aLengthMenu": [
         [10, 50, 100, -1],
         ["10", "50", "100", "ทั้งหมด"]
@@ -44,59 +47,64 @@ var TableDisplay = $('#TableDisplay').DataTable({
         }
     },
     "columns": [{
-        "data": 'code',
-        "name": 'code',
-    },
-    {
-        "data": 'wifipassword',
-        "name": 'wifipassword'
-    },
-    {
-        "data": 'name',
-        "name": 'name'
-    },
-    {
-        "data": 'start',
-        "name": 'start'
-    },
-    {
-        "data": 'expire',
-        "name": 'expire'
-    },
-    {
-        "data": 'birthday',
-        "name": 'birthday'
-    },
-    {
-        "data": 'phone',
-        "name": 'phone'
-    },
-    {
-        "data": 'type',
-        "name": 'type'
-    },
-    {
-        "data": 'address',
-        "name": 'address'
-    },
-    {
-        "data": 'status',
-        "name": 'status'
-    },
-    {
-        "data": 'user_seting',
-        "name": 'user_seting'
-    },
-    {
-        "data": 'action',
-        "name": 'action',
-        "orderable": false,
-        "searchable": false
-    },
+            "data": 'code',
+            "name": 'code',
+        },
+        {
+            "data": 'wifipassword',
+            "name": 'wifipassword'
+        },
+        {
+            "data": 'name',
+            "name": 'name'
+        },
+        {
+            "data": 'start',
+            "name": 'start'
+        },
+        {
+            "data": 'expire',
+            "name": 'expire'
+        },
+        {
+            "data": 'birthday',
+            "name": 'birthday'
+        },
+        {
+            "data": 'phone',
+            "name": 'phone'
+        },
+        {
+            "data": 'type',
+            "name": 'type'
+        },
+        {
+            "data": 'address',
+            "name": 'address'
+        },
+        {
+            "data": 'status',
+            "name": 'status'
+        },
+        {
+            "data": 'user_seting',
+            "name": 'user_seting'
+        },
+        {
+            "data": 'action',
+            "name": 'action',
+            "orderable": false,
+            "searchable": false
+        },
     ],
-    "columnDefs": [
-        { "className": 'text-left', "targets": [2, 8] },
-        { "className": 'text-center', "targets": [0, 1, 3, 4, 5, 6, 7, 9, 10, 11] },
+    "columnDefs": [{
+            "className": 'text-left',
+            "targets": [2, 8]
+        },
+        {
+            "className": 'text-center',
+            "targets": [0, 1, 3, 4, 5, 6, 7, 9, 10, 11]
+        },
     ],
     "language": {
         "lengthMenu": "แสดง _MENU_ คน",
@@ -174,8 +182,13 @@ var ViewData = function ViewData(e) {
                         "responsive": true,
                         "ordering": false,
                         "bDestroy": true,
-                        "order": [[0, "desc"]],
-                        "lengthMenu": [[5,], [5,]],
+                        "order": [
+                            [0, "desc"]
+                        ],
+                        "lengthMenu": [
+                            [5, ],
+                            [5, ]
+                        ],
                         "ajax": {
                             "url": 'Model_code_viewdata',
                             "type": 'POST',
@@ -185,42 +198,50 @@ var ViewData = function ViewData(e) {
                             }
                         },
                         "columns": [{
-                            "data": 'name',
-                            "name": 'name',
-                        },
-                        {
-                            "data": 'start',
-                            "name": 'start'
-                        },
-                        {
-                            "data": 'expire',
-                            "name": 'expire'
-                        },
-                        {
-                            "data": 'typestatus',
-                            "name": 'typestatus'
-                        },
-                        {
-                            "data": 'fullprice',
-                            "name": 'fullprice'
-                        },
-                        {
-                            "data": 'alldis',
-                            "name": 'alldis'
-                        },
-                        {
-                            "data": 'resultprice',
-                            "name": 'resultprice'
-                        },
-                        {
-                            "data": 'type',
-                            "name": 'type'
-                        },
+                                "data": 'name',
+                                "name": 'name',
+                            },
+                            {
+                                "data": 'start',
+                                "name": 'start'
+                            },
+                            {
+                                "data": 'expire',
+                                "name": 'expire'
+                            },
+                            {
+                                "data": 'typestatus',
+                                "name": 'typestatus'
+                            },
+                            {
+                                "data": 'fullprice',
+                                "name": 'fullprice'
+                            },
+                            {
+                                "data": 'alldis',
+                                "name": 'alldis'
+                            },
+                            {
+                                "data": 'resultprice',
+                                "name": 'resultprice'
+                            },
+                            {
+                                "data": 'type',
+                                "name": 'type'
+                            },
                         ],
-                        "columnDefs": [
-                            { "className": 'text-left', "targets": [0,] },
-                            { "className": 'text-center', "targets": [1, 2, 3] },
-                            { "className": 'text-right', "targets": [4, 5, 6, 7] },
+                        "columnDefs": [{
+                                "className": 'text-left',
+                                "targets": [0, ]
+                            },
+                            {
+                                "className": 'text-center',
+                                "targets": [1, 2, 3]
+                            },
+                            {
+                                "className": 'text-right',
+                                "targets": [4, 5, 6, 7]
+                            },
                         ],
                         "language": {
                             "lengthMenu": "แสดง _MENU_ รายการ",
@@ -534,8 +555,8 @@ var Getdatacard = function Getdatacard() {
                 }, 3000);
             } else if (data.status == 'Reading') {
                 alert('กำลังอ่าน บัตรประชาชน กรุณารอซักครู่');
-                setTimeout(function() {
-                   Getdatacard();
+                setTimeout(function () {
+                    Getdatacard();
                 }, 3000);
             } else if (data.status == 'Success') {
                 var newdate = new Date(data.birthday);

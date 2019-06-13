@@ -88,7 +88,7 @@ var Showthb3 = function Showthb3() {
             var res = jQuery.parseJSON(callback);
             $("#Tab3_Display").html(res.Table);
         }
-    });  
+    });
 }
 
 var printElement = function printElement(elem) {

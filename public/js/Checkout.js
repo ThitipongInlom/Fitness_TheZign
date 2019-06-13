@@ -1,16 +1,16 @@
-$(document).ready(function() {
+$(document).ready(function () {
     $('[data-toggle="tooltip"]').tooltip();
     Tableonlineforlogout();
 });
 var Tableonlineforlogout = function Tableonlineforlogout() {
     $.ajax({
             url: 'Tableonlineforlogout',
-            success: function(callback) {
+            success: function (callback) {
                 var res = jQuery.parseJSON(callback);
                 $("#Tableonlineforlogout").html(res.Table);
             }
         })
-        .fail(function() {
+        .fail(function () {
             Tableonlineforlogout();
         });
 }
@@ -34,12 +34,12 @@ var Showdatatologout = function Showdatatologout(e) {
             contentType: false,
             processData: false,
             data: Data,
-            success: function(callback) {
+            success: function (callback) {
                 var res = jQuery.parseJSON(callback);
                 $("#Showdatatologout").html(res.Table);
             }
         })
-        .fail(function() {
+        .fail(function () {
             Showdatatologout();
         });
 }
@@ -72,11 +72,11 @@ var Dologout = function Dologout(e) {
                 contentType: false,
                 processData: false,
                 data: Data,
-                success: function(callback) {
+                success: function (callback) {
                     $.redirect("Dashboard", {}, "GET");
                 }
             })
-            .fail(function() {
+            .fail(function () {
                 Dologout();
             });
     }
@@ -95,11 +95,11 @@ var LogoutQuery = function LogoutQuery(e) {
             contentType: false,
             processData: false,
             data: Data,
-            success: function(callback) {
+            success: function (callback) {
                 $.redirect("Dashboard", {}, "GET");
             }
         })
-        .fail(function() {
+        .fail(function () {
             LogoutQuery();
         });
 }

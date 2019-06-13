@@ -1,9 +1,9 @@
-$(document).ready(function() {
+$(document).ready(function () {
     $('[data-toggle="tooltip"]').tooltip();
-    setTimeout(function() {
+    setTimeout(function () {
         OnlineTable();
     }, 10);
-    setTimeout(function() {
+    setTimeout(function () {
         TableToday();
     }, 30);
 });
@@ -12,12 +12,12 @@ var OnlineTable = function OnlineTable() {
     $.ajax({
             url: 'TableOnline',
             type: 'GET',
-            success: function(callback) {
+            success: function (callback) {
                 var res = jQuery.parseJSON(callback);
                 $("#TableOnline").html(res.Table);
             }
         })
-        .fail(function() {
+        .fail(function () {
             OnlineTable();
         });
 }
@@ -26,13 +26,13 @@ var TableToday = function TableToday() {
     $.ajax({
             url: 'TableToday',
             type: 'GET',
-            success: function(callback) {
+            success: function (callback) {
                 $("body").css("padding-right", "0");
                 var res = jQuery.parseJSON(callback);
                 $("#TableToday").html(res.Table);
             }
         })
-        .fail(function() {
+        .fail(function () {
             TableToday();
         });
 }
@@ -62,12 +62,12 @@ var ShowViewData = function ShowViewData(e) {
             contentType: false,
             processData: false,
             data: Data,
-            success: function(callback) {
+            success: function (callback) {
                 var res = jQuery.parseJSON(callback);
                 $("#Show_view_Data_Table").html(res.Table);
             }
         })
-        .fail(function() {
+        .fail(function () {
             ShowViewData();
         });
 }
@@ -97,12 +97,12 @@ var ShowViewDataMain = function ShowViewDataMain(e) {
             contentType: false,
             processData: false,
             data: Data,
-            success: function(callback) {
+            success: function (callback) {
                 var res = jQuery.parseJSON(callback);
                 $("#Show_view_Data_Table").html(res.Table);
             }
         })
-        .fail(function() {
+        .fail(function () {
             ShowViewDataMain();
         });
 }
@@ -110,5 +110,8 @@ var ShowViewDataMain = function ShowViewDataMain(e) {
 var GoPostCodeEdit = function GoPostCodeEdit(e) {
     var csrf = $('meta[name="csrf-token"]').attr('content');
     var Code = $(e).attr('code');
-    $.redirect("CheckIn", {_token: csrf, inputcode: Code}, "POST");
+    $.redirect("CheckIn", {
+        _token: csrf,
+        inputcode: Code
+    }, "POST");
 }

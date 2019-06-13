@@ -87,7 +87,7 @@
             <div class="row">
             <div class="col-md-12">
             <div class="table-responsive">
-            <table class="table table-sm dt-responsive nowrap row-border table-bordered table-hover TableDisplay" cellspacing="0" cellpadding="0" id="TableDisplay">
+            <table class="table table-sm dt-responsive nowrap row-border table-bordered table-hover TableDisplay" cellspacing="0" cellpadding="0" id="TableDisplay" width="100%">
                 <thead>
                     <tr align="center" class="bg-primary">
                         <th>Code</th>
@@ -264,6 +264,10 @@
                           <button class="btn btn-sm btn-success" onclick="GenerateWiFi();">เพิ่มลูกค้า</button>
                         </div>
                         <div class="col-md-4" align="right">
+                          <input type="hidden" id="id_card_add">
+                          <input type="hidden" id="card_start_add">
+                          <input type="hidden" id="card_end_add">
+                          <input type="hidden" id="card_img_add">
                           <button class="btn btn-sm btn-primary" onclick="Getdatacard();">ดึงข้อมูลจาก Card</button>
                         </div>
                       </div>
