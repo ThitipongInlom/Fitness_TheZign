@@ -1339,6 +1339,30 @@ class MainUsers extends Controller
           'today' => $Today,
           'birthday' => $Rebirthday,
           ]);
+          // Update Id Card 
+          $datanew = DB::table('member')->where('id', $ID_New_Code)->get();
+          foreach ($datanew as $key => $row) {
+            // ID Card
+            if ($row->id_card == '') {
+              DB::table('member')->where('id', $ID_New_Code)->update(['id_card' => $request->post('id_card_add')]);
+            }
+            // Card Start
+            if ($row->card_start == '') {
+              DB::table('member')->where('id', $ID_New_Code)->update(['card_start' => $request->post('card_start_add')]);
+            }
+            // Card End
+            if ($row->card_end == '') {
+              DB::table('member')->where('id', $ID_New_Code)->update(['card_end' => $request->post('card_end_add')]);
+            }
+            // Card Img
+            if ($row->card_img == '') {
+              DB::table('member')->where('id', $ID_New_Code)->update(['card_img' => $request->post('card_img_add')]);
+            }
+            // Card Img
+            if ($row->gender == '') {
+              DB::table('member')->where('id', $ID_New_Code)->update(['gender' => $request->post('gender')]);
+            }
+          }
           // Insert To DB Member_Detail
           $Member_detail_insert = DB::table('member_detail')->insertGetId([
           'code' =>    $request->post('Code_Add'),

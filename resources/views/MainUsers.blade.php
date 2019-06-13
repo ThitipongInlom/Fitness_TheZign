@@ -268,6 +268,7 @@
                           <input type="hidden" id="card_start_add">
                           <input type="hidden" id="card_end_add">
                           <input type="hidden" id="card_img_add">
+                          <input type="hidden" id="gender">
                           <button class="btn btn-sm btn-primary" onclick="Getdatacard();">ดึงข้อมูลจาก Card</button>
                         </div>
                       </div>

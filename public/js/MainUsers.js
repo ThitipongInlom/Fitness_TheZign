@@ -351,6 +351,11 @@ $('#AddUsermodel').on('hidden.bs.modal', function (e) {
     $("#Discount_Add").val('');
     $("#Remark_Add").val('');
     $("#Price_total_Add").val('');
+    $("#id_card_add").val('');
+    $("#card_start_add").val('');
+    $("#card_end_add").val('');
+    $("#card_img_add").val('');
+    $("#gender").val('');
 });
 
 var GenerateWiFi = function GenerateWiFi() {
@@ -368,6 +373,11 @@ var GenerateWiFi = function GenerateWiFi() {
     Data.append('Discount_Add', $("#Discount_Add").val());
     Data.append('Remark_Add', $("#Remark_Add").val());
     Data.append('Price_total_Add', $("#Price_total_Add").val());
+    Data.append('id_card_add', $("#id_card_add").val());
+    Data.append('card_start_add', $("#card_start_add").val());
+    Data.append('card_end_add', $("#card_end_add").val());
+    Data.append('card_img_add', $("#card_img_add").val());
+    Data.append('gender', $("#gender").val());
     if ($("#Code_Add").val() != '' && $("#Name_Add").val() != '') {
         $.ajax({
             url: 'GenerateWiFi',
@@ -397,6 +407,11 @@ var GenerateWiFi = function GenerateWiFi() {
                 $("#Discount_Add").val('');
                 $("#Remark_Add").val('');
                 $("#Price_total_Add").val('');
+                $("#id_card_add").val('');
+                $("#card_start_add").val('');
+                $("#card_end_add").val('');
+                $("#card_img_add").val('');
+                $("#gender").val('');
             }
         });
     } else {
@@ -566,6 +581,11 @@ var Getdatacard = function Getdatacard() {
                 $("#Birthday_Add").val(date + '/' + month + '/' + year);
                 $("#Name_Add").val(data.firstNameTH + ' ' + data.lastNameTH);
                 $("#Address_Add").val(data.address);
+                $("#id_card_add").val(data.citizenId);
+                $("#card_start_add").val(data.issue);
+                $("#card_end_add").val(data.expire);
+                $("#card_img_add").val(data.photo);
+                $("#gender").val(data.gender);
                 alert('ใส่ข้อมูล เสร็จสิ้น');
             }
         },
