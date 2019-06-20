@@ -34,6 +34,7 @@
                 <li class="list-group-item" id="btn_tab1" style="cursor: pointer;" data-toggle="collapse" data-target="#tab1" aria-expanded="true" aria-controls="tab1">ตั้งค่าประเภท</li>
                 <li class="list-group-item" id="btn_tab2" style="cursor: pointer;" data-toggle="collapse" data-target="#tab2" aria-expanded="false" aria-controls="tab2">คั้งค่าคลาส</li>
                 <li class="list-group-item" id="btn_tab3" style="cursor: pointer;" data-toggle="collapse" data-target="#tab3" aria-expanded="false" aria-controls="tab3">คั้งค่าตารางคลาส</li>
+                <li class="list-group-item" id="btn_tab4" style="cursor: pointer;" data-toggle="collapse" data-target="#tab4" aria-expanded="false" aria-controls="tab4">ตั้งค่า API</li>
             </ul>
         </div>
         <div class="col-md-10">
@@ -125,6 +126,27 @@
                                 </tr>
                             </tfoot>
                         </table>
+                    </div>
+                    <!-- Tab4 -->
+                    <div id="tab4" class="collapse" aria-labelledby="tab4" data-parent="#GropSetting">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                            <div class="card-header bg-secondary">
+                                <b>เชื่อมต่อกับ Internet</b>
+                            </div>
+                            <div class="card-body">
+                                <span class="switch switch-sm">
+                                    <input type="checkbox" class="switch"  id="switch_internet_card">
+                                    <label for="switch-sm">สถานะ: เปิดใช้งาน Gen Wifi Auto</label>
+                                </span>     
+                            </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            
+                        </div>
+                    </div>         
                     </div>
                     </div>
                 </div>

@@ -269,7 +269,7 @@
                           <input type="hidden" id="card_end_add">
                           <input type="hidden" id="card_img_add">
                           <input type="hidden" id="gender">
-                          <button class="btn btn-sm btn-primary" onclick="Getdatacard();">ดึงข้อมูลจาก Card</button>
+                          <button class="btn btn-sm btn-danger" id="read_card" onclick="Getdatacard();" disabled><span id="read_card_text">Insert ID Card</span></button>
                         </div>
                       </div>
                     </div>

@@ -15,6 +15,8 @@ class Setting extends Controller
 {
     public function Setting()
     {
+      $api_db = DB::table('api_db')->get();
+      $connect = DB::table('connect')->get();
       return view('Setting');
     }
 

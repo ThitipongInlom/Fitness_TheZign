@@ -25,6 +25,15 @@ $('#tab3').on('show.bs.collapse', function () {
 $('#tab3').on('hide.bs.collapse', function () {
     $("#btn_tab3").removeClass('active');
 });
+// Show Tab4
+$('#tab4').on('show.bs.collapse', function () {
+    $("#btn_tab4").addClass('active');
+    $("#ShowAdd").hide();
+});
+// Show Tab4
+$('#tab4').on('hide.bs.collapse', function () {
+    $("#btn_tab4").removeClass('active');
+});
 
 var Edit_Type = function Edit_Type(e) {
     // Show Modal
@@ -426,6 +435,7 @@ var Save_Edit_Data = function Save_Edit_Data() {
         });
     }
 }
+
 
 // Table Tab1
 $.fn.dataTable.ext.errMode = 'throw';
