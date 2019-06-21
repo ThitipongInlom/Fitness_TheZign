@@ -44,11 +44,9 @@ var ShowViewData = function ShowViewData(e) {
     var Name = $(e).attr('name');
     var Guset_in = $(e).attr('Guset_in');
     var Main_id = $(e).attr('main_id');
-    var csrf = $('meta[name="csrf-token"]').attr('content');
     // Create From Data
     var Data = new FormData();
     // Data Put Array
-    Data.append('_token', csrf);
     Data.append('Code', Code);
     Data.append('Name', Name);
     Data.append('Guset_in', Guset_in);
@@ -57,6 +55,9 @@ var ShowViewData = function ShowViewData(e) {
     $.ajax({
             url: 'ShowViewData',
             type: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
             dataType: 'text',
             cache: false,
             contentType: false,
@@ -79,11 +80,9 @@ var ShowViewDataMain = function ShowViewDataMain(e) {
     var Name = $(e).attr('name');
     var Guset_in = $(e).attr('Guset_in');
     var Main_id = $(e).attr('main_id');
-    var csrf = $('meta[name="csrf-token"]').attr('content');
     // Create From Data
     var Data = new FormData();
     // Data Put Array
-    Data.append('_token', csrf);
     Data.append('Code', Code);
     Data.append('Name', Name);
     Data.append('Guset_in', Guset_in);
@@ -92,6 +91,9 @@ var ShowViewDataMain = function ShowViewDataMain(e) {
     $.ajax({
             url: 'ShowViewDataMain',
             type: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
             dataType: 'text',
             cache: false,
             contentType: false,

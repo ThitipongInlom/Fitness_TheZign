@@ -20,8 +20,7 @@ var Showthb1 = function Showthb1() {
     // Create From Data
     var Data = new FormData();
     // Data Put Array
-    Data.append('start', $("#Tab_1_start").val());
-    Data.append('end', $("#Tab_1_end").val());
+    Data.append('range_date', $("#Tab_1_date").val());
     $.ajax({
         url: 'Report_tab_1',
         type: 'POST',
@@ -44,8 +43,7 @@ var Showthb2 = function Showthb2() {
     // Create From Data
     var Data = new FormData();
     // Data Put Array
-    Data.append('start', $("#Tab_2_start").val());
-    Data.append('end', $("#Tab_2_end").val());
+    Data.append('range_date', $("#Tab_2_date").val());
     Data.append('select', $("#Tab_2_select").val());
     $.ajax({
         url: 'Report_tab_2',
@@ -69,8 +67,7 @@ var Showthb3 = function Showthb3() {
     // Create From Data
     var Data = new FormData();
     // Data Put Array
-    Data.append('start', $("#Tab_3_start").val());
-    Data.append('end', $("#Tab_3_end").val());
+    Data.append('range_date', $("#Tab_3_date").val());
     Data.append('select_name', $("#Tab_3_select").val());
     Data.append('select_class', $("#Tab_3_select_class").val());
     $.ajax({

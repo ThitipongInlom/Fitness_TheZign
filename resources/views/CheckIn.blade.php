@@ -28,26 +28,9 @@
     @include('Head')
     <div class="container">
         <!-- Head Code Input -->
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card shadow">
-                    <div class="card-body" style="padding: 0.5rem;">
-                        <div class="clearfix">
-                            <div class="float-left">
-                            </div>
-                            <div class="float-right">
-                                @if (empty($_POST))
-                                @else
-                                <button class="btn btn-sm btn-success" data-toggle="tooltip" data-placement="bottom" title="ประวัติย้อนหลัง" onclick="History();">ประวัติย้อนหลัง</button>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
         <!-- Not Have Post -->
         @if (empty($_POST))
+
         @else
         <!-- Have Post -->
         @if ($CheckNum == '1')
@@ -59,6 +42,16 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-body" style="padding: 0.5rem;">
+                        <div class="clearfix mb-1">
+                            <div class="float-left">
+                            </div>
+                            <div class="float-right">
+                                @if (empty($_POST))
+                                @else
+                                <button class="btn btn-sm btn-success" data-toggle="tooltip" data-placement="bottom" title="ประวัติย้อนหลัง" set_limit="5" onclick="History(this);">ประวัติย้อนหลัง</button>
+                                @endif
+                            </div>
+                        </div>
                         <table class="table table-striped table-sm">
                             <tbody>
                                 @foreach ($Data as $user)
@@ -119,10 +112,14 @@
                 <div class="card card-info card-outline">
                     <div class="card-body" style="padding: 0.5rem;">
                         <div align="center">
-                        @if ($user->Img != '')
-                        <img src='./img/{{ $user->Img }}' alt='Img' width="200" height="200" class='img-thumbnail'>
+                        @if ($user->Img != '' OR $user->card_img != '')
+                            @if ($user->Img != '')
+                                <img src='./img/{{ $user->Img }}' alt='Img' width="200" height="200" class='img-thumbnail'>                   
+                            @else
+                                <img src='{{ $user->card_img }}' alt='Img' width="200" height="200" class='img-thumbnail'>
+                            @endif
                         @else
-                        <img src='./img/default.svg' alt='Img' width="200" height="200" class='img-thumbnail'>
+                            <img src='./img/default.svg' alt='Img' width="200" height="200" class='img-thumbnail'>
                         @endif
                         </div>
                     </div>

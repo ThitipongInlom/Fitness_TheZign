@@ -59,27 +59,9 @@
                         <div class="col-md-12">
                           <form>
                             <div class="form-row align-items-center">
-                              วันที่:
+                            เลือกวันที่ : 
                               <div class="col-sm-2 my-1">
-                                <div class="input-group">
-                                  <input type="text" data-toggle="datepicker" data-date-format='dd/mm/yyyy' class="form-control form-control-sm" id="Tab_1_start" placeholder="เลือกวันที่">
-                                  <div class="input-group-append">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary docs-datepicker-trigger" disabled="">
-                                      <i class="fa fa-calendar" aria-hidden="true"></i>
-                                    </button>
-                                  </div>
-                                </div>
-                              </div>
-                              ถึง:
-                              <div class="col-sm-2 my-1">
-                                <div class="input-group">
-                                  <input type="text" data-toggle="datepicker" data-date-format='dd/mm/yyyy' class="form-control form-control-sm" id="Tab_1_end" placeholder="เลือกวันที่">
-                                  <div class="input-group-append">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary docs-datepicker-trigger" disabled="">
-                                      <i class="fa fa-calendar" aria-hidden="true"></i>
-                                    </button>
-                                  </div>
-                                </div>
+                                  <input type="text" class="form-control form-control-sm daterange" id="Tab_1_date">
                               </div>
                               <div class="col-auto my-1">
                                 <button type="button" class="btn btn-sm btn-primary" onclick="Showthb1();">ค้นหา</button>
@@ -99,27 +81,9 @@
                         <div class="col-md-12">
                           <form>
                             <div class="form-row align-items-center">
-                              วันที่:
+                            เลือกวันที่ : 
                               <div class="col-sm-2 my-1">
-                                <div class="input-group">
-                                  <input type="text" data-toggle="datepicker" data-date-format='dd/mm/yyyy' class="form-control form-control-sm" id="Tab_2_start" placeholder="เลือกวันที่">
-                                  <div class="input-group-append">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary docs-datepicker-trigger" disabled="">
-                                      <i class="fa fa-calendar" aria-hidden="true"></i>
-                                    </button>
-                                  </div>
-                                </div>
-                              </div>
-                              ถึง:
-                              <div class="col-sm-2 my-1">
-                                <div class="input-group">
-                                  <input type="text" data-toggle="datepicker" data-date-format='dd/mm/yyyy' class="form-control form-control-sm" id="Tab_2_end" placeholder="เลือกวันที่">
-                                  <div class="input-group-append">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary docs-datepicker-trigger" disabled="">
-                                      <i class="fa fa-calendar" aria-hidden="true"></i>
-                                    </button>
-                                  </div>
-                                </div>
+                                  <input type="text" class="form-control form-control-sm daterange" id="Tab_2_date">
                               </div>
                               <div class="col-auto my-1">
                                 <button type="button" class="btn btn-sm btn-primary" onclick="Showthb2();">ค้นหา</button>
@@ -147,27 +111,9 @@
                         <div class="col-md-12">
                           <form>
                             <div class="form-row align-items-center">
-                              วันที่:
+                            เลือกวันที่ : 
                               <div class="col-sm-2 my-1">
-                                <div class="input-group">
-                                  <input type="text" data-toggle="datepicker" data-date-format='dd/mm/yyyy' class="form-control form-control-sm" id="Tab_3_start" placeholder="เลือกวันที่">
-                                  <div class="input-group-append">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary docs-datepicker-trigger" disabled="">
-                                      <i class="fa fa-calendar" aria-hidden="true"></i>
-                                    </button>
-                                  </div>
-                                </div>
-                              </div>
-                              ถึง:
-                              <div class="col-sm-2 my-1">
-                                <div class="input-group">
-                                  <input type="text" data-toggle="datepicker" data-date-format='dd/mm/yyyy' class="form-control form-control-sm" id="Tab_3_end" placeholder="เลือกวันที่">
-                                  <div class="input-group-append">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary docs-datepicker-trigger" disabled="">
-                                      <i class="fa fa-calendar" aria-hidden="true"></i>
-                                    </button>
-                                  </div>
-                                </div>
+                                  <input type="text" class="form-control form-control-sm daterange" id="Tab_3_date">
                               </div>
                               <div class="col-auto my-1">
                                 <button type="button" class="btn btn-sm btn-primary" onclick="Showthb3();">ค้นหา</button>
@@ -282,10 +228,60 @@
 <!-- Use Script -->
 <script type="text/javascript">
     $(document).ready(function() {
+
         $('[data-toggle="tooltip"]').tooltip();
+
         $('[data-toggle="datepicker"]').datepicker({
           language: 'en',
           autoClose: true,
+        });
+
+        $('.daterange').daterangepicker({
+          showDropdowns: true,
+          ranges: {
+            'วันนี้': [moment(), moment()],
+            'เมื่อวาน': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+            '7 วันล่าสุด': [moment().subtract(6, 'days'), moment()],
+            '30 วันล่าสุด': [moment().subtract(29, 'days'), moment()],
+            'เดือนนี้': [moment().startOf('month'), moment().endOf('month')],
+            'เดือนที่แล้ว': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+          },
+          alwaysShowCalendars: true,
+          opens: 'right',    
+          cancelClass: "btn-danger",
+          locale: {
+            format: 'DD/MM/YYYY',
+            applyLabel: "ยืนยัน",
+            cancelLabel: "ยกเลิก",
+            fromLabel: "จาก",
+            toLabel: "ไปยัง",
+            customRangeLabel: "กำหนดเอง",
+            daysOfWeek: [
+              "อา.",
+              "จ.",
+              "อ.",
+              "พ.",
+              "พฤ.",
+              "ศ.",
+              "ส."
+            ],
+            monthNames: [
+              "มกราคม",
+              "กุมภาพันธ์",
+              "มีนาคม",
+              "เมษายน",
+              "พฤษภาคม",
+              "มิถุนายน",
+              "กรกฎาคม",
+              "สิงหาคม",
+              "กันยายน",
+              "ตุลาคม",
+              "พฤศจิกายน",
+              "ธันวาคม"
+            ],
+          }
+        }, function(start, end, label) {
+          console.log('เลือกวันที่ ระหว่าง : ' + start.format('YYYY-MM-DD') + ' ถึง ' + end.format('YYYY-MM-DD'));
         });
     });
 </script>

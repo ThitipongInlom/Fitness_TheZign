@@ -234,8 +234,12 @@ class MainUsers extends Controller
         </div>";
         $View .= "</div>";
         $View .= "<div class='col-md-3'>";
-        if ($row->Img != '') {
-        $View .= "<img style='width: 200px; height: 200px;' src='./img/$row->Img' alt='Img' class='img-thumbnail'>";
+        if ($row->Img != '' OR $row->card_img != '') {
+          if ($row->Img != '') {
+            $View .= "<img style='width: 200px; height: 200px;' src='./img/$row->Img' alt='Img' class='img-thumbnail'>";
+          }else{
+            $View .= "<img style='width: 200px; height: 200px;' src='$row->card_img' alt='Img' class='img-thumbnail'>";
+          }
         }else{
         $View .= "<img style='width: 200px; height: 200px;' src='./img/default.svg' alt='Img' class='img-thumbnail'>";
         }

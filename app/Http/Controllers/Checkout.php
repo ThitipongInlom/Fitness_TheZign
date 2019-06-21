@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\DB as DB;
@@ -122,37 +123,48 @@ class Checkout extends Controller
     	echo $json;
     }
 
-    public function Dologout()
+    public function Dologout(Request $request)
     {
       date_default_timezone_set("Asia/Bangkok");
       $today = now();
-    	$Main_id = Input::post('Main_id');
-    	$Code    = Input::post('Code');
+    	$Main_id = 'undefined' ?  '': $request->post('Main_id');
+		$Code    = $request->post('Code');
+		if ($Main_id != ''){
     	$DataCode = DB::table('fake_table')->where('main_id', $Main_id)->where('Fake_code', $Code)->get();
-    	// Insert
-    	foreach ($DataCode as $key => $row) {
+		// Insert
+		foreach ($DataCode as $key => $row) {
 			DB::table('detail_table')->insert([
-			    'main_id' => $Main_id,
-			    'code' => $Code,
-			    'date_time' => $row->Fake_datetime,
-          'itemcode' => $row->Fake_itemcode,
-			    'itemcodetype'  => $row->Fake_itemcodetype,
-			    'itemtype'  => $row->Fake_itemtype,
-			    'itemname'  => $row->Fake_itemname,
-			    'price'     => $row->Fake_price,
-			    'sum'       => $row->Fake_sum,
-          'status'    => $row->Fake_status,
-          'comment'   => $row->Fake_comment,
+			'main_id' => $Main_id,
+			'code' => $Code,
+			'date_time' => $row->Fake_datetime,
+			'itemcode' => $row->Fake_itemcode,
+			'itemcodetype'  => $row->Fake_itemcodetype,
+			'itemtype'  => $row->Fake_itemtype,
+			'itemname'  => $row->Fake_itemname,
+			'price'     => $row->Fake_price,
+			'sum'       => $row->Fake_sum,
+			'status'    => $row->Fake_status,
+			'comment'   => $row->Fake_comment,
 			]);
-    	}
+		}
+    	// Delete Fake_table
+    	DB::table('fake_table')->where('main_id', $Main_id)->where('Fake_code', $Code)->delete();
+      	// Delete Onuse Package
+		DB::table('package_onuse')->where('code', $Code)->delete();
     	// Update
         DB::table('main_table')
             ->where('Code', $Code)
             ->where('ID', $Main_id)
             ->update(['Guset_out' => $today,'Status' => 'OUT']);
-    	// Delete Fake_table
-    	DB::table('fake_table')->where('main_id', $Main_id)->where('Fake_code', $Code)->delete();
-      // Delete Onuse Package
-      DB::table('package_onuse')->where('code', $Code)->delete();
+		}else {
+		$Data = DB::table('main_table')->where('Code', $Code)->where('Status', 'IN')->limit(1)->get();
+		foreach ($Data as $key => $row) {
+			// Update
+			DB::table('main_table')
+				->where('Code', $Code)
+				->where('ID', $row->ID)
+				->update(['Guset_out' => $today,'Status' => 'OUT']);
+		}
+		}
     }
 }

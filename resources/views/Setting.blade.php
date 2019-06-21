@@ -136,15 +136,22 @@
                                 <b>เชื่อมต่อกับ Internet</b>
                             </div>
                             <div class="card-body">
-                                <span class="switch switch-sm">
-                                    <input type="checkbox" class="switch"  id="switch_internet_card">
-                                    <label for="switch-sm">สถานะ: เปิดใช้งาน Gen Wifi Auto</label>
-                                </span>     
+  
+  
                             </div>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            
+                            <div class="card">
+                            <div class="card-header bg-secondary">
+                                <b>เชื่อมต่อกับ การเชื่อมต่อ </b>
+                            </div>
+                            <div class="card-body">
+
+
+
+                            </div>
+                            </div>
                         </div>
                     </div>         
                     </div>

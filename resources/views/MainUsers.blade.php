@@ -278,7 +278,6 @@
         </div>
     </div>
 
-
     <!-- Modal -->
     <div class="modal fade" id="Find_the_name" tabindex="-1" role="dialog" aria-labelledby="Find_the_name_Label" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">

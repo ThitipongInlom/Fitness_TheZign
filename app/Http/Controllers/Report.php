@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App;
 use Config;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
@@ -20,10 +19,11 @@ class Report extends Controller
 		return view('Report');
 	}
 
-  public function Report_tab_1()
+  public function Report_tab_1(Request $request)
   {
-    $reformat_start = date('Y-m-d', strtotime(str_replace('/', '-', Input::post('start'))));
-    $reformat_end = date('Y-m-d', strtotime(str_replace('/', '-', Input::post('end'))));
+    $range_date = explode(" - ", $request->post('range_date'));
+    $reformat_start = date('Y-m-d', strtotime(str_replace('/', '-', $range_date[0])));
+    $reformat_end   = date('Y-m-d', strtotime(str_replace('/', '-', $range_date[1])));
     // Query DATA
     $DATA = DB::table('main_table')
              ->join('detail_table', 'main_table.ID', '=', 'detail_table.main_id')
@@ -76,7 +76,7 @@ class Report extends Controller
                }
              }
     $Table  = "<div align='center'><h4><b>รายงานการใช้บริการสมาชิกตามช่วงเวลา</b></h4></div>";
-    $Table .= "<div align='center'><b>ระหว่างวันที่ ".Input::post('start')." ถึงวันที่ ".Input::post('end')."</b></div>";
+    $Table .= "<div align='center'><b>ระหว่างวันที่ ".$range_date[0]." ถึงวันที่ ".$range_date[1]."</b></div>";
     $Table .= "<table class='table table-sm'>";
     $Table .= "<thead align='center'><tr><th>ลำดับ</th><th>รหัสสมาชิก</th><th>ชื่อนามสกุล</th><th>กุญแจ</th><th>วันที่</th><th>เวลาเข้า</th><th>เวลาออก</th><th>รวมเป็นเวลา</th></tr></thead>";
     $Table .= "<tbody>";
@@ -131,11 +131,12 @@ class Report extends Controller
     echo $Jsonencode;
     }
 
-    public function Report_tab_2()
+    public function Report_tab_2(Request $request)
     {
-      $reformat_start = date('Y-m-d', strtotime(str_replace('/', '-', Input::post('start'))));
-      $reformat_end = date('Y-m-d', strtotime(str_replace('/', '-', Input::post('end'))));
-      $select_teb = Input::post('select');
+      $range_date = explode(" - ", $request->post('range_date'));
+      $reformat_start = date('Y-m-d', strtotime(str_replace('/', '-', $range_date[0])));
+      $reformat_end   = date('Y-m-d', strtotime(str_replace('/', '-', $range_date[1])));
+      $select_teb = $request->post('select');
       if ($select_teb == '1') {
         // Query DATA
         $DATA = DB::table('main_table')
@@ -148,7 +149,7 @@ class Report extends Controller
                 ->whereBetween('date', [$reformat_start, $reformat_end])
                 ->get();
         $Table  = "<div align='center'><h4><b>รายงานการใช้บริการคลาส</b></h4></div>";
-        $Table .= "<div align='center'><b>ระหว่างวันที่ ".Input::post('start')." ถึงวันที่ ".Input::post('end')."</b></div>";
+        $Table .= "<div align='center'><b>ระหว่างวันที่ ".$range_date[0]." ถึงวันที่ ".$range_date[1]."</b></div>";
         $Table .= "<table class='table table-sm'>";
         $Table .= "<thead align='center'><tr><th>ลำดับ</th><th>รหัสสมาชิก</th><th>ชื่อนามสกุล</th><th>วันที่</th><th>เวลาเข้า</th><th>เวลาออก</th><th>คลาสที่ใช้</th></tr></thead>";
         $Table .= "<tbody>";
@@ -167,7 +168,7 @@ class Report extends Controller
                 ->whereBetween('train_date', [$reformat_start, $reformat_end])
                 ->get();
         $Table  = "<div align='center'><h4><b>รายงานการใช้บริการคลาส</b></h4></div>";
-        $Table .= "<div align='center'><b>ระหว่างวันที่ ".Input::post('start')." ถึงวันที่ ".Input::post('end')."</b></div>";
+        $Table .= "<div align='center'><b>ระหว่างวันที่ ".$range_date[0]." ถึงวันที่ ".$range_date[1]."</b></div>";
         $Table .= "<table class='table table-sm'>";
         $Table .= "<thead align='center'><tr><th>ลำดับ</th><th>วันที่</th><th>คลาสที่ใช้งาน</th><th>ชื่อ เทรนเนอร์</th><th>เวลาเริ่ม</th><th>เวลาสิ้นสุด</th><th>จำนวนคนที่ใช้งาน</th></tr></thead>";
         $Table .= "<tbody>";
@@ -199,7 +200,7 @@ class Report extends Controller
                 ->whereBetween('package_log.date', [$reformat_start, $reformat_end])
                 ->get();
         $Table  = "<div align='center'><h4><b>รายงานการใช้บริการคลาส</b></h4></div>";
-        $Table .= "<div align='center'><b>ระหว่างวันที่ ".Input::post('start')." ถึงวันที่ ".Input::post('end')."</b></div>";
+        $Table .= "<div align='center'><b>ระหว่างวันที่ ".$range_date[0]." ถึงวันที่ ".$range_date[1]."</b></div>";
         $Table .= "<table class='table table-sm'>";
         $Table .= "<thead align='center'><tr><th>ลำดับ</th><th>รหัสสมาชิก</th><th>ชื่อนามสกุล</th><th>วันที่</th><th>เวลาเข้า</th><th>เวลาออก</th><th>คลาสที่ใช้</th><th>ใช้งานทั้งหมด</th></tr></thead>";
         $Table .= "<tbody>";
@@ -219,14 +220,15 @@ class Report extends Controller
       echo $Jsonencode;
     }
 
-    public function Report_tab_3()
+    public function Report_tab_3(Request $request)
     {
-      $reformat_start = date('Y-m-d', strtotime(str_replace('/', '-', Input::post('start'))));
-      $reformat_end = date('Y-m-d', strtotime(str_replace('/', '-', Input::post('end'))));
-      $select_name = Input::post('select_name');
-      $select_class = Input::post('select_class');
+      $range_date = explode(" - ", $request->post('range_date'));
+      $reformat_start = date('Y-m-d', strtotime(str_replace('/', '-', $range_date[0])));
+      $reformat_end   = date('Y-m-d', strtotime(str_replace('/', '-', $range_date[1])));
+      $select_name = $request->post('select_name');
+      $select_class = $request->post('select_class');
       // 0 เท่ากับ class
-      if (Input::post('select_class') == '0') {
+      if ($request->post('select_class') == '0') {
         // Query DATA
         $DATA = DB::table('trainner')
                 ->join('item', 'trainner.class_id', '=', 'item.item_code')
@@ -235,7 +237,7 @@ class Report extends Controller
                 ->whereBetween('train_date', [$reformat_start, $reformat_end])
                 ->get();
         $Table  = "<div align='center'><h4><b>รายงานการใช้บริการคลาส</b></h4></div>";
-        $Table .= "<div align='center'><b>ระหว่างวันที่ ".Input::post('start')." ถึงวันที่ ".Input::post('end')."</b></div>";
+        $Table .= "<div align='center'><b>ระหว่างวันที่ ".$range_date[0]." ถึงวันที่ ".$range_date[1]."</b></div>";
         $Table .= "<table class='table table-sm'>";
         $Table .= "<thead align='center'><tr><th>ลำดับ</th><th>วันที่</th><th>คลาสที่ใช้งาน</th><th>ชื่อ เทรนเนอร์</th><th>เวลาเริ่ม</th><th>เวลาสิ้นสุด</th><th>จำนวนคนที่ใช้งาน</th></tr></thead>";
         $Table .= "<tbody>";
@@ -268,7 +270,7 @@ class Report extends Controller
                 ->whereBetween('package_log.date', [$reformat_start, $reformat_end])
                 ->get();
         $Table  = "<div align='center'><h4><b>รายงานการใช้บริการคลาส</b></h4></div>";
-        $Table .= "<div align='center'><b>ระหว่างวันที่ ".Input::post('start')." ถึงวันที่ ".Input::post('end')."</b></div>";
+        $Table .= "<div align='center'><b>ระหว่างวันที่ ".$range_date[0]." ถึงวันที่ ".$range_date[1]."</b></div>";
         $Table .= "<table class='table table-sm'>";
         $Table .= "<thead align='center'><tr><th>ลำดับ</th><th>รหัสสมาชิก</th><th>ชื่อนามสกุล</th><th>วันที่</th><th>เวลาเข้า</th><th>เวลาออก</th><th>คลาสที่ใช้</th><th>ใช้งานทั้งหมด</th></tr></thead>";
         $Table .= "<tbody>";

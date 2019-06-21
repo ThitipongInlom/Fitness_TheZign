@@ -552,32 +552,30 @@ class Checkin extends Controller
     	</tr>";
     	$Data .= '</tbody></table>';
     	// Have Data
-    	if ($CounCheckNull > 0) {
+    	if ($CounCheckNull >= 0) {
         // CheckData Main Online == 0
         if ($CounMainOnline == '0') {
 
         $Data .= '
-        <div align="center">
-        <button class="btn btn-success animated pulse" data-toggle="tooltip" data-placement="bottom" title="ยืนยันเข้าใช้งานวันนี้" onclick="CheckInOnline(this);">เข้าใช้งาน</button>
-        </div>';
+          <div align="center">
+          <button class="btn btn-success animated pulse" data-toggle="tooltip" data-placement="bottom" title="ยืนยันเข้าใช้งานวันนี้" onclick="CheckInOnline(this);">เข้าใช้งาน</button>
+          </div>';
         }
-
-
         // CheckData Main Online == 1
         else{
         $Data .= '
-      <div align="center">
-      <button class="btn btn-danger animated pulse" data-toggle="tooltip" data-placement="bottom" title="เลิกใช้งาน" onclick="Dologout(this);">เลิกใช้งาน</button>
-      </div>';
+          <div align="center">
+          <button class="btn btn-danger animated pulse" data-toggle="tooltip" data-placement="bottom" title="เลิกใช้งาน" onclick="Dologout(this);">เลิกใช้งาน</button>
+          </div>';
         }
     	}
       // Not Have Data
       else{
-      // Dont Use disabled
+      // ยังไม่ได้เลือก ใช้งานสินค้า
     	$Data .= '
-    	<div align="center">
-    	<button class="btn btn-success animated pulse" disabled data-toggle="tooltip" data-placement="bottom" title="กรุณาเลือกรายการก่อน">เข้าใช้งาน</button>
-    	</div>';
+    	  <div align="center">
+    	  <button class="btn btn-success animated pulse" data-toggle="tooltip" data-placement="bottom" title="กรุณาเลือกรายการก่อน" onclick="CheckInOnline(this);">เข้าใช้งาน</button>
+    	  </div>';
     	}
 		  // Show Json
     	$array = array('Table' => $Data);
@@ -722,7 +720,7 @@ class Checkin extends Controller
         }
         $From .= "</div>
         <hr>
-        <button class='btn btn-primary' Fake_table_id='$Fake_table_id' onclick='Foronchangenum(this);'>ยืนยันเปลี่ยนจำนวน</button>
+        <button class='btn btn-sm btn-primary' Fake_table_id='$Fake_table_id' onclick='Foronchangenum(this);'>ยืนยันเปลี่ยนจำนวน</button>
         </div>
         </div>";
         // Show Json
@@ -827,7 +825,7 @@ class Checkin extends Controller
         }
         $From .= "</div>
         <hr>
-        <button class='btn btn-primary' Fake_table_id='$Fake_table_id' onclick='Discount_Save(this);'>ยืนยันส่วนลดสินค้า</button>
+        <button class='btn btn-sm btn-primary' Fake_table_id='$Fake_table_id' onclick='Discount_Save(this);'>ยืนยันส่วนลดสินค้า</button>
         </div>
         </div>";
         // Show Json
@@ -898,10 +896,11 @@ class Checkin extends Controller
         }
     }
 
-    public function History()
+    public function History(Request $request)
     {
-        $Code = Input::post('Code');
-        $Data = DB::table('main_table')->where('Code', $Code)->where('Status', 'OUT')->limit(5)->orderBy('date', 'desc')->get();
+        $Code = $request->post('Code');
+        $Limit = $request->post('set_limit');
+        $Data = DB::table('main_table')->where('Code', $Code)->where('Status', 'OUT')->limit($Limit)->orderBy('date', 'desc')->get();
         $CheckHaveHistory = DB::table('main_table')->where('Code', $Code)->count();
         if ($CheckHaveHistory > 1) {
         $Table = '
@@ -936,6 +935,9 @@ class Checkin extends Controller
         </table>
         </div>
         </div>";
+        if($CheckHaveHistory > 5) {
+          $Table .= "<button class='btn btn-sm btn-primary btn-block' set_limit='0' onclick='History(this);'>ดูข้อมูลทั้งหมด</button>";
+          }
         }
         $Table .= '</div>';
         }else{
@@ -1226,7 +1228,7 @@ class Checkin extends Controller
         $Table .= "<div class='col-md-12'><h5 align='left'>หมายเหตุ:</h5>";
         $Table .= "<textarea id='commentchargeitem' placeholder='กรุณากรอกสาเหตุของการ Charge' class='form-control' rows='2'>";
         $Table .= "</textarea>";
-        $Table .= "<br><button class='btn btn-danger' onclick='ChargeItem(this);' fake_table_id='$fake_table_id'>ยืนยันการ Charge</button></div></div>";
+        $Table .= "<br><button class='btn btn-sm btn-danger' onclick='ChargeItem(this);' fake_table_id='$fake_table_id'>ยืนยันการ Charge</button></div></div>";
         // Show Json
         $array = array('Table' => $Table,'Row' => $row);
         $json = json_encode($array);

@@ -536,13 +536,12 @@ var Discount_Save = function Discount_Save(e) {
     });
 }
 
-var History = function History() {
-    // Get Code
-    var Code = $("#codehidden").val();
+var History = function History(e) {
     // Create From Data
     var Data = new FormData();
     // Data Put Array
-    Data.append('Code', Code);
+    Data.append('Code', $("#codehidden").val());
+    Data.append('Limit', $(e).attr('set_limit'));
     // Modal Show
     $('#History').modal('show');
     $("body").css("padding-right", "0");
