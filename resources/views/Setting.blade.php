@@ -48,7 +48,7 @@
                     <!-- Tab1 -->
                     <div id="tab1" class="collapse" aria-labelledby="tab1" data-parent="#GropSetting">
                     <div align="right">
-                        <button class="btn btn-sm btn-success" onclick="Add_type();">เพิ่มข้อมูล</button>
+                        <button class="btn btn-sm btn-success" onclick="Add_type();" data-toggle="tooltip" data-placement="left" title="เพิ่มข้อมูล ประเภท">เพิ่มข้อมูล</button>
                     </div>
                     <table class="table table-sm dt-responsive nowrap  row-border table-bordered table-hover" width="100%" id="Table_type">
                         <thead>
@@ -60,6 +60,7 @@
                                 <th>จำนวนปี</th>
                                 <th>ราคา</th>
                                 <th>สิทธ์</th>
+                                <th>ตั้งค่าแสดง</th>
                                 <th>ตัวช่วย</th>
                             </tr>
                         </thead>
@@ -72,6 +73,7 @@
                                 <th>จำนวนปี</th>
                                 <th>ราคา</th>
                                 <th>สิทธ์</th>
+                                <th>ตั้งค่าแสดง</th>
                                 <th>ตัวช่วย</th>
                             </tr>
                         </tfoot>
@@ -80,7 +82,7 @@
                     <!-- Tab2 -->
                     <div id="tab2" class="collapse" aria-labelledby="tab2" data-parent="#GropSetting">
                         <div align="right" style="padding-bottom: 5px;">
-                            <button class="btn btn-sm btn-success" onclick="Add_trainner_emp();">เพิ่มข้อมูล</button>
+                            <button class="btn btn-sm btn-success" onclick="Add_trainner_emp();" data-toggle="tooltip" data-placement="left" title="เพิ่มข้อมูล Trainner">เพิ่มข้อมูล</button>
                         </div>
                         <table class="table table-sm dt-responsive nowrap  row-border table-bordered table-hover" width="100%" id="Table_trainner_emp">
                             <thead>
@@ -136,7 +138,8 @@
                                 <b>เชื่อมต่อกับ Internet</b>
                             </div>
                             <div class="card-body">
-  
+
+                                <input id="toggle-trigger" type="checkbox" data-toggle="toggle">
   
                             </div>
                             </div>
@@ -335,17 +338,17 @@
                     <div class="col-md-4">
                         <label for="add_free_sum_package"><b>จำนวนที่จะแถม เทรนเนอร์ ฟรี</b></label>
                         <select class="form-control" id="add_free_sum_package">
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="10">10</option>
+                        <option value="0">0 ครั้ง</option>
+                        <option value="1">1 ครั้ง</option>
+                        <option value="2">2 ครั้ง</option>
+                        <option value="3">3 ครั้ง</option>
+                        <option value="4">4 ครั้ง</option>
+                        <option value="5">5 ครั้ง</option>
+                        <option value="6">6 ครั้ง</option>
+                        <option value="7">7 ครั้ง</option>
+                        <option value="8">8 ครั้ง</option>
+                        <option value="9">9 ครั้ง</option>
+                        <option value="10">10 ครั้ง</option>
                         </select>           
                     </div>
                     <div class="col-md-4">
@@ -467,17 +470,17 @@
                     <div class="col-md-4">
                         <label for="edit_free_sum_package"><b>จำนวนที่จะแถม เทรนเนอร์ ฟรี</b></label>
                         <select class="form-control" id="edit_free_sum_package">
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="10">10</option>
+                        <option value="0">0 ครั้ง</option>
+                        <option value="1">1 ครั้ง</option>
+                        <option value="2">2 ครั้ง</option>
+                        <option value="3">3 ครั้ง</option>
+                        <option value="4">4 ครั้ง</option>
+                        <option value="5">5 ครั้ง</option>
+                        <option value="6">6 ครั้ง</option>
+                        <option value="7">7 ครั้ง</option>
+                        <option value="8">8 ครั้ง</option>
+                        <option value="9">9 ครั้ง</option>
+                        <option value="10">10 ครั้ง</option>
                         </select>    
                     </div>
                     <div class="col-md-4">

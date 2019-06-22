@@ -9,13 +9,6 @@
     <title>Fitness</title>
     <!-- All Css -->
     <link rel="stylesheet" type="text/css" href="{{ url('css/app.css') }}">
-    <!-- Style Css Nav -->
-    <style>
-      .nav-pills .nav-link.tab_1.active, .nav-pills .show > .nav-link  {
-          color: #fff;
-          background-color: #87CEEB;
-      }
-    </style>
     <!-- Style Css Print -->
     <style media="print">
       @media screen {
@@ -64,8 +57,8 @@
                                   <input type="text" class="form-control form-control-sm daterange" id="Tab_1_date">
                               </div>
                               <div class="col-auto my-1">
-                                <button type="button" class="btn btn-sm btn-primary" onclick="Showthb1();">ค้นหา</button>
-                                <button type="button" class="btn btn-sm btn-success" onclick="printElement(document.getElementById('Print_Report1'));"><i class="fas fa-print"></i></button>
+                                <button type="button" class="btn btn-sm btn-primary" onclick="Showthb1();" data-toggle='tooltip' data-placement='bottom' title='ค้นหาข้อมูล'>ค้นหา</button>
+                                <button type="button" class="btn btn-sm btn-success" onclick="printElement(document.getElementById('Print_Report1'));" data-toggle='tooltip' data-placement='bottom' title='ปริ้นข้อมูล'><i class="fas fa-print"></i></button>
                               </div>
                             </div>
                           </form>
@@ -86,8 +79,8 @@
                                   <input type="text" class="form-control form-control-sm daterange" id="Tab_2_date">
                               </div>
                               <div class="col-auto my-1">
-                                <button type="button" class="btn btn-sm btn-primary" onclick="Showthb2();">ค้นหา</button>
-                                <button type="button" class="btn btn-sm btn-success" onclick="printElement(document.getElementById('Print_Report2'));"><i class="fas fa-print"></i></button>
+                                <button type="button" class="btn btn-sm btn-primary" onclick="Showthb2();" data-toggle='tooltip' data-placement='bottom' title='ค้นหาข้อมูล'>ค้นหา</button>
+                                <button type="button" class="btn btn-sm btn-success" onclick="printElement(document.getElementById('Print_Report2'));" data-toggle='tooltip' data-placement='bottom' title='ปริ้นข้อมูล'><i class="fas fa-print"></i></button>
                               </div>
                               <div class="col-auto my-1">
                                 <select class="custom-select custom-select-sm" id="Tab_2_select">
@@ -116,8 +109,8 @@
                                   <input type="text" class="form-control form-control-sm daterange" id="Tab_3_date">
                               </div>
                               <div class="col-auto my-1">
-                                <button type="button" class="btn btn-sm btn-primary" onclick="Showthb3();">ค้นหา</button>
-                                <button type="button" class="btn btn-sm btn-success" onclick="printElement(document.getElementById('Print_Report2'));"><i class="fas fa-print"></i></button>
+                                <button type="button" class="btn btn-sm btn-primary" onclick="Showthb3();" data-toggle='tooltip' data-placement='bottom' title='ค้นหาข้อมูล'>ค้นหา</button>
+                                <button type="button" class="btn btn-sm btn-success" onclick="printElement(document.getElementById('Print_Report2'));" data-toggle='tooltip' data-placement='bottom' title='ปริ้นข้อมูล'><i class="fas fa-print"></i></button>
                               </div>
                               <div class="col-auto my-1">
                                 <select class="custom-select custom-select-sm" id="Tab_3_select"></select>

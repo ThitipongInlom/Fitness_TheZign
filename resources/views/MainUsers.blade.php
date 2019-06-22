@@ -77,10 +77,10 @@
                 </select>
               </div>
               <div class="col-md-7">
-                  <button class="btn btn-sm btn-primary" type="submit" id="searchTableDisplay">ค้นหา</button>
+                  <button class="btn btn-sm btn-primary" type="submit" id="searchTableDisplay" data-toggle="tooltip" data-placement="bottom" title="ค้นหาข้อมูล">ค้นหา</button>
               </div>
               <div class="col-md-1">
-                  <button class=" btn btn-sm btn-success" type="btton" onclick="AddUsermodel();">เพิ่มลูกค้า</button>
+                  <button class=" btn btn-sm btn-success" type="btton" onclick="AddUsermodel();" data-toggle="tooltip" data-placement="bottom" title="เพิ่มลูกค้า">เพิ่มลูกค้า</button>
               </div>
             </div>
             <hr>

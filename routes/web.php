@@ -164,5 +164,7 @@ Route::post('/Save_select_trainner_emp_to_member_edit', 'Checkin@Save_select_tra
 Route::get('/Auto_Check_and_insert_trainner', 'Setting@Auto_Check_and_insert_trainner');
 // API Get Trainner
 Route::post('/API_Trainner', 'Report@API_Trainner');
+// API onchange_switch_type
+Route::post('/onchange_switch_type', 'Setting@onchange_switch_type');
 // Dev Create user
 Route::get('/Create/{user}/{password}/{name}/{email}/{status}/{token}', 'Controller@Create_user_dev');

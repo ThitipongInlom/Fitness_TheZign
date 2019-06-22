@@ -4,9 +4,17 @@ window.Popper = require('popper.js').default;
 
 try {
     window.$ = window.jQuery = require('jquery');
-
+    // Admin Lte
     require('admin-lte');
+    // Bootstrap
     require('bootstrap');
+    // Tooltip
+    $('[data-toggle="tooltip"]').tooltip({
+        "html": true,
+    });
+    $("[data-toggle='tooltip']").tooltip({
+        "html": true,
+    });
     // Data Table
     require( 'datatables.net-bs4' )();
     require( 'datatables.net-buttons-bs4' )();

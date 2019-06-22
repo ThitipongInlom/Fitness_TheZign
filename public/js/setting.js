@@ -1,3 +1,10 @@
+const Toast = swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000
+});
+
 // Show Tab 1
 $('#tab1').on('show.bs.collapse', function () {
     $("#btn_tab1").addClass('active');
@@ -436,6 +443,36 @@ var Save_Edit_Data = function Save_Edit_Data() {
     }
 }
 
+var onchange_switch_type = function onchange_switch_type(e) {
+    if ($(e).is(":checked")) {
+        var value = "on";
+    }else{
+        var value = "off";
+    }
+    var Data = new FormData();
+    Data.append('type_id', $(e).attr('typeid'));
+    Data.append('value', value);
+    Data.append('codetype', $(e).attr('codetype'));
+    $.ajax({
+        url: 'onchange_switch_type',
+        type: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        dataType: 'json',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: Data,
+        success: function (res) {
+            Toast.fire({
+                type: res.type,
+                title: res.title
+            })
+        }
+    });
+}
+
 
 // Table Tab1
 $.fn.dataTable.ext.errMode = 'throw';
@@ -456,7 +493,7 @@ var Table_type = $('#Table_type').DataTable({
         "type": 'POST',
         "headers": {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
+        }
     },
     "columns": [{
             "data": 'type_code',
@@ -487,6 +524,10 @@ var Table_type = $('#Table_type').DataTable({
             "name": 'type_commitment'
         },
         {
+            "data": 'switch',
+            "name": 'switch'
+        },
+        {
             "data": 'action',
             "name": 'action',
         },
@@ -497,7 +538,7 @@ var Table_type = $('#Table_type').DataTable({
         },
         {
             "className": 'text-center',
-            "targets": [7]
+            "targets": [7, 8]
         },
         {
             "className": 'text-right',

@@ -96,7 +96,7 @@ class MainUsers extends Controller
                       $reclass = $users->rownum % 2 == 0 ? 'bg-tablecolor_set' : 'bg-tablecolor';
                     }
                 }elseif ($users->status == 'Expired') {
-                    $reclass = "bg-danger";
+                    $reclass = "bg_member_expired";
                 }else{
                     $reclass = "";
                 }
@@ -110,6 +110,10 @@ class MainUsers extends Controller
         ->editColumn('expire', function($users) {
             return date('d/m/Y', strtotime($users->expire));
         })
+        ->editColumn('status', function($users) {
+            $icon = $users->status == 'Active' ? '<i class="far fa-check-circle" style="color:green; font-size:15px;"></i>':'<i class="far fa-times-circle" style="color:#5f0101; font-size:15px;"></i>';
+            return $users->status.' '.$icon;
+        })
         ->editColumn('birthday', function($users) {
             if ($users->birthday == '0000-00-00' OR $users->birthday == '1970-01-01') {
               $rebirthday = "-";
@@ -119,9 +123,10 @@ class MainUsers extends Controller
             return $rebirthday;
         })
         ->addColumn('action', function ($users) {
-                $Data  = '<button class="btn btn-sm btn-success" id="'.$users->code.'" onclick="ViewData(this)"><i class="fas fa-search"></i>View</button> ';
-                return $Data;
+            $Data  = '<button class="btn btn-sm btn-success" id="'.$users->code.'" onclick="ViewData(this)" data-toggle="tooltip" data-placement="left" title="ดูข้อมูล Code : '.$users->code.'"><i class="fas fa-search"></i>View</button> ';
+            return $Data;
         })
+        ->rawColumns(['status','action'])
         ->make(true);
     }
 
@@ -168,7 +173,7 @@ class MainUsers extends Controller
     {
         $id = Input::post('id');
         $Data = DB::table('member')->where('code', $id)->get();
-        $Datatype = DB::table('type')->get();
+        $Datatype = DB::table('type')->where('type_eye_hide', '<>', 'off')->get();
         foreach ($Data as $key => $row) {
         $View  = "<div class='row'>";
         $View .= "<div class='col-md-9'>";
@@ -244,8 +249,8 @@ class MainUsers extends Controller
         $View .= "<img style='width: 200px; height: 200px;' src='./img/default.svg' alt='Img' class='img-thumbnail'>";
         }
         $View .= "<p></p>
-                  <div class='upload-btn-wrapper'>
-                  <button class='btn btn-sm btn-primary'>อัพโหลด รูปภาพ</button>
+                  <div class='upload-btn-wrapper' data-toggle='tooltip' data-placement='bottom' title='อัพโหลด รูปภาพ'>
+                  <button class='btn btn-sm btn-primary' data-toggle='tooltip' data-placement='bottom' title='อัพโหลด รูปภาพ'>อัพโหลด รูปภาพ</button>
                   <input type='file' id='imguploadfile' onchange='uploadimguser(this);' code='$row->code' user_id='$row->id'>
                   </div></div>";
         // End Row
@@ -543,7 +548,9 @@ class MainUsers extends Controller
                   ->update(['Img' => $FlieNameSuccess]);
           }
         }else {
-             unlink(public_path("img/$row->Img"));
+            if(file_exists(public_path("img/$row->Img"))){
+              unlink(public_path("img/$row->Img"));
+            }
              DB::table('member')
                  ->where('id', $User_Id)
                  ->update(['Img' => '']);
@@ -570,7 +577,7 @@ class MainUsers extends Controller
 
     public static function GetTypeData()
     {
-        $TypeData = DB::table('type')->get();
+        $TypeData = DB::table('type')->where('type_eye_hide', '<>', 'off')->get();
         return $TypeData;
     }
 

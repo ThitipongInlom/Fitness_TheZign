@@ -101,12 +101,20 @@ class Setting extends Controller
                   $data_res = "มีสิทธิ์";
                 }
                 return $data_res;
-            })              
+            })    
+            ->addColumn('switch', function($users) {
+                $check = $users->type_eye_hide == 'on' ? 'checked':'';
+                $html  = "<label class='switch' style='margin-bottom: 0rem !important;'>";
+                $html .= "<input type='checkbox' class='primary' $check typeid='$users->type_id' codetype='$users->type_code' onchange='onchange_switch_type(this)'>";
+                $html .= "<span class='slider round'></span>";
+                $html .= "</label>";
+                return $html;
+            })            
             ->addColumn('action', function ($users) {
-                $Data  = '<button class="btn btn-sm btn-warning" id="'.$users->type_id.'" onclick="Edit_Type('.$users->type_id.');"><i class="fas fa-edit"></i></i>แก้ไข</button> ';
+                $Data  = '<button class="btn btn-sm btn-warning" id="'.$users->type_id.'" onclick="Edit_Type('.$users->type_id.');" data-toggle="tooltip" data-placement="left" title="แก้ไข '.$users->type_code.'"><i class="fas fa-edit"></i></i>แก้ไข</button> ';
                 return $Data;
             })   
-            ->rawColumns(['action'])                                            
+            ->rawColumns(['switch', 'action'])                                            
             ->make(true);
     }
 
@@ -418,6 +426,18 @@ class Setting extends Controller
       $ResArray = ['trainner_emp' => $trainner_emp, 'type_class' => $type_class];
       $Jsonencode = json_encode($ResArray);
       echo $Jsonencode;
+    }
+
+    public function onchange_switch_type(Request $request)
+    {
+      DB::table('type')
+        ->where('type_id', $request->post('type_id'))
+        ->update(['type_eye_hide' => $request->post('value')]);
+
+      return response()->json([
+          'type' => 'success',
+          'title' => "อัพเดต สถานะ ".$request->post('codetype')." เสร็จสิ้น"
+      ]);
     }
 
     

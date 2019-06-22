@@ -11,6 +11,3 @@ window.moment = require('moment/moment.js');
 // Sweetalert2
 window.swal = require('sweetalert2');
 
-window.Vue = require('vue');
-
-Vue.component('example-component', require('./components/ExampleComponent.vue'));

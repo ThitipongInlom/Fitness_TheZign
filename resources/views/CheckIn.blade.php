@@ -179,7 +179,7 @@
                         </div>
                     </div>
                     <hr>
-                    <a class="btn btn-danger" href="{{ url('/Dashboard') }}" role="button" data-toggle="tooltip" data-placement="bottom" title="MainCheck">ย้อนกลับ</a>
+                    <a class="btn btn-danger" href="{{ url('/Dashboard') }}" role="button" data-toggle="tooltip" data-placement="bottom" title="ย้อนกลับ">ย้อนกลับ</a>
                 </div>
             </div>
         </div>
@@ -192,7 +192,7 @@
                 <div align="center">
                     <h3>ไม่พบข้อมูล</h3>
                     <hr>
-                    <a class="btn btn-danger" href="{{ url('/Dashboard') }}" role="button" data-toggle="tooltip" data-placement="bottom" title="MainCheck">ย้อนกลับ</a>
+                    <a class="btn btn-danger" href="{{ url('/Dashboard') }}" role="button" data-toggle="tooltip" data-placement="bottom" title="ย้อนกลับ">ย้อนกลับ</a>
                 </div>
             </div>
         </div>
