@@ -28,59 +28,58 @@
 </head>
 <body>
     @include('Head')
+
     <div class="row">
-        <div class="col-md-2">
-            <ul class="list-group">
-                <li class="list-group-item" id="btn_tab1" style="cursor: pointer;" data-toggle="collapse" data-target="#tab1" aria-expanded="true" aria-controls="tab1">ตั้งค่าประเภท</li>
-                <li class="list-group-item" id="btn_tab2" style="cursor: pointer;" data-toggle="collapse" data-target="#tab2" aria-expanded="false" aria-controls="tab2">คั้งค่าคลาส</li>
-                <li class="list-group-item" id="btn_tab3" style="cursor: pointer;" data-toggle="collapse" data-target="#tab3" aria-expanded="false" aria-controls="tab3">คั้งค่าตารางคลาส</li>
-                <li class="list-group-item" id="btn_tab4" style="cursor: pointer;" data-toggle="collapse" data-target="#tab4" aria-expanded="false" aria-controls="tab4">ตั้งค่า API</li>
-            </ul>
+    <div class="col-2">
+        <div class="card">
+            <div class="card-body">
+                <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    <a class="nav-link active" id="v-pills-menu1-tab" data-toggle="pill" href="#v-pills-menu1" role="tab" aria-controls="v-pills-menu1" aria-selected="true">ตั้งค่าประเภท</a>
+                    <a class="nav-link" id="v-pills-menu2-tab" data-toggle="pill" href="#v-pills-menu2" role="tab" aria-controls="v-pills-menu2" aria-selected="false">คั้งค่าคลาส</a>
+                    <a class="nav-link" id="v-pills-menu3-tab" data-toggle="pill" href="#v-pills-menu3" role="tab" aria-controls="v-pills-menu3" aria-selected="false">คั้งค่าตารางคลาส</a>
+                    <a class="nav-link" id="v-pills-menu4-tab" data-toggle="pill" href="#v-pills-menu4" role="tab" aria-controls="v-pills-menu4" aria-selected="false">ตั้งค่า API</a>
+                </div>
+            </div>
         </div>
-        <div class="col-md-10">
-            <div class="card">
-                <div class="card-body">
-                    <div id="GropSetting">
-                    <!-- ค่าเริ่มต้น -->
-                    <div id="ShowAdd">
-                       <div align="center"><h5 style="color:red;">กรุณาเลือก เมนูที่ทางซ้ายมือ </h5></div>
+    </div>
+    <div class="col-10">
+        <div class="card">
+            <div class="card-body">
+                <div class="tab-content" id="v-pills-tabContent">
+                    <div class="tab-pane fade show active" id="v-pills-menu1" role="tabpanel" aria-labelledby="v-pills-menu1-tab">
+                        <div align="right">
+                            <button class="btn btn-sm btn-success" onclick="Add_type();" data-toggle="tooltip" data-placement="left" title="เพิ่มข้อมูล ประเภท">เพิ่มข้อมูล</button>
+                        </div>
+                        <table class="table table-sm dt-responsive nowrap  row-border table-bordered table-hover" width="100%" id="Table_type">
+                            <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>ชื่อประเภท</th>
+                                    <th>จำนวนวัน</th>
+                                    <th>จำนวนเดือน</th>
+                                    <th>จำนวนปี</th>
+                                    <th>ราคา</th>
+                                    <th>สิทธ์ <span class="badge badge-secondary" data-toggle="tooltip" data-placement="bottom" title="สิทธิ์ คือ การนับจำนวนครั้ง ถ้าลูกค้า มีสิทธ์ ครับ 5 ครั้ง ขึ้นไป จะได้ส่วนลด 5%"><i class="far fa-question-circle"></i></span></th>
+                                    <th>สถานะ</th>
+                                    <th>ตัวช่วย</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>ชื่อประเภท</th>
+                                    <th>จำนวนวัน</th>
+                                    <th>จำนวนเดือน</th>
+                                    <th>จำนวนปี</th>
+                                    <th>ราคา</th>
+                                    <th>สิทธ์</th>
+                                    <th>สถานะ</th>
+                                    <th>ตัวช่วย</th>
+                                </tr>
+                            </tfoot>
+                        </table>             
                     </div>
-                    <!-- Tab1 -->
-                    <div id="tab1" class="collapse" aria-labelledby="tab1" data-parent="#GropSetting">
-                    <div align="right">
-                        <button class="btn btn-sm btn-success" onclick="Add_type();" data-toggle="tooltip" data-placement="left" title="เพิ่มข้อมูล ประเภท">เพิ่มข้อมูล</button>
-                    </div>
-                    <table class="table table-sm dt-responsive nowrap  row-border table-bordered table-hover" width="100%" id="Table_type">
-                        <thead>
-                            <tr>
-                                <th>Code ประเภท</th>
-                                <th>ชื่อประเภท</th>
-                                <th>จำนวนวัน</th>
-                                <th>จำนวนเดือน</th>
-                                <th>จำนวนปี</th>
-                                <th>ราคา</th>
-                                <th>สิทธ์</th>
-                                <th>ตั้งค่าแสดง</th>
-                                <th>ตัวช่วย</th>
-                            </tr>
-                        </thead>
-                        <tfoot>
-                            <tr>
-                                <th>Code ประเภท</th>
-                                <th>ชื่อประเภท</th>
-                                <th>จำนวนวัน</th>
-                                <th>จำนวนเดือน</th>
-                                <th>จำนวนปี</th>
-                                <th>ราคา</th>
-                                <th>สิทธ์</th>
-                                <th>ตั้งค่าแสดง</th>
-                                <th>ตัวช่วย</th>
-                            </tr>
-                        </tfoot>
-                    </table>
-                    </div>
-                    <!-- Tab2 -->
-                    <div id="tab2" class="collapse" aria-labelledby="tab2" data-parent="#GropSetting">
+                    <div class="tab-pane fade" id="v-pills-menu2" role="tabpanel" aria-labelledby="v-pills-menu2-tab">
                         <div align="right" style="padding-bottom: 5px;">
                             <button class="btn btn-sm btn-success" onclick="Add_trainner_emp();" data-toggle="tooltip" data-placement="left" title="เพิ่มข้อมูล Trainner">เพิ่มข้อมูล</button>
                         </div>
@@ -101,10 +100,9 @@
                             </tfoot>
                         </table>
                     </div>
-                    <!-- Tab3 -->
-                    <div id="tab3" class="collapse" aria-labelledby="tab3" data-parent="#GropSetting">
+                    <div class="tab-pane fade" id="v-pills-menu3" role="tabpanel" aria-labelledby="v-pills-menu3-tab">
                         <div align="right" style="padding-bottom: 5px;">
-                            <button class="btn btn-sm btn-success" onclick="Add_trainner();">เพิ่มข้อมูล</button>
+                            <button class="btn btn-sm btn-success" onclick="Add_trainner();" data-toggle="tooltip" data-placement="left" title="เพิ่มข้อมูล รายการ Trainner">เพิ่มข้อมูล</button>
                         </div>
                         <table class="table table-sm dt-responsive nowrap  row-border table-bordered table-hover" width="100%" id="Table_trainner">
                             <thead>
@@ -129,39 +127,64 @@
                             </tfoot>
                         </table>
                     </div>
-                    <!-- Tab4 -->
-                    <div id="tab4" class="collapse" aria-labelledby="tab4" data-parent="#GropSetting">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="card">
-                            <div class="card-header bg-secondary">
-                                <b>เชื่อมต่อกับ Internet</b>
-                            </div>
-                            <div class="card-body">
+                    <div class="tab-pane fade" id="v-pills-menu4" role="tabpanel" aria-labelledby="v-pills-menu4-tab">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card">
+                                <div class="card-header bg-secondary">
+                                    <b>เชื่อมต่อกับ Internet</b>
+                                </div>
+                                <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        การใช้งาน Internet :
+                                        <span style="margin-right: 5px !important;"></span>
+                                        <label class='switch' style='margin-bottom: 0rem !important;'>
+                                        <input type='checkbox' class='primary' id="switch_internet">
+                                        <span class='slider round'></span>
+                                        </label>                                    
+                                    </div>
+                                    <div class="col-md-6"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="inputGroup-sizing-default">Username :</span>
+                                        </div>
+                                        <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="inputGroup-sizing-default">Password :</span>
+                                        </div>
+                                        <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                                        </div>
+                                    </div>
+                                </div>
 
-                                <input id="toggle-trigger" type="checkbox" data-toggle="toggle">
-  
+                                </div>
+                                </div>
                             </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="card">
-                            <div class="card-header bg-secondary">
-                                <b>เชื่อมต่อกับ การเชื่อมต่อ </b>
-                            </div>
-                            <div class="card-body">
+                            <div class="col-md-6">
+                                <div class="card">
+                                <div class="card-header bg-secondary">
+                                    <b>เชื่อมต่อกับ การเชื่อมต่อ </b>
+                                </div>
+                                <div class="card-body">
 
 
-
+                                </div>
+                                </div>
                             </div>
-                            </div>
-                        </div>
-                    </div>         
-                    </div>
+                        </div> 
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     </div>
 
     <!-- Modal -->
@@ -532,18 +555,18 @@
                     </div>
                     <div class="row">
                         <div class="col-md-4">
-                            <div class="form-check">
-                               <input type="radio" class="form-check-input" name="exampleRadios" id="Check_1" checked value="no">
-                               <label class="form-check-label" for="Check_1">ไม่ทำซ้ำ</label>
+                            <div class="custom-control custom-radio">
+                                <input type="radio" id="Check_1" name="exampleRadios" class="custom-control-input" value="no">
+                                <label class="custom-control-label" for="Check_1">ไม่ทำซ้ำ</label>
                             </div>
-                            <div class="form-check">
-                               <input type="radio" class="form-check-input" name="exampleRadios" id="Check_2" value="repeat">
-                               <label class="form-check-label" for="Check_2">ทำซ้ำครั้งเดียว</label>
+                            <div class="custom-control custom-radio">
+                                <input type="radio" id="Check_2" name="exampleRadios" class="custom-control-input" value="repeat">
+                                <label class="custom-control-label" for="Check_2">ทำซ้ำครั้งเดียว</label>
                             </div>
-                            <div class="form-check">
-                               <input type="radio" class="form-check-input" name="exampleRadios" id="Check_3" value="every_genday">
-                               <label class="form-check-label" for="Check_2">ทำซ้ำตลอด</label>
-                            </div>   
+                            <div class="custom-control custom-radio">
+                                <input type="radio" id="Check_3" name="exampleRadios" class="custom-control-input" value="every_genday">
+                                <label class="custom-control-label" for="Check_3">ทำซ้ำตลอด</label>
+                            </div>
                         </div>
                         <div class="col-md-4 form-group">
                             <label for="input_trainner_time_start">เลือกเวลาที่เริ่มสอน</label>
@@ -596,18 +619,18 @@
                     </div>
                     <div class="row">
                         <div class="col-md-4">
-                            <div class="form-check">
-                               <input type="radio" class="form-check-input" name="exampleRadios_edit" id="Check_1_edit" value="no">
-                               <label class="form-check-label" for="Check_1">ไม่ทำซ้ำ</label>
+                            <div class="custom-control custom-radio">
+                                <input type="radio" id="Check_1_edit" name="exampleRadios_edit" class="custom-control-input" value="no">
+                                <label class="custom-control-label" for="Check_1_edit">ไม่ทำซ้ำ</label>
                             </div>
-                            <div class="form-check">
-                               <input type="radio" class="form-check-input" name="exampleRadios_edit" id="Check_2_edit" value="repeat">
-                               <label class="form-check-label" for="Check_2">ทำซ้ำครั้งเดียว</label>
+                            <div class="custom-control custom-radio">
+                                <input type="radio" id="Check_2_edit" name="exampleRadios_edit" class="custom-control-input" value="repeat">
+                                <label class="custom-control-label" for="Check_2_edit">ทำซ้ำครั้งเดียว</label>
                             </div>
-                            <div class="form-check">
-                               <input type="radio" class="form-check-input" name="exampleRadios_edit" id="Check_3_edit" value="every_genday">
-                               <label class="form-check-label" for="Check_2">ทำซ้ำตลอด</label>
-                            </div>   
+                            <div class="custom-control custom-radio">
+                                <input type="radio" id="Check_3_edit" name="exampleRadios_edit" class="custom-control-input" value="every_genday">
+                                <label class="custom-control-label" for="Check_3_edit">ทำซ้ำตลอด</label>
+                            </div>
                         </div>
                         <div class="col-md-4 form-group">
                             <label for="input_trainner_time_start">เลือกเวลาที่เริ่มสอน</label>

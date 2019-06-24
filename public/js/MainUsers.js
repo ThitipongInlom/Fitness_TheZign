@@ -2,25 +2,25 @@ $(document).ready(function () {
     Backtotop();
     // Set Remove 
     setInterval(() => {
-    $.ajax({
-        url: "http://172.16.1.239:3000",
-        type: "GET",
-        crossDomain: true,
-        success: function (data) {
-            if (data.status == 'Success') {
-                $("#read_card").removeClass('btn-danger');
-                $("#read_card").addClass('btn-primary');
-                $("#read_card").removeAttr('disabled');
-                $("#read_card_text").html('Import Data');
-            } else if (data.status == 'Remove') {
-                $("#read_card").removeClass('btn-primary');
-                $("#read_card").addClass('btn-danger');
-                $("#read_card").attr('disabled', 'disabled');
-                $("#read_card_text").html('Insert ID Card');
+        $.ajax({
+            url: "http://172.16.1.239:3000",
+            type: "GET",
+            crossDomain: true,
+            success: function (data) {
+                if (data.status == 'Success') {
+                    $("#read_card").removeClass('btn-danger');
+                    $("#read_card").addClass('btn-primary');
+                    $("#read_card").removeAttr('disabled');
+                    $("#read_card_text").html('Import Data');
+                } else if (data.status == 'Remove') {
+                    $("#read_card").removeClass('btn-primary');
+                    $("#read_card").addClass('btn-danger');
+                    $("#read_card").attr('disabled', 'disabled');
+                    $("#read_card_text").html('Insert ID Card');
+                }
             }
-        }
-    });
-    }, 3000);
+        });
+        }, 3000);
 });
 
 var Backtotop = function Backtotop() {

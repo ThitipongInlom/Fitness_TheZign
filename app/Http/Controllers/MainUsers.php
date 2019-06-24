@@ -364,15 +364,15 @@ class MainUsers extends Controller
                   <table class='table table-sm table-bordered'>
                     <tr>
                       <td align='center'><b>Username:</b></td>
-                      <th>";
+                    <th>";
                       if ($row->wifiusername != '') {
                         $View .=  "<input type='text' class='form-control form-control-sm' disabled value='$row->wifiusername'>";
                       }else{
                         $View .=  "<input type='text' class='form-control form-control-sm' disabled value='ยังไม่มีข้อมูล Username'>";
                       }
-      $View .=  "     </th>
-                      <td align='center'><b>วันหมดอายุ:</b></td>
-                      <th>";
+      $View .=  "   </th>
+                    <td align='center'><b>วันหมดอายุ:</b></td>
+                    <th>";
                       if ($row->wifidate != '') {
                         if ($row->wifidate == '0000-00-00') {
                           $reformat_wifisuccess = 'ยังไม่มีข้อมูล วันที่สิ้นสุด';
@@ -384,7 +384,7 @@ class MainUsers extends Controller
                       }else{
                         $View .=  "<input type='text' class='form-control form-control-sm' disabled value='ยังไม่มีข้อมูล วันที่สิ้นสุด'>";
                       }
-      $View .=  "     </th>
+      $View .=  "   </th>
                     </tr>
                     <tr>
                       <td align='center'><b>Password:</b></td>
@@ -402,7 +402,8 @@ class MainUsers extends Controller
                   </div>";
 
         $View .=  "<div class='tab-pane fade' id='nav-contact' role='tabpanel' aria-labelledby='nav-contact-tab'>
-                  <table class='table table-sm dt-responsive nowrap  row-border table-bordered table-hover TableDisplay' cellspacing='0' cellpadding='0' id='TableDisplayDetail'>
+                  <div class='table-responsive'>
+                  <table class='table table-sm dt-responsive nowrap  row-border table-bordered table-hover TableDisplay' cellspacing='0' cellpadding='0' id='TableDisplayDetail' width='100%'>
                       <thead>
                           <tr align='center' class='bg-primary'>
                               <th>ชื่อลูกค้า</th>
@@ -428,6 +429,7 @@ class MainUsers extends Controller
                           </tr>
                       </tfoot>
                   </table>
+                  </div>
                   </div>";
         $View .=  "<div class='tab-pane fade' id='nav-editprofile' role='tabpanel' aria-labelledby='nav-editprofile-tab'>
                   <table class='table table-sm table-bordered' width='100%'>
@@ -493,13 +495,13 @@ class MainUsers extends Controller
             }
             // ถ้า == 1 เลือกวันที่ไม่ได้
             if ($Connect_Fixdate == '1') {
-            $Modidy_Date_start = $date_now;
-            $Modidy_Date = $date_now;
+              $Modidy_Date_start = $date_now;
+              $Modidy_Date = $date_now;
             }else{
-            $date_fix = str_replace('/', '-', $request->post('start'));
-            $date_fix_start = $select_date;
-            $Modidy_Date_start = $date_fix_start;
-            $Modidy_Date = $date_fix;
+              $date_fix = str_replace('/', '-', $request->post('start'));
+              $date_fix_start = $select_date;
+              $Modidy_Date_start = $date_fix_start;
+              $Modidy_Date = $date_fix;
             }
         }
         // Modifly Date
@@ -551,9 +553,9 @@ class MainUsers extends Controller
             if(file_exists(public_path("img/$row->Img"))){
               unlink(public_path("img/$row->Img"));
             }
-             DB::table('member')
-                 ->where('id', $User_Id)
-                 ->update(['Img' => '']);
+            DB::table('member')
+                ->where('id', $User_Id)
+                ->update(['Img' => '']);
             // Have FLIE
             if (isset($_FILES['Img']['name'])) {
               //Type Flie
@@ -609,30 +611,30 @@ class MainUsers extends Controller
           $date1 = str_replace('-', '/', $date);
           $Today = date('Y-m-d',strtotime($date1 . "-1 days"));
           $Data = DB::table('main_table')
-          ->select('type', DB::raw('count(type) as total_type'))
-          ->join('member', 'main_table.Code', '=', 'member.code')
-          ->groupBy('type')
-          ->where('date', $Today)
-          ->where('main_table.Status', 'OUT')
-          ->get();
+            ->select('type', DB::raw('count(type) as total_type'))
+            ->join('member', 'main_table.Code', '=', 'member.code')
+            ->groupBy('type')
+            ->where('date', $Today)
+            ->where('main_table.Status', 'OUT')
+            ->get();
         }elseif ($Data == '1') {
           $Today = date("Y-m-d");
           $Data = DB::table('main_table')
-          ->select('type', DB::raw('count(type) as total_type'))
-          ->join('member', 'main_table.Code', '=', 'member.code')
-          ->groupBy('type')
-          ->where('date', $Today)
-          ->where('main_table.Status', 'OUT')
-          ->get();
+            ->select('type', DB::raw('count(type) as total_type'))
+            ->join('member', 'main_table.Code', '=', 'member.code')
+            ->groupBy('type')
+            ->where('date', $Today)
+            ->where('main_table.Status', 'OUT')
+            ->get();
         }elseif ($Data == '2') {
           $Today = date("Y-m-d");
           $Data = DB::table('main_table')
-          ->select('type', DB::raw('count(type) as total_type'))
-          ->join('member', 'main_table.Code', '=', 'member.code')
-          ->groupBy('type')
-          ->where('date', $Today)
-          ->where('main_table.Status', 'IN')
-          ->get();
+            ->select('type', DB::raw('count(type) as total_type'))
+            ->join('member', 'main_table.Code', '=', 'member.code')
+            ->groupBy('type')
+            ->where('date', $Today)
+            ->where('main_table.Status', 'IN')
+            ->get();
         }
         return $Data;
     }
@@ -700,14 +702,14 @@ class MainUsers extends Controller
           }
           if ($type_pt_free > '0') {
           DB::table('detail_table')->insert([
-			    'code' => $request->post('code'),
-			    'date_time' => $Today,
-          'itemcode' => 'P',
-			    'itemcodetype'  => 'P15',
-			    'itemtype'  => 'T',
-			    'itemname'  => 'โปรโมชั่น เทรนเนอร์ ฟรี',
-			    'price'     => '0',
-			    'sum'       => $type_pt_free,
+			      'code' => $request->post('code'),
+			      'date_time' => $Today,
+            'itemcode' => 'P',
+			      'itemcodetype'  => 'P15',
+			      'itemtype'  => 'T',
+			      'itemname'  => 'โปรโมชั่น เทรนเนอร์ ฟรี',
+			      'price'     => '0',
+			      'sum'       => $type_pt_free,
           ]);
           $today = $Today;
           $date = date("Y-m-d");
@@ -720,36 +722,36 @@ class MainUsers extends Controller
           $itemsetnumber = $type_pt_free;
           // Insert Data Package Fake
           $fake_package = DB::table('fake_package')->insertGetId([
-          'fake_code' => $code,
-          'fake_datetime' => $today,
-          'fake_itemcode' => $itemcode,
-          'fake_typeitemcode' => $itemcodetype,
-          'fake_typeitem' => $itemtype,
-          'fake_itemname' => $itemname,
-          'fake_price'    => $itemprice,
-          'fake_sum'      => $itemsetnumber,
-          'Status'        => 'BUY'
+            'fake_code' => $code,
+            'fake_datetime' => $today,
+            'fake_itemcode' => $itemcode,
+            'fake_typeitemcode' => $itemcodetype,
+            'fake_typeitem' => $itemtype,
+            'fake_itemname' => $itemname,
+            'fake_price'    => $itemprice,
+            'fake_sum'      => $itemsetnumber,
+            'Status'        => 'BUY'
           ]);
           // Insert Data Package Main
           $package_detail_id = DB::table('package_detail')->insertGetId([
-          'fake_code' => $code,
-          'fake_datetime' => $today,
-          'fake_itemcode' => $itemcode,
-          'fake_typeitemcode' => $itemcodetype,
-          'fake_typeitem' => $itemtype,
-          'fake_itemname' => $itemname,
-          'fake_price'    => $itemprice,
-          'fake_sum'      => $itemsetnumber,
+            'fake_code' => $code,
+            'fake_datetime' => $today,
+            'fake_itemcode' => $itemcode,
+            'fake_typeitemcode' => $itemcodetype,
+            'fake_typeitem' => $itemtype,
+            'fake_itemname' => $itemname,
+            'fake_price'    => $itemprice,
+            'fake_sum'      => $itemsetnumber,
           ]);
           // Insert Package Main
           $idpackage = DB::table('main_package')->insertGetId([
-          'main_package_id' => $package_detail_id,
-          'Code' => $code,
-          'date' => $date,
-          'Status' => 'Active',
-          'name_package' => $itemname,
-          'total_sum' => $itemsetnumber,
-          'have_sum' => $itemsetnumber]);
+            'main_package_id' => $package_detail_id,
+            'Code' => $code,
+            'date' => $date,
+            'Status' => 'Active',
+            'name_package' => $itemname,
+            'total_sum' => $itemsetnumber,
+            'have_sum' => $itemsetnumber]);
           // Update Main Id
           DB::table('fake_package')
               ->where('fake_code', $code)

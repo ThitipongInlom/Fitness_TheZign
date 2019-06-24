@@ -5,43 +5,6 @@ const Toast = swal.mixin({
     timer: 3000
 });
 
-// Show Tab 1
-$('#tab1').on('show.bs.collapse', function () {
-    $("#btn_tab1").addClass('active');
-    $("#ShowAdd").hide();
-});
-// Hide Tab 1
-$('#tab1').on('hide.bs.collapse', function () {
-    $("#btn_tab1").removeClass('active');
-});
-// Show Tab2
-$('#tab2').on('show.bs.collapse', function () {
-    $("#btn_tab2").addClass('active');
-    $("#ShowAdd").hide();
-});
-// Show Tab2
-$('#tab2').on('hide.bs.collapse', function () {
-    $("#btn_tab2").removeClass('active');
-});
-// Show Tab3
-$('#tab3').on('show.bs.collapse', function () {
-    $("#btn_tab3").addClass('active');
-    $("#ShowAdd").hide();
-});
-// Show Tab3
-$('#tab3').on('hide.bs.collapse', function () {
-    $("#btn_tab3").removeClass('active');
-});
-// Show Tab4
-$('#tab4').on('show.bs.collapse', function () {
-    $("#btn_tab4").addClass('active');
-    $("#ShowAdd").hide();
-});
-// Show Tab4
-$('#tab4').on('hide.bs.collapse', function () {
-    $("#btn_tab4").removeClass('active');
-});
-
 var Edit_Type = function Edit_Type(e) {
     // Show Modal
     $("#Edit_Type").modal('show');
@@ -196,19 +159,34 @@ var Save_trainner = function Save_trainner() {
     var radioValue = $("input[name='exampleRadios']:checked").val();
     // เช็ค ค่าว่าง ในแต่ล่ะ ฟิว
     if (select_trainner_emp_add == '') {
-        alert("เลือกผู้สอน เทรนเนอร์");
+        Toast.fire({
+            type: 'error',
+            title: 'เลือกผู้สอน เทรนเนอร์'
+        })
         $("#select_trainner_emp_add").focus();
     } else if (date_trainner_add == '') {
-        alert("เลือก วันที่ จะสอน ");
+        Toast.fire({
+            type: 'error',
+            title: 'เลือก วันที่ จะสอน'
+        })
         $("#date_trainner_add").focus();
     } else if (select_trainner_class_add == '') {
-        alert("เลือก คลาสที่จะสอน");
+        Toast.fire({
+            type: 'error',
+            title: 'เลือก คลาสที่จะสอน'
+        })
         $("#select_trainner_class_add").focus();
     } else if (input_trainner_time_start == '') {
-        alert("เลือกเวลาที่เริ่มสอน");
+        Toast.fire({
+            type: 'error',
+            title: 'เลือกเวลาที่เริ่มสอน'
+        })
         $("#input_trainner_time_start").focus();
     } else if (input_trainner_time_end == '') {
-        alert("เลือกเวลาที่สอนสิ้นสุด");
+        Toast.fire({
+            type: 'error',
+            title: 'เลือกเวลาที่สอนสิ้นสุด'
+        })
         $("#input_trainner_time_end").focus();
     } else {
         //Add Data To Form
@@ -285,16 +263,28 @@ var Save_Trainner_emp = function Save_Trainner_emp() {
     var Lname = $("#lastname_trainner").val();
     var Class = $("#classname_trainner").val();
     if (Fname == '') {
-        alert("กรอก ชื่อ - ผุ้สอน");
+        Toast.fire({
+            type: 'error',
+            title: 'กรอก ชื่อ - ผุ้สอน'
+        })
         $("#firstname_trainner").focus();
     } else if (Lname == '') {
-        alert("กรอก นามสกุล - ผู้สอน");
+        Toast.fire({
+            type: 'error',
+            title: 'กรอก นามสกุล - ผู้สอน'
+        })
         $("#lastname_trainner").focus();
     } else if (Class == '0') {
-        alert('เลือก Class ที่ เทรนเนอร์ สอน');
+        Toast.fire({
+            type: 'error',
+            title: 'เลือก Class ที่ เทรนเนอร์ สอน'
+        })
         $("#classname_trainner").focus();
     } else if ($("#classname_trainner").val() == '0') {
-        alert('กรุณาเลือกประเภทการสอน');
+        Toast.fire({
+            type: 'error',
+            title: 'กรุณาเลือกประเภทการสอน'
+        })
     } else {
         //Add Data To Form
         var Data = new FormData();
@@ -322,16 +312,28 @@ var Save_Trainner_emp = function Save_Trainner_emp() {
 
 var Save_edit_Trainner_emp = function Save_edit_Trainner_emp() {
     if ($("#firstname_trainner_edit").val() == '') {
-        alert('กรุณา กรอก Code');
+        Toast.fire({
+            type: 'error',
+            title: 'กรุณา กรอก Code'
+        })
         $("#firstname_trainner_edit").focus();
     } else if ($("#lastname_trainner_edit").val() == '') {
-        alert('กรุณา กรอก Name');
+        Toast.fire({
+            type: 'error',
+            title: 'กรุณา กรอก Name'
+        })
         $("#lastname_trainner_edit").focus();
     } else if ($("#classname_trainner_edit").val() == '') {
-        alert('กรุณา กรอก Price');
+        Toast.fire({
+            type: 'error',
+            title: 'กรุณา กรอก Price'
+        })
         $("#classname_trainner_edit").focus();
     } else if ($("#classname_trainner_edit").val() == '0') {
-        alert('กรุณาเลือกประเภทการสอน');
+        Toast.fire({
+            type: 'error',
+            title: 'กรุณาเลือกประเภทการสอน'
+        })
     } else {
         //Add Data To Form
         var Data = new FormData();
@@ -360,13 +362,22 @@ var Save_edit_Trainner_emp = function Save_edit_Trainner_emp() {
 
 var Save_Add_Data = function Save_Add_Data() {
     if ($("#add_type_code").val() == '') {
-        alert('กรุณา กรอก Code');
+        Toast.fire({
+            type: 'error',
+            title: 'กรุณา กรอก Code'
+        })
         $("#add_type_code").focus();
     } else if ($("#add_type_name").val() == '') {
-        alert('กรุณา กรอก Name');
+        Toast.fire({
+            type: 'error',
+            title: 'กรุณา กรอก Name'
+        })
         $("#add_type_name").focus();
     } else if ($("#add_price").val() == '') {
-        alert('กรุณา กรอก Price');
+        Toast.fire({
+            type: 'error',
+            title: 'กรุณา กรอก Price'
+        })
         $("#add_price").focus();
     } else {
         //Add Data To Form
@@ -402,13 +413,22 @@ var Save_Add_Data = function Save_Add_Data() {
 
 var Save_Edit_Data = function Save_Edit_Data() {
     if ($("#edit_type_code").val() == '') {
-        alert('กรุณา กรอก Code');
+        Toast.fire({
+            type: 'error',
+            title: 'กรุณา กรอก Code'
+        })
         $("#edit_type_code").focus();
     } else if ($("#edit_type_name").val() == '') {
-        alert('กรุณา กรอก Name');
+        Toast.fire({
+            type: 'error',
+            title: 'กรุณา กรอก Name'
+        })
         $("#edit_type_name").focus();
     } else if ($("#edit_price").val() == '') {
-        alert('กรุณา กรอก Price');
+        Toast.fire({
+            type: 'error',
+            title: 'กรุณา กรอก Price'
+        })
         $("#edit_price").focus();
     } else {
         //Add Data To Form
@@ -484,6 +504,7 @@ var Table_type = $('#Table_type').DataTable({
     "serverSide": true,
     "bPaginate": true,
     "responsive": true,
+    "bSort": false,
     "aLengthMenu": [
         [8, 25, 50, -1],
         ["8", "25", "50", "ทั้งหมด"]
