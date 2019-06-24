@@ -29,3 +29,13 @@
 
 // Date Picker range
 @import '~daterangepicker/daterangepicker.css';
+
+// Simplebar
+@import '~simplebar/dist/simplebar.css';
+
+[data-simplebar] {
+    width: inherit !important;
+    height: inherit !important;
+    max-width: inherit !important;
+    max-height: inherit !important;
+}

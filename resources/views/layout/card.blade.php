@@ -7,7 +7,11 @@
 			</div>
 		</div>
 		<div class="card-body" align="center" style="padding: 0.5rem;">
-			<div id="TableOnline"></div>
+			<div class="overflow-auto" style="height: 50vh;">
+				<div data-simplebar data-simplebar-auto-hide="false">
+					<div id="TableOnline"></div>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
@@ -20,7 +24,11 @@
 			</div>
 		</div>
 		<div class="card-body" align="center" style="padding: 0.5rem;">
-			<div id="TableToday"></div>
+			<div class="overflow-auto" style="height: 50vh;">
+				<div data-simplebar data-simplebar-auto-hide="false">
+					<div id="TableToday"></div>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

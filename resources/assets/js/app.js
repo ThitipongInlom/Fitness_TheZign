@@ -10,4 +10,5 @@ require('daterangepicker/daterangepicker.js');
 window.moment = require('moment/moment.js');
 // Sweetalert2
 window.swal = require('sweetalert2');
-
+// Simplebar
+window.SimpleBar = require('simplebar/dist/simplebar.js');

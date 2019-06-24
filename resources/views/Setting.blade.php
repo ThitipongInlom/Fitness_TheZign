@@ -28,7 +28,6 @@
 </head>
 <body>
     @include('Head')
-
     <div class="row">
     <div class="col-2">
         <div class="card">
@@ -133,19 +132,53 @@
                                 <div class="card">
                                 <div class="card-header bg-secondary">
                                     <b>เชื่อมต่อกับ Internet</b>
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-sm btn-primary">เทส ต่อ database</button>
+                                    </div>
                                 </div>
                                 <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        การใช้งาน Internet :
+                                        <div class="form-inline mb-3">
+                                        <label>การใช้งาน Internet :</label>
                                         <span style="margin-right: 5px !important;"></span>
                                         <label class='switch' style='margin-bottom: 0rem !important;'>
                                         <input type='checkbox' class='primary' id="switch_internet">
                                         <span class='slider round'></span>
-                                        </label>                                    
+                                        </label>     
+                                        </div>                               
                                     </div>
-                                    <div class="col-md-6"></div>
+                                    <div class="col-md-6">
+                                        <div class="input-group input-group-sm mb-3">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text" for="inputGroupSelect01">Driver :</label>
+                                        </div>
+                                        <select class="custom-select" id="select_driver">
+                                            <option value="mysql">mysql</option>
+                                            <option value="sqlsrv">sqlsrv</option>
+                                        </select>
+                                        </div>
+                                    </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="inputGroup-sizing-default">Host_Main :</span>
+                                        </div>
+                                        <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="inputGroup-sizing-default">Database :</span>
+                                        </div>
+                                        <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="input-group input-group-sm">
@@ -164,7 +197,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 </div>
                                 </div>
                             </div>
