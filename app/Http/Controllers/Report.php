@@ -288,7 +288,7 @@ class Report extends Controller
       echo $Jsonencode;
     }
 
-    public function API_Trainner()
+    public function API_Trainner(Request $request)
     {
       // Query DATA
       $DATA = DB::table('trainner_emp')->get();

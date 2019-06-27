@@ -10,14 +10,14 @@ use Illuminate\Routing\Controller as BaseController;
 
 class Checkin extends Controller
 {
-    public function CheckInPage()
+    public function CheckInPage(Request $request)
     {
     	return view('CheckIn');
     }
 
-    public function CheckInProcessor()
+    public function CheckInProcessor(Request $request)
     {
-        $Code = Input::post('inputcode');
+        $Code = $request->post('inputcode');
         $CheckNum = DB::table('member')->where('code', $Code)->count();
         $CheckStatus = DB::table('member')->where('code', $Code)->where('status', 'Active')->count();
         $Data = DB::table('member')->where('code', $Code)->get();
@@ -31,10 +31,10 @@ class Checkin extends Controller
             'Item'=>$Item]);
     }
 
-    public function Namesearching()
+    public function Namesearching(Request $request)
     {
-    	$name = Input::post('name');
-    	$status = Input::post('status');
+    	$name = $request->post('name');
+    	$status = $request->post('status');
     	if ($status=='all') {
     	$users_data = DB::table('member')
     					->select('*')
@@ -91,17 +91,16 @@ class Checkin extends Controller
 		    }
 		$table .= '</tbody></table></div></div>';
 		// Show Json
-    	$array = array('Table' => $table);
-    	$json = json_encode($array);
-    	echo $json;
+      $array = array('Table' => $table);
+      echo  json_encode($array);
     }
 
-    public function CheckInOnline()
+    public function CheckInOnline(Request $request)
     {
       date_default_timezone_set("Asia/Bangkok");
       $today = now();
       $date = date("Y-m-d");
-    	$Code = Input::post('Code');
+    	$Code = $request->post('Code');
     	$Data = DB::table('member')->where('code', $Code)->get();
     	foreach ($Data as $key => $row) {
 	    // Insert Data Online
@@ -118,78 +117,63 @@ class Checkin extends Controller
         }
     }
 
-    public function Insert_type_L()
+    public function Insert_type_L(Request $request)
     {
         date_default_timezone_set("Asia/Bangkok");
         $today = now();
-        $code = Input::post('Code');
-        $itemcode = Input::post('Item_code');
-        $itemtype = Input::post('Item_type');
-        $itemname = Input::post('Item_name');
-        $itemprice= Input::post('Item_price');
-        $itemcodetype = Input::post('Item_codetype');
+        $code = $request->post('Code');
+        $itemcode = $request->post('Item_code');
+        $itemtype = $request->post('Item_type');
+        $itemname = $request->post('Item_name');
+        $itemprice= $request->post('Item_price');
+        $itemcodetype = $request->post('Item_codetype');
         $CheckOnline_Mainid = DB::table('main_table')->where('Code', $code)->where('Status', 'IN')->count();
         if ($CheckOnline_Mainid == '0') {
           // Insert Data Fake Table
           DB::table('fake_table')->insert([
-          'Fake_code' => $code,
-       	  'Fake_datetime' => $today,
-      	  'Fake_itemcode' => $itemcode,
-          'Fake_itemcodetype' => $itemcodetype,
-       	  'Fake_itemtype' => $itemtype,
-       	  'Fake_itemname' => $itemname,
-      	  'Fake_price'    => $itemprice,
-      	  'Fake_sum'      => '1',
+            'Fake_code' => $code,
+       	    'Fake_datetime' => $today,
+      	    'Fake_itemcode' => $itemcode,
+            'Fake_itemcodetype' => $itemcodetype,
+       	    'Fake_itemtype' => $itemtype,
+       	    'Fake_itemname' => $itemname,
+      	    'Fake_price'    => $itemprice,
+      	    'Fake_sum'      => '1',
       	  ]);
         }else{
         $DataMain_ID = DB::table('main_table')->where('Code', $code)->where('Status', 'IN')->get();
           foreach ($DataMain_ID as $key => $Data) {
             // Insert Data Fake Table
             DB::table('fake_table')->insert([
-          	'Fake_code' => $code,
-            'main_id' => $Data->ID,
-         	  'Fake_datetime' => $today,
-        	  'Fake_itemcode' => $itemcode,
-            'Fake_itemcodetype' => $itemcodetype,
-         	  'Fake_itemtype' => $itemtype,
-         	  'Fake_itemname' => $itemname,
-        	  'Fake_price'    => $itemprice,
-        	  'Fake_sum'      => '1',
+          	  'Fake_code' => $code,
+              'main_id' => $Data->ID,
+         	    'Fake_datetime' => $today,
+        	    'Fake_itemcode' => $itemcode,
+              'Fake_itemcodetype' => $itemcodetype,
+         	    'Fake_itemtype' => $itemtype,
+         	    'Fake_itemname' => $itemname,
+        	    'Fake_price'    => $itemprice,
+        	    'Fake_sum'      => '1',
         	  ]);
           }
         }
     }
 
-    public function Insert_type_C()
+    public function Insert_type_C(Request $request)
     {
           date_default_timezone_set("Asia/Bangkok");
           $today = now();
-          $code = Input::post('Code');
-          $itemcode = Input::post('Item_code');
-          $itemtype = Input::post('Item_type');
-          $itemname = Input::post('Item_name');
-          $itemprice= Input::post('Item_price');
-          $itemcodetype = Input::post('Item_codetype');
+          $code = $request->post('Code');
+          $itemcode = $request->post('Item_code');
+          $itemtype = $request->post('Item_type');
+          $itemname = $request->post('Item_name');
+          $itemprice= $request->post('Item_price');
+          $itemcodetype = $request->post('Item_codetype');
           $CheckOnline_Mainid = DB::table('main_table')->where('Code', $code)->where('Status', 'IN')->count();
           if ($CheckOnline_Mainid == '0') {
             // Insert Data Fake Table
-            DB::table('fake_table')->insert([
-            'Fake_code' => $code,
-            'Fake_datetime' => $today,
-            'Fake_itemcode' => $itemcode,
-            'Fake_itemcodetype' => $itemcodetype,
-            'Fake_itemtype' => $itemtype,
-            'Fake_itemname' => $itemname,
-            'Fake_price'    => $itemprice,
-            'Fake_sum'      => '1',
-            ]);
-          }else{
-          $DataMain_ID = DB::table('main_table')->where('Code', $code)->where('Status', 'IN')->get();
-            foreach ($DataMain_ID as $key => $Data) {
-              // Insert Data Fake Table
-              DB::table('fake_table')->insert([
+            $fake_id = DB::table('fake_table')->insertGetId([
               'Fake_code' => $code,
-              'main_id' => $Data->ID,
               'Fake_datetime' => $today,
               'Fake_itemcode' => $itemcode,
               'Fake_itemcodetype' => $itemcodetype,
@@ -197,55 +181,72 @@ class Checkin extends Controller
               'Fake_itemname' => $itemname,
               'Fake_price'    => $itemprice,
               'Fake_sum'      => '1',
+            ]);
+          }else{
+          $DataMain_ID = DB::table('main_table')->where('Code', $code)->where('Status', 'IN')->get();
+            foreach ($DataMain_ID as $key => $Data) {
+              // Insert Data Fake Table
+              $fake_id = DB::table('fake_table')->insertGetId([
+                'Fake_code' => $code,
+                'main_id' => $Data->ID,
+                'Fake_datetime' => $today,
+                'Fake_itemcode' => $itemcode,
+                'Fake_itemcodetype' => $itemcodetype,
+                'Fake_itemtype' => $itemtype,
+                'Fake_itemname' => $itemname,
+                'Fake_price'    => $itemprice,
+                'Fake_sum'      => '1',
               ]);
             }
           }
+        $Data = array('fake_id' => $fake_id);
+        echo json_encode($Data);
     }
 
-    public function Insert_type_P()
+    public function Insert_type_P(Request $request)
     {
         date_default_timezone_set("Asia/Bangkok");
         $today = now();
         $date = date("Y-m-d");
-        $code = Input::post('Code');
-        $itemcode = Input::post('Item_code');
-        $itemtype = Input::post('Item_type');
-        $itemname = Input::post('Item_name');
-        $itemprice= Input::post('Item_price');
-        $itemcodetype = Input::post('Item_codetype');
-        $itemsetnumber = Input::post('Item_setnumber');
+        $code = $request->post('Code');
+        $itemcode = $request->post('Item_code');
+        $itemtype = $request->post('Item_type');
+        $itemname = $request->post('Item_name');
+        $itemprice= $request->post('Item_price');
+        $itemcodetype = $request->post('Item_codetype');
+        $itemsetnumber = $request->post('Item_setnumber');
         // Insert Data Package Fake
         $fake_package = DB::table('fake_package')->insertGetId([
-        'fake_code' => $code,
-        'fake_datetime' => $today,
-        'fake_itemcode' => $itemcode,
-        'fake_typeitemcode' => $itemcodetype,
-        'fake_typeitem' => $itemtype,
-        'fake_itemname' => $itemname,
-        'fake_price'    => $itemprice,
-        'fake_sum'      => $itemsetnumber,
-        'Status'        => 'BUY'
+          'fake_code' => $code,
+          'fake_datetime' => $today,
+          'fake_itemcode' => $itemcode,
+          'fake_typeitemcode' => $itemcodetype,
+          'fake_typeitem' => $itemtype,
+          'fake_itemname' => $itemname,
+          'fake_price'    => $itemprice,
+          'fake_sum'      => $itemsetnumber,
+          'Status'        => 'BUY'
         ]);
         // Insert Data Package Main
         $package_detail_id = DB::table('package_detail')->insertGetId([
-        'fake_code' => $code,
-        'fake_datetime' => $today,
-        'fake_itemcode' => $itemcode,
-        'fake_typeitemcode' => $itemcodetype,
-        'fake_typeitem' => $itemtype,
-        'fake_itemname' => $itemname,
-        'fake_price'    => $itemprice,
-        'fake_sum'      => $itemsetnumber,
+          'fake_code' => $code,
+          'fake_datetime' => $today,
+          'fake_itemcode' => $itemcode,
+          'fake_typeitemcode' => $itemcodetype,
+          'fake_typeitem' => $itemtype,
+          'fake_itemname' => $itemname,
+          'fake_price'    => $itemprice,
+          'fake_sum'      => $itemsetnumber,
         ]);
         // Insert Package Main
         $idpackage = DB::table('main_package')->insertGetId([
-        'main_package_id' => $package_detail_id,
-        'Code' => $code,
-        'date' => $date,
-        'Status' => 'Active',
-        'name_package' => $itemname,
-        'total_sum' => $itemsetnumber,
-        'have_sum' => $itemsetnumber]);
+          'main_package_id' => $package_detail_id,
+          'Code' => $code,
+          'date' => $date,
+          'Status' => 'Active',
+          'name_package' => $itemname,
+          'total_sum' => $itemsetnumber,
+          'have_sum' => $itemsetnumber]);
         // Update Main Id
         DB::table('fake_package')
             ->where('fake_code', $code)
@@ -258,14 +259,14 @@ class Checkin extends Controller
             ->update(['main_package_id' => $idpackage]);
         // Insert Data Fake Table
         $fake_id = DB::table('fake_table')->insertGetId([
-        'Fake_code' => $code,
-        'Fake_datetime' => $today,
-        'Fake_itemcode' => $itemcode,
-        'Fake_itemcodetype' => $itemcodetype,
-        'Fake_itemtype' => $itemtype,
-        'Fake_itemname' => $itemname,
-        'Fake_price'    => $itemprice,
-        'Fake_sum'      => $itemsetnumber,
+          'Fake_code' => $code,
+          'Fake_datetime' => $today,
+          'Fake_itemcode' => $itemcode,
+          'Fake_itemcodetype' => $itemcodetype,
+          'Fake_itemtype' => $itemtype,
+          'Fake_itemname' => $itemname,
+          'Fake_price'    => $itemprice,
+          'Fake_sum'      => $itemsetnumber,
         ]);
         // Update Fake Id
         DB::table('fake_package')
@@ -276,11 +277,11 @@ class Checkin extends Controller
         echo json_encode($Data);
     }
 
-    public function DisplayPackage()
+    public function DisplayPackage(Request $request)
     {
         date_default_timezone_set("Asia/Bangkok");
         $today = now();
-        $Code = Input::post('Code');
+        $Code = $request->post('Code');
         $Datajoin = DB::table('main_package')
                         ->select('*')
                         ->join('fake_package', 'main_package.main_package_id', '=', 'fake_package.main_package_id')
@@ -290,8 +291,8 @@ class Checkin extends Controller
         $CheckNum = DB::table('main_package')->where('Code', $Code)->where('Status', '=', 'Active')->count();
         if ($CheckNum != '0') {
         $Table = '
-        <table class="table table-striped table-sm" style="margin-bottom: 0rem;">
-        <tbody>';
+          <table class="table table-striped table-sm" style="margin-bottom: 0rem;">
+          <tbody>';
         foreach ($Datajoin as $key => $Row) {
         $rehavesum = $Row->have_sum;
         // เช็คว่า มี เทรนเนอร์ หรือไม่
@@ -305,40 +306,39 @@ class Checkin extends Controller
         // เช็คว่า Package ฟรี หรือไม่ แยกสี ถ้าฟรี = P15
         if ($Row->fake_typeitemcode == 'P15') {
         $Table .= "
-        <tr class='free_package animated flipInX'>
-        <td><b>แพ็กเกจ:</b> $Row->name_package<br>$Name</td>
-        <td><b>วันที่ซื้อ:</b> ".date('d/m/Y', strtotime($Row->date))."</td>
-        <td><b>จำนวนที่ซื้อ:<b> $Row->total_sum ครั้ง</td>
-        <td><b>จำนวนคงเหลือ:</b> $rehavesum ครั้ง</td>";
+          <tr class='free_package animated flipInX'>
+          <td><b>แพ็กเกจ:</b> $Row->name_package<br>$Name</td>
+          <td><b>วันที่ซื้อ:</b> ".date('d/m/Y', strtotime($Row->date))."</td>
+          <td><b>จำนวนที่ซื้อ:<b> $Row->total_sum ครั้ง</td>
+          <td><b>จำนวนคงเหลือ:</b> $rehavesum ครั้ง</td>";
         $Table .='<td><button class="btn btn-sm btn-success" package_id="'.$Row->id.'" onclick="History_Package_Useing(this);">ประวัติ</button></td></tr>';
         }else {
         $Table .= "
-        <tr class='buy_package animated flipInX'>
-        <td><b>แพ็กเกจ:</b> $Row->name_package<br>$Name</td>
-        <td><b>วันที่ซื้อ:</b> ".date('d/m/Y', strtotime($Row->date))."</td>
-        <td><b>จำนวนที่ซื้อ:<b> $Row->total_sum ครั้ง</td>
-        <td><b>จำนวนคงเหลือ:</b> $rehavesum ครั้ง</td>";
+          <tr class='buy_package animated flipInX'>
+          <td><b>แพ็กเกจ:</b> $Row->name_package<br>$Name</td>
+          <td><b>วันที่ซื้อ:</b> ".date('d/m/Y', strtotime($Row->date))."</td>
+          <td><b>จำนวนที่ซื้อ:<b> $Row->total_sum ครั้ง</td>
+          <td><b>จำนวนคงเหลือ:</b> $rehavesum ครั้ง</td>";
         $Table .='<td><button class="btn btn-sm btn-success" package_id="'.$Row->id.'" onclick="History_Package_Useing(this);">ประวัติ</button></td></tr>';         
         }
         
         }
         $Table .= '
-        </tbody>
-        </table>';
+          </tbody>
+          </table>';
         }else{
         $Table = "";
         }
         // Show Json
         $array = array('Table' => $Table);
-        $json = json_encode($array);
-        echo $json;
+        echo json_encode($array);
     }
 
-    public function PackageItem()
+    public function PackageItem(Request $request)
     {
         date_default_timezone_set("Asia/Bangkok");
         $today = now();
-        $Code = Input::post('Code');
+        $Code = $request->post('Code');
         $Datajoin = DB::table('main_package')
                         ->select('*')
                         ->join('fake_package', 'main_package.main_package_id', '=', 'fake_package.main_package_id')
@@ -350,52 +350,51 @@ class Checkin extends Controller
 
         if ($CheckNum != '0') {
         $Data = '
-        <div class="card card-info card-outline">
-        <div class="card-body" style="padding: 0.5rem;">
-        <table class="table table-striped table-sm">
-        <tbody>
-        <tr class="bg-primary" align="center"><td><b>รายการ</b></td><td><b>ตัวช่วย</b></td></tr>';
+          <div class="card card-info card-outline">
+          <div class="card-body" style="padding: 0.5rem;">
+          <table class="table table-striped table-sm">
+          <tbody>
+          <tr class="bg-primary" align="center"><td><b>รายการ</b></td><td><b>ตัวช่วย</b></td></tr>';
         foreach ($Datajoin as $key => $data) {
         $rehavesum = $data->have_sum;
         // เช็คว่า Package ฟรี หรือไม่ แยกสี ถ้าฟรี = P15
         if ($data->fake_typeitemcode == 'P15') {
         $Data .= "
-        <tr class='free_package' class='animated flipInX'>
-        <td width='70%'>
-        <b>$data->name_package | คงเหลือ:</b> $rehavesum
-        </td>
-        <td width='30%'>";
+          <tr class='free_package' class='animated flipInX'>
+          <td width='70%'>
+          <b>$data->name_package | คงเหลือ:</b> $rehavesum
+          </td>
+          <td width='30%'>";
         $Data .= "<button class='btn btn-sm btn-success' main_package_id='$data->id' package_detail_id='$data->main_package_id' code='$data->Code' total='$data->total_sum' havesum='$data->have_sum' trainner_emp='$data->trainner_emp_id' onclick='OnUsePackage(this);'>เลือกใช้งาน</button>";
         $Data .= "</td>
-        </tr>";
+          </tr>";
         }else{
         $Data .= "
-        <tr class='buy_package' class='animated flipInX'>
-        <td width='70%'>
-        <b>$data->name_package | คงเหลือ:</b> $rehavesum
-        </td>
-        <td width='30%'>";
+          <tr class='buy_package' class='animated flipInX'>
+          <td width='70%'>
+          <b>$data->name_package | คงเหลือ:</b> $rehavesum
+          </td>
+          <td width='30%'>";
         $Data .= "<button class='btn btn-sm btn-success' main_package_id='$data->id' package_detail_id='$data->main_package_id' code='$data->Code' total='$data->total_sum' havesum='$data->have_sum' trainner_emp='$data->trainner_emp_id' onclick='OnUsePackage(this);'>เลือกใช้งาน</button>";
         $Data .= "</td>
-        </tr>";         
+          </tr>";         
         }
         }
         $Data .= '
-        </tbody>
-        </table>
-        </div></div>';
+          </tbody>
+          </table>
+          </div></div>';
         }else{
         $Data = "";
         }
         // Show Json
         $array = array('Data' => $Data);
-        $json = json_encode($array);
-        echo $json;
+        echo json_encode($array);
     }
 
-    public function TableDisplay()
+    public function TableDisplay(Request $request)
     {
-    	$Code = Input::post('Code');
+    	$Code = $request->post('Code');
     	$DataCode = DB::table('fake_table')->where('Fake_code', $Code)->get();
     	$SumPrice = DB::table('fake_table')->where('Fake_code','=', $Code)->sum('Fake_price');
     	$CounCheckNull = DB::table('fake_table')->where('Fake_code', $Code)->count();
@@ -441,12 +440,12 @@ class Checkin extends Controller
         }
 
     	$Data .= "
-      <input type='hidden' id='Main_idhidden' value='$DataDisplay->main_id'>
-    	<tr align='center'>
-    	<td>$i</td>
-    	<td>$DataDisplay->Fake_itemcode</td>
-    	<td>$DataDisplay->Fake_itemname</td>
-      <td>".number_format($DataDisplay->Fake_price)." ฿</td>";
+        <input type='hidden' id='Main_idhidden' value='$DataDisplay->main_id'>
+    	  <tr align='center'>
+    	  <td>$i</td>
+    	  <td>$DataDisplay->Fake_itemcode</td>
+    	  <td>$DataDisplay->Fake_itemname</td>
+        <td>".number_format($DataDisplay->Fake_price)." ฿</td>";
       if ($DataDisplay->Fake_itemcodetype == 'F') {
         $Data .= "<td>เลขกุญแจ $DataDisplay->Fake_sum#</td>";
       }elseif ($DataDisplay->Fake_itemcodetype == 'O') {
@@ -476,7 +475,7 @@ class Checkin extends Controller
               }
             }
             // ปุ่มลบ package Item ของ เวลา
-            $Data .= "<button class='btn btn-sm btn-danger' onclick='Delete_item_time(this);' fake_table_id='$DataDisplay->id'><i class='fas fa-times'></i></button>";
+            $Data .= "<button class='btn btn-sm btn-danger' onclick='Delete_item_time(this);' fake_table_id='$DataDisplay->id' data-toggle='tooltip' data-placement='left' title='Tooltip on bottom'><i class='fas fa-times'></i></button>";
           }
         }elseif ($DataDisplay->Fake_itemcodetype == 'F') {
           $Data .= "<button class='btn btn-sm btn-primary' onclick='Edit_Number_Key(this);' fake_table_id='$DataDisplay->id'><i class='fas fa-key'></i></button>
@@ -487,9 +486,9 @@ class Checkin extends Controller
         }
         // ItemCodeType != T
         else{
-        $Data .= "<button class='btn btn-sm btn-warning' onclick='Discount(this);' fake_table_id='$DataDisplay->id'><i class='fas fa-percent'></i></button>
-                  <button class='btn btn-sm btn-primary' onclick='Edit_Number(this);' fake_table_id='$DataDisplay->id'><i class='fas fa-dollar-sign'></i></button>
-                  <button class='btn btn-sm btn-danger' onclick='Delete_item(this);' fake_table_id='$DataDisplay->id'><i class='fas fa-trash'></i></button>";
+          $Data .= "<button class='btn btn-sm btn-warning' onclick='Discount(this);' fake_table_id='$DataDisplay->id'><i class='fas fa-percent'></i></button>
+                    <button class='btn btn-sm btn-primary' onclick='Edit_Number(this);' fake_table_id='$DataDisplay->id'><i class='fas fa-dollar-sign'></i></button>
+                    <button class='btn btn-sm btn-danger' onclick='Delete_item(this);' fake_table_id='$DataDisplay->id'><i class='fas fa-trash'></i></button>";
         }
         }
         //Now Online User
@@ -538,18 +537,18 @@ class Checkin extends Controller
       // Not Have Data
       else{
     	$Data .= "
-    	<tr align='center'>
-    	<td colspan='6'>Null</td>
-    	</tr>";
+    	  <tr align='center'>
+    	  <td colspan='6'>Null</td>
+      	</tr>";
     	}
     	//  Table Data
     	$Data .= "
-    	<tr class='bg-primary'>
-    	<td colspan='5' align='right'><b>ราคารวม:</b></td>
-    	<td align='center'>".number_format($SumPrice)." <b>฿</b></td>
-      <input type='hidden' id='pricehidden' value='$SumPrice'>
-      <input type='hidden' id='pricehiddenformat' value='".number_format($SumPrice)."'>
-    	</tr>";
+    	  <tr class='bg-primary'>
+    	  <td colspan='5' align='right'><b>ราคารวม:</b></td>
+    	  <td align='center'>".number_format($SumPrice)." <b>฿</b></td>
+        <input type='hidden' id='pricehidden' value='$SumPrice'>
+        <input type='hidden' id='pricehiddenformat' value='".number_format($SumPrice)."'>
+    	  </tr>";
     	$Data .= '</tbody></table>';
     	// Have Data
     	if ($CounCheckNull >= 0) {
@@ -579,13 +578,12 @@ class Checkin extends Controller
     	}
 		  // Show Json
     	$array = array('Table' => $Data);
-    	$json = json_encode($array);
-    	echo $json;
+    	echo json_encode($array);
     }
 
-    public function TablePane()
+    public function TablePane(Request $request)
     {
-        $Code = Input::post('Code');
+        $Code = $request->post('Code');
         $Item = DB::table('item')->where('item_eye_hide', '0')->get();
         $CounMainOnline = DB::table('main_table')->where('Code', $Code)->where('Status', 'IN')->count();
         //Nav tab
@@ -689,20 +687,19 @@ class Checkin extends Controller
 
         // Show Json
         $array = array('Navtab' => $Navtab);
-        $json = json_encode($array);
-        echo $json;
+        echo json_encode($array);
     }
 
-    public function EditNumber()
+    public function EditNumber(Request $request)
     {
-        $Fake_table_id = Input::post('Fake_table_id');
+        $Fake_table_id = $request->post('Fake_table_id');
         $Fake_Table  = DB::table('fake_table')->where('id', $Fake_table_id)->get();
         foreach ($Fake_Table as $key => $GetItemFull) {
             $TableItem = DB::table('item')->where('item_code', $GetItemFull->Fake_itemcode)->get();
         }
         $From = "
-        <div class='row'>
-        <div class='col-md-6' align='center'>";
+          <div class='row'>
+          <div class='col-md-6' align='center'>";
         foreach ($TableItem as $key => $row) {
             $From .= "<h5><b>รายการ:</b> $row->item_name</h5>";
         }
@@ -712,33 +709,32 @@ class Checkin extends Controller
         }
         $From .= "</div></div>";
         $From .= "
-        <div class='row'>
-        <div class='col-md-12' align='center'>
-        <div class='col-sm-3'>";
+          <div class='row'>
+          <div class='col-md-12' align='center'>
+          <div class='col-sm-3'>";
         foreach ($Fake_Table as $key => $GetItemFull) {
            $From .= "<input type='number' class='form-control' autofocus id='newnumitem' value='$GetItemFull->Fake_sum'>";
         }
         $From .= "</div>
-        <hr>
-        <button class='btn btn-sm btn-primary' Fake_table_id='$Fake_table_id' onclick='Foronchangenum(this);'>ยืนยันเปลี่ยนจำนวน</button>
-        </div>
-        </div>";
+          <hr>
+          <button class='btn btn-sm btn-primary' Fake_table_id='$Fake_table_id' onclick='Foronchangenum(this);'>ยืนยันเปลี่ยนจำนวน</button>
+          </div>
+          </div>";
         // Show Json
         $array = array('From' => $From);
-        $json = json_encode($array);
-        echo $json;
+        echo json_encode($array);
     }
 
-    public function Edit_Number_Key()
+    public function Edit_Number_Key(Request $request)
     {
-        $Fake_table_id = Input::post('Fake_table_id');
+        $Fake_table_id = $request->post('Fake_table_id');
         $Fake_Table  = DB::table('fake_table')->where('id', $Fake_table_id)->get();
         foreach ($Fake_Table as $key => $GetItemFull) {
             $TableItem = DB::table('item')->where('item_code', $GetItemFull->Fake_itemcode)->get();
         }
         $From = "
-        <div class='row'>
-        <div class='col-md-6' align='center'>";
+          <div class='row'>
+          <div class='col-md-6' align='center'>";
         foreach ($TableItem as $key => $row) {
             $From .= "<h5><b>รายการ:</b> $row->item_name</h5>";
         }
@@ -748,66 +744,64 @@ class Checkin extends Controller
         }
         $From .= "</div></div>";
         $From .= "
-        <div class='row'>
-        <div class='col-md-12' align='center'>
-        <div class='col-sm-4'>";
+          <div class='row'>
+          <div class='col-md-12' align='center'>
+          <div class='col-sm-4'>";
         foreach ($Fake_Table as $key => $GetItemFull) {
            $From .= "<input type='text' class='form-control' autofocus id='newnumitem' placeholder='หมายเลขกุญแจ'>";
         }
         $From .= "</div>
-        <hr>
-        <button class='btn btn-primary' Fake_table_id='$Fake_table_id' onclick='Foronchangenumkey(this);'>ยืนยันเปลี่ยนหมายเลขกุญแจ</button>
-        </div>
-        </div>";
+          <hr>
+          <button class='btn btn-primary' Fake_table_id='$Fake_table_id' onclick='Foronchangenumkey(this);'>ยืนยันเปลี่ยนหมายเลขกุญแจ</button>
+          </div>
+          </div>";
         // Show Json
         $array = array('From' => $From);
-        $json = json_encode($array);
-        echo $json;
+        echo json_encode($array);
     }
 
-    public function Edit_Other()
+    public function Edit_Other(Request $request)
     {
-        $Fake_table_id = Input::post('Fake_table_id');
+        $Fake_table_id = $request->post('Fake_table_id');
         $Fake_Table  = DB::table('fake_table')->where('id', $Fake_table_id)->get();
         foreach ($Fake_Table as $key => $GetItemFull) {
             $TableItem = DB::table('item')->where('item_code', $GetItemFull->Fake_itemcode)->get();
         }
         $From = "
-        <div class='row'>
-        <div class='col-md-6' align='center'>";
+          <div class='row'>
+          <div class='col-md-6' align='center'>";
         foreach ($TableItem as $key => $row) {
             $From .= "<h5><b>รายการ:</b> $row->item_name</h5>";
         }
         $From .= "</div><div class='col-md-6' align='center'>";
         $From .= "</div></div>";
         $From .= "
-        <div class='row'>
-        <div class='col-md-12' align='center'>
-        <div class='col-sm-4'>";
+          <div class='row'>
+          <div class='col-md-12' align='center'>
+          <div class='col-sm-4'>";
         foreach ($Fake_Table as $key => $GetItemFull) {
            $From .= "<input type='text' class='form-control' autofocus id='newnumitem' placeholder='รายละเอียด'>";
         }
         $From .= "</div>
-        <hr>
-        <button class='btn btn-primary' Fake_table_id='$Fake_table_id' onclick='ForonEdit_Other(this);'>ยืนยันเปลี่ยนรายละเอียด</button>
-        </div>
-        </div>";
+          <hr>
+          <button class='btn btn-primary' Fake_table_id='$Fake_table_id' onclick='ForonEdit_Other(this);'>ยืนยันเปลี่ยนรายละเอียด</button>
+          </div>
+          </div>";
         // Show Json
         $array = array('From' => $From);
-        $json = json_encode($array);
-        echo $json;
+        echo json_encode($array);
     }
 
-    public function Discount()
+    public function Discount(Request $request)
     {
-        $Fake_table_id = Input::post('Fake_table_id');
+        $Fake_table_id = $request->post('Fake_table_id');
         $Fake_Table  = DB::table('fake_table')->where('id', $Fake_table_id)->get();
         foreach ($Fake_Table as $key => $GetItemFull) {
             $TableItem = DB::table('item')->where('item_code', $GetItemFull->Fake_itemcode)->get();
         }
         $From = "
-        <div class='row'>
-        <div class='col-md-6' align='center'>";
+          <div class='row'>
+          <div class='col-md-6' align='center'>";
         foreach ($TableItem as $key => $row) {
             $From .= "<h5><b>รายการ:</b> $row->item_name</h5>";
         }
@@ -817,33 +811,33 @@ class Checkin extends Controller
         }
         $From .= "</div></div>";
         $From .= "
-        <div class='row'>
-        <div class='col-md-12' align='center'>
-        <div class='col-sm-4'>";
+          <div class='row'>
+          <div class='col-md-12' align='center'>
+          <div class='col-sm-4'>";
         foreach ($Fake_Table as $key => $GetItemFull) {
            $From .= "<input type='text' class='form-control' autofocus id='newdiscount' placeholder='ส่วนลดสินค้า'>";
         }
         $From .= "</div>
-        <hr>
-        <button class='btn btn-sm btn-primary' Fake_table_id='$Fake_table_id' onclick='Discount_Save(this);'>ยืนยันส่วนลดสินค้า</button>
-        </div>
-        </div>";
+          <hr>
+          <button class='btn btn-sm btn-primary' Fake_table_id='$Fake_table_id' onclick='Discount_Save(this);'>ยืนยันส่วนลดสินค้า</button>
+          </div>
+          </div>";
         // Show Json
         $array = array('From' => $From);
         $json = json_encode($array);
         echo $json;
     }
 
-    public function Delete_item()
+    public function Delete_item(Request $request)
     {
-        $Fake_table_id = Input::post('Fake_table_id');
+        $Fake_table_id = $request->post('Fake_table_id');
         // Delete
         DB::table('fake_table')->where('id', $Fake_table_id)->delete();
     }
 
-    public function Delete_item_time()
+    public function Delete_item_time(Request $request)
     {
-        $Fake_table_id = Input::post('Fake_table_id');
+        $Fake_table_id = $request->post('Fake_table_id');
         // Select
         $Fake_Package = DB::table('fake_package')
                      ->select('*')
@@ -860,39 +854,39 @@ class Checkin extends Controller
         DB::table('fake_package')->where('fake_table_id', $Fake_table_id)->delete();
     }
 
-    public function Foronchangenum()
+    public function Foronchangenum(Request $request)
     {
-        $Fake_table_id = Input::post('Fake_table_id');
-        $NewNum = Input::post('NewNum');
+        $Fake_table_id = $request->post('Fake_table_id');
+        $NewNum = $request->post('NewNum');
         $Fake_Table  = DB::table('fake_table')->where('id', $Fake_table_id)->get();
         foreach ($Fake_Table as $key => $GetItemFull) {
             $TableItem = DB::table('item')->where('item_code', $GetItemFull->Fake_itemcode)->get();
         }
         foreach ($TableItem as $key => $row) {
-                $item_price = $row->item_price;
-                $totalprice = (int)$NewNum * (int)$item_price;
-                // Update
-                DB::table('fake_table')
-                    ->where('id', $Fake_table_id)
-                    ->update(['Fake_sum' => $NewNum, 'Fake_price' => $totalprice]);
+            $item_price = $row->item_price;
+            $totalprice = (int)$NewNum * (int)$item_price;
+            // Update
+            DB::table('fake_table')
+                ->where('id', $Fake_table_id)
+                ->update(['Fake_sum' => $NewNum, 'Fake_price' => $totalprice]);
         }
     }
 
-    public function Discount_Save()
+    public function Discount_Save(Request $request)
     {
-        $Fake_table_id = Input::post('Fake_table_id');
-        $NewNum = Input::post('NewNum');
+        $Fake_table_id = $request->post('Fake_table_id');
+        $NewNum = $request->post('NewNum');
         $Fake_Table  = DB::table('fake_table')->where('id', $Fake_table_id)->get();
         foreach ($Fake_Table as $key => $GetItemFull) {
             $TableItem = DB::table('item')->where('item_code', $GetItemFull->Fake_itemcode)->get();
         }
         foreach ($TableItem as $key => $row) {
-                $item_price = $row->item_price;
-                $totalprice = (int)$item_price - (int)$NewNum;
-                // Update
-                DB::table('fake_table')
-                    ->where('id', $Fake_table_id)
-                    ->update(['Fake_price' => $totalprice]);
+            $item_price = $row->item_price;
+            $totalprice = (int)$item_price - (int)$NewNum;
+            // Update
+            DB::table('fake_table')
+                ->where('id', $Fake_table_id)
+                ->update(['Fake_price' => $totalprice]);
         }
     }
 
@@ -904,37 +898,37 @@ class Checkin extends Controller
         $CheckHaveHistory = DB::table('main_table')->where('Code', $Code)->count();
         if ($CheckHaveHistory > 1) {
         $Table = '
-        <div id="HistoryTable">';
+          <div id="HistoryTable">';
         foreach ($Data as $key => $row) {
         $Table .= "
-        <div class='p-2 mb-2 bg-primary shadow-sm' id='heading$row->ID' data-toggle='collapse' data-target='#collapse$row->ID' aria-expanded='false' aria-controls='collapse$row->ID'>
-        <div class='clearfix'>
-        <div class='float-left'>
-        <b>วันที่ใช้งาน:</b> $row->Guset_in | <b>สถานะ:</b> $row->Status
-        </div>
-        <div class='float-right'>
-        <i class='fas fa-arrow-right'></i>
-        </div>
-        </div>
-        </div>
-        <div id='collapse$row->ID' class='collapse shadow' aria-labelledby='heading$row->ID' data-parent='#HistoryTable'>
-        <div align='center'>
-        <table class='table table-striped'>
-        <tbody>";
+          <div class='p-2 mb-2 bg-primary shadow-sm' id='heading$row->ID' data-toggle='collapse' data-target='#collapse$row->ID' aria-expanded='false' aria-controls='collapse$row->ID'>
+          <div class='clearfix'>
+          <div class='float-left'>
+          <b>วันที่ใช้งาน:</b> $row->Guset_in | <b>สถานะ:</b> $row->Status
+          </div>
+          <div class='float-right'>
+          <i class='fas fa-arrow-right'></i>
+          </div>
+          </div>
+          </div>
+          <div id='collapse$row->ID' class='collapse shadow' aria-labelledby='heading$row->ID' data-parent='#HistoryTable'>
+          <div align='center'>
+          <table class='table table-striped'>
+          <tbody>";
         $Datasub = DB::table('detail_table')->where('main_id', $row->ID)->get();
         foreach ($Datasub as $key => $rowsub) {
         $Table .= "
-        <tr align='left'>
-        <td><b>รายการ:</b> $rowsub->itemname</td>
-        <td><b>จำนวน:</b> $rowsub->sum</td>
-        <td><b>ราคา:</b> ".number_format($rowsub->price)."</td>
-        </tr>";
+          <tr align='left'>
+          <td><b>รายการ:</b> $rowsub->itemname</td>
+          <td><b>จำนวน:</b> $rowsub->sum</td>
+          <td><b>ราคา:</b> ".number_format($rowsub->price)."</td>
+          </tr>";
         }
         $Table .="
-        </tbody>
-        </table>
-        </div>
-        </div>";
+          </tbody>
+          </table>
+          </div>
+          </div>";
         if($CheckHaveHistory > 5) {
           $Table .= "<button class='btn btn-sm btn-primary btn-block' set_limit='0' onclick='History(this);'>ดูข้อมูลทั้งหมด</button>";
           }
@@ -945,44 +939,43 @@ class Checkin extends Controller
         }
         // Show Json
         $array = array('Table' => $Table);
-        $json = json_encode($array);
-        echo $json;
+        echo json_encode($array);
     }
 
-    public function OnUsePackage()
+    public function OnUsePackage(Request $request)
     {
         date_default_timezone_set("Asia/Bangkok");
         $today = now();
-        $code = Input::post('Code');
-        $main_package_id = Input::post('main_package_id');
-        $package_detail_id = Input::post('package_detail_id');
-        $trainner_emp_id = Input::post('trainner_emp_id');
-        $total = Input::post('total');
-        $havesum = Input::post('havesum');
+        $code = $request->post('Code');
+        $main_package_id = $request->post('main_package_id');
+        $package_detail_id = $request->post('package_detail_id');
+        $trainner_emp_id = $request->post('trainner_emp_id');
+        $total = $request->post('total');
+        $havesum = $request->post('havesum');
         // New Have Sum
         $newhavesum = ((int)$havesum - (int)'1');
         // Insert Package Log
         $package_log_id = DB::table('package_log')->insertGetId([
-        'main_package_id' => $main_package_id,
-        'package_detail' => $package_detail_id,
-        'code' => $code,
-        'date' => $today,
-        'total_sum' => $total,
-        'havesum' => $newhavesum,
-        'onuse' => '1',
-        'trainner_emp_id' => $trainner_emp_id,
-        'status' => 'U']);
+          'main_package_id' => $main_package_id,
+          'package_detail' => $package_detail_id,
+          'code' => $code,
+          'date' => $today,
+          'total_sum' => $total,
+          'havesum' => $newhavesum,
+          'onuse' => '1',
+          'trainner_emp_id' => $trainner_emp_id,
+          'status' => 'U']);
         // Insert Package OnUsePackage
         $package_onuse_id = DB::table('package_onuse')->insertGetId([
-        'package_log_id' => $package_log_id,
-        'main_package_id' => $main_package_id,
-        'code' => $code,
-        'date' => $today,
-        'total_sum' => $total,
-        'havesum' => $newhavesum,
-        'onuse' => '1',
-        'status' => 'N',
-        'trainner_emp_id' => $trainner_emp_id]);
+          'package_log_id' => $package_log_id,
+          'main_package_id' => $main_package_id,
+          'code' => $code,
+          'date' => $today,
+          'total_sum' => $total,
+          'havesum' => $newhavesum,
+          'onuse' => '1',
+          'status' => 'N',
+          'trainner_emp_id' => $trainner_emp_id]);
         // Update Package Detail
         DB::table('package_detail')
             ->where('package_id', $package_detail_id)
@@ -999,10 +992,10 @@ class Checkin extends Controller
         }
     }
 
-    public function Modal_History_Package_Useing_Display()
+    public function Modal_History_Package_Useing_Display(Request $request)
     {
-      $Code = Input::post('Code');
-      $Package_id = Input::post('Package_id');
+      $Code = $request->post('Code');
+      $Package_id = $request->post('Package_id');
       $Data = DB::table('package_log')
               ->join('package_detail','package_detail.package_id','=','package_log.package_detail')
               ->where('package_log.main_package_id', $Package_id)
@@ -1018,25 +1011,24 @@ class Checkin extends Controller
               ->orderBy('package_log_id', 'desc')
               ->count();
       if ($Count > 0) {
-      $Table  = '<div class="row"><div class="col-md-12">';
-      $Table .= '<table class="table-bordered table-sm table-hover" style="width: 100%;">';
-      $Table .= '<tr class="bg-primary"><td>รายการ Package</td><td>วันที่เข้าใช้งาน</td><td>จำนวนครั้งที่ใช้งาน</td><td>จำนวนครั้งคงเหลือ</td></tr>';
+        $Table  = '<div class="row"><div class="col-md-12">';
+        $Table .= '<table class="table-bordered table-sm table-hover" style="width: 100%;">';
+        $Table .= '<tr class="bg-primary"><td>รายการ Package</td><td>วันที่เข้าใช้งาน</td><td>จำนวนครั้งที่ใช้งาน</td><td>จำนวนครั้งคงเหลือ</td></tr>';
       foreach ($Data as $key => $row) {
         $Table .= "<tr align='center'><td>$row->fake_itemname</td><td>".date('d-m-Y', strtotime($row->date))."</td><td>$row->onuse ชั่วโมง</td><td>$row->havesum ครั้ง</td></tr>";
       }
-      $Table .= '</table></div></div>';
+        $Table .= '</table></div></div>';
       }else{
-      $Table = '<div align="center" style="color:red;"><h5><b>ไม่พบประวัติการใช้งาน</b></h5></div>';
+        $Table = '<div align="center" style="color:red;"><h5><b>ไม่พบประวัติการใช้งาน</b></h5></div>';
       }
       // Show Json
       $array = array('Table' => $Table);
-      $json = json_encode($array);
-      echo $json;
+      echo json_encode($array);
     }
 
-    public function PackageOnuseDisplay()
+    public function PackageOnuseDisplay(Request $request)
     {
-      $Code = Input::post('Code');
+      $Code =  $request->post('Code');
       $Data = DB::table('package_onuse')
               ->join('main_package','main_package.id','=','package_onuse.main_package_id')
               ->where('package_onuse.code', $Code)
@@ -1096,19 +1088,18 @@ class Checkin extends Controller
     }
       // Show Json
       $array = array('Table' => $Table);
-      $json = json_encode($array);
-      echo $json;
+      echo json_encode($array);
     }
 
-    public function DeleteOnusePackage()
+    public function DeleteOnusePackage(Request $request)
     {
       date_default_timezone_set("Asia/Bangkok");
       $date = date("Y-m-d");
-      $Code = Input::post('Code');
-      $Package_onuse_id = Input::post('Package_onuse_id');
-      $Package_log_id = Input::post('Package_log_id');
-      $Main_package_id = Input::post('Main_package_id');
-      $Onusesum = Input::post('Onusesum');
+      $Code = $request->post('Code');
+      $Package_onuse_id = $request->post('Package_onuse_id');
+      $Package_log_id = $request->post('Package_log_id');
+      $Main_package_id = $request->post('Main_package_id');
+      $Onusesum = $request->post('Onusesum');
       // Select Data Package Onuse
       $DataPackageOnuse = DB::table('package_onuse')->where('package_onuse_id', $Package_onuse_id)->get();
       foreach ($DataPackageOnuse as $key => $rowonuse) {
@@ -1138,12 +1129,12 @@ class Checkin extends Controller
       }
     }
 
-    public function VoidItem()
+    public function VoidItem(Request $request)
     {
       date_default_timezone_set("Asia/Bangkok");
       $today = now();
-      $Fake_id = Input::post('Fake_id');
-      $commentvoiditem = Input::post('commentvoiditem');
+      $Fake_id = $request->post('Fake_id');
+      $commentvoiditem = $request->post('commentvoiditem');
       $DataFake_Table = DB::table('fake_table')->where('id', $Fake_id)->get();
       foreach ($DataFake_Table as $key => $row) {
         if ($row->main_id != '') {
@@ -1153,17 +1144,17 @@ class Checkin extends Controller
             $Re_sum = '-'.$row->Fake_sum;
           // Insert New Void Item
           DB::table('fake_table')->insert([
-        	'Fake_code' => $row->Fake_code,
-          'main_id' => $row->main_id,
-       	  'Fake_datetime' => $today,
-      	  'Fake_itemcode' => $row->Fake_itemcode,
-          'Fake_itemcodetype' => $row->Fake_itemcodetype,
-       	  'Fake_itemtype' => $row->Fake_itemtype,
-       	  'Fake_itemname' => $row->Fake_itemname,
-      	  'Fake_price'    => $Re_price,
-      	  'Fake_sum'      => $Re_sum,
-          'Fake_status'   => 'V',
-          'Fake_comment'  => $commentvoiditem,
+        	  'Fake_code' => $row->Fake_code,
+            'main_id' => $row->main_id,
+       	    'Fake_datetime' => $today,
+      	    'Fake_itemcode' => $row->Fake_itemcode,
+            'Fake_itemcodetype' => $row->Fake_itemcodetype,
+       	    'Fake_itemtype' => $row->Fake_itemtype,
+       	    'Fake_itemname' => $row->Fake_itemname,
+      	    'Fake_price'    => $Re_price,
+      	    'Fake_sum'      => $Re_sum,
+            'Fake_status'   => 'V',
+            'Fake_comment'  => $commentvoiditem,
       	  ]);
 
         }
@@ -1174,11 +1165,11 @@ class Checkin extends Controller
       }
     }
 
-    public function VoidItem_modal()
+    public function VoidItem_modal(Request $request)
     {
         date_default_timezone_set("Asia/Bangkok");
         $today = now();
-        $Fake_id = Input::post('Fake_id');
+        $Fake_id = $request->post('Fake_id');
         $DataFake_Table = DB::table('fake_table')->where('id', $Fake_id)->get();
         foreach ($DataFake_Table as $key => $row) {
         $fake_table_id = $row->id;
@@ -1193,13 +1184,13 @@ class Checkin extends Controller
         echo $json;
     }
 
-    public function ChargeItem()
+    public function ChargeItem(Request $request)
     {
         date_default_timezone_set("Asia/Bangkok");
         $today = now();
-        $Fake_id = Input::post('Fake_id');
-        $inputchargeitem = Input::post('inputchargeitem');
-        $commentchargeitem = Input::post('commentchargeitem');
+        $Fake_id = $request->post('Fake_id');
+        $inputchargeitem = $request->post('inputchargeitem');
+        $commentchargeitem = $request->post('commentchargeitem');
         if ($inputchargeitem != '') {
           DB::table('fake_table')
               ->where('id', $Fake_id)
@@ -1208,11 +1199,11 @@ class Checkin extends Controller
         print_r($_POST);
     }
 
-    public function Charge_modal()
+    public function Charge_modal(Request $request)
     {
         date_default_timezone_set("Asia/Bangkok");
         $today = now();
-        $Fake_id = Input::post('Fake_id');
+        $Fake_id = $request->post('Fake_id');
         $DataFake_Table = DB::table('fake_table')->where('id', $Fake_id)->get();
         foreach ($DataFake_Table as $key => $row) {
         $fake_table_id = $row->id;
@@ -1231,8 +1222,7 @@ class Checkin extends Controller
         $Table .= "<br><button class='btn btn-sm btn-danger' onclick='ChargeItem(this);' fake_table_id='$fake_table_id'>ยืนยันการ Charge</button></div></div>";
         // Show Json
         $array = array('Table' => $Table,'Row' => $row);
-        $json = json_encode($array);
-        echo $json;
+        echo json_encode($array);
     }
 
     public function Display_select_trainner_emp_model(Request $request)
@@ -1247,8 +1237,7 @@ class Checkin extends Controller
       $Select .= "</select></div>";
       $Select .= "<hr><div align='center'><button class='btn btn-sm btn-success' fake_table_id='".$request->post('Fake_id')."' onclick='save_trainner_emp_select_modal(this);'>อัพเดต</button></div>";
       $ResArray = ['select' => $Select,'request' => $request->post('Fake_id')];
-      $Jsonencode = json_encode($ResArray);
-      echo $Jsonencode;
+      echo json_encode($ResArray);
     }
 
     public function Display_select_trainner_emp_model_edit(Request $request)
@@ -1263,8 +1252,22 @@ class Checkin extends Controller
       $Select .= "</select></div>";
       $Select .= "<hr><div align='center'><button class='btn btn-sm btn-success' fake_table_id='".$request->post('Fake_id')."' onclick='save_trainner_emp_select_modal_edit(this);'>อัพเดต</button></div>";
       $ResArray = ['select' => $Select,'request' => $request->post('Fake_id')];
-      $Jsonencode = json_encode($ResArray);
-      echo $Jsonencode;
+      echo json_encode($ResArray);
+    }
+
+    public function Display_select_trainner_class_model(Request $request)
+    {
+      $Trainner_emp = DB::table('trainner_emp')->select('*')
+                        ->where('status_emp', '=', 'Class')
+                        ->get();
+      $Select = "<div align='center'><select class='custom-select' id='select_class_to_member'>";
+      foreach ($Trainner_emp as $key => $row) {
+        $Select .= "<option value='".$row->tn_emp_id."'>[".$row->status_emp."] ".$row->fname."  ".$row->lname."</option>";
+      }
+      $Select .= "</select></div>";
+      $Select .= "<hr><div align='center'><button class='btn btn-sm btn-success' fake_table_id='".$request->post('Fake_id')."' onclick='save_trainner_class_select_modal(this);'>อัพเดต</button></div>";
+      $ResArray = ['select' => $Select,'request' => $request->post('Fake_id')];
+      echo json_encode($ResArray);
     }
 
     public function Save_select_trainner_emp_to_member(Request $request)
@@ -1288,5 +1291,15 @@ class Checkin extends Controller
         ->update(['trainner_emp_id' => $request->post('Trainner_emp_id')]);
         echo 'OK';
     }
+
+    public function Save_select_trainner_class_to_member(Request $request)
+    {
+      // Update Fake Table
+      DB::table('fake_table')
+        ->where('id', $request->post('Fake_id'))
+        ->update(['trainner_id' => $request->post('Trainner_emp_id')]);
+        echo 'OK';
+    }
+
 
 }

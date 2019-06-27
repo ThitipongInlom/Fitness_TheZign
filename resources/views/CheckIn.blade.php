@@ -469,6 +469,23 @@
         </div>
     </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="trianner_class_select_modal" tabindex="-1" role="dialog" aria-labelledby="trianner_emp_select_modal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary" style="padding: 0.7rem;">
+                    <h5 class="modal-title">เลือกผู้สอน</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="Display_select_trainner_class"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </body>
 <!-- All Js -->
 <script type="text/javascript" src="{{ url('js/app.js') }}"></script>

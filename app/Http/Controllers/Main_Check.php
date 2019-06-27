@@ -55,8 +55,8 @@ class Main_Check extends Controller
 	                  <td>$row->Code</td>
 	                  <td align='left'><span style='cursor: pointer;' data-toggle='tooltip' data-placement='top' title='$row->Name'>$row->Nameshot... ($ModifyTimeOnline)</span>  (<i class='fas fa-key'></i> ". $Showkey_onuse[0]->Fake_sum .") (<i class='fas fa-door-open'></i> ". $GuestHotel[0]->wifipassword .") $Class</td>
 	                  <td>
-	                  <button class='btn btn-sm btn-primary' onclick='ShowViewData(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
-	                  <button class='btn btn-sm btn-secondary' onclick='GoPostCodeEdit(this)' code='$row->Code' data-toggle='tooltip' data-placement='bottom' title='แก้ไขรายการ'><i class='fas fa-edit'></i></button>
+	                  <button class='btn btn-sm btn-primary' onclick='ShowViewData(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='left' title='ดูรายการ'><i class='fas fa-search'></i></button>
+	                  <button class='btn btn-sm btn-secondary' onclick='GoPostCodeEdit(this)' code='$row->Code' data-toggle='tooltip' data-placement='left' title='แก้ไขรายการ'><i class='fas fa-edit'></i></button>
 	                  </td>
 					</tr>";
 			}else{
@@ -66,8 +66,8 @@ class Main_Check extends Controller
 	                  <td>$row->Code</td>
 	                  <td align='left'><span style='cursor: pointer;' data-toggle='tooltip' data-placement='top' title='$row->Name'>$row->Nameshot... ($ModifyTimeOnline)</span>  (<i class='fas fa-key'></i> ". $Showkey_onuse[0]->Fake_sum .") $Class</td>
 	                  <td>
-	                  <button class='btn btn-sm btn-primary' onclick='ShowViewData(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
-	                  <button class='btn btn-sm btn-secondary' onclick='GoPostCodeEdit(this)' code='$row->Code' data-toggle='tooltip' data-placement='bottom' title='แก้ไขรายการ'><i class='fas fa-edit'></i></button>
+	                  <button class='btn btn-sm btn-primary' onclick='ShowViewData(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='left' title='ดูรายการ'><i class='fas fa-search'></i></button>
+	                  <button class='btn btn-sm btn-secondary' onclick='GoPostCodeEdit(this)' code='$row->Code' data-toggle='tooltip' data-placement='left' title='แก้ไขรายการ'><i class='fas fa-edit'></i></button>
 	                  </td>
 					</tr>";
 			}
@@ -79,8 +79,8 @@ class Main_Check extends Controller
 	                  <td>$row->Code</td>
 	                  <td align='left'><span style='cursor: pointer;' data-toggle='tooltip' data-placement='top' title='$row->Name'>$row->Nameshot... ($ModifyTimeOnline)</span>  (<i class='fas fa-key'></i> ". $Showkey_onuse[0]->Fake_sum .") (<i class='fas fa-key'></i>". $Showkey_onuse[1]->Fake_sum .") (<i class='fas fa-door-open'></i> ". $GuestHotel[0]->wifipassword .") $Class</td>
 	                  <td>
-	                  <button class='btn btn-sm btn-primary' onclick='ShowViewData(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
-	                  <button class='btn btn-sm btn-secondary' onclick='GoPostCodeEdit(this)' code='$row->Code' data-toggle='tooltip' data-placement='bottom' title='แก้ไขรายการ'><i class='fas fa-edit'></i></button>
+	                  <button class='btn btn-sm btn-primary' onclick='ShowViewData(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='left' title='ดูรายการ'><i class='fas fa-search'></i></button>
+	                  <button class='btn btn-sm btn-secondary' onclick='GoPostCodeEdit(this)' code='$row->Code' data-toggle='tooltip' data-placement='left' title='แก้ไขรายการ'><i class='fas fa-edit'></i></button>
 	                  </td>
 					</tr>";							
 			}else{
@@ -90,8 +90,8 @@ class Main_Check extends Controller
 	                  <td>$row->Code</td>
 	                  <td align='left'><span style='cursor: pointer;' data-toggle='tooltip' data-placement='top' title='$row->Name'>$row->Nameshot... ($ModifyTimeOnline)</span>  (<i class='fas fa-key'></i> ". $Showkey_onuse[0]->Fake_sum .") (<i class='fas fa-key'></i>". $Showkey_onuse[1]->Fake_sum .") $Class</td>
 	                  <td>
-	                  <button class='btn btn-sm btn-primary' onclick='ShowViewData(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
-	                  <button class='btn btn-sm btn-secondary' onclick='GoPostCodeEdit(this)' code='$row->Code' data-toggle='tooltip' data-placement='bottom' title='แก้ไขรายการ'><i class='fas fa-edit'></i></button>
+	                  <button class='btn btn-sm btn-primary' onclick='ShowViewData(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='left' title='ดูรายการ'><i class='fas fa-search'></i></button>
+	                  <button class='btn btn-sm btn-secondary' onclick='GoPostCodeEdit(this)' code='$row->Code' data-toggle='tooltip' data-placement='left' title='แก้ไขรายการ'><i class='fas fa-edit'></i></button>
 	                  </td>
 					</tr>";
 			}
@@ -103,8 +103,8 @@ class Main_Check extends Controller
 	                  <td>$row->Code</td>
 	                  <td align='left'><span style='cursor: pointer;' data-toggle='tooltip' data-placement='top' title='$row->Name'>$row->Nameshot... ($ModifyTimeOnline)</span>  (<i class='fas fa-key'></i> ". $Showkey_onuse[0]->Fake_sum .") (<i class='fas fa-key'></i> ". $Showkey_onuse[1]->Fake_sum .") (<i class='fas fa-key'></i> ". $Showkey_onuse[2]->Fake_sum .") (<i class='fas fa-door-open'></i> ". $GuestHotel[0]->wifipassword .") $Class</td>
 	                  <td>
-	                  <button class='btn btn-sm btn-primary' onclick='ShowViewData(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
-	                  <button class='btn btn-sm btn-secondary' onclick='GoPostCodeEdit(this)' code='$row->Code' data-toggle='tooltip' data-placement='bottom' title='แก้ไขรายการ'><i class='fas fa-edit'></i></button>
+	                  <button class='btn btn-sm btn-primary' onclick='ShowViewData(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='left' title='ดูรายการ'><i class='fas fa-search'></i></button>
+	                  <button class='btn btn-sm btn-secondary' onclick='GoPostCodeEdit(this)' code='$row->Code' data-toggle='tooltip' data-placement='left' title='แก้ไขรายการ'><i class='fas fa-edit'></i></button>
 	                  </td>
 					</tr>";								
 			}else{
@@ -114,8 +114,8 @@ class Main_Check extends Controller
 	                  <td>$row->Code</td>
 	                  <td align='left'><span style='cursor: pointer;' data-toggle='tooltip' data-placement='top' title='$row->Name'>$row->Nameshot... ($ModifyTimeOnline)</span>  (<i class='fas fa-key'></i> ". $Showkey_onuse[0]->Fake_sum .") (<i class='fas fa-key'></i> ". $Showkey_onuse[1]->Fake_sum .") (<i class='fas fa-key'></i> ". $Showkey_onuse[2]->Fake_sum .") $Class</td>
 	                  <td>
-	                  <button class='btn btn-sm btn-primary' onclick='ShowViewData(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
-	                  <button class='btn btn-sm btn-secondary' onclick='GoPostCodeEdit(this)' code='$row->Code' data-toggle='tooltip' data-placement='bottom' title='แก้ไขรายการ'><i class='fas fa-edit'></i></button>
+	                  <button class='btn btn-sm btn-primary' onclick='ShowViewData(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='left' title='ดูรายการ'><i class='fas fa-search'></i></button>
+	                  <button class='btn btn-sm btn-secondary' onclick='GoPostCodeEdit(this)' code='$row->Code' data-toggle='tooltip' data-placement='left' title='แก้ไขรายการ'><i class='fas fa-edit'></i></button>
 	                  </td>
 					</tr>";
 			}
@@ -127,8 +127,8 @@ class Main_Check extends Controller
 	                  <td>$row->Code</td>
 	                  <td align='left'><span style='cursor: pointer;' data-toggle='tooltip' data-placement='top' title='$row->Name'>$row->Nameshot... ($ModifyTimeOnline)</span>  (<i class='fas fa-key'></i> ". $Showkey_onuse[0]->Fake_sum .") (<i class='fas fa-key'></i> ". $Showkey_onuse[1]->Fake_sum .") (<i class='fas fa-key'></i> ". $Showkey_onuse[2]->Fake_sum .") (<i class='fas fa-key'></i> ". $Showkey_onuse[3]->Fake_sum .") (<i class='fas fa-door-open'></i> ". $GuestHotel[0]->wifipassword .") $Class</td>
 	                  <td>
-	                  <button class='btn btn-sm btn-primary' onclick='ShowViewData(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
-	                  <button class='btn btn-sm btn-secondary' onclick='GoPostCodeEdit(this)' code='$row->Code' data-toggle='tooltip' data-placement='bottom' title='แก้ไขรายการ'><i class='fas fa-edit'></i></button>
+	                  <button class='btn btn-sm btn-primary' onclick='ShowViewData(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='left' title='ดูรายการ'><i class='fas fa-search'></i></button>
+	                  <button class='btn btn-sm btn-secondary' onclick='GoPostCodeEdit(this)' code='$row->Code' data-toggle='tooltip' data-placement='left' title='แก้ไขรายการ'><i class='fas fa-edit'></i></button>
 	                  </td>
 					</tr>";							
 			}else{
@@ -138,8 +138,8 @@ class Main_Check extends Controller
 	                  <td>$row->Code</td>
 	                  <td align='left'><span style='cursor: pointer;' data-toggle='tooltip' data-placement='top' title='$row->Name'>$row->Nameshot... ($ModifyTimeOnline)</span>  (<i class='fas fa-key'></i> ". $Showkey_onuse[0]->Fake_sum .") (<i class='fas fa-key'></i> ". $Showkey_onuse[1]->Fake_sum .") (<i class='fas fa-key'></i> ". $Showkey_onuse[2]->Fake_sum .") (<i class='fas fa-key'></i> ". $Showkey_onuse[3]->Fake_sum .") $Class</td>
 	                  <td>
-	                  <button class='btn btn-sm btn-primary' onclick='ShowViewData(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
-	                  <button class='btn btn-sm btn-secondary' onclick='GoPostCodeEdit(this)' code='$row->Code' data-toggle='tooltip' data-placement='bottom' title='แก้ไขรายการ'><i class='fas fa-edit'></i></button>
+	                  <button class='btn btn-sm btn-primary' onclick='ShowViewData(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='left' title='ดูรายการ'><i class='fas fa-search'></i></button>
+	                  <button class='btn btn-sm btn-secondary' onclick='GoPostCodeEdit(this)' code='$row->Code' data-toggle='tooltip' data-placement='left' title='แก้ไขรายการ'><i class='fas fa-edit'></i></button>
 	                  </td>
 					</tr>";
 			}
@@ -151,8 +151,8 @@ class Main_Check extends Controller
 	                  <td>$row->Code</td>
 	                  <td align='left'><span style='cursor: pointer;' data-toggle='tooltip' data-placement='top' title='$row->Name'>$row->Nameshot... ($ModifyTimeOnline)</span>  (<i class='fas fa-key'></i> ". $Showkey_onuse[0]->Fake_sum .") (<i class='fas fa-key'></i> ". $Showkey_onuse[1]->Fake_sum .") (<i class='fas fa-key'></i> ". $Showkey_onuse[2]->Fake_sum .") (<i class='fas fa-key'></i> ". $Showkey_onuse[3]->Fake_sum .") (<i class='fas fa-key'></i> ". $Showkey_onuse[4]->Fake_sum .") (<i class='fas fa-door-open'></i> ". $GuestHotel[0]->wifipassword .") $Class</td>
 	                  <td>
-	                  <button class='btn btn-sm btn-primary' onclick='ShowViewData(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
-	                  <button class='btn btn-sm btn-secondary' onclick='GoPostCodeEdit(this)' code='$row->Code' data-toggle='tooltip' data-placement='bottom' title='แก้ไขรายการ'><i class='fas fa-edit'></i></button>
+	                  <button class='btn btn-sm btn-primary' onclick='ShowViewData(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='left' title='ดูรายการ'><i class='fas fa-search'></i></button>
+	                  <button class='btn btn-sm btn-secondary' onclick='GoPostCodeEdit(this)' code='$row->Code' data-toggle='tooltip' data-placement='left' title='แก้ไขรายการ'><i class='fas fa-edit'></i></button>
 	                  </td>
 					</tr>";								
 			}else{
@@ -162,8 +162,8 @@ class Main_Check extends Controller
 	                  <td>$row->Code</td>
 	                  <td align='left'><span style='cursor: pointer;' data-toggle='tooltip' data-placement='top' title='$row->Name'>$row->Nameshot... ($ModifyTimeOnline)</span>  (<i class='fas fa-key'></i> ". $Showkey_onuse[0]->Fake_sum .") (<i class='fas fa-key'></i> ". $Showkey_onuse[1]->Fake_sum .") (<i class='fas fa-key'></i> ". $Showkey_onuse[2]->Fake_sum .") (<i class='fas fa-key'></i> ". $Showkey_onuse[3]->Fake_sum .") (<i class='fas fa-key'></i> ". $Showkey_onuse[4]->Fake_sum .") $Class</td>
 	                  <td>
-	                  <button class='btn btn-sm btn-primary' onclick='ShowViewData(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
-	                  <button class='btn btn-sm btn-secondary' onclick='GoPostCodeEdit(this)' code='$row->Code' data-toggle='tooltip' data-placement='bottom' title='แก้ไขรายการ'><i class='fas fa-edit'></i></button>
+	                  <button class='btn btn-sm btn-primary' onclick='ShowViewData(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='left' title='ดูรายการ'><i class='fas fa-search'></i></button>
+	                  <button class='btn btn-sm btn-secondary' onclick='GoPostCodeEdit(this)' code='$row->Code' data-toggle='tooltip' data-placement='left' title='แก้ไขรายการ'><i class='fas fa-edit'></i></button>
 	                  </td>
 					</tr>";
 			}
@@ -175,8 +175,8 @@ class Main_Check extends Controller
 	                  <td>$row->Code</td>
 	                  <td align='left'><span style='cursor: pointer;' data-toggle='tooltip' data-placement='top' title='$row->Name'>$row->Nameshot... ($ModifyTimeOnline)</span> (<i class='fas fa-door-open'></i> ". $GuestHotel[0]->wifipassword .") $Class</td>
 	                  <td>
-	                  <button class='btn btn-sm btn-primary' onclick='ShowViewData(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
-	                  <button class='btn btn-sm btn-secondary' onclick='GoPostCodeEdit(this)' code='$row->Code' data-toggle='tooltip' data-placement='bottom' title='แก้ไขรายการ'><i class='fas fa-edit'></i></button>
+	                  <button class='btn btn-sm btn-primary' onclick='ShowViewData(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='left' title='ดูรายการ'><i class='fas fa-search'></i></button>
+	                  <button class='btn btn-sm btn-secondary' onclick='GoPostCodeEdit(this)' code='$row->Code' data-toggle='tooltip' data-placement='left' title='แก้ไขรายการ'><i class='fas fa-edit'></i></button>
 	                  </td>
 					</tr>";
 			}else{
@@ -186,8 +186,8 @@ class Main_Check extends Controller
 	                  <td>$row->Code</td>
 	                  <td align='left'><span style='cursor: pointer;' data-toggle='tooltip' data-placement='top' title='$row->Name'>$row->Nameshot... ($ModifyTimeOnline)</span> $Class</td>
 	                  <td>
-	                  <button class='btn btn-sm btn-primary' onclick='ShowViewData(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
-	                  <button class='btn btn-sm btn-secondary' onclick='GoPostCodeEdit(this)' code='$row->Code' data-toggle='tooltip' data-placement='bottom' title='แก้ไขรายการ'><i class='fas fa-edit'></i></button>
+	                  <button class='btn btn-sm btn-primary' onclick='ShowViewData(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='left' title='ดูรายการ'><i class='fas fa-search'></i></button>
+	                  <button class='btn btn-sm btn-secondary' onclick='GoPostCodeEdit(this)' code='$row->Code' data-toggle='tooltip' data-placement='left' title='แก้ไขรายการ'><i class='fas fa-edit'></i></button>
 	                  </td>
 					</tr>";
 			}
@@ -239,7 +239,7 @@ class Main_Check extends Controller
 	                  <td>$row->Code</td>
 	                  <td align='left'><span style='cursor: pointer;' data-toggle='tooltip' data-placement='top' title='$row->Name'>$row->Nameshot... ($ModifyTimeTodayy)</span>  (<i class='fas fa-key'></i> ". $Showkey_onuse_td[0]->sum .") (<i class='fas fa-door-open'></i> ". $GuestHotel[0]->wifipassword .") $Class</td>
 	                  <td>
-	                  <button class='btn btn-sm btn-primary' onclick='ShowViewDataMain(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
+	                  <button class='btn btn-sm btn-primary' onclick='ShowViewDataMain(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='left' title='ดูรายการ'><i class='fas fa-search'></i></button>
 	                  </td>
 					</tr>";								
 			}else{
@@ -249,7 +249,7 @@ class Main_Check extends Controller
 	                  <td>$row->Code</td>
 	                  <td align='left'><span style='cursor: pointer;' data-toggle='tooltip' data-placement='top' title='$row->Name'>$row->Nameshot... ($ModifyTimeTodayy)</span>  (<i class='fas fa-key'></i> ". $Showkey_onuse_td[0]->sum .") $Class</td>
 	                  <td>
-	                  <button class='btn btn-sm btn-primary' onclick='ShowViewDataMain(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
+	                  <button class='btn btn-sm btn-primary' onclick='ShowViewDataMain(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='left' title='ดูรายการ'><i class='fas fa-search'></i></button>
 	                  </td>
 					</tr>";
 			}
@@ -261,7 +261,7 @@ class Main_Check extends Controller
 	                  <td>$row->Code</td>
 	                  <td align='left'><span style='cursor: pointer;' data-toggle='tooltip' data-placement='top' title='$row->Name'>$row->Nameshot... ($ModifyTimeTodayy)</span>  (<i class='fas fa-key'></i> ". $Showkey_onuse_td[0]->sum .") (<i class='fas fa-key'></i> ". $Showkey_onuse_td[1]->sum .") (<i class='fas fa-door-open'></i> ". $GuestHotel[0]->wifipassword .") $Class</td>
 	                  <td>
-	                  <button class='btn btn-sm btn-primary' onclick='ShowViewDataMain(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
+	                  <button class='btn btn-sm btn-primary' onclick='ShowViewDataMain(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='left' title='ดูรายการ'><i class='fas fa-search'></i></button>
 	                  </td>
 					</tr>";								
 			}else{
@@ -271,7 +271,7 @@ class Main_Check extends Controller
 	                  <td>$row->Code</td>
 	                  <td align='left'><span style='cursor: pointer;' data-toggle='tooltip' data-placement='top' title='$row->Name'>$row->Nameshot... ($ModifyTimeTodayy)</span>  (<i class='fas fa-key'></i> ". $Showkey_onuse_td[0]->sum .") (<i class='fas fa-key'></i> ". $Showkey_onuse_td[1]->sum .") $Class</td>
 	                  <td>
-	                  <button class='btn btn-sm btn-primary' onclick='ShowViewDataMain(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
+	                  <button class='btn btn-sm btn-primary' onclick='ShowViewDataMain(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='left' title='ดูรายการ'><i class='fas fa-search'></i></button>
 	                  </td>
 					</tr>";
 			}
@@ -283,7 +283,7 @@ class Main_Check extends Controller
 	                  <td>$row->Code</td>
 	                  <td align='left'><span style='cursor: pointer;' data-toggle='tooltip' data-placement='top' title='$row->Name'>$row->Nameshot... ($ModifyTimeTodayy)</span>  (<i class='fas fa-key'></i> ". $Showkey_onuse_td[0]->sum .") (<i class='fas fa-key'></i> ". $Showkey_onuse_td[1]->sum .") (<i class='fas fa-key'></i> ". $Showkey_onuse_td[2]->sum .") (<i class='fas fa-door-open'></i> ". $GuestHotel[0]->wifipassword .") $Class</td>
 	                  <td>
-	                  <button class='btn btn-sm btn-primary' onclick='ShowViewDataMain(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
+	                  <button class='btn btn-sm btn-primary' onclick='ShowViewDataMain(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='left' title='ดูรายการ'><i class='fas fa-search'></i></button>
 	                  </td>
 					</tr>";								
 			}else{
@@ -293,7 +293,7 @@ class Main_Check extends Controller
 	                  <td>$row->Code</td>
 	                  <td align='left'><span style='cursor: pointer;' data-toggle='tooltip' data-placement='top' title='$row->Name'>$row->Nameshot... ($ModifyTimeTodayy)</span>  (<i class='fas fa-key'></i> ". $Showkey_onuse_td[0]->sum .") (<i class='fas fa-key'></i> ". $Showkey_onuse_td[1]->sum .") (<i class='fas fa-key'></i> ". $Showkey_onuse_td[2]->sum .") $Class</td>
 	                  <td>
-	                  <button class='btn btn-sm btn-primary' onclick='ShowViewDataMain(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
+	                  <button class='btn btn-sm btn-primary' onclick='ShowViewDataMain(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='left' title='ดูรายการ'><i class='fas fa-search'></i></button>
 	                  </td>
 					</tr>";
 			}
@@ -305,7 +305,7 @@ class Main_Check extends Controller
 	                  <td>$row->Code</td>
 	                  <td align='left'><span style='cursor: pointer;' data-toggle='tooltip' data-placement='top' title='$row->Name'>$row->Nameshot... ($ModifyTimeTodayy)</span>  (<i class='fas fa-key'></i> ". $Showkey_onuse_td[0]->sum .") (<i class='fas fa-key'></i> ". $Showkey_onuse_td[1]->sum .") (<i class='fas fa-key'></i> ". $Showkey_onuse_td[2]->sum .") (<i class='fas fa-key'></i> ". $Showkey_onuse_td[3]->sum .") (<i class='fas fa-door-open'></i> ". $GuestHotel[0]->wifipassword .") $Class</td>
 	                  <td>
-	                  <button class='btn btn-sm btn-primary' onclick='ShowViewDataMain(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
+	                  <button class='btn btn-sm btn-primary' onclick='ShowViewDataMain(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='left' title='ดูรายการ'><i class='fas fa-search'></i></button>
 	                  </td>
 					</tr>";								
 			}else{
@@ -315,7 +315,7 @@ class Main_Check extends Controller
 	                  <td>$row->Code</td>
 	                  <td align='left'><span style='cursor: pointer;' data-toggle='tooltip' data-placement='top' title='$row->Name'>$row->Nameshot... ($ModifyTimeTodayy)</span>  (<i class='fas fa-key'></i> ". $Showkey_onuse_td[0]->sum .") (<i class='fas fa-key'></i> ". $Showkey_onuse_td[1]->sum .") (<i class='fas fa-key'></i> ". $Showkey_onuse_td[2]->sum .") (<i class='fas fa-key'></i> ". $Showkey_onuse_td[3]->sum .") $Class</td>
 	                  <td>
-	                  <button class='btn btn-sm btn-primary' onclick='ShowViewDataMain(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
+	                  <button class='btn btn-sm btn-primary' onclick='ShowViewDataMain(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='left' title='ดูรายการ'><i class='fas fa-search'></i></button>
 	                  </td>
 					</tr>";
 			}
@@ -327,7 +327,7 @@ class Main_Check extends Controller
 	                  <td>$row->Code</td>
 	                  <td align='left'><span style='cursor: pointer;' data-toggle='tooltip' data-placement='top' title='$row->Name'>$row->Nameshot... ($ModifyTimeTodayy)</span>  (<i class='fas fa-key'></i> ". $Showkey_onuse_td[0]->sum .") (<i class='fas fa-key'></i> ". $Showkey_onuse_td[1]->sum .") (<i class='fas fa-key'></i> ". $Showkey_onuse_td[2]->sum .") (<i class='fas fa-key'></i> ". $Showkey_onuse_td[3]->sum .") (<i class='fas fa-key'></i> ". $Showkey_onuse_td[4]->sum .") (<i class='fas fa-door-open'></i> ". $GuestHotel[0]->wifipassword .") $Class</td>
 	                  <td>
-	                  <button class='btn btn-sm btn-primary' onclick='ShowViewDataMain(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
+	                  <button class='btn btn-sm btn-primary' onclick='ShowViewDataMain(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='left' title='ดูรายการ'><i class='fas fa-search'></i></button>
 	                  </td>
 					</tr>";								
 			}else{
@@ -337,7 +337,7 @@ class Main_Check extends Controller
 	                  <td>$row->Code</td>
 	                  <td align='left'><span style='cursor: pointer;' data-toggle='tooltip' data-placement='top' title='$row->Name'>$row->Nameshot... ($ModifyTimeTodayy)</span>  (<i class='fas fa-key'></i> ". $Showkey_onuse_td[0]->sum .") (<i class='fas fa-key'></i> ". $Showkey_onuse_td[1]->sum .") (<i class='fas fa-key'></i> ". $Showkey_onuse_td[2]->sum .") (<i class='fas fa-key'></i> ". $Showkey_onuse_td[3]->sum .") (<i class='fas fa-key'></i> ". $Showkey_onuse_td[4]->sum .") $Class</td>
 	                  <td>
-	                  <button class='btn btn-sm btn-primary' onclick='ShowViewDataMain(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
+	                  <button class='btn btn-sm btn-primary' onclick='ShowViewDataMain(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='left' title='ดูรายการ'><i class='fas fa-search'></i></button>
 	                  </td>
 					</tr>";
 			}
@@ -348,7 +348,7 @@ class Main_Check extends Controller
 	                  <td>$row->Code</td>
 	                  <td align='left'><span style='cursor: pointer;' data-toggle='tooltip' data-placement='top' title='$row->Name'>$row->Nameshot... ($ModifyTimeTodayy)</span> $Class</td>
 	                  <td>
-	                  <button class='btn btn-sm btn-primary' onclick='ShowViewDataMain(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='bottom' title='ดูรายการ'><i class='fas fa-search'></i></button>
+	                  <button class='btn btn-sm btn-primary' onclick='ShowViewDataMain(this)' main_id='$row->ID' code='$row->Code' name='$row->Name' Guset_in='$row->Guset_in' data-toggle='tooltip' data-placement='left' title='ดูรายการ'><i class='fas fa-search'></i></button>
 	                  </td>
 	                </tr>";
 			}

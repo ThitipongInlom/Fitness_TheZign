@@ -126,7 +126,7 @@ class Checkout extends Controller
     public function Dologout(Request $request)
     {
       date_default_timezone_set("Asia/Bangkok");
-      $today = now();
+     	 $today = now();
     	$Main_id = 'undefined' ?  '': $request->post('Main_id');
 		$Code    = $request->post('Code');
 		if ($Main_id != ''){
@@ -134,17 +134,19 @@ class Checkout extends Controller
 		// Insert
 		foreach ($DataCode as $key => $row) {
 			DB::table('detail_table')->insert([
-			'main_id' => $Main_id,
-			'code' => $Code,
-			'date_time' => $row->Fake_datetime,
-			'itemcode' => $row->Fake_itemcode,
-			'itemcodetype'  => $row->Fake_itemcodetype,
-			'itemtype'  => $row->Fake_itemtype,
-			'itemname'  => $row->Fake_itemname,
-			'price'     => $row->Fake_price,
-			'sum'       => $row->Fake_sum,
-			'status'    => $row->Fake_status,
-			'comment'   => $row->Fake_comment,
+				'main_id' => $Main_id,
+				'code' => $Code,
+				'date_time' => $row->Fake_datetime,
+				'itemcode' => $row->Fake_itemcode,
+				'itemcodetype'  => $row->Fake_itemcodetype,
+				'itemtype'  => $row->Fake_itemtype,
+				'itemname'  => $row->Fake_itemname,
+				'price'     => $row->Fake_price,
+				'sum'       => $row->Fake_sum,
+				'status'    => $row->Fake_status,
+				'comment'   => $row->Fake_comment,
+				'trainner_emp_id' => $row->trainner_emp_id,
+				'trainner_id' => $row->trainner_id
 			]);
 		}
     	// Delete Fake_table
@@ -158,11 +160,33 @@ class Checkout extends Controller
             ->update(['Guset_out' => $today,'Status' => 'OUT']);
 		}else {
 		$Data = DB::table('main_table')->where('Code', $Code)->where('Status', 'IN')->limit(1)->get();
-		foreach ($Data as $key => $row) {
+		foreach ($Data as $key => $row_main) {
+			$DataCode = DB::table('fake_table')->where('main_id', $row_main->ID)->where('Fake_code', $Code)->get();
+			foreach ($DataCode as $key => $row) {
+				DB::table('detail_table')->insert([
+					'main_id' => $row_main->ID,
+					'code' => $Code,
+					'date_time' => $row->Fake_datetime,
+					'itemcode' => $row->Fake_itemcode,
+					'itemcodetype'  => $row->Fake_itemcodetype,
+					'itemtype'  => $row->Fake_itemtype,
+					'itemname'  => $row->Fake_itemname,
+					'price'     => $row->Fake_price,
+					'sum'       => $row->Fake_sum,
+					'status'    => $row->Fake_status,
+					'comment'   => $row->Fake_comment,
+					'trainner_emp_id' => $row->trainner_emp_id,
+					'trainner_id' => $row->trainner_id
+				]);
+			}
+    		// Delete Fake_table
+    		DB::table('fake_table')->where('main_id', $row_main->ID)->where('Fake_code', $Code)->delete();
+      		// Delete Onuse Package
+			DB::table('package_onuse')->where('code', $Code)->delete();
 			// Update
 			DB::table('main_table')
 				->where('Code', $Code)
-				->where('ID', $row->ID)
+				->where('ID', $row_main->ID)
 				->update(['Guset_out' => $today,'Status' => 'OUT']);
 		}
 		}

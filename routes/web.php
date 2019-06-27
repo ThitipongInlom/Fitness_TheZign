@@ -160,6 +160,10 @@ Route::post('/Display_select_trainner_emp_edit', 'Checkin@Display_select_trainne
 Route::post('/Save_select_trainner_emp_to_member', 'Checkin@Save_select_trainner_emp_to_member');
 // Save_select_trainner_emp_edit
 Route::post('/Save_select_trainner_emp_to_member_edit', 'Checkin@Save_select_trainner_emp_to_member_edit');
+// Display_select_trainner_class
+Route::post('/Display_select_trainner_class', 'Checkin@Display_select_trainner_class_model');
+// Save_select_trainner_emp
+Route::post('/Save_select_trainner_class_to_member', 'Checkin@Save_select_trainner_class_to_member');
 // API Auto Trainner
 Route::get('/Auto_Check_and_insert_trainner', 'Setting@Auto_Check_and_insert_trainner');
 // API Get Trainner

@@ -143,11 +143,14 @@ var Item_To_Disktop = function Item_To_Disktop(e) {
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
-            dataType: 'text',
+            dataType: 'json',
             cache: false,
             contentType: false,
             processData: false,
             data: Data,
+           success: function (res) {
+               trianner_class_select_modal('<div fake_table_id="' + res.fake_id + '"></div>');
+           }
         });
     }
     // Type P  == Package
@@ -1141,6 +1144,54 @@ var save_trainner_emp_select_modal_edit = function save_trainner_emp_select_moda
             $('#trianner_emp_select_modal_edit').modal('hide');
             PackageItem();
             PackageOnuseDisplay();
+        }
+    });
+}
+
+var trianner_class_select_modal = function trianner_class_select_modal(e) {
+    // Modal Show
+    $('#trianner_class_select_modal').modal('show');
+    $("body").css("padding-right", "0");
+    var Data = new FormData();
+    Data.append('Fake_id', $(e).attr('fake_table_id'));
+    $.ajax({
+        url: 'Display_select_trainner_class',
+        type: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        dataType: 'text',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: Data,
+        success: function (callback) {
+            var res = jQuery.parseJSON(callback);
+            $("#Display_select_trainner_class").html(res.select);
+        }
+    });
+}
+
+var save_trainner_class_select_modal = function save_trainner_class_select_modal(e) {
+    var Data = new FormData();
+    Data.append('Fake_id', $(e).attr('fake_table_id'));
+    Data.append('Trainner_emp_id', $("#select_class_to_member").val());
+    $.ajax({
+        url: 'Save_select_trainner_class_to_member',
+        type: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        dataType: 'text',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: Data,
+        success: function (callback) {
+            $('#trianner_class_select_modal').modal('hide');
+            DisplayTable();
+            PackageItem();
+            DisplayPackage();
         }
     });
 }
