@@ -360,6 +360,32 @@ var Save_edit_Trainner_emp = function Save_edit_Trainner_emp() {
     }
 }
 
+var Delete_trainner = function Delete_trainner (e) {
+    var Data = new FormData();
+    Data.append('trainner_id', $(e).attr('trainner_id'));
+    $.ajax({
+        url: 'Delete_trainner',
+        type: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        dataType: 'text',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: Data,
+        success: function (callback) {
+            if (callback == 'OK') {
+                Toast.fire({
+                    type: 'success',
+                    title: 'ลบ ข้อมูล เสร็จสิ้น'
+                })
+                Table_trainner.draw();
+            }
+        }
+    });
+}
+
 var Save_Add_Data = function Save_Add_Data() {
     if ($("#add_type_code").val() == '') {
         Toast.fire({

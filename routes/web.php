@@ -142,6 +142,8 @@ Route::get('/Insert_Closeday', 'Closeday@Index_Closeday');
 Route::post('/Save_trainner', 'Setting@Save_trainner');
 // Save_trainner_edit
 Route::post('/Save_trainner_edit', 'Setting@Save_trainner_edit');
+// Delete_trainner
+Route::post('/Delete_trainner', 'Setting@Delete_trainner');
 // Auto_Generate_wifi
 Route::get('/Auto_Generate_wifi', 'MainUsers@Auto_Generate_wifi');
 // Get_data_trainner

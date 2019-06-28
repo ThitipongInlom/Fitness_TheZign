@@ -167,7 +167,8 @@ class Setting extends Controller
                 return  $train_time_sum;
             }) 
             ->addColumn('action', function ($users) {
-                $Data  = '<button class="btn btn-sm btn-primary" id="'.$users->tn_id.'" onclick="Edit_trainner(this);"><i class="fas fa-edit"></i></i>แก้ไข</button> ';
+                $Data  = '<button class="btn btn-sm btn-primary" id="'.$users->tn_id.'" onclick="Edit_trainner(this);"><i class="fas fa-edit"></i></i> แก้ไข</button> 
+                          <button class="btn btn-sm btn-danger" trainner_id="'.$users->tn_id.'" onclick="Delete_trainner(this);"><i class="fas fa-trash-alt"></i> ลบ</button>';
                 return $Data;
             })  
             ->rawColumns(['name_emp','train_date','train_time_sum','day_next','action'])                                            
@@ -315,6 +316,12 @@ class Setting extends Controller
               ]); 
         }
       }
+      echo 'OK';
+    }
+
+    public function Delete_trainner(Request $request)
+    {
+      DB::table('trainner')->where('tn_id', '=', $request->post('trainner_id'))->delete();
       echo 'OK';
     }
 
