@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="{{ app()->getLocale() }}">
 @if (Session::get('Login.access_rights_setting') == '0')
-
+    
 @else
   <script>
       window.location = "{{ url('/Dashboard') }}";

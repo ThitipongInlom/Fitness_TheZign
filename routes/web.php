@@ -108,6 +108,8 @@ Route::post('/Report_tab_1', 'Report@Report_tab_1');
 Route::post('/Report_tab_2', 'Report@Report_tab_2');
 // Report Tab 3
 Route::post('/Report_tab_3', 'Report@Report_tab_3');
+// Report Tab 4
+Route::post('/Report_tab_4', 'Report@Report_tab_4');
 // Airlink Modal Data
 Route::post('/Airlink_modal_data', 'MainUsers@Airlink_modal_data');
 // Send To Register

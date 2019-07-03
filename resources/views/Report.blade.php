@@ -36,103 +36,154 @@
 
 <body style="background-color: #ffffff;">
     @include('Head')
-    <div class="card">
-        <div class="card-header d-flex p-0">
-            <h3 class="card-title p-3">รายงานการใช้บริการสมาชิก</h3>
-            <ul class="nav nav-pills ml-auto p-2">
-                <li class="nav-item"><a class="nav-link tab_1 active show" href="#tab_1" data-toggle="tab">สรุปจำนวนลูกค้าที่มาใช้บริการ</a></li>
-                <li class="nav-item"><a class="nav-link tab_2" href="#tab_2" data-toggle="tab">สรุปจำนวนลูกค้าการใช้คลาส</a></li>
-                <li class="nav-item"><a class="nav-link tab_3" href="#tab_3" data-toggle="tab">สรุปจำนวนของผู้สอน</a></li>
-            </ul>
-        </div><!-- /.card-header -->
-        <div class="card-body" style="padding: 0.5rem;">
-            <div class="tab-content">
-                <div class="tab-pane active show" id="tab_1">
-                    <div class="row">
-                        <div class="col-md-12">
-                          <form>
-                            <div class="form-row align-items-center">
-                            เลือกวันที่ : 
-                              <div class="col-sm-2 my-1">
-                                  <input type="text" class="form-control form-control-sm daterange" id="Tab_1_date">
-                              </div>
-                              <div class="col-auto my-1">
-                                <button type="button" class="btn btn-sm btn-primary" onclick="Showthb1();" data-toggle='tooltip' data-placement='bottom' title='ค้นหาข้อมูล'>ค้นหา</button>
-                                <button type="button" class="btn btn-sm btn-success" onclick="printElement(document.getElementById('Print_Report1'));" data-toggle='tooltip' data-placement='bottom' title='ปริ้นข้อมูล'><i class="fas fa-print"></i></button>
-                              </div>
-                            </div>
-                          </form>
-                          <hr>
-                          <div id="Print_Report1" style="background-color: #ffffff;">
-                          <div id="Tab1_Display"></div>
-                          </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="tab-pane" id="tab_2">
-                    <div class="row">
-                        <div class="col-md-12">
-                          <form>
-                            <div class="form-row align-items-center">
-                            เลือกวันที่ : 
-                              <div class="col-sm-2 my-1">
-                                  <input type="text" class="form-control form-control-sm daterange" id="Tab_2_date">
-                              </div>
-                              <div class="col-auto my-1">
-                                <button type="button" class="btn btn-sm btn-primary" onclick="Showthb2();" data-toggle='tooltip' data-placement='bottom' title='ค้นหาข้อมูล'>ค้นหา</button>
-                                <button type="button" class="btn btn-sm btn-success" onclick="printElement(document.getElementById('Print_Report2'));" data-toggle='tooltip' data-placement='bottom' title='ปริ้นข้อมูล'><i class="fas fa-print"></i></button>
-                              </div>
-                              <div class="col-auto my-1">
-                                <select class="custom-select custom-select-sm" id="Tab_2_select">
-                                  <option selected value="0">เลือกประเภทการแสดง</option>
-                                  <option value="1">ค้นหาตามชื่อคลาส</option>
-                                  <option value="2">ค้นหาตามคลาส</option>
-                                  <option value="3">ค้นหาตามชื่อเทรนเนอร์</option>
-                                </select>
-                              </div>
-                            </div>
-                          </form>
-                          <hr>
-                          <div id="Print_Report2" style="background-color: #ffffff;">
-                          <div id="Tab2_Display"></div>
-                          </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="tab-pane" id="tab_3">
-                    <div class="row">
-                        <div class="col-md-12">
-                          <form>
-                            <div class="form-row align-items-center">
-                            เลือกวันที่ : 
-                              <div class="col-sm-2 my-1">
-                                  <input type="text" class="form-control form-control-sm daterange" id="Tab_3_date">
-                              </div>
-                              <div class="col-auto my-1">
-                                <button type="button" class="btn btn-sm btn-primary" onclick="Showthb3();" data-toggle='tooltip' data-placement='bottom' title='ค้นหาข้อมูล'>ค้นหา</button>
-                                <button type="button" class="btn btn-sm btn-success" onclick="printElement(document.getElementById('Print_Report2'));" data-toggle='tooltip' data-placement='bottom' title='ปริ้นข้อมูล'><i class="fas fa-print"></i></button>
-                              </div>
-                              <div class="col-auto my-1">
-                                <select class="custom-select custom-select-sm" id="Tab_3_select"></select>
-                              </div>
-                              <div class="col-auto my-1">
-                                <select class="custom-select custom-select-sm" id="Tab_3_select_class">
-                                  <option value="0">คลาส</option>
-                                  <option value="1">เทรนเนอร์</option>
-                                </select>
-                              </div>
-                            </div>
-                          </form>
-                          <hr>
-                          <div id="Print_Report3" style="background-color: #ffffff;">
-                          <div id="Tab3_Display"></div>
-                          </div>
-                        </div>
-                    </div>
+    <div class="row">
+      <div class="col-2">
+        <div class="card">
+            <div class="card-body">
+                <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    <a class="nav-link active" id="v-pills-menu1-tab" data-toggle="pill" href="#v-pills-menu1" role="tab" aria-controls="v-pills-menu1" aria-selected="true">สรุปลูกค้าทีใช้บริการ</a>
+                    <a class="nav-link" id="v-pills-menu2-tab" data-toggle="pill" href="#v-pills-menu2" role="tab" aria-controls="v-pills-menu2" aria-selected="false">สรุปลูกค้าที่ใช้คลาส</a>
+                    <a class="nav-link" id="v-pills-menu3-tab" data-toggle="pill" href="#v-pills-menu3" role="tab" aria-controls="v-pills-menu3" aria-selected="false">สรุปจำนวนของผู้สอน</a>
+                    <a class="nav-link" id="v-pills-menu4-tab" data-toggle="pill" href="#v-pills-menu4" role="tab" aria-controls="v-pills-menu4" aria-selected="false">รายงานเช็คยอดลูกค้า</a>
                 </div>
             </div>
-            <!-- /.tab-content -->
-        </div><!-- /.card-body -->
+        </div>
+      </div>
+      <div class="col-10">
+        <div class="card">
+          <div class="card-body">
+            <div class="tab-content" id="v-pills-tabContent">
+              <div class="tab-pane fade show active" id="v-pills-menu1" role="tabpanel" aria-labelledby="v-pills-menu1-tab">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="text-left">
+                      <h4>สรุปจำนวนลูกค้าที่มาใช้บริการ</h4>
+                      <hr>
+                    </div>
+                    <form>
+                      <div class="form-row align-items-center ml-1">
+                        เลือกวันที่ : 
+                        <div class="col-sm-2 my-1">
+                          <input type="text" class="form-control form-control-sm daterange" id="Tab_1_date">
+                        </div>
+                        <div class="col-auto my-1">
+                          <button type="button" class="btn btn-sm btn-primary" onclick="Showthb1();" data-toggle='tooltip' data-placement='bottom' title='ค้นหาข้อมูล'>ค้นหา</button>
+                          <button type="button" class="btn btn-sm btn-success" onclick="printElement(document.getElementById('Print_Report1'));" data-toggle='tooltip' data-placement='bottom' title='ปริ้นข้อมูล'><i class="fas fa-print"></i></button>
+                        </div>
+                      </div>
+                    </form>
+                    <hr>
+                    <div id="Print_Report1" style="background-color: #ffffff;">
+                      <div id="Tab1_Display"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane fade" id="v-pills-menu2" role="tabpanel" aria-labelledby="v-pills-menu2-tab">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="text-left">
+                      <h4>สรุปจำนวนลูกค้าการใช้คลาส</h4>
+                      <hr>
+                    </div>
+                    <form>
+                      <div class="form-row align-items-center ml-1">
+                        เลือกวันที่ : 
+                        <div class="col-sm-2 my-1">
+                          <input type="text" class="form-control form-control-sm daterange" id="Tab_2_date">
+                        </div>
+                        <div class="col-auto my-1">
+                          <button type="button" class="btn btn-sm btn-primary" onclick="Showthb2();" data-toggle='tooltip' data-placement='bottom' title='ค้นหาข้อมูล'>ค้นหา</button>
+                          <button type="button" class="btn btn-sm btn-success" onclick="printElement(document.getElementById('Print_Report2'));" data-toggle='tooltip' data-placement='bottom' title='ปริ้นข้อมูล'><i class="fas fa-print"></i></button>
+                        </div>
+                        <div class="col-auto my-1">
+                          <select class="custom-select custom-select-sm" id="Tab_2_select">
+                            <option selected value="0">เลือกประเภทการแสดง</option>
+                            <option value="1">ค้นหาตามชื่อคลาส</option>
+                            <option value="2">ค้นหาตามคลาส</option>
+                            <option value="3">ค้นหาตามชื่อเทรนเนอร์</option>
+                          </select>
+                        </div>
+                      </div>
+                    </form>
+                    <hr>
+                    <div id="Print_Report2" style="background-color: #ffffff;">
+                        <div id="Tab2_Display"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane fade" id="v-pills-menu3" role="tabpanel" aria-labelledby="v-pills-menu3-tab">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="text-left">
+                      <h4>สรุปจำนวนของผู้สอน</h4>
+                      <hr>
+                    </div>
+                    <form>
+                      <div class="form-row align-items-center">
+                        เลือกวันที่ : 
+                        <div class="col-sm-2 my-1">
+                          <input type="text" class="form-control form-control-sm daterange" id="Tab_3_date">
+                        </div>
+                        <div class="col-auto my-1">
+                          <button type="button" class="btn btn-sm btn-primary" onclick="Showthb3();" data-toggle='tooltip' data-placement='bottom' title='ค้นหาข้อมูล'>ค้นหา</button>
+                          <button type="button" class="btn btn-sm btn-success" onclick="printElement(document.getElementById('Print_Report3'));" data-toggle='tooltip' data-placement='bottom' title='ปริ้นข้อมูล'><i class="fas fa-print"></i></button>
+                        </div>
+                        <div class="col-auto my-1">
+                          <select class="custom-select custom-select-sm" id="Tab_3_select"></select>
+                        </div>
+                        <div class="col-auto my-1">
+                          <select class="custom-select custom-select-sm" id="Tab_3_select_class">
+                            <option value="0">คลาส</option>
+                            <option value="1">เทรนเนอร์</option>
+                          </select>
+                        </div>
+                      </div>
+                    </form>
+                    <hr>
+                    <div id="Print_Report3" style="background-color: #ffffff;">
+                      <div id="Tab3_Display"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane fade" id="v-pills-menu4" role="tabpanel" aria-labelledby="v-pills-menu4-tab">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="text-left">
+                      <h4>รายงานเช็คยอดลูกค้า</h4>
+                      <hr>
+                    </div>
+                    <form>
+                      <div class="form-row align-items-center">
+                        เลือกวันที่ : 
+                        <div class="col-sm-2 my-1">
+                          <input type="text" class="form-control form-control-sm daterange" id="Tab_4_date">
+                        </div>
+                        <div class="col-auto my-1">
+                          <button type="button" class="btn btn-sm btn-primary" onclick="Showthb4();" data-toggle='tooltip' data-placement='bottom' title='ค้นหาข้อมูล'>ค้นหา</button>
+                          <button type="button" class="btn btn-sm btn-success" onclick="printElement(document.getElementById('Print_Report4'));" data-toggle='tooltip' data-placement='bottom' title='ปริ้นข้อมูล'><i class="fas fa-print"></i></button>
+                        </div>
+                        <div class="col-auto my-1">
+                          <select class="custom-select custom-select-sm" id="Tab_4_select">
+                            <option value="Active">ลูกค้าที่ Active</option>
+                            <option value="Expired">ลูกค้าที่ Expired</option>
+                          </select>
+                        </div>
+                      </div>
+                    </form>
+                    <hr>
+                    <div id="Print_Report4" style="background-color: #ffffff;">
+                      <div id="Tab4_Display"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Modal -->

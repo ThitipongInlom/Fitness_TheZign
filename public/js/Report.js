@@ -1,6 +1,7 @@
 $(document).ready(function () {
-    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-        if (e.target.hash == "#tab_3") {
+    $('a[data-toggle="pill"]').on('shown.bs.tab', function (e) {
+        console.log(e);
+        if (e.target.hash == "#v-pills-menu3") {
             $.ajax({
                 url: 'API_Trainner',
                 type: 'POST',
@@ -84,6 +85,30 @@ var Showthb3 = function Showthb3() {
         success: function (callback) {
             var res = jQuery.parseJSON(callback);
             $("#Tab3_Display").html(res.Table);
+        }
+    });
+}
+
+var Showthb4 = function Showthb4() {
+    // Create From Data
+    var Data = new FormData();
+    // Data Put Array
+    Data.append('range_date', $("#Tab_4_date").val());
+    Data.append('select_type', $("#Tab_4_select").val());
+    $.ajax({
+        url: 'Report_tab_4',
+        type: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        dataType: 'text',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: Data,
+        success: function (callback) {
+            var res = jQuery.parseJSON(callback);
+            $("#Tab4_Display").html(res.Table);
         }
     });
 }

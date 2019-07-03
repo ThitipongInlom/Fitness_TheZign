@@ -288,6 +288,14 @@ class Report extends Controller
       echo $Jsonencode;
     }
 
+    public function Report_tab_4(Request $request)
+    {
+      $range_date = explode(" - ", $request->post('range_date'));
+      $reformat_start = date('Y-m-d', strtotime(str_replace('/', '-', $range_date[0])));
+      $reformat_end   = date('Y-m-d', strtotime(str_replace('/', '-', $range_date[1])));
+      $select_type = $request->post('select_type');
+    }
+
     public function API_Trainner(Request $request)
     {
       // Query DATA
