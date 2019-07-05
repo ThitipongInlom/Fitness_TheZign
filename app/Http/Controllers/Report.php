@@ -77,7 +77,7 @@ class Report extends Controller
              }
     $Table  = "<div align='center'><h4><b>รายงานการใช้บริการสมาชิกตามช่วงเวลา</b></h4></div>";
     $Table .= "<div align='center'><b>ระหว่างวันที่ ".$range_date[0]." ถึงวันที่ ".$range_date[1]."</b></div>";
-    $Table .= "<table class='table table-sm'>";
+    $Table .= "<table class='table table-sm mt-2'>";
     $Table .= "<thead align='center'><tr><th>ลำดับ</th><th>รหัสสมาชิก</th><th>ชื่อนามสกุล</th><th>กุญแจ</th><th>วันที่</th><th>เวลาเข้า</th><th>เวลาออก</th><th>รวมเป็นเวลา</th></tr></thead>";
     $Table .= "<tbody>";
     $i = 1;
@@ -120,15 +120,15 @@ class Report extends Controller
     $Table .= "</table>";
     $Table .= "<hr>";
     $Table .= "<div class='container'><div class='row'><div class='col-md-12'>";
-    $Table .= "<table class='table table-bordered table-sm'>";
+    $Table .= "<table class='table table-bordered table-sm mt-2'>";
     $Table .= "<thead align='center'><tr><th>จำนวน(คน)</th><th>Member</th><th>1Day</th><th>Hotel</th><th>Guest Pass</th><th>K-bank</th><th>ผืนใหญ่</th><th>ผืนเล็ก</th><th>เสื้อคลุม</th></tr></thead>";
     $Table .= "<tbody><tr align='center'><td>$re_i</td><td>$member_count</td><td>$day1</td><td>$hotel_count</td><td>$gusetpass</td><td>$k_bank</td><td>$Sum_L3</td><td>$Sum_L1</td><td>$Sum_L2</td></tr></tbody>";
     $Table .= "</table>";
     $Table .= "</div></div></div>";
-    // Encode To Json
-    $arrayTable = array('Table' => $Table);
-    $Jsonencode = json_encode($arrayTable);
-    echo $Jsonencode;
+
+
+    return response()
+            ->json(['Table' => $Table]);
     }
 
     public function Report_tab_2(Request $request)
@@ -150,7 +150,7 @@ class Report extends Controller
                 ->get();
         $Table  = "<div align='center'><h4><b>รายงานการใช้บริการคลาส</b></h4></div>";
         $Table .= "<div align='center'><b>ระหว่างวันที่ ".$range_date[0]." ถึงวันที่ ".$range_date[1]."</b></div>";
-        $Table .= "<table class='table table-sm'>";
+        $Table .= "<table class='table table-sm mt-2'>";
         $Table .= "<thead align='center'><tr><th>ลำดับ</th><th>รหัสสมาชิก</th><th>ชื่อนามสกุล</th><th>วันที่</th><th>เวลาเข้า</th><th>เวลาออก</th><th>คลาสที่ใช้</th></tr></thead>";
         $Table .= "<tbody>";
         $i = 1;
@@ -169,7 +169,7 @@ class Report extends Controller
                 ->get();
         $Table  = "<div align='center'><h4><b>รายงานการใช้บริการคลาส</b></h4></div>";
         $Table .= "<div align='center'><b>ระหว่างวันที่ ".$range_date[0]." ถึงวันที่ ".$range_date[1]."</b></div>";
-        $Table .= "<table class='table table-sm'>";
+        $Table .= "<table class='table table-sm mt-2'>";
         $Table .= "<thead align='center'><tr><th>ลำดับ</th><th>วันที่</th><th>คลาสที่ใช้งาน</th><th>ชื่อ เทรนเนอร์</th><th>เวลาเริ่ม</th><th>เวลาสิ้นสุด</th><th>จำนวนคนที่ใช้งาน</th></tr></thead>";
         $Table .= "<tbody>";
         $i = 1;
@@ -201,7 +201,7 @@ class Report extends Controller
                 ->get();
         $Table  = "<div align='center'><h4><b>รายงานการใช้บริการคลาส</b></h4></div>";
         $Table .= "<div align='center'><b>ระหว่างวันที่ ".$range_date[0]." ถึงวันที่ ".$range_date[1]."</b></div>";
-        $Table .= "<table class='table table-sm'>";
+        $Table .= "<table class='table table-sm mt-2'>";
         $Table .= "<thead align='center'><tr><th>ลำดับ</th><th>รหัสสมาชิก</th><th>ชื่อนามสกุล</th><th>วันที่</th><th>เวลาเข้า</th><th>เวลาออก</th><th>คลาสที่ใช้</th><th>ใช้งานทั้งหมด</th></tr></thead>";
         $Table .= "<tbody>";
         $i = 1;
@@ -214,10 +214,9 @@ class Report extends Controller
       }else{
         $Table = "<div align='center'><h5 style='color:red;'>กรุณาเลือก ประเภทในการ แสดง</h5></div>";
       }
-      // Encode To Json
-      $arrayTable = array('Table' => $Table);
-      $Jsonencode = json_encode($arrayTable);
-      echo $Jsonencode;
+
+      return response()
+              ->json(['Table' => $Table]);
     }
 
     public function Report_tab_3(Request $request)
@@ -238,7 +237,7 @@ class Report extends Controller
                 ->get();
         $Table  = "<div align='center'><h4><b>รายงานการใช้บริการคลาส</b></h4></div>";
         $Table .= "<div align='center'><b>ระหว่างวันที่ ".$range_date[0]." ถึงวันที่ ".$range_date[1]."</b></div>";
-        $Table .= "<table class='table table-sm'>";
+        $Table .= "<table class='table table-sm mt-2'>";
         $Table .= "<thead align='center'><tr><th>ลำดับ</th><th>วันที่</th><th>คลาสที่ใช้งาน</th><th>ชื่อ เทรนเนอร์</th><th>เวลาเริ่ม</th><th>เวลาสิ้นสุด</th><th>จำนวนคนที่ใช้งาน</th></tr></thead>";
         $Table .= "<tbody>";
         $i = 1;
@@ -271,7 +270,7 @@ class Report extends Controller
                 ->get();
         $Table  = "<div align='center'><h4><b>รายงานการใช้บริการคลาส</b></h4></div>";
         $Table .= "<div align='center'><b>ระหว่างวันที่ ".$range_date[0]." ถึงวันที่ ".$range_date[1]."</b></div>";
-        $Table .= "<table class='table table-sm'>";
+        $Table .= "<table class='table table-sm mt-2'>";
         $Table .= "<thead align='center'><tr><th>ลำดับ</th><th>รหัสสมาชิก</th><th>ชื่อนามสกุล</th><th>วันที่</th><th>เวลาเข้า</th><th>เวลาออก</th><th>คลาสที่ใช้</th><th>ใช้งานทั้งหมด</th></tr></thead>";
         $Table .= "<tbody>";
         $i = 1;
@@ -282,10 +281,9 @@ class Report extends Controller
         $Table .= "</tbody>";
         $Table .= "</table>";
       }
-      // Encode To Json
-      $arrayTable = array('Table' => $Table);
-      $Jsonencode = json_encode($arrayTable);
-      echo $Jsonencode;
+
+      return response()
+              ->json(['Table' => $Table]);
     }
 
     public function Report_tab_4(Request $request)
@@ -294,6 +292,33 @@ class Report extends Controller
       $reformat_start = date('Y-m-d', strtotime(str_replace('/', '-', $range_date[0])));
       $reformat_end   = date('Y-m-d', strtotime(str_replace('/', '-', $range_date[1])));
       $select_type = $request->post('select_type');
+      // เงี่อนไข ถ้าลูกค้่า Active
+      if ($select_type == 'Active') {
+        $Data = DB::table('member')
+                  ->where('status',  'Active')
+                  ->whereBetween('expire', [$reformat_start, $reformat_end])
+                  ->get();
+      }else{
+        $Data = DB::table('member')
+                  ->where('status',  'Expired')
+                  ->whereBetween('expire', [$reformat_start, $reformat_end])
+                  ->get();
+      }
+      $Table  = "<div align='center'><h4><b>รายงานเช็คยอดลูกค้า</b></h4></div>";
+      $Table .= "<div align='center'><b>ระหว่างวันที่ ".$range_date[0]." ถึงวันที่ ".$range_date[1]."</b></div>";
+      $Table .= "<table class='table table-sm mt-2'>";
+      $Table .= "<thead align='center'><tr><th>ลำดับ</th><th>รหัสสมาชิก</th><th>รหัสผ่าน</th><th>ชื่อนามสกุล</th><th>วันที่สมัคร</th><th>วันที่หมดอายุ</th><th>ประภท</th><th>เบอร์โทร</th><th>สถานะ</th></thead>";
+      $Table .= "<tbody>";
+      $i = 1;
+      foreach ($Data as $key => $row) {
+        $Table .= "<tr align='center'><td>$i</td><td>$row->code</td><td>$row->wifipassword</td><td align='left'>$row->name</td><td>".date('d/m/Y', strtotime($row->start))."</td><td>".date('d/m/Y', strtotime($row->expire))."</td><td>$row->type</td><td>$row->phone</td><td>$row->status</td></tr>";
+        $i++;
+      }
+      $Table .= "</tbody>";
+      $Table .= "</table>";
+
+      return response()
+              ->json(['Table' => $Table]);
     }
 
     public function API_Trainner(Request $request)
@@ -303,10 +328,9 @@ class Report extends Controller
       foreach ($DATA as $key => $row) {
         $option[] = "<option value='$row->tn_emp_id'>$row->fname $row->lname - $row->status_emp</option>";
       }
-      // Encode To Json
-      $arrayTable = array('option' => $option);
-      $Jsonencode = json_encode($arrayTable);
-      echo $Jsonencode;
+
+      return response()
+              ->json(['option' => $option]);
     }
 
     

@@ -1,6 +1,6 @@
 $(document).ready(function () {
+    $('.loading_action').hide();
     $('a[data-toggle="pill"]').on('shown.bs.tab', function (e) {
-        console.log(e);
         if (e.target.hash == "#v-pills-menu3") {
             $.ajax({
                 url: 'API_Trainner',
@@ -8,8 +8,8 @@ $(document).ready(function () {
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                success: function (callback) {
-                    var res = jQuery.parseJSON(callback);
+                dataType: 'json',
+                success: function (res) {
                     $("#Tab_3_select").html(res.option);
                 }
             });
@@ -28,14 +28,20 @@ var Showthb1 = function Showthb1() {
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
-        dataType: 'text',
+        dataType: 'json',
         cache: false,
         contentType: false,
         processData: false,
         data: Data,
-        success: function (callback) {
-            var res = jQuery.parseJSON(callback);
+        success: function (res) {
             $("#Tab1_Display").html(res.Table);
+        }, 
+        beforeSend: function () {
+            $("#Tab1_Display").html('');
+            $(".loading_action").show();
+        },
+        complete: function () {
+            $(".loading_action").hide();
         }
     });
 }
@@ -52,14 +58,20 @@ var Showthb2 = function Showthb2() {
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
-        dataType: 'text',
+        dataType: 'json',
         cache: false,
         contentType: false,
         processData: false,
         data: Data,
-        success: function (callback) {
-            var res = jQuery.parseJSON(callback);
+        success: function (res) {
             $("#Tab2_Display").html(res.Table);
+        },
+        beforeSend: function () {
+            $("#Tab2_Display").html('');
+            $(".loading_action").show();
+        },
+        complete: function () {
+            $(".loading_action").hide();
         }
     });
 }
@@ -77,14 +89,20 @@ var Showthb3 = function Showthb3() {
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
-        dataType: 'text',
+        dataType: 'json',
         cache: false,
         contentType: false,
         processData: false,
         data: Data,
-        success: function (callback) {
-            var res = jQuery.parseJSON(callback);
+        success: function (res) {
             $("#Tab3_Display").html(res.Table);
+        },
+        beforeSend: function () {
+            $("#Tab3_Display").html('');
+            $(".loading_action").show();
+        },
+        complete: function () {
+            $(".loading_action").hide();
         }
     });
 }
@@ -109,6 +127,13 @@ var Showthb4 = function Showthb4() {
         success: function (callback) {
             var res = jQuery.parseJSON(callback);
             $("#Tab4_Display").html(res.Table);
+        },
+        beforeSend: function () {
+            $("#Tab4_Display").html('');
+            $(".loading_action").show();
+        },
+        complete: function () {
+            $(".loading_action").hide();
         }
     });
 }

@@ -75,6 +75,14 @@
                     <hr>
                     <div id="Print_Report1" style="background-color: #ffffff;">
                       <div id="Tab1_Display"></div>
+                      <div class="loading_action">
+                        <div class="sk-folding-cube">
+                          <div class="sk-cube1 sk-cube"></div>
+                          <div class="sk-cube2 sk-cube"></div>
+                          <div class="sk-cube4 sk-cube"></div>
+                          <div class="sk-cube3 sk-cube"></div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -109,6 +117,14 @@
                     <hr>
                     <div id="Print_Report2" style="background-color: #ffffff;">
                         <div id="Tab2_Display"></div>
+                        <div class="loading_action">
+                          <div class="sk-folding-cube">
+                            <div class="sk-cube1 sk-cube"></div>
+                            <div class="sk-cube2 sk-cube"></div>
+                            <div class="sk-cube4 sk-cube"></div>
+                            <div class="sk-cube3 sk-cube"></div>
+                          </div>
+                        </div>
                     </div>
                   </div>
                 </div>
@@ -144,6 +160,14 @@
                     <hr>
                     <div id="Print_Report3" style="background-color: #ffffff;">
                       <div id="Tab3_Display"></div>
+                      <div class="loading_action">
+                        <div class="sk-folding-cube">
+                          <div class="sk-cube1 sk-cube"></div>
+                          <div class="sk-cube2 sk-cube"></div>
+                          <div class="sk-cube4 sk-cube"></div>
+                          <div class="sk-cube3 sk-cube"></div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -176,6 +200,14 @@
                     <hr>
                     <div id="Print_Report4" style="background-color: #ffffff;">
                       <div id="Tab4_Display"></div>
+                      <div class="loading_action">
+                        <div class="sk-folding-cube">
+                          <div class="sk-cube1 sk-cube"></div>
+                          <div class="sk-cube2 sk-cube"></div>
+                          <div class="sk-cube4 sk-cube"></div>
+                          <div class="sk-cube3 sk-cube"></div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
