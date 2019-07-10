@@ -1,12 +1,12 @@
 <div class="col-md-6">
 	<div class="card card-primary">
 		<div class="card-header">
-			<h3 class="card-title">ลูกค้าที่ใช้งานตอนนี้</h3>
+			<h3 class="card-title" style="margin-bottom: 0.0rem">ลูกค้าที่ใช้งานตอนนี้</h3>
 			<div class="card-tools">
-				<i class="fas fa-2x fa-globe-americas" data-toggle="tooltip" data-placement="bottom" title="ลูกค้าที่ใช้งานตอนนี้"></i>
+				<i class="fas fa-2x fa-globe-americas" data-toggle="tooltip" data-placement="left" title="ลูกค้าที่ใช้งานตอนนี้"></i>
 			</div>
 		</div>
-		<div class="card-body" align="center" style="padding: 0.5rem;">
+		<div class="card-body" align="center" style="padding: 0.1rem;">
 			<div class="overflow-auto" style="height: 50vh;">
 				<div data-simplebar data-simplebar-auto-hide="false">
 					<div id="TableOnline"></div>
@@ -18,12 +18,12 @@
 <div class="col-md-6">
 	<div class="card card-danger">
 		<div class="card-header">
-			<h3 class="card-title">ลูกค้าที่ใช้งานเสร็จสิ้นวันนี้</h3>
+			<h3 class="card-title" style="margin-bottom: 0.0rem">ลูกค้าที่ใช้งานเสร็จสิ้นวันนี้</h3>
 			<div class="card-tools">
 				<i class="fas fa-2x fa-globe-africa" data-toggle="tooltip" data-placement="left" title="ลูกค้าที่ใช้งานวันนี้"></i>
 			</div>
 		</div>
-		<div class="card-body" align="center" style="padding: 0.5rem;">
+		<div class="card-body" align="center" style="padding: 0.1rem;">
 			<div class="overflow-auto" style="height: 50vh;">
 				<div data-simplebar data-simplebar-auto-hide="false">
 					<div id="TableToday"></div>

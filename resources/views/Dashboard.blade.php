@@ -22,7 +22,13 @@
                         <h3 class="text-white" style="cursor: pointer;">Report</h3>
                         <p class="text-white" style="cursor: pointer;">สรุปรายงานข้อมูลการใช้งานต่างๆ</p>
                     </div>
-                    <div class="icon">
+                    <div class="icon" style="transition: all 0.3s linear;
+                                             position: absolute;
+                                             top: -10px;
+                                             right: 10px;
+                                             z-index: 0;
+                                             font-size: 90px;
+                                             color: rgba(0, 0, 0, 0.15);">
                         <i class="fas fa-cogs"></i>
                     </div>
                 </div>
@@ -34,7 +40,13 @@
                         <h3 class="text-white" style="cursor: pointer;">Member</h3>
                         <p class="text-white" style="cursor: pointer;">เพิ่ม Member</p>
                     </div>
-                    <div class="icon">
+                    <div class="icon" style="transition: all 0.3s linear;
+                                             position: absolute;
+                                             top: -10px;
+                                             right: 10px;
+                                             z-index: 0;
+                                             font-size: 90px;
+                                             color: rgba(0, 0, 0, 0.15);">
                         <i class="fas fa-users"></i>
                     </div>
                 </div>
@@ -46,7 +58,13 @@
                         <h3 class="text-white" style="cursor: pointer;">Setting</h3>
                         <p class="text-white" style="cursor: pointer;">ตั้งค่ารายละเอียดต่างๆ</p>
                     </div>
-                    <div class="icon">
+                    <div class="icon" style="transition: all 0.3s linear;
+                                             position: absolute;
+                                             top: -10px;
+                                             right: 10px;
+                                             z-index: 0;
+                                             font-size: 90px;
+                                             color: rgba(0, 0, 0, 0.15);">
                         <i class="fas fa-sliders-h"></i>
                     </div>
                 </div>
@@ -58,7 +76,13 @@
                         <h3 class="text-white" style="cursor: pointer;">Wait</h3>
                         <p class="text-white" style="cursor: pointer;">รออัพเดต</p>
                     </div>
-                    <div class="icon">
+                    <div class="icon" style="transition: all 0.3s linear;
+                                             position: absolute;
+                                             top: -10px;
+                                             right: 10px;
+                                             z-index: 0;
+                                             font-size: 90px;
+                                             color: rgba(0, 0, 0, 0.15);">
                         <i class="fas fa-sliders-h"></i>
                     </div>
                 </div>

@@ -56,7 +56,7 @@
                             <tbody>
                                 @foreach ($Data as $user)
                                 <input type="hidden" id="codehidden" value="{{ $user->code }}">
-                                <tr class="bg-info" align="center">
+                                <tr class="bg-primary" align="center">
                                     <td><b>ชื่อ-นามสกุล:</b></td>
                                     <td>{{ $user->name }}</td>
                                     <td><b>Code:</b></td>
@@ -64,7 +64,7 @@
                                     <td><b>Phone:</b></td>
                                     <td>{{ $user->phone }}</td>
                                 </tr>
-                                <tr class="bg-info" align="center">
+                                <tr class="bg-primary" align="center">
                                     <td><b>User WiFi:</b></td>
                                     <td>{{ $user->wifiusername }}</td>
                                     <td><b>Pass Wifi:</b></td>
@@ -72,7 +72,7 @@
                                     <td><b>ประเภท:</b></td>
                                     <td>{{ $user->type }}</td>
                                 </tr>
-                                <tr class="bg-info" align="center">
+                                <tr class="bg-primary" align="center">
                                     <td><b>วันที่เริ่มใช้งาน:</b></td>
                                     <td>{{ date('d/m/Y', strtotime($user->start)) }}</td>
                                     <td><b>วันที่สิ้นสุดใช้งาน:</b></td>

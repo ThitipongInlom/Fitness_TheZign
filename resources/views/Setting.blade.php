@@ -133,17 +133,18 @@
                                 <div class="card-header bg-secondary">
                                     <b>เชื่อมต่อกับ Internet</b>
                                     <div class="card-tools">
-                                        <button type="button" class="btn btn-sm btn-primary">เทส ต่อ database</button>
+                                        <button type="button" class="btn btn-sm btn-success">บันทึก database</button>
                                     </div>
                                 </div>
                                 <div class="card-body">
+                                @foreach ($api_db as $api_row)
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-inline mb-3">
                                         <label>การใช้งาน Internet :</label>
                                         <span style="margin-right: 5px !important;"></span>
                                         <label class='switch' style='margin-bottom: 0rem !important;'>
-                                        <input type='checkbox' class='primary' id="switch_internet">
+                                        <input type='checkbox' class='primary' id="switch_internet" @if ($connect == '0') {{ 'checked' }} @endif>
                                         <span class='slider round'></span>
                                         </label>     
                                         </div>                               
@@ -154,8 +155,8 @@
                                             <label class="input-group-text" for="inputGroupSelect01">Driver :</label>
                                         </div>
                                         <select class="custom-select" id="select_driver">
-                                            <option value="mysql">mysql</option>
-                                            <option value="sqlsrv">sqlsrv</option>
+                                            <option value="mysql" @if ($api_row->driver == 'mysql'){{ 'selected' }} @endif>mysql</option>
+                                            <option value="sqlsrv" @if ($api_row->driver == 'sqlsrv'){{ 'selected' }} @endif>sqlsrv</option>
                                         </select>
                                         </div>
                                     </div>
@@ -166,7 +167,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="inputGroup-sizing-default">Host_Main :</span>
                                         </div>
-                                        <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                                        <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" value="{{ $api_row->host }}">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -174,7 +175,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="inputGroup-sizing-default">Database :</span>
                                         </div>
-                                        <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                                        <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" value="{{ $api_row->database }}">
                                         </div>
                                     </div>
                                 </div>
@@ -185,7 +186,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="inputGroup-sizing-default">Username :</span>
                                         </div>
-                                        <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                                        <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" value="{{ $api_row->username }}">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -193,10 +194,11 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="inputGroup-sizing-default">Password :</span>
                                         </div>
-                                        <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                                        <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" value="{{ $api_row->password }}">
                                         </div>
                                     </div>
                                 </div>
+                                @endforeach
                                 </div>
                                 </div>
                             </div>
@@ -206,7 +208,6 @@
                                     <b>เชื่อมต่อกับ การเชื่อมต่อ </b>
                                 </div>
                                 <div class="card-body">
-
 
                                 </div>
                                 </div>

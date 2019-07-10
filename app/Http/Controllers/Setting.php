@@ -15,9 +15,11 @@ class Setting extends Controller
 {
     public function Setting()
     {
-      $api_db = DB::table('api_db')->get();
-      $connect = DB::table('connect')->get();
-      return view('Setting');
+      $api_db = DB::table('api_db')->where('key','Airlink')->get();
+      $connect = DB::table('connect')->where('connect_id','1')->value('connect_detail');
+      return view('Setting',[
+            'api_db' => $api_db,
+            'connect' => $connect]);
     }
 
     public function Auto_Check_and_insert_trainner()

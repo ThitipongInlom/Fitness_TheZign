@@ -155,8 +155,8 @@ class Report extends Controller
         $Table .= "<tbody>";
         $i = 1;
         foreach ($DATA as $key => $row) {
-        $Table .= "<tr align='center'><td>$i</td><td>$row->Code</td><td align='left'>$row->Name</td><td>".date('d/m/Y', strtotime($row->Guset_in))."</td><td>".date('H:i:s', strtotime($row->Guset_in))."</td><td>".date('H:i:s', strtotime($row->Guset_out))."</td><td>$row->itemname</td></tr>";
-        $i++;
+          $Table .= "<tr align='center'><td>$i</td><td>$row->Code</td><td align='left'>$row->Name</td><td>".date('d/m/Y', strtotime($row->Guset_in))."</td><td>".date('H:i:s', strtotime($row->Guset_in))."</td><td>".date('H:i:s', strtotime($row->Guset_out))."</td><td>$row->itemname</td></tr>";
+          $i++;
         }
         $Table .= "</tbody>";
         $Table .= "</table>";
@@ -174,17 +174,16 @@ class Report extends Controller
         $Table .= "<tbody>";
         $i = 1;
         foreach ($DATA as $key => $row) {
-        $train_start = date('Y-m-d H:i:s', strtotime($row->train_date.' '.$row->train_time_start));
-        $train_end = date('Y-m-d H:i:s', strtotime($row->train_date.' '.$row->train_time_end));
-        $DATAF = DB::table('main_table')
+          $train_start = date('Y-m-d H:i:s', strtotime($row->train_date.' '.$row->train_time_start));
+          $train_end = date('Y-m-d H:i:s', strtotime($row->train_date.' '.$row->train_time_end));
+          $DATAF = DB::table('main_table')
                 ->join('detail_table', 'main_table.ID', '=', 'detail_table.main_id')
                 ->where('detail_table.itemcode', $row->class_id)
                 ->where('main_table.Status', '=', 'OUT')
-                //->whereBetween('main_table.Guset_in', [$train_start, $train_end])
                 ->whereBetween('main_table.date', [$row->train_date, $row->train_date])
                 ->count();
-        $Table .= "<tr align='center'><td>$i</td><td>".date('d/m/Y', strtotime($row->train_date))."</td><td>$row->item_name</td><td align='left'>$row->fname $row->lname</td><td>$row->train_time_start</td><td>$row->train_time_end</td><td>$DATAF คน</td></tr>";
-        $i++;  
+          $Table .= "<tr align='center'><td>$i</td><td>".date('d/m/Y', strtotime($row->train_date))."</td><td>$row->item_name</td><td>$row->fname $row->lname</td><td>$row->train_time_start</td><td>$row->train_time_end</td><td>$DATAF คน</td></tr>";
+          $i++; 
         }
         $Table .= "</tbody>";
         $Table .= "</table>";
@@ -206,8 +205,8 @@ class Report extends Controller
         $Table .= "<tbody>";
         $i = 1;
         foreach ($DATA as $key => $row) {
-        $Table .= "<tr align='center'><td>$i</td><td>$row->code</td><td align='left'>$row->Name</td><td>".date('d/m/Y', strtotime($row->Guset_in))."</td><td>".date('H:i:s', strtotime($row->Guset_in))."</td><td>".date('H:i:s', strtotime($row->Guset_out))."</td><td>$row->fake_itemname</td><td>$row->onuse ซ.ม</td></tr>";
-        $i++;
+          $Table .= "<tr align='center'><td>$i</td><td>$row->code</td><td align='left'>$row->Name</td><td>".date('d/m/Y', strtotime($row->Guset_in))."</td><td>".date('H:i:s', strtotime($row->Guset_in))."</td><td>".date('H:i:s', strtotime($row->Guset_out))."</td><td>$row->fake_itemname</td><td>$row->onuse ซ.ม</td></tr>";
+          $i++;
         }
         $Table .= "</tbody>";
         $Table .= "</table>";
@@ -296,7 +295,7 @@ class Report extends Controller
       if ($select_type == 'Active') {
         $Data = DB::table('member')
                   ->where('status',  'Active')
-                  ->whereBetween('expire', [$reformat_start, $reformat_end])
+                  ->whereBetween('start', [$reformat_start, $reformat_end])
                   ->get();
       }else{
         $Data = DB::table('member')

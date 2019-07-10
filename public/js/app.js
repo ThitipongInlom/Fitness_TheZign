@@ -86,6 +86,922 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./node_modules/admin-lte/dist/js/adminlte.js":
+/*!****************************************************!*\
+  !*** ./node_modules/admin-lte/dist/js/adminlte.js ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/*!
+ * AdminLTE v3.0.0-beta.1 (https://adminlte.io)
+ * Copyright 2014-2019 Colorlib <http://colorlib.com>
+ * Licensed under MIT (https://github.com/almasaeed2010/AdminLTE/blob/master/LICENSE)
+ */
+(function (global, factory) {
+   true ? factory(exports) :
+  undefined;
+}(this, function (exports) { 'use strict';
+
+  /**
+   * --------------------------------------------
+   * AdminLTE ControlSidebar.js
+   * License MIT
+   * --------------------------------------------
+   */
+  var ControlSidebar = function ($) {
+    /**
+     * Constants
+     * ====================================================
+     */
+    var NAME = 'ControlSidebar';
+    var DATA_KEY = 'lte.control.sidebar';
+    var JQUERY_NO_CONFLICT = $.fn[NAME];
+    var Selector = {
+      CONTROL_SIDEBAR: '.control-sidebar',
+      DATA_TOGGLE: '[data-widget="control-sidebar"]',
+      MAIN_HEADER: '.main-header'
+    };
+    var ClassName = {
+      CONTROL_SIDEBAR_OPEN: 'control-sidebar-open',
+      CONTROL_SIDEBAR_SLIDE: 'control-sidebar-slide-open'
+    };
+    var Default = {
+      slide: true
+      /**
+       * Class Definition
+       * ====================================================
+       */
+
+    };
+
+    var ControlSidebar =
+    /*#__PURE__*/
+    function () {
+      function ControlSidebar(element, config) {
+        this._element = element;
+        this._config = this._getConfig(config);
+      } // Public
+
+
+      var _proto = ControlSidebar.prototype;
+
+      _proto.show = function show() {
+        // Show the control sidebar
+        if (this._config.slide) {
+          $('body').removeClass(ClassName.CONTROL_SIDEBAR_SLIDE);
+        } else {
+          $('body').removeClass(ClassName.CONTROL_SIDEBAR_OPEN);
+        }
+      };
+
+      _proto.collapse = function collapse() {
+        // Collapse the control sidebar
+        if (this._config.slide) {
+          $('body').addClass(ClassName.CONTROL_SIDEBAR_SLIDE);
+        } else {
+          $('body').addClass(ClassName.CONTROL_SIDEBAR_OPEN);
+        }
+      };
+
+      _proto.toggle = function toggle() {
+        this._setMargin();
+
+        var shouldOpen = $('body').hasClass(ClassName.CONTROL_SIDEBAR_OPEN) || $('body').hasClass(ClassName.CONTROL_SIDEBAR_SLIDE);
+
+        if (shouldOpen) {
+          // Open the control sidebar
+          this.show();
+        } else {
+          // Close the control sidebar
+          this.collapse();
+        }
+      } // Private
+      ;
+
+      _proto._getConfig = function _getConfig(config) {
+        return $.extend({}, Default, config);
+      };
+
+      _proto._setMargin = function _setMargin() {
+        $(Selector.CONTROL_SIDEBAR).css({
+          top: $(Selector.MAIN_HEADER).innerHeight()
+        });
+      } // Static
+      ;
+
+      ControlSidebar._jQueryInterface = function _jQueryInterface(operation) {
+        return this.each(function () {
+          var data = $(this).data(DATA_KEY);
+
+          if (!data) {
+            data = new ControlSidebar(this, $(this).data());
+            $(this).data(DATA_KEY, data);
+          }
+
+          if (data[operation] === 'undefined') {
+            throw new Error(operation + " is not a function");
+          }
+
+          data[operation]();
+        });
+      };
+
+      return ControlSidebar;
+    }();
+    /**
+     *
+     * Data Api implementation
+     * ====================================================
+     */
+
+
+    $(document).on('click', Selector.DATA_TOGGLE, function (event) {
+      event.preventDefault();
+
+      ControlSidebar._jQueryInterface.call($(this), 'toggle');
+    });
+    /**
+     * jQuery API
+     * ====================================================
+     */
+
+    $.fn[NAME] = ControlSidebar._jQueryInterface;
+    $.fn[NAME].Constructor = ControlSidebar;
+
+    $.fn[NAME].noConflict = function () {
+      $.fn[NAME] = JQUERY_NO_CONFLICT;
+      return ControlSidebar._jQueryInterface;
+    };
+
+    return ControlSidebar;
+  }(jQuery);
+
+  /**
+   * --------------------------------------------
+   * AdminLTE Layout.js
+   * License MIT
+   * --------------------------------------------
+   */
+  var Layout = function ($) {
+    /**
+     * Constants
+     * ====================================================
+     */
+    var NAME = 'Layout';
+    var DATA_KEY = 'lte.layout';
+    var JQUERY_NO_CONFLICT = $.fn[NAME];
+    var Selector = {
+      HEADER: '.main-header',
+      SIDEBAR: '.main-sidebar .sidebar',
+      CONTENT: '.content-wrapper',
+      BRAND: '.brand-link',
+      CONTENT_HEADER: '.content-header',
+      WRAPPER: '.wrapper',
+      CONTROL_SIDEBAR: '.control-sidebar',
+      LAYOUT_FIXED: '.layout-fixed',
+      FOOTER: '.main-footer'
+    };
+    var ClassName = {
+      HOLD: 'hold-transition',
+      SIDEBAR: 'main-sidebar',
+      CONTENT_FIXED: 'content-fixed',
+      LAYOUT_FIXED: 'layout-fixed',
+      NAVBAR_FIXED: 'layout-navbar-fixed',
+      FOOTER_FIXED: 'layout-footer-fixed'
+    };
+    var Default = {
+      scrollbarTheme: 'os-theme-light',
+      scrollbarAutoHide: 'l'
+      /**
+       * Class Definition
+       * ====================================================
+       */
+
+    };
+
+    var Layout =
+    /*#__PURE__*/
+    function () {
+      function Layout(element, config) {
+        this._config = config;
+        this._element = element;
+
+        this._init();
+      } // Public
+
+
+      var _proto = Layout.prototype;
+
+      _proto.fixLayoutHeight = function fixLayoutHeight() {
+        var heights = {
+          window: $(window).height(),
+          header: $(Selector.HEADER).outerHeight(),
+          footer: $(Selector.FOOTER).outerHeight(),
+          sidebar: $(Selector.SIDEBAR).height()
+        };
+
+        var max = this._max(heights);
+
+        if ($('body').hasClass(ClassName.LAYOUT_FIXED)) {
+          $(Selector.CONTENT).css('min-height', max - heights.header - heights.footer); // $(Selector.SIDEBAR).css('min-height', max - heights.header)
+
+          $(Selector.CONTROL_SIDEBAR + ' .control-sidebar-content').css('height', max - heights.header);
+
+          if (typeof $.fn.overlayScrollbars !== 'undefined') {
+            $(Selector.SIDEBAR).overlayScrollbars({
+              className: this._config.scrollbarTheme,
+              sizeAutoCapable: true,
+              scrollbars: {
+                autoHide: this._config.scrollbarAutoHide,
+                clickScrolling: true
+              }
+            });
+            $(Selector.CONTROL_SIDEBAR + ' .control-sidebar-content').overlayScrollbars({
+              className: this._config.scrollbarTheme,
+              sizeAutoCapable: true,
+              scrollbars: {
+                autoHide: this._config.scrollbarAutoHide,
+                clickScrolling: true
+              }
+            });
+          }
+        } else {
+          if (heights.window > heights.sidebar) {
+            $(Selector.CONTENT).css('min-height', heights.window - heights.header - heights.footer);
+          } else {
+            $(Selector.CONTENT).css('min-height', heights.sidebar - heights.header);
+          }
+        }
+
+        if ($('body').hasClass(ClassName.NAVBAR_FIXED)) {
+          $(Selector.BRAND).css('height', heights.header);
+          $(Selector.SIDEBAR).css('margin-top', heights.header);
+          $(Selector.SIDEBAR).css('margin-top', heights.header);
+        }
+
+        if ($('body').hasClass(ClassName.FOOTER_FIXED)) {
+          $(Selector.CONTENT).css('margin-bottom', heights.footer);
+        }
+
+        if ($('body').hasClass(ClassName.CONTENT_FIXED)) {
+          $(Selector.CONTENT).css('height', $(Selector.CONTENT).css('min-height'));
+        }
+      } // Private
+      ;
+
+      _proto._init = function _init() {
+        var _this = this;
+
+        // Enable transitions
+        $('body').removeClass(ClassName.HOLD); // Activate layout height watcher
+
+        this.fixLayoutHeight();
+        $(Selector.SIDEBAR).on('collapsed.lte.treeview expanded.lte.treeview collapsed.lte.pushmenu expanded.lte.pushmenu', function () {
+          _this.fixLayoutHeight();
+        });
+        $(window).resize(function () {
+          _this.fixLayoutHeight();
+        });
+        $('body, html').css('height', 'auto');
+      };
+
+      _proto._max = function _max(numbers) {
+        // Calculate the maximum number in a list
+        var max = 0;
+        Object.keys(numbers).forEach(function (key) {
+          if (numbers[key] > max) {
+            max = numbers[key];
+          }
+        });
+        return max;
+      } // Static
+      ;
+
+      Layout._jQueryInterface = function _jQueryInterface(config) {
+        return this.each(function () {
+          var data = $(this).data(DATA_KEY);
+
+          var _config = $.extend({}, Default, $(this).data());
+
+          if (!data) {
+            data = new Layout($(this), _config);
+            $(this).data(DATA_KEY, data);
+          }
+
+          if (config === 'init') {
+            data[config]();
+          }
+        });
+      };
+
+      return Layout;
+    }();
+    /**
+     * Data API
+     * ====================================================
+     */
+
+
+    $(window).on('load', function () {
+      Layout._jQueryInterface.call($('body'));
+    });
+    /**
+     * jQuery API
+     * ====================================================
+     */
+
+    $.fn[NAME] = Layout._jQueryInterface;
+    $.fn[NAME].Constructor = Layout;
+
+    $.fn[NAME].noConflict = function () {
+      $.fn[NAME] = JQUERY_NO_CONFLICT;
+      return Layout._jQueryInterface;
+    };
+
+    return Layout;
+  }(jQuery);
+
+  /**
+   * --------------------------------------------
+   * AdminLTE PushMenu.js
+   * License MIT
+   * --------------------------------------------
+   */
+  var PushMenu = function ($) {
+    /**
+     * Constants
+     * ====================================================
+     */
+    var NAME = 'PushMenu';
+    var DATA_KEY = 'lte.pushmenu';
+    var EVENT_KEY = "." + DATA_KEY;
+    var JQUERY_NO_CONFLICT = $.fn[NAME];
+    var Event = {
+      COLLAPSED: "collapsed" + EVENT_KEY,
+      SHOWN: "shown" + EVENT_KEY
+    };
+    var Default = {
+      autoCollapseSize: false,
+      screenCollapseSize: 768
+    };
+    var Selector = {
+      TOGGLE_BUTTON: '[data-widget="pushmenu"]',
+      SIDEBAR_MINI: '.sidebar-mini',
+      SIDEBAR_COLLAPSED: '.sidebar-collapse',
+      BODY: 'body',
+      OVERLAY: '#sidebar-overlay',
+      WRAPPER: '.wrapper'
+    };
+    var ClassName = {
+      SIDEBAR_OPEN: 'sidebar-open',
+      COLLAPSED: 'sidebar-collapse',
+      OPEN: 'sidebar-open',
+      SIDEBAR_MINI: 'sidebar-mini'
+      /**
+       * Class Definition
+       * ====================================================
+       */
+
+    };
+
+    var PushMenu =
+    /*#__PURE__*/
+    function () {
+      function PushMenu(element, options) {
+        this._element = element;
+        this._options = $.extend({}, Default, options);
+
+        this._init();
+
+        if (!$(Selector.OVERLAY).length) {
+          this._addOverlay();
+        }
+      } // Public
+
+
+      var _proto = PushMenu.prototype;
+
+      _proto.show = function show() {
+        $(Selector.BODY).addClass(ClassName.OPEN).removeClass(ClassName.COLLAPSED);
+        var shownEvent = $.Event(Event.SHOWN);
+        $(this._element).trigger(shownEvent);
+      };
+
+      _proto.collapse = function collapse() {
+        $(Selector.BODY).removeClass(ClassName.OPEN).addClass(ClassName.COLLAPSED);
+        var collapsedEvent = $.Event(Event.COLLAPSED);
+        $(this._element).trigger(collapsedEvent);
+      };
+
+      _proto.isShown = function isShown() {
+        if ($(window).width() >= this._options.screenCollapseSize) {
+          return !$(Selector.BODY).hasClass(ClassName.COLLAPSED);
+        } else {
+          return $(Selector.BODY).hasClass(ClassName.OPEN);
+        }
+      };
+
+      _proto.toggle = function toggle() {
+        if (this.isShown()) {
+          this.collapse();
+        } else {
+          this.show();
+        }
+      };
+
+      _proto.autoCollapse = function autoCollapse() {
+        if (this._options.autoCollapseSize) {
+          if ($(window).width() <= this._options.autoCollapseSize) {
+            if (this.isShown()) {
+              this.toggle();
+            }
+          } else {
+            if (!this.isShown()) {
+              this.toggle();
+            }
+          }
+        }
+      } // Private
+      ;
+
+      _proto._init = function _init() {
+        var _this = this;
+
+        this.autoCollapse();
+        $(window).resize(function () {
+          _this.autoCollapse();
+        });
+      };
+
+      _proto._addOverlay = function _addOverlay() {
+        var _this2 = this;
+
+        var overlay = $('<div />', {
+          id: 'sidebar-overlay'
+        });
+        overlay.on('click', function () {
+          _this2.collapse();
+        });
+        $(Selector.WRAPPER).append(overlay);
+      } // Static
+      ;
+
+      PushMenu._jQueryInterface = function _jQueryInterface(operation) {
+        return this.each(function () {
+          var data = $(this).data(DATA_KEY);
+
+          var _options = $.extend({}, Default, $(this).data());
+
+          if (!data) {
+            data = new PushMenu(this, _options);
+            $(this).data(DATA_KEY, data);
+          }
+
+          if (operation === 'toggle') {
+            data[operation]();
+          }
+        });
+      };
+
+      return PushMenu;
+    }();
+    /**
+     * Data API
+     * ====================================================
+     */
+
+
+    $(document).on('click', Selector.TOGGLE_BUTTON, function (event) {
+      event.preventDefault();
+      var button = event.currentTarget;
+
+      if ($(button).data('widget') !== 'pushmenu') {
+        button = $(button).closest(Selector.TOGGLE_BUTTON);
+      }
+
+      PushMenu._jQueryInterface.call($(button), 'toggle');
+    });
+    $(window).on('load', function () {
+      PushMenu._jQueryInterface.call($(Selector.TOGGLE_BUTTON));
+    });
+    /**
+     * jQuery API
+     * ====================================================
+     */
+
+    $.fn[NAME] = PushMenu._jQueryInterface;
+    $.fn[NAME].Constructor = PushMenu;
+
+    $.fn[NAME].noConflict = function () {
+      $.fn[NAME] = JQUERY_NO_CONFLICT;
+      return PushMenu._jQueryInterface;
+    };
+
+    return PushMenu;
+  }(jQuery);
+
+  /**
+   * --------------------------------------------
+   * AdminLTE Treeview.js
+   * License MIT
+   * --------------------------------------------
+   */
+  var Treeview = function ($) {
+    /**
+     * Constants
+     * ====================================================
+     */
+    var NAME = 'Treeview';
+    var DATA_KEY = 'lte.treeview';
+    var EVENT_KEY = "." + DATA_KEY;
+    var JQUERY_NO_CONFLICT = $.fn[NAME];
+    var Event = {
+      SELECTED: "selected" + EVENT_KEY,
+      EXPANDED: "expanded" + EVENT_KEY,
+      COLLAPSED: "collapsed" + EVENT_KEY,
+      LOAD_DATA_API: "load" + EVENT_KEY
+    };
+    var Selector = {
+      LI: '.nav-item',
+      LINK: '.nav-link',
+      TREEVIEW_MENU: '.nav-treeview',
+      OPEN: '.menu-open',
+      DATA_WIDGET: '[data-widget="treeview"]'
+    };
+    var ClassName = {
+      LI: 'nav-item',
+      LINK: 'nav-link',
+      TREEVIEW_MENU: 'nav-treeview',
+      OPEN: 'menu-open'
+    };
+    var Default = {
+      trigger: Selector.DATA_WIDGET + " " + Selector.LINK,
+      animationSpeed: 300,
+      accordion: true
+      /**
+       * Class Definition
+       * ====================================================
+       */
+
+    };
+
+    var Treeview =
+    /*#__PURE__*/
+    function () {
+      function Treeview(element, config) {
+        this._config = config;
+        this._element = element;
+      } // Public
+
+
+      var _proto = Treeview.prototype;
+
+      _proto.init = function init() {
+        this._setupListeners();
+      };
+
+      _proto.expand = function expand(treeviewMenu, parentLi) {
+        var _this = this;
+
+        var expandedEvent = $.Event(Event.EXPANDED);
+
+        if (this._config.accordion) {
+          var openMenuLi = parentLi.siblings(Selector.OPEN).first();
+          var openTreeview = openMenuLi.find(Selector.TREEVIEW_MENU).first();
+          this.collapse(openTreeview, openMenuLi);
+        }
+
+        treeviewMenu.slideDown(this._config.animationSpeed, function () {
+          parentLi.addClass(ClassName.OPEN);
+          $(_this._element).trigger(expandedEvent);
+        });
+      };
+
+      _proto.collapse = function collapse(treeviewMenu, parentLi) {
+        var _this2 = this;
+
+        var collapsedEvent = $.Event(Event.COLLAPSED);
+        treeviewMenu.slideUp(this._config.animationSpeed, function () {
+          parentLi.removeClass(ClassName.OPEN);
+          $(_this2._element).trigger(collapsedEvent);
+          treeviewMenu.find(Selector.OPEN + " > " + Selector.TREEVIEW_MENU).slideUp();
+          treeviewMenu.find(Selector.OPEN).removeClass(ClassName.OPEN);
+        });
+      };
+
+      _proto.toggle = function toggle(event) {
+        var $relativeTarget = $(event.currentTarget);
+        var treeviewMenu = $relativeTarget.next();
+
+        if (!treeviewMenu.is(Selector.TREEVIEW_MENU)) {
+          return;
+        }
+
+        event.preventDefault();
+        var parentLi = $relativeTarget.parents(Selector.LI).first();
+        var isOpen = parentLi.hasClass(ClassName.OPEN);
+
+        if (isOpen) {
+          this.collapse($(treeviewMenu), parentLi);
+        } else {
+          this.expand($(treeviewMenu), parentLi);
+        }
+      } // Private
+      ;
+
+      _proto._setupListeners = function _setupListeners() {
+        var _this3 = this;
+
+        $(document).on('click', this._config.trigger, function (event) {
+          _this3.toggle(event);
+        });
+      } // Static
+      ;
+
+      Treeview._jQueryInterface = function _jQueryInterface(config) {
+        return this.each(function () {
+          var data = $(this).data(DATA_KEY);
+
+          var _config = $.extend({}, Default, $(this).data());
+
+          if (!data) {
+            data = new Treeview($(this), _config);
+            $(this).data(DATA_KEY, data);
+          }
+
+          if (config === 'init') {
+            data[config]();
+          }
+        });
+      };
+
+      return Treeview;
+    }();
+    /**
+     * Data API
+     * ====================================================
+     */
+
+
+    $(window).on(Event.LOAD_DATA_API, function () {
+      $(Selector.DATA_WIDGET).each(function () {
+        Treeview._jQueryInterface.call($(this), 'init');
+      });
+    });
+    /**
+     * jQuery API
+     * ====================================================
+     */
+
+    $.fn[NAME] = Treeview._jQueryInterface;
+    $.fn[NAME].Constructor = Treeview;
+
+    $.fn[NAME].noConflict = function () {
+      $.fn[NAME] = JQUERY_NO_CONFLICT;
+      return Treeview._jQueryInterface;
+    };
+
+    return Treeview;
+  }(jQuery);
+
+  /**
+   * --------------------------------------------
+   * AdminLTE Widget.js
+   * License MIT
+   * --------------------------------------------
+   */
+  var Widget = function ($) {
+    /**
+     * Constants
+     * ====================================================
+     */
+    var NAME = 'Widget';
+    var DATA_KEY = 'lte.widget';
+    var EVENT_KEY = "." + DATA_KEY;
+    var JQUERY_NO_CONFLICT = $.fn[NAME];
+    var Event = {
+      EXPANDED: "expanded" + EVENT_KEY,
+      COLLAPSED: "collapsed" + EVENT_KEY,
+      MAXIMIZED: "maximized" + EVENT_KEY,
+      MINIMIZED: "minimized" + EVENT_KEY,
+      REMOVED: "removed" + EVENT_KEY
+    };
+    var Selector = {
+      DATA_REMOVE: '[data-widget="remove"]',
+      DATA_COLLAPSE: '[data-widget="collapse"]',
+      DATA_MAXIMIZE: '[data-widget="maximize"]',
+      CARD: '.card',
+      CARD_HEADER: '.card-header',
+      CARD_BODY: '.card-body',
+      CARD_FOOTER: '.card-footer',
+      COLLAPSED: '.collapsed-card',
+      COLLAPSE_ICON: '.fa-minus',
+      EXPAND_ICON: '.fa-plus'
+    };
+    var ClassName = {
+      COLLAPSED: 'collapsed-card',
+      WAS_COLLAPSED: 'was-collapsed',
+      MAXIMIZED: 'maximized-card',
+      COLLAPSE_ICON: 'fa-minus',
+      EXPAND_ICON: 'fa-plus',
+      MAXIMIZE_ICON: 'fa-expand',
+      MINIMIZE_ICON: 'fa-compress'
+    };
+    var Default = {
+      animationSpeed: 'normal',
+      collapseTrigger: Selector.DATA_COLLAPSE,
+      removeTrigger: Selector.DATA_REMOVE
+    };
+
+    var Widget =
+    /*#__PURE__*/
+    function () {
+      function Widget(element, settings) {
+        this._element = element;
+        this._parent = element.parents(Selector.CARD).first();
+        this._settings = $.extend({}, Default, settings);
+      }
+
+      var _proto = Widget.prototype;
+
+      _proto.collapse = function collapse() {
+        var _this = this;
+
+        this._parent.children(Selector.CARD_BODY + ", " + Selector.CARD_FOOTER).slideUp(this._settings.animationSpeed, function () {
+          _this._parent.addClass(ClassName.COLLAPSED);
+        });
+
+        this._element.children(Selector.COLLAPSE_ICON).addClass(ClassName.EXPAND_ICON).removeClass(ClassName.COLLAPSE_ICON);
+
+        var collapsed = $.Event(Event.COLLAPSED);
+
+        this._element.trigger(collapsed, this._parent);
+      };
+
+      _proto.expand = function expand() {
+        var _this2 = this;
+
+        this._parent.children(Selector.CARD_BODY + ", " + Selector.CARD_FOOTER).slideDown(this._settings.animationSpeed, function () {
+          _this2._parent.removeClass(ClassName.COLLAPSED);
+        });
+
+        this._element.children(Selector.EXPAND_ICON).addClass(ClassName.COLLAPSE_ICON).removeClass(ClassName.EXPAND_ICON);
+
+        var expanded = $.Event(Event.EXPANDED);
+
+        this._element.trigger(expanded, this._parent);
+      };
+
+      _proto.remove = function remove() {
+        this._parent.slideUp();
+
+        var removed = $.Event(Event.REMOVED);
+
+        this._element.trigger(removed, this._parent);
+      };
+
+      _proto.toggle = function toggle() {
+        if (this._parent.hasClass(ClassName.COLLAPSED)) {
+          this.expand();
+          return;
+        }
+
+        this.collapse();
+      };
+
+      _proto.toggleMaximize = function toggleMaximize() {
+        var button = this._element.find('i');
+
+        if (this._parent.hasClass(ClassName.MAXIMIZED)) {
+          button.addClass(ClassName.MAXIMIZE_ICON).removeClass(ClassName.MINIMIZE_ICON);
+
+          this._parent.css('cssText', 'height:' + this._parent[0].style.height + ' !important;' + 'width:' + this._parent[0].style.width + ' !important; transition: all .15s;').delay(100).queue(function () {
+            $(this).removeClass(ClassName.MAXIMIZED);
+            $('html').removeClass(ClassName.MAXIMIZED);
+            $(this).trigger(Event.MINIMIZED);
+            $(this).css({
+              'height': 'inherit',
+              'width': 'inherit'
+            });
+
+            if ($(this).hasClass(ClassName.WAS_COLLAPSED)) {
+              $(this).removeClass(ClassName.WAS_COLLAPSED);
+            }
+
+            $(this).dequeue();
+          });
+        } else {
+          button.addClass(ClassName.MINIMIZE_ICON).removeClass(ClassName.MAXIMIZE_ICON);
+
+          this._parent.css({
+            'height': this._parent.height(),
+            'width': this._parent.width(),
+            'transition': 'all .15s'
+          }).delay(150).queue(function () {
+            $(this).addClass(ClassName.MAXIMIZED);
+            $('html').addClass(ClassName.MAXIMIZED);
+            $(this).trigger(Event.MAXIMIZED);
+
+            if ($(this).hasClass(ClassName.COLLAPSED)) {
+              $(this).addClass(ClassName.WAS_COLLAPSED);
+            }
+
+            $(this).dequeue();
+          });
+        }
+      } // Private
+      ;
+
+      _proto._init = function _init(card) {
+        var _this3 = this;
+
+        this._parent = card;
+        $(this).find(this._settings.collapseTrigger).click(function () {
+          _this3.toggle();
+        });
+        $(this).find(this._settings.removeTrigger).click(function () {
+          _this3.remove();
+        });
+      } // Static
+      ;
+
+      Widget._jQueryInterface = function _jQueryInterface(config) {
+        return this.each(function () {
+          var data = $(this).data(DATA_KEY);
+
+          if (!data) {
+            data = new Widget($(this), data);
+            $(this).data(DATA_KEY, typeof config === 'string' ? data : config);
+          }
+
+          if (typeof config === 'string' && config.match(/remove|toggle/)) {
+            data[config]();
+          } else if (typeof config === 'object') {
+            data._init($(this));
+          }
+        });
+      };
+
+      return Widget;
+    }();
+    /**
+     * Data API
+     * ====================================================
+     */
+
+
+    $(document).on('click', Selector.DATA_COLLAPSE, function (event) {
+      if (event) {
+        event.preventDefault();
+      }
+
+      Widget._jQueryInterface.call($(this), 'toggle');
+    });
+    $(document).on('click', Selector.DATA_REMOVE, function (event) {
+      if (event) {
+        event.preventDefault();
+      }
+
+      Widget._jQueryInterface.call($(this), 'remove');
+    });
+    $(document).on('click', Selector.DATA_MAXIMIZE, function (event) {
+      if (event) {
+        event.preventDefault();
+      }
+
+      Widget._jQueryInterface.call($(this), 'toggleMaximize');
+    });
+    /**
+     * jQuery API
+     * ====================================================
+     */
+
+    $.fn[NAME] = Widget._jQueryInterface;
+    $.fn[NAME].Constructor = Widget;
+
+    $.fn[NAME].noConflict = function () {
+      $.fn[NAME] = JQUERY_NO_CONFLICT;
+      return Widget._jQueryInterface;
+    };
+
+    return Widget;
+  }(jQuery);
+
+  exports.ControlSidebar = ControlSidebar;
+  exports.Layout = Layout;
+  exports.PushMenu = PushMenu;
+  exports.Treeview = Treeview;
+  exports.Widget = Widget;
+
+  Object.defineProperty(exports, '__esModule', { value: true });
+
+}));
+//# sourceMappingURL=adminlte.js.map
+
+
+/***/ }),
+
 /***/ "./node_modules/admin-lte/dist/js/adminlte.min.js":
 /*!********************************************************!*\
   !*** ./node_modules/admin-lte/dist/js/adminlte.min.js ***!
@@ -94,11 +1010,11 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
- * AdminLTE v3.0.0-alpha.2 (https://adminlte.io)
- * Copyright 2014-2018 Abdullah Almsaeed <abdullah@almsaeedstudio.com>
+ * AdminLTE v3.0.0-beta.1 (https://adminlte.io)
+ * Copyright 2014-2019 Colorlib <http://colorlib.com>
  * Licensed under MIT (https://github.com/almasaeed2010/AdminLTE/blob/master/LICENSE)
  */
-!function(e,t){ true?t(exports):undefined}(this,function(e){"use strict";var i,t,o,n,r,a,s,c,f,l,u,d,h,p,_,g,y,m,v,C,D,E,A,O,w,b,L,S,j,T,I,Q,R,P,x,B,M,k,H,N,Y,U,V,G,W,X,z,F,q,J,K,Z,$,ee,te,ne="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e},ie=function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")},oe=(i=jQuery,t="ControlSidebar",o="lte.control.sidebar",n=i.fn[t],r=".control-sidebar",a='[data-widget="control-sidebar"]',s=".main-header",c="control-sidebar-open",f="control-sidebar-slide-open",l={slide:!0},u=function(){function n(e,t){ie(this,n),this._element=e,this._config=this._getConfig(t)}return n.prototype.show=function(){this._config.slide?i("body").removeClass(f):i("body").removeClass(c)},n.prototype.collapse=function(){this._config.slide?i("body").addClass(f):i("body").addClass(c)},n.prototype.toggle=function(){this._setMargin(),i("body").hasClass(c)||i("body").hasClass(f)?this.show():this.collapse()},n.prototype._getConfig=function(e){return i.extend({},l,e)},n.prototype._setMargin=function(){i(r).css({top:i(s).outerHeight()})},n._jQueryInterface=function(t){return this.each(function(){var e=i(this).data(o);if(e||(e=new n(this,i(this).data()),i(this).data(o,e)),"undefined"===e[t])throw new Error(t+" is not a function");e[t]()})},n}(),i(document).on("click",a,function(e){e.preventDefault(),u._jQueryInterface.call(i(this),"toggle")}),i.fn[t]=u._jQueryInterface,i.fn[t].Constructor=u,i.fn[t].noConflict=function(){return i.fn[t]=n,u._jQueryInterface},u),re=(d=jQuery,h="Layout",p="lte.layout",_=d.fn[h],g=".main-sidebar",y=".main-header",m=".content-wrapper",v=".main-footer",C="hold-transition",D=function(){function n(e){ie(this,n),this._element=e,this._init()}return n.prototype.fixLayoutHeight=function(){var e={window:d(window).height(),header:d(y).outerHeight(),footer:d(v).outerHeight(),sidebar:d(g).height()},t=this._max(e);d(m).css("min-height",t-e.header),d(g).css("min-height",t-e.header)},n.prototype._init=function(){var e=this;d("body").removeClass(C),this.fixLayoutHeight(),d(g).on("collapsed.lte.treeview expanded.lte.treeview collapsed.lte.pushmenu expanded.lte.pushmenu",function(){e.fixLayoutHeight()}),d(window).resize(function(){e.fixLayoutHeight()}),d("body, html").css("height","auto")},n.prototype._max=function(t){var n=0;return Object.keys(t).forEach(function(e){t[e]>n&&(n=t[e])}),n},n._jQueryInterface=function(t){return this.each(function(){var e=d(this).data(p);e||(e=new n(this),d(this).data(p,e)),t&&e[t]()})},n}(),d(window).on("load",function(){D._jQueryInterface.call(d("body"))}),d.fn[h]=D._jQueryInterface,d.fn[h].Constructor=D,d.fn[h].noConflict=function(){return d.fn[h]=_,D._jQueryInterface},D),ae=(E=jQuery,A="PushMenu",w="."+(O="lte.pushmenu"),b=E.fn[A],L={COLLAPSED:"collapsed"+w,SHOWN:"shown"+w},S={screenCollapseSize:768},j={TOGGLE_BUTTON:'[data-widget="pushmenu"]',SIDEBAR_MINI:".sidebar-mini",SIDEBAR_COLLAPSED:".sidebar-collapse",BODY:"body",OVERLAY:"#sidebar-overlay",WRAPPER:".wrapper"},T="sidebar-collapse",I="sidebar-open",Q=function(){function n(e,t){ie(this,n),this._element=e,this._options=E.extend({},S,t),E(j.OVERLAY).length||this._addOverlay()}return n.prototype.show=function(){E(j.BODY).addClass(I).removeClass(T);var e=E.Event(L.SHOWN);E(this._element).trigger(e)},n.prototype.collapse=function(){E(j.BODY).removeClass(I).addClass(T);var e=E.Event(L.COLLAPSED);E(this._element).trigger(e)},n.prototype.toggle=function(){(E(window).width()>=this._options.screenCollapseSize?!E(j.BODY).hasClass(T):E(j.BODY).hasClass(I))?this.collapse():this.show()},n.prototype._addOverlay=function(){var e=this,t=E("<div />",{id:"sidebar-overlay"});t.on("click",function(){e.collapse()}),E(j.WRAPPER).append(t)},n._jQueryInterface=function(t){return this.each(function(){var e=E(this).data(O);e||(e=new n(this),E(this).data(O,e)),t&&e[t]()})},n}(),E(document).on("click",j.TOGGLE_BUTTON,function(e){e.preventDefault();var t=e.currentTarget;"pushmenu"!==E(t).data("widget")&&(t=E(t).closest(j.TOGGLE_BUTTON)),Q._jQueryInterface.call(E(t),"toggle")}),E.fn[A]=Q._jQueryInterface,E.fn[A].Constructor=Q,E.fn[A].noConflict=function(){return E.fn[A]=b,Q._jQueryInterface},Q),se=(R=jQuery,P="Treeview",B="."+(x="lte.treeview"),M=R.fn[P],k={SELECTED:"selected"+B,EXPANDED:"expanded"+B,COLLAPSED:"collapsed"+B,LOAD_DATA_API:"load"+B},H=".nav-item",N=".nav-treeview",Y=".menu-open",V="menu-open",G={trigger:(U='[data-widget="treeview"]')+" "+".nav-link",animationSpeed:300,accordion:!0},W=function(){function i(e,t){ie(this,i),this._config=t,this._element=e}return i.prototype.init=function(){this._setupListeners()},i.prototype.expand=function(e,t){var n=this,i=R.Event(k.EXPANDED);if(this._config.accordion){var o=t.siblings(Y).first(),r=o.find(N).first();this.collapse(r,o)}e.slideDown(this._config.animationSpeed,function(){t.addClass(V),R(n._element).trigger(i)})},i.prototype.collapse=function(e,t){var n=this,i=R.Event(k.COLLAPSED);e.slideUp(this._config.animationSpeed,function(){t.removeClass(V),R(n._element).trigger(i),e.find(Y+" > "+N).slideUp(),e.find(Y).removeClass(V)})},i.prototype.toggle=function(e){var t=R(e.currentTarget),n=t.next();if(n.is(N)){e.preventDefault();var i=t.parents(H).first();i.hasClass(V)?this.collapse(R(n),i):this.expand(R(n),i)}},i.prototype._setupListeners=function(){var t=this;R(document).on("click",this._config.trigger,function(e){t.toggle(e)})},i._jQueryInterface=function(n){return this.each(function(){var e=R(this).data(x),t=R.extend({},G,R(this).data());e||(e=new i(R(this),t),R(this).data(x,e)),"init"===n&&e[n]()})},i}(),R(window).on(k.LOAD_DATA_API,function(){R(U).each(function(){W._jQueryInterface.call(R(this),"init")})}),R.fn[P]=W._jQueryInterface,R.fn[P].Constructor=W,R.fn[P].noConflict=function(){return R.fn[P]=M,W._jQueryInterface},W),ce=(X=jQuery,z="Widget",q="."+(F="lte.widget"),J=X.fn[z],K={EXPANDED:"expanded"+q,COLLAPSED:"collapsed"+q,REMOVED:"removed"+q},$="collapsed-card",ee={animationSpeed:"normal",collapseTrigger:(Z={DATA_REMOVE:'[data-widget="remove"]',DATA_COLLAPSE:'[data-widget="collapse"]',CARD:".card",CARD_HEADER:".card-header",CARD_BODY:".card-body",CARD_FOOTER:".card-footer",COLLAPSED:".collapsed-card"}).DATA_COLLAPSE,removeTrigger:Z.DATA_REMOVE},te=function(){function n(e,t){ie(this,n),this._element=e,this._parent=e.parents(Z.CARD).first(),this._settings=X.extend({},ee,t)}return n.prototype.collapse=function(){var e=this;this._parent.children(Z.CARD_BODY+", "+Z.CARD_FOOTER).slideUp(this._settings.animationSpeed,function(){e._parent.addClass($)});var t=X.Event(K.COLLAPSED);this._element.trigger(t,this._parent)},n.prototype.expand=function(){var e=this;this._parent.children(Z.CARD_BODY+", "+Z.CARD_FOOTER).slideDown(this._settings.animationSpeed,function(){e._parent.removeClass($)});var t=X.Event(K.EXPANDED);this._element.trigger(t,this._parent)},n.prototype.remove=function(){this._parent.slideUp();var e=X.Event(K.REMOVED);this._element.trigger(e,this._parent)},n.prototype.toggle=function(){this._parent.hasClass($)?this.expand():this.collapse()},n.prototype._init=function(e){var t=this;this._parent=e,X(this).find(this._settings.collapseTrigger).click(function(){t.toggle()}),X(this).find(this._settings.removeTrigger).click(function(){t.remove()})},n._jQueryInterface=function(t){return this.each(function(){var e=X(this).data(F);e||(e=new n(X(this),e),X(this).data(F,"string"==typeof t?e:t)),"string"==typeof t&&t.match(/remove|toggle/)?e[t]():"object"===("undefined"==typeof t?"undefined":ne(t))&&e._init(X(this))})},n}(),X(document).on("click",Z.DATA_COLLAPSE,function(e){e&&e.preventDefault(),te._jQueryInterface.call(X(this),"toggle")}),X(document).on("click",Z.DATA_REMOVE,function(e){e&&e.preventDefault(),te._jQueryInterface.call(X(this),"remove")}),X.fn[z]=te._jQueryInterface,X.fn[z].Constructor=te,X.fn[z].noConflict=function(){return X.fn[z]=J,te._jQueryInterface},te);e.ControlSidebar=oe,e.Layout=re,e.PushMenu=ae,e.Treeview=se,e.Widget=ce,Object.defineProperty(e,"__esModule",{value:!0})});
+!function(e,t){ true?t(exports):undefined}(this,function(e){"use strict";var i,t,s,n,a,o,r,l,c,h,d,u,f,g,p,m,_,v,y,C,w,b,x,I,E,D,j,S,Q,A,L,M,O,z,P,T,k,H,N,X,q,U,W,Z,R,V,B,F,G,J,K,Y,$,ee,te,ne,ie,se,ae,oe,re,le,ce,he,de,ue,fe,ge,pe,me,_e,ve,ye,Ce,we,be,xe,Ie,Ee=(i=jQuery,t="ControlSidebar",s="lte.control.sidebar",n=i.fn[t],a=".control-sidebar",o='[data-widget="control-sidebar"]',r=".main-header",l="control-sidebar-open",c="control-sidebar-slide-open",h={slide:!0},d=function(){function n(e,t){this._element=e,this._config=this._getConfig(t)}var e=n.prototype;return e.show=function(){this._config.slide?i("body").removeClass(c):i("body").removeClass(l)},e.collapse=function(){this._config.slide?i("body").addClass(c):i("body").addClass(l)},e.toggle=function(){this._setMargin(),i("body").hasClass(l)||i("body").hasClass(c)?this.show():this.collapse()},e._getConfig=function(e){return i.extend({},h,e)},e._setMargin=function(){i(a).css({top:i(r).innerHeight()})},n._jQueryInterface=function(t){return this.each(function(){var e=i(this).data(s);if(e||(e=new n(this,i(this).data()),i(this).data(s,e)),"undefined"===e[t])throw new Error(t+" is not a function");e[t]()})},n}(),i(document).on("click",o,function(e){e.preventDefault(),d._jQueryInterface.call(i(this),"toggle")}),i.fn[t]=d._jQueryInterface,i.fn[t].Constructor=d,i.fn[t].noConflict=function(){return i.fn[t]=n,d._jQueryInterface},d),De=(u=jQuery,f="Layout",g="lte.layout",p=u.fn[f],m=".main-header",_=".main-sidebar .sidebar",v=".content-wrapper",y=".brand-link",C=".control-sidebar",w=".main-footer",b="hold-transition",x="content-fixed",I="layout-fixed",E="layout-navbar-fixed",D="layout-footer-fixed",j={scrollbarTheme:"os-theme-light",scrollbarAutoHide:"l"},S=function(){function i(e,t){this._config=t,this._element=e,this._init()}var e=i.prototype;return e.fixLayoutHeight=function(){var e={window:u(window).height(),header:u(m).outerHeight(),footer:u(w).outerHeight(),sidebar:u(_).height()},t=this._max(e);u("body").hasClass(I)?(u(v).css("min-height",t-e.header-e.footer),u(C+" .control-sidebar-content").css("height",t-e.header),"undefined"!=typeof u.fn.overlayScrollbars&&(u(_).overlayScrollbars({className:this._config.scrollbarTheme,sizeAutoCapable:!0,scrollbars:{autoHide:this._config.scrollbarAutoHide,clickScrolling:!0}}),u(C+" .control-sidebar-content").overlayScrollbars({className:this._config.scrollbarTheme,sizeAutoCapable:!0,scrollbars:{autoHide:this._config.scrollbarAutoHide,clickScrolling:!0}}))):e.sidebar<e.window?u(v).css("min-height",e.window-e.header-e.footer):u(v).css("min-height",e.sidebar-e.header),u("body").hasClass(E)&&(u(y).css("height",e.header),u(_).css("margin-top",e.header),u(_).css("margin-top",e.header)),u("body").hasClass(D)&&u(v).css("margin-bottom",e.footer),u("body").hasClass(x)&&u(v).css("height",u(v).css("min-height"))},e._init=function(){var e=this;u("body").removeClass(b),this.fixLayoutHeight(),u(_).on("collapsed.lte.treeview expanded.lte.treeview collapsed.lte.pushmenu expanded.lte.pushmenu",function(){e.fixLayoutHeight()}),u(window).resize(function(){e.fixLayoutHeight()}),u("body, html").css("height","auto")},e._max=function(t){var n=0;return Object.keys(t).forEach(function(e){t[e]>n&&(n=t[e])}),n},i._jQueryInterface=function(n){return this.each(function(){var e=u(this).data(g),t=u.extend({},j,u(this).data());e||(e=new i(u(this),t),u(this).data(g,e)),"init"===n&&e[n]()})},i}(),u(window).on("load",function(){S._jQueryInterface.call(u("body"))}),u.fn[f]=S._jQueryInterface,u.fn[f].Constructor=S,u.fn[f].noConflict=function(){return u.fn[f]=p,S._jQueryInterface},S),je=(Q=jQuery,A="PushMenu",M="."+(L="lte.pushmenu"),O=Q.fn[A],P={autoCollapseSize:!(z={COLLAPSED:"collapsed"+M,SHOWN:"shown"+M}),screenCollapseSize:768},T='[data-widget="pushmenu"]',k="body",H="#sidebar-overlay",N=".wrapper",X="sidebar-collapse",q="sidebar-open",U=function(){function i(e,t){this._element=e,this._options=Q.extend({},P,t),this._init(),Q(H).length||this._addOverlay()}var e=i.prototype;return e.show=function(){Q(k).addClass(q).removeClass(X);var e=Q.Event(z.SHOWN);Q(this._element).trigger(e)},e.collapse=function(){Q(k).removeClass(q).addClass(X);var e=Q.Event(z.COLLAPSED);Q(this._element).trigger(e)},e.isShown=function(){return Q(window).width()>=this._options.screenCollapseSize?!Q(k).hasClass(X):Q(k).hasClass(q)},e.toggle=function(){this.isShown()?this.collapse():this.show()},e.autoCollapse=function(){this._options.autoCollapseSize&&(Q(window).width()<=this._options.autoCollapseSize?this.isShown()&&this.toggle():this.isShown()||this.toggle())},e._init=function(){var e=this;this.autoCollapse(),Q(window).resize(function(){e.autoCollapse()})},e._addOverlay=function(){var e=this,t=Q("<div />",{id:"sidebar-overlay"});t.on("click",function(){e.collapse()}),Q(N).append(t)},i._jQueryInterface=function(n){return this.each(function(){var e=Q(this).data(L),t=Q.extend({},P,Q(this).data());e||(e=new i(this,t),Q(this).data(L,e)),"toggle"===n&&e[n]()})},i}(),Q(document).on("click",T,function(e){e.preventDefault();var t=e.currentTarget;"pushmenu"!==Q(t).data("widget")&&(t=Q(t).closest(T)),U._jQueryInterface.call(Q(t),"toggle")}),Q(window).on("load",function(){U._jQueryInterface.call(Q(T))}),Q.fn[A]=U._jQueryInterface,Q.fn[A].Constructor=U,Q.fn[A].noConflict=function(){return Q.fn[A]=O,U._jQueryInterface},U),Se=(W=jQuery,Z="Treeview",V="."+(R="lte.treeview"),B=W.fn[Z],F={SELECTED:"selected"+V,EXPANDED:"expanded"+V,COLLAPSED:"collapsed"+V,LOAD_DATA_API:"load"+V},G=".nav-item",J=".nav-treeview",K=".menu-open",$="menu-open",ee={trigger:(Y='[data-widget="treeview"]')+" "+".nav-link",animationSpeed:300,accordion:!0},te=function(){function i(e,t){this._config=t,this._element=e}var e=i.prototype;return e.init=function(){this._setupListeners()},e.expand=function(e,t){var n=this,i=W.Event(F.EXPANDED);if(this._config.accordion){var s=t.siblings(K).first(),a=s.find(J).first();this.collapse(a,s)}e.slideDown(this._config.animationSpeed,function(){t.addClass($),W(n._element).trigger(i)})},e.collapse=function(e,t){var n=this,i=W.Event(F.COLLAPSED);e.slideUp(this._config.animationSpeed,function(){t.removeClass($),W(n._element).trigger(i),e.find(K+" > "+J).slideUp(),e.find(K).removeClass($)})},e.toggle=function(e){var t=W(e.currentTarget),n=t.next();if(n.is(J)){e.preventDefault();var i=t.parents(G).first();i.hasClass($)?this.collapse(W(n),i):this.expand(W(n),i)}},e._setupListeners=function(){var t=this;W(document).on("click",this._config.trigger,function(e){t.toggle(e)})},i._jQueryInterface=function(n){return this.each(function(){var e=W(this).data(R),t=W.extend({},ee,W(this).data());e||(e=new i(W(this),t),W(this).data(R,e)),"init"===n&&e[n]()})},i}(),W(window).on(F.LOAD_DATA_API,function(){W(Y).each(function(){te._jQueryInterface.call(W(this),"init")})}),W.fn[Z]=te._jQueryInterface,W.fn[Z].Constructor=te,W.fn[Z].noConflict=function(){return W.fn[Z]=B,te._jQueryInterface},te),Qe=(ne=jQuery,ie="Widget",ae="."+(se="lte.widget"),oe=ne.fn[ie],re={EXPANDED:"expanded"+ae,COLLAPSED:"collapsed"+ae,MAXIMIZED:"maximized"+ae,MINIMIZED:"minimized"+ae,REMOVED:"removed"+ae},he='[data-widget="maximize"]',de=".card",ue=".card-body",fe=".card-footer",ge=".fa-minus",pe=".fa-plus",me="collapsed-card",_e="was-collapsed",ve="maximized-card",ye="fa-minus",Ce="fa-plus",we="fa-expand",be="fa-compress",xe={animationSpeed:"normal",collapseTrigger:ce='[data-widget="collapse"]',removeTrigger:le='[data-widget="remove"]'},Ie=function(){function n(e,t){this._element=e,this._parent=e.parents(de).first(),this._settings=ne.extend({},xe,t)}var e=n.prototype;return e.collapse=function(){var e=this;this._parent.children(ue+", "+fe).slideUp(this._settings.animationSpeed,function(){e._parent.addClass(me)}),this._element.children(ge).addClass(Ce).removeClass(ye);var t=ne.Event(re.COLLAPSED);this._element.trigger(t,this._parent)},e.expand=function(){var e=this;this._parent.children(ue+", "+fe).slideDown(this._settings.animationSpeed,function(){e._parent.removeClass(me)}),this._element.children(pe).addClass(ye).removeClass(Ce);var t=ne.Event(re.EXPANDED);this._element.trigger(t,this._parent)},e.remove=function(){this._parent.slideUp();var e=ne.Event(re.REMOVED);this._element.trigger(e,this._parent)},e.toggle=function(){this._parent.hasClass(me)?this.expand():this.collapse()},e.toggleMaximize=function(){var e=this._element.find("i");this._parent.hasClass(ve)?(e.addClass(we).removeClass(be),this._parent.css("cssText","height:"+this._parent[0].style.height+" !important;width:"+this._parent[0].style.width+" !important; transition: all .15s;").delay(100).queue(function(){ne(this).removeClass(ve),ne("html").removeClass(ve),ne(this).trigger(re.MINIMIZED),ne(this).css({height:"inherit",width:"inherit"}),ne(this).hasClass(_e)&&ne(this).removeClass(_e),ne(this).dequeue()})):(e.addClass(be).removeClass(we),this._parent.css({height:this._parent.height(),width:this._parent.width(),transition:"all .15s"}).delay(150).queue(function(){ne(this).addClass(ve),ne("html").addClass(ve),ne(this).trigger(re.MAXIMIZED),ne(this).hasClass(me)&&ne(this).addClass(_e),ne(this).dequeue()}))},e._init=function(e){var t=this;this._parent=e,ne(this).find(this._settings.collapseTrigger).click(function(){t.toggle()}),ne(this).find(this._settings.removeTrigger).click(function(){t.remove()})},n._jQueryInterface=function(t){return this.each(function(){var e=ne(this).data(se);e||(e=new n(ne(this),e),ne(this).data(se,"string"==typeof t?e:t)),"string"==typeof t&&t.match(/remove|toggle/)?e[t]():"object"==typeof t&&e._init(ne(this))})},n}(),ne(document).on("click",ce,function(e){e&&e.preventDefault(),Ie._jQueryInterface.call(ne(this),"toggle")}),ne(document).on("click",le,function(e){e&&e.preventDefault(),Ie._jQueryInterface.call(ne(this),"remove")}),ne(document).on("click",he,function(e){e&&e.preventDefault(),Ie._jQueryInterface.call(ne(this),"toggleMaximize")}),ne.fn[ie]=Ie._jQueryInterface,ne.fn[ie].Constructor=Ie,ne.fn[ie].noConflict=function(){return ne.fn[ie]=oe,Ie._jQueryInterface},Ie);e.ControlSidebar=Ee,e.Layout=De,e.PushMenu=je,e.Treeview=Se,e.Widget=Qe,Object.defineProperty(e,"__esModule",{value:!0})});
 //# sourceMappingURL=adminlte.min.js.map
 
 /***/ }),
@@ -8658,6 +9574,11 @@ $.extend( true, DataTable.Buttons.defaults, {
 				disabled: 'disabled'
 			}
 		}
+	},
+	buttonCreated: function ( config, button ) {
+		return config.buttons ?
+			$('<div class="btn-group"/>').append(button) :
+			button;
 	}
 } );
 
@@ -8677,8 +9598,8 @@ return DataTable.Buttons;
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! Buttons for DataTables 1.5.4
- * ©2016-2018 SpryMedia Ltd - datatables.net/license
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! Buttons for DataTables 1.5.6
+ * ©2016-2019 SpryMedia Ltd - datatables.net/license
  */
 
 (function( factory ){
@@ -8711,6 +9632,15 @@ var _dtButtons = DataTable.ext.buttons;
  */
 var Buttons = function( dt, config )
 {
+	// If not created with a `new` keyword then we return a wrapper function that
+	// will take the settings object for a DT. This allows easy use of new instances
+	// with the `layout` option - e.g. `topLeft: $.fn.dataTable.Buttons( ... )`.
+	if ( !(this instanceof Buttons) ) {
+		return function (settings) {
+			return new Buttons( settings, dt ).container();
+		};
+	}
+
 	// If there is no config set it to an empty object
 	if ( typeof( config ) === 'undefined' ) {
 		config = {};	
@@ -8911,12 +9841,16 @@ $.extend( Buttons.prototype, {
 	},
 
 	/**
-	 * Get a button's node
-	 * @param  {node} node Button node
-	 * @return {jQuery} Button element
+	 * Get a button's node of the buttons container if no button is given
+	 * @param  {node} [node] Button node
+	 * @return {jQuery} Button element, or container
 	 */
 	node: function ( node )
 	{
+		if ( ! node ) {
+			return this.dom.container;
+		}
+
 		var button = this._nodeToButton( node );
 		return $(button.node);
 	},
@@ -9210,6 +10144,7 @@ $.extend( Buttons.prototype, {
 		};
 
 		var tag = config.tag || buttonDom.tag;
+		var clickBlurs = config.clickBlurs === undefined ? true : config.clickBlurs
 		var button = $('<'+tag+'/>')
 			.addClass( buttonDom.className )
 			.attr( 'tabindex', this.s.dt.settings()[0].iTabIndex )
@@ -9220,8 +10155,9 @@ $.extend( Buttons.prototype, {
 				if ( ! button.hasClass( buttonDom.disabled ) && config.action ) {
 					action( e, dt, button, config );
 				}
-
-				button.blur();
+				if( clickBlurs ) {
+					button.blur();
+				}
 			} )
 			.on( 'keyup.dtb', function (e) {
 				if ( e.keyCode === 13 ) {
@@ -9288,6 +10224,13 @@ $.extend( Buttons.prototype, {
 		}
 
 		this._addKey( config );
+
+		// Style integration callback for DOM manipulation
+		// Note that this is _not_ documented. It is currently
+		// for style integration only
+		if( this.c.buttonCreated ) {
+			inserter = this.c.buttonCreated( config, inserter );
+		}
 
 		return {
 			conf:         config,
@@ -9584,10 +10527,12 @@ Buttons.background = function ( show, className, fade, insertPoint ) {
 			.addClass( className )
 			.css( 'display', 'none' )
 			.insertAfter( insertPoint )
+			.stop()
 			.fadeIn( fade );
 	}
 	else {
 		$('div.'+className)
+			.stop()
 			.fadeOut( fade, function () {
 				$(this)
 					.removeClass( className )
@@ -9831,7 +10776,7 @@ Buttons.defaults = {
  * @type {string}
  * @static
  */
-Buttons.version = '1.5.4';
+Buttons.version = '1.5.6';
 
 
 $.extend( _dtButtons, {
@@ -9840,101 +10785,22 @@ $.extend( _dtButtons, {
 			return dt.i18n( 'buttons.collection', 'Collection' );
 		},
 		className: 'buttons-collection',
+		init: function ( dt, button, config ) {
+			button.attr( 'aria-expanded', false );
+		},
 		action: function ( e, dt, button, config ) {
-			var host = button;
-			var collectionParent = $(button).parents('div.dt-button-collection');
-			var hostPosition = host.position();
-			var tableContainer = $( dt.table().container() );
-			var multiLevel = false;
-			var insertPoint = host;
-
-			// Remove any old collection
-			if ( collectionParent.length ) {
-				multiLevel = $('.dt-button-collection').position();
-				insertPoint = collectionParent;
-				$('body').trigger( 'click.dtb-collection' );
-			}
-
-			if ( insertPoint.parents('body')[0] !== document.body ) {
-				insertPoint = document.body.lastChild;
-			}
-
-			config._collection.find('.dt-button-collection-title').remove();
-			config._collection.prepend('<div class="dt-button-collection-title">'+config.collectionTitle+'</div>');
-
-			config._collection
-				.addClass( config.collectionLayout )
-				.css( 'display', 'none' )
-				.insertAfter( insertPoint )
-				.fadeIn( config.fade );
-
-			var position = config._collection.css( 'position' );
-
-			if ( multiLevel && position === 'absolute' ) {
-				config._collection.css( {
-					top: multiLevel.top,
-					left: multiLevel.left
-				} );
-			}
-			else if ( position === 'absolute' ) {
-				config._collection.css( {
-					top: hostPosition.top + host.outerHeight(),
-					left: hostPosition.left
-				} );
-
-				// calculate overflow when positioned beneath
-				var tableBottom = tableContainer.offset().top + tableContainer.height();
-				var listBottom = hostPosition.top + host.outerHeight() + config._collection.outerHeight();
-				var bottomOverflow = listBottom - tableBottom;
-				
-				// calculate overflow when positioned above
-				var listTop = hostPosition.top - config._collection.outerHeight();
-				var tableTop = tableContainer.offset().top;
-				var topOverflow = tableTop - listTop;
-				
-				// if bottom overflow is larger, move to the top because it fits better, or if dropup is requested
-				if (bottomOverflow > topOverflow || config.dropup) {
-					config._collection.css( 'top', hostPosition.top - config._collection.outerHeight() - 5);
-				}
-
-				// Right alignment is enabled on a class, e.g. bootstrap:
-				// $.fn.dataTable.Buttons.defaults.dom.collection.className += " dropdown-menu-right"; 
-				if ( config._collection.hasClass( config.rightAlignClassName ) ) {
-					config._collection.css( 'left', hostPosition.left + host.outerWidth() - config._collection.outerWidth() );
-				}
-
-				// Right alignment in table container
-				var listRight = hostPosition.left + config._collection.outerWidth();
-				var tableRight = tableContainer.offset().left + tableContainer.width();
-				if ( listRight > tableRight ) {
-					config._collection.css( 'left', hostPosition.left - ( listRight - tableRight ) );
-				}
-
-				// Right alignment to window
-				var listOffsetRight = host.offset().left + config._collection.outerWidth();
-				if ( listOffsetRight > $(window).width() ) {
-					config._collection.css( 'left', hostPosition.left - (listOffsetRight-$(window).width()) );
-				}
-			}
-			else {
-				// Fix position - centre on screen
-				var top = config._collection.height() / 2;
-				if ( top > $(window).height() / 2 ) {
-					top = $(window).height() / 2;
-				}
-
-				config._collection.css( 'marginTop', top*-1 );
-			}
-
-			if ( config.background ) {
-				Buttons.background( true, config.backgroundClassName, config.fade, insertPoint );
-			}
-
 			var close = function () {
-				config._collection
-				.fadeOut( config.fade, function () {
-					config._collection.detach();
-				} );
+				dt.buttons( '[aria-haspopup="true"][aria-expanded="true"]' ).nodes().each( function() {
+					var collection = $(this).siblings('.dt-button-collection');
+
+					if ( collection.length ) {
+						collection.stop().fadeOut( config.fade, function () {
+							collection.detach();
+						} );
+					}
+
+					$(this).attr( 'aria-expanded', 'false' );
+				});
 
 				$('div.dt-button-background').off( 'click.dtb-collection' );
 				Buttons.background( false, config.backgroundClassName, config.fade, insertPoint );
@@ -9943,36 +10809,134 @@ $.extend( _dtButtons, {
 				dt.off( 'buttons-action.b-internal' );
 			};
 
-			// Need to break the 'thread' for the collection button being
-			// activated by a click - it would also trigger this event
-			setTimeout( function () {
-				// This is bonkers, but if we don't have a click listener on the
-				// background element, iOS Safari will ignore the body click
-				// listener below. An empty function here is all that is
-				// required to make it work...
-				$('div.dt-button-background').on( 'click.dtb-collection', function () {} );
+			var wasExpanded = button.attr( 'aria-expanded' ) === 'true';
 
-				$('body')
-					.on( 'click.dtb-collection', function (e) {
-						// andSelf is deprecated in jQ1.8, but we want 1.7 compat
-						var back = $.fn.addBack ? 'addBack' : 'andSelf';
+			close();
 
-						if ( ! $(e.target).parents()[back]().filter( config._collection ).length ) {
-							close();
-						}
-					} )
-					.on( 'keyup.dtb-collection', function (e) {
-						if ( e.keyCode === 27 ) {
-							close();
-						}
-					} );
+			if (!wasExpanded) {
+				var host = button;
+				var collectionParent = $(button).parents('div.dt-button-collection');
+				var hostPosition = host.position();
+				var tableContainer = $( dt.table().container() );
+				var multiLevel = false;
+				var insertPoint = host;
 
-				if ( config.autoClose ) {
-					dt.on( 'buttons-action.b-internal', function () {
-						close();
+				button.attr( 'aria-expanded', 'true' );
+
+				// Remove any old collection
+				if ( collectionParent.length ) {
+					multiLevel = $('.dt-button-collection').position();
+					insertPoint = collectionParent;
+					$('body').trigger( 'click.dtb-collection' );
+				}
+
+				if ( insertPoint.parents('body')[0] !== document.body ) {
+					insertPoint = document.body.lastChild;
+				}
+
+				config._collection.find('.dt-button-collection-title').remove();
+				config._collection.prepend('<div class="dt-button-collection-title">'+config.collectionTitle+'</div>');
+
+				config._collection
+					.addClass( config.collectionLayout )
+					.css( 'display', 'none' )
+					.insertAfter( insertPoint )
+					.stop()
+					.fadeIn( config.fade );
+
+				var position = config._collection.css( 'position' );
+
+				if ( multiLevel && position === 'absolute' ) {
+					config._collection.css( {
+						top: multiLevel.top,
+						left: multiLevel.left
 					} );
 				}
-			}, 10 );
+				else if ( position === 'absolute' ) {
+					config._collection.css( {
+						top: hostPosition.top + host.outerHeight(),
+						left: hostPosition.left
+					} );
+
+					// calculate overflow when positioned beneath
+					var tableBottom = tableContainer.offset().top + tableContainer.height();
+					var listBottom = hostPosition.top + host.outerHeight() + config._collection.outerHeight();
+					var bottomOverflow = listBottom - tableBottom;
+
+					// calculate overflow when positioned above
+					var listTop = hostPosition.top - config._collection.outerHeight();
+					var tableTop = tableContainer.offset().top;
+					var topOverflow = tableTop - listTop;
+
+					// if bottom overflow is larger, move to the top because it fits better, or if dropup is requested
+					if (bottomOverflow > topOverflow || config.dropup) {
+						config._collection.css( 'top', hostPosition.top - config._collection.outerHeight() - 5);
+					}
+
+					// Right alignment is enabled on a class, e.g. bootstrap:
+					// $.fn.dataTable.Buttons.defaults.dom.collection.className += " dropdown-menu-right"; 
+					if ( config._collection.hasClass( config.rightAlignClassName ) ) {
+						config._collection.css( 'left', hostPosition.left + host.outerWidth() - config._collection.outerWidth() );
+					}
+
+					// Right alignment in table container
+					var listRight = hostPosition.left + config._collection.outerWidth();
+					var tableRight = tableContainer.offset().left + tableContainer.width();
+					if ( listRight > tableRight ) {
+						config._collection.css( 'left', hostPosition.left - ( listRight - tableRight ) );
+					}
+
+					// Right alignment to window
+					var listOffsetRight = host.offset().left + config._collection.outerWidth();
+					if ( listOffsetRight > $(window).width() ) {
+						config._collection.css( 'left', hostPosition.left - (listOffsetRight-$(window).width()) );
+					}
+				}
+				else {
+					// Fix position - centre on screen
+					var top = config._collection.height() / 2;
+					if ( top > $(window).height() / 2 ) {
+						top = $(window).height() / 2;
+					}
+
+					config._collection.css( 'marginTop', top*-1 );
+				}
+
+				if ( config.background ) {
+					Buttons.background( true, config.backgroundClassName, config.fade, insertPoint );
+				}
+
+				// Need to break the 'thread' for the collection button being
+				// activated by a click - it would also trigger this event
+				setTimeout( function () {
+					// This is bonkers, but if we don't have a click listener on the
+					// background element, iOS Safari will ignore the body click
+					// listener below. An empty function here is all that is
+					// required to make it work...
+					$('div.dt-button-background').on( 'click.dtb-collection', function () {} );
+
+					$('body')
+						.on( 'click.dtb-collection', function (e) {
+							// andSelf is deprecated in jQ1.8, but we want 1.7 compat
+							var back = $.fn.addBack ? 'addBack' : 'andSelf';
+
+							if ( ! $(e.target).parents()[back]().filter( config._collection ).length ) {
+								close();
+							}
+						} )
+						.on( 'keyup.dtb-collection', function (e) {
+							if ( e.keyCode === 27 ) {
+								close();
+							}
+						} );
+
+					if ( config.autoClose ) {
+						dt.on( 'buttons-action.b-internal', function () {
+							close();
+						} );
+					}
+				}, 10 );
+			}
 		},
 		background: true,
 		collectionLayout: '',
@@ -10060,7 +11024,7 @@ $.extend( _dtButtons, {
 			init: function ( dt, node, conf ) {
 				var that = this;
 				dt.on( 'length.dt'+conf.namespace, function () {
-					that.text( text( dt ) );
+					that.text( conf.text );
 				} );
 			},
 			destroy: function ( dt, node, conf ) {
@@ -10563,16 +11527,23 @@ $(document).on( 'init.dt plugin-init.dt', function (e, settings) {
 	}
 } );
 
+function _init ( settings ) {
+	var api = new DataTable.Api( settings );
+	var opts = api.init().buttons || DataTable.defaults.buttons;
+
+	return new Buttons( api, opts ).container();
+}
+
 // DataTables `dom` feature option
 DataTable.ext.feature.push( {
-	fnInit: function( settings ) {
-		var api = new DataTable.Api( settings );
-		var opts = api.init().buttons || DataTable.defaults.buttons;
-
-		return new Buttons( api, opts ).container();
-	},
+	fnInit: _init,
 	cFeature: "B"
 } );
+
+// DataTables 2 layout feature
+if ( DataTable.ext.features ) {
+	DataTable.ext.features.register( 'buttons', _init );
+}
 
 
 return Buttons;
@@ -16389,14 +17360,14 @@ return $.fn.dataTable;
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! Scroller 1.5.1
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! Scroller 2.0.0
  * ©2011-2018 SpryMedia Ltd - datatables.net/license
  */
 
 /**
  * @summary     Scroller
  * @description Virtual rendering for DataTables
- * @version     1.5.1
+ * @version     2.0.0
  * @file        dataTables.scroller.js
  * @author      SpryMedia Ltd (www.sprymedia.co.uk)
  * @contact     www.sprymedia.co.uk/contact
@@ -16468,7 +17439,7 @@ var DataTable = $.fn.dataTable;
  *        $('#example').DataTable( {
  *            "scrollY": "200px",
  *            "ajax": "media/dataset/large.txt",
- *            "dom": "frtiS",
+ *            "scroller": true,
  *            "deferRender": true
  *        } );
  *    } );
@@ -16498,27 +17469,27 @@ var Scroller = function ( dt, opts ) {
 		 *  @type     object
 		 *  @default  Passed in as first parameter to constructor
 		 */
-		"dt": dtApi.settings()[0],
+		dt: dtApi.settings()[0],
 
 		/**
 		 * DataTables API instance
 		 *  @type     DataTable.Api
 		 */
-		"dtApi": dtApi,
+		dtApi: dtApi,
 
 		/**
 		 * Pixel location of the top of the drawn table in the viewport
 		 *  @type     int
 		 *  @default  0
 		 */
-		"tableTop": 0,
+		tableTop: 0,
 
 		/**
 		 * Pixel location of the bottom of the drawn table in the viewport
 		 *  @type     int
 		 *  @default  0
 		 */
-		"tableBottom": 0,
+		tableBottom: 0,
 
 		/**
 		 * Pixel location of the boundary for when the next data set should be loaded and drawn
@@ -16527,7 +17498,7 @@ var Scroller = function ( dt, opts ) {
 		 *  @default  0
 		 *  @private
 		 */
-		"redrawTop": 0,
+		redrawTop: 0,
 
 		/**
 		 * Pixel location of the boundary for when the next data set should be loaded and drawn
@@ -16537,21 +17508,21 @@ var Scroller = function ( dt, opts ) {
 		 *  @default  0
 		 *  @private
 		 */
-		"redrawBottom": 0,
+		redrawBottom: 0,
 
 		/**
 		 * Auto row height or not indicator
 		 *  @type     bool
 		 *  @default  0
 		 */
-		"autoHeight": true,
+		autoHeight: true,
 
 		/**
 		 * Number of rows calculated as visible in the visible viewport
 		 *  @type     int
 		 *  @default  0
 		 */
-		"viewportRows": 0,
+		viewportRows: 0,
 
 		/**
 		 * setTimeout reference for state saving, used when state saving is enabled in the DataTable
@@ -16560,7 +17531,7 @@ var Scroller = function ( dt, opts ) {
 		 *  @type     int
 		 *  @default  0
 		 */
-		"stateTO": null,
+		stateTO: null,
 
 		/**
 		 * setTimeout reference for the redraw, used when server-side processing is enabled in the
@@ -16568,7 +17539,7 @@ var Scroller = function ( dt, opts ) {
 		 *  @type     int
 		 *  @default  null
 		 */
-		"drawTO": null,
+		drawTO: null,
 
 		heights: {
 			jump: null,
@@ -16588,13 +17559,18 @@ var Scroller = function ( dt, opts ) {
 			 *  @type     int
 			 *  @default  0
 			 */
-			viewport: null
+			viewport: null,
+			labelFactor: 1
 		},
 
 		topRowFloat: 0,
 		scrollDrawDiff: null,
 		loaderVisible: false,
-		forceReposition: false
+		forceReposition: false,
+		baseRowTop: 0,
+		baseScrollTop: 0,
+		mousedown: false,
+		lastScrollTop: 0
 	};
 
 	// @todo The defaults should extend a `c` property and the internal settings
@@ -16612,6 +17588,7 @@ var Scroller = function ( dt, opts ) {
 	 */
 	this.dom = {
 		"force":    document.createElement('div'),
+		"label":    $('<div class="dts_label">0</div>'),
 		"scroller": null,
 		"table":    null,
 		"loader":   null
@@ -16626,36 +17603,113 @@ var Scroller = function ( dt, opts ) {
 	this.s.dt.oScroller = this;
 
 	/* Let's do it */
-	this._fnConstruct();
+	this.construct();
 };
 
 
 
 $.extend( Scroller.prototype, {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-	 * Public methods
-	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	 * Public methods - to be exposed via the DataTables API
+	 */
+
+	/**
+	 * Calculate and store information about how many rows are to be displayed
+	 * in the scrolling viewport, based on current dimensions in the browser's
+	 * rendering. This can be particularly useful if the table is initially
+	 * drawn in a hidden element - for example in a tab.
+	 *  @param {bool} [redraw=true] Redraw the table automatically after the recalculation, with
+	 *    the new dimensions forming the basis for the draw.
+	 *  @returns {void}
+	 */
+	measure: function ( redraw )
+	{
+		if ( this.s.autoHeight )
+		{
+			this._calcRowHeight();
+		}
+
+		var heights = this.s.heights;
+
+		if ( heights.row ) {
+			heights.viewport = $.contains(document, this.dom.scroller) ?
+				this.dom.scroller.clientHeight :
+				this._parseHeight($(this.dom.scroller).css('height'));
+
+			// If collapsed (no height) use the max-height parameter
+			if ( ! heights.viewport ) {
+				heights.viewport = this._parseHeight($(this.dom.scroller).css('max-height'));
+			}
+
+			this.s.viewportRows = parseInt( heights.viewport / heights.row, 10 )+1;
+			this.s.dt._iDisplayLength = this.s.viewportRows * this.s.displayBuffer;
+		}
+
+		var label = this.dom.label.outerHeight();
+		heights.labelFactor = (heights.viewport-label) / heights.scroll;
+
+		if ( redraw === undefined || redraw )
+		{
+			this.s.dt.oInstance.fnDraw( false );
+		}
+	},
+
+	/**
+	 * Get information about current displayed record range. This corresponds to
+	 * the information usually displayed in the "Info" block of the table.
+	 *
+	 * @returns {object} info as an object:
+	 *  {
+	 *      start: {int}, // the 0-indexed record at the top of the viewport
+	 *      end:   {int}, // the 0-indexed record at the bottom of the viewport
+	 *  }
+	*/
+	pageInfo: function()
+	{
+		var 
+			dt = this.s.dt,
+			iScrollTop = this.dom.scroller.scrollTop,
+			iTotal = dt.fnRecordsDisplay(),
+			iPossibleEnd = Math.ceil(this.pixelsToRow(iScrollTop + this.s.heights.viewport, false, this.s.ani));
+
+		return {
+			start: Math.floor(this.pixelsToRow(iScrollTop, false, this.s.ani)),
+			end: iTotal < iPossibleEnd ? iTotal-1 : iPossibleEnd-1
+		};
+	},
+
+	/**
+	 * Calculate the row number that will be found at the given pixel position
+	 * (y-scroll).
+	 *
+	 * Please note that when the height of the full table exceeds 1 million
+	 * pixels, Scroller switches into a non-linear mode for the scrollbar to fit
+	 * all of the records into a finite area, but this function returns a linear
+	 * value (relative to the last non-linear positioning).
+	 *  @param {int} pixels Offset from top to calculate the row number of
+	 *  @param {int} [intParse=true] If an integer value should be returned
+	 *  @param {int} [virtual=false] Perform the calculations in the virtual domain
+	 *  @returns {int} Row index
+	 */
+	pixelsToRow: function ( pixels, intParse, virtual )
+	{
+		var diff = pixels - this.s.baseScrollTop;
+		var row = virtual ?
+			(this._domain( 'physicalToVirtual', this.s.baseScrollTop ) + diff) / this.s.heights.row :
+			( diff / this.s.heights.row ) + this.s.baseRowTop;
+
+		return intParse || intParse === undefined ?
+			parseInt( row, 10 ) :
+			row;
+	},
 
 	/**
 	 * Calculate the pixel position from the top of the scrolling container for
 	 * a given row
 	 *  @param {int} iRow Row number to calculate the position of
 	 *  @returns {int} Pixels
-	 *  @example
-	 *    $(document).ready(function() {
-	 *      $('#example').dataTable( {
-	 *        "sScrollY": "200px",
-	 *        "sAjaxSource": "media/dataset/large.txt",
-	 *        "sDom": "frtiS",
-	 *        "bDeferRender": true,
-	 *        "fnInitComplete": function (o) {
-	 *          // Find where row 25 is
-	 *          alert( o.oScroller.fnRowToPixels( 25 ) );
-	 *        }
-	 *      } );
-	 *    } );
 	 */
-	"fnRowToPixels": function ( rowIdx, intParse, virtual )
+	rowToPixels: function ( rowIdx, intParse, virtual )
 	{
 		var pixels;
 		var diff = rowIdx - this.s.baseRowTop;
@@ -16676,72 +17730,16 @@ $.extend( Scroller.prototype, {
 
 
 	/**
-	 * Calculate the row number that will be found at the given pixel position
-	 * (y-scroll).
-	 *
-	 * Please note that when the height of the full table exceeds 1 million
-	 * pixels, Scroller switches into a non-linear mode for the scrollbar to fit
-	 * all of the records into a finite area, but this function returns a linear
-	 * value (relative to the last non-linear positioning).
-	 *  @param {int} iPixels Offset from top to calculate the row number of
-	 *  @param {int} [intParse=true] If an integer value should be returned
-	 *  @param {int} [virtual=false] Perform the calculations in the virtual domain
-	 *  @returns {int} Row index
-	 *  @example
-	 *    $(document).ready(function() {
-	 *      $('#example').dataTable( {
-	 *        "sScrollY": "200px",
-	 *        "sAjaxSource": "media/dataset/large.txt",
-	 *        "sDom": "frtiS",
-	 *        "bDeferRender": true,
-	 *        "fnInitComplete": function (o) {
-	 *          // Find what row number is at 500px
-	 *          alert( o.oScroller.fnPixelsToRow( 500 ) );
-	 *        }
-	 *      } );
-	 *    } );
-	 */
-	"fnPixelsToRow": function ( pixels, intParse, virtual )
-	{
-		var diff = pixels - this.s.baseScrollTop;
-		var row = virtual ?
-			(this._domain( 'physicalToVirtual', this.s.baseScrollTop ) + diff) / this.s.heights.row :
-			( diff / this.s.heights.row ) + this.s.baseRowTop;
-
-		return intParse || intParse === undefined ?
-			parseInt( row, 10 ) :
-			row;
-	},
-
-
-	/**
 	 * Calculate the row number that will be found at the given pixel position (y-scroll)
-	 *  @param {int} iRow Row index to scroll to
-	 *  @param {bool} [bAnimate=true] Animate the transition or not
+	 *  @param {int} row Row index to scroll to
+	 *  @param {bool} [animate=true] Animate the transition or not
 	 *  @returns {void}
-	 *  @example
-	 *    $(document).ready(function() {
-	 *      $('#example').dataTable( {
-	 *        "sScrollY": "200px",
-	 *        "sAjaxSource": "media/dataset/large.txt",
-	 *        "sDom": "frtiS",
-	 *        "bDeferRender": true,
-	 *        "fnInitComplete": function (o) {
-	 *          // Immediately scroll to row 1000
-	 *          o.oScroller.fnScrollToRow( 1000 );
-	 *        }
-	 *      } );
-	 *     
-	 *      // Sometime later on use the following to scroll to row 500...
-	 *          var oSettings = $('#example').dataTable().fnSettings();
-	 *      oSettings.oScroller.fnScrollToRow( 500 );
-	 *    } );
 	 */
-	"fnScrollToRow": function ( iRow, bAnimate )
+	scrollToRow: function ( row, animate )
 	{
 		var that = this;
 		var ani = false;
-		var px = this.fnRowToPixels( iRow );
+		var px = this.rowToPixels( row );
 
 		// We need to know if the table will redraw or not before doing the
 		// scroll. If it will not redraw, then we need to use the currently
@@ -16749,25 +17747,25 @@ $.extend( Scroller.prototype, {
 		// need to calculate the table's new position from the virtual
 		// transform.
 		var preRows = ((this.s.displayBuffer-1)/2) * this.s.viewportRows;
-		var drawRow = iRow - preRows;
+		var drawRow = row - preRows;
 		if ( drawRow < 0 ) {
 			drawRow = 0;
 		}
 
 		if ( (px > this.s.redrawBottom || px < this.s.redrawTop) && this.s.dt._iDisplayStart !== drawRow ) {
 			ani = true;
-			px = this._domain( 'virtualToPhysical', iRow * this.s.heights.row );
+			px = this._domain( 'virtualToPhysical', row * this.s.heights.row );
 
 			// If we need records outside the current draw region, but the new
 			// scrolling position is inside that (due to the non-linear nature
 			// for larger numbers of records), we need to force position update.
 			if ( this.s.redrawTop < px && px < this.s.redrawBottom ) {
 				this.s.forceReposition = true;
-				bAnimate = false;
+				animate = false;
 			}
 		}
 
-		if ( typeof bAnimate == 'undefined' || bAnimate )
+		if ( typeof animate == 'undefined' || animate )
 		{
 			this.s.ani = ani;
 			$(this.dom.scroller).animate( {
@@ -16787,100 +17785,16 @@ $.extend( Scroller.prototype, {
 	},
 
 
-	/**
-	 * Calculate and store information about how many rows are to be displayed
-	 * in the scrolling viewport, based on current dimensions in the browser's
-	 * rendering. This can be particularly useful if the table is initially
-	 * drawn in a hidden element - for example in a tab.
-	 *  @param {bool} [bRedraw=true] Redraw the table automatically after the recalculation, with
-	 *    the new dimensions forming the basis for the draw.
-	 *  @returns {void}
-	 *  @example
-	 *    $(document).ready(function() {
-	 *      // Make the example container hidden to throw off the browser's sizing
-	 *      document.getElementById('container').style.display = "none";
-	 *      var oTable = $('#example').dataTable( {
-	 *        "sScrollY": "200px",
-	 *        "sAjaxSource": "media/dataset/large.txt",
-	 *        "sDom": "frtiS",
-	 *        "bDeferRender": true,
-	 *        "fnInitComplete": function (o) {
-	 *          // Immediately scroll to row 1000
-	 *          o.oScroller.fnScrollToRow( 1000 );
-	 *        }
-	 *      } );
-	 *     
-	 *      setTimeout( function () {
-	 *        // Make the example container visible and recalculate the scroller sizes
-	 *        document.getElementById('container').style.display = "block";
-	 *        oTable.fnSettings().oScroller.fnMeasure();
-	 *      }, 3000 );
-	 */
-	"fnMeasure": function ( bRedraw )
-	{
-		if ( this.s.autoHeight )
-		{
-			this._fnCalcRowHeight();
-		}
-
-		var heights = this.s.heights;
-
-		if ( heights.row ) {
-			heights.viewport = $.contains(document, this.dom.scroller) ?
-				$(this.dom.scroller).height() :
-				this._parseHeight($(this.dom.scroller).css('height'));
-
-			// If collapsed (no height) use the max-height parameter
-			if ( ! heights.viewport ) {
-				heights.viewport = this._parseHeight($(this.dom.scroller).css('max-height'));
-			}
-
-			this.s.viewportRows = parseInt( heights.viewport / heights.row, 10 )+1;
-			this.s.dt._iDisplayLength = this.s.viewportRows * this.s.displayBuffer;
-		}
-
-		if ( bRedraw === undefined || bRedraw )
-		{
-			this.s.dt.oInstance.fnDraw( false );
-		}
-	},
-
-
-	/**
-	 * Get information about current displayed record range. This corresponds to
-	 * the information usually displayed in the "Info" block of the table.
-	 *
-	 * @returns {object} info as an object:
-	 *  {
-	 *      start: {int}, // the 0-indexed record at the top of the viewport
-	 *      end:   {int}, // the 0-indexed record at the bottom of the viewport
-	 *  }
-	*/
-	"fnPageInfo": function()
-	{
-		var 
-			dt = this.s.dt,
-			iScrollTop = this.dom.scroller.scrollTop,
-			iTotal = dt.fnRecordsDisplay(),
-			iPossibleEnd = Math.ceil(this.fnPixelsToRow(iScrollTop + this.s.heights.viewport, false, this.s.ani));
-
-		return {
-			start: Math.floor(this.fnPixelsToRow(iScrollTop, false, this.s.ani)),
-			end: iTotal < iPossibleEnd ? iTotal-1 : iPossibleEnd-1
-		};
-	},
-
-
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-	 * Private methods (they are of course public in JS, but recommended as private)
-	 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+	 * Constructor
+	 */
 
 	/**
 	 * Initialisation for Scroller
 	 *  @returns {void}
 	 *  @private
 	 */
-	"_fnConstruct": function ()
+	construct: function ()
 	{
 		var that = this;
 		var dt = this.s.dtApi;
@@ -16909,12 +17823,12 @@ $.extend( Scroller.prototype, {
 		this.dom.table.style.left = "0px";
 
 		// Add class to 'announce' that we are a Scroller table
-		$(dt.table().container()).addClass('DTS');
+		$(dt.table().container()).addClass('dts DTS');
 
 		// Add a 'loading' indicator
 		if ( this.s.loadingIndicator )
 		{
-			this.dom.loader = $('<div class="dataTables_processing DTS_Loading">'+this.s.dt.oLanguage.sLoadingRecords+'</div>')
+			this.dom.loader = $('<div class="dataTables_processing dts_loading">'+this.s.dt.oLanguage.sLoadingRecords+'</div>')
 				.css('display', 'none');
 
 			$(this.dom.scroller.parentNode)
@@ -16922,12 +17836,14 @@ $.extend( Scroller.prototype, {
 				.append( this.dom.loader );
 		}
 
+		this.dom.label.appendTo(this.dom.scroller);
+
 		/* Initial size calculations */
 		if ( this.s.heights.row && this.s.heights.row != 'auto' )
 		{
 			this.s.autoHeight = false;
 		}
-		this.fnMeasure( false );
+		this.measure( false );
 
 		// Scrolling callback to see if a page change is needed - use a throttled
 		// function for the save save callback so we aren't hitting it on every
@@ -16937,19 +17853,28 @@ $.extend( Scroller.prototype, {
 			that.s.dtApi.state.save();
 		}, 500 );
 		$(this.dom.scroller).on( 'scroll.dt-scroller', function (e) {
-			that._fnScroll.call( that );
+			that._scroll.call( that );
 		} );
 
 		// In iOS we catch the touchstart event in case the user tries to scroll
 		// while the display is already scrolling
 		$(this.dom.scroller).on('touchstart.dt-scroller', function () {
-			that._fnScroll.call( that );
+			that._scroll.call( that );
 		} );
+
+		$(this.dom.scroller)
+			.on('mousedown.dt-scroller', function () {
+				that.s.mousedown = true;
+			})
+			.on('mouseup.dt-scroller', function () {
+				that.s.mouseup = false;
+				that.dom.label.css('display', 'none');
+			});
 
 		// On resize, update the information element, since the number of rows shown might change
 		$(window).on( 'resize.dt-scroller', function () {
-			that.fnMeasure( false );
-			that._fnInfo();
+			that.measure( false );
+			that._info();
 		} );
 
 		// Add a state saving parameter to the DT state saving so we can restore the exact
@@ -16979,20 +17904,20 @@ $.extend( Scroller.prototype, {
 		}
 
 		dt.on( 'init.scroller', function () {
-			that.fnMeasure( false );
+			that.measure( false );
 
-			that._fnDrawCallback();
+			that._draw();
 
 			// Update the scroller when the DataTable is redrawn
 			dt.on( 'draw.scroller', function () {
-				that._fnDrawCallback();
+				that._draw();
 			});
 		} );
 
 		// Set height before the draw happens, allowing everything else to update
 		// on draw complete without worry for roder.
 		dt.on( 'preDraw.dt.scroller', function () {
-			that._fnScrollForce();
+			that._scrollForce();
 		} );
 
 		// Destructor
@@ -17011,216 +17936,61 @@ $.extend( Scroller.prototype, {
 	},
 
 
+	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+	 * Private methods
+	 */
+
 	/**
-	 * Scrolling function - fired whenever the scrolling position is changed.
-	 * This method needs to use the stored values to see if the table should be
-	 * redrawn as we are moving towards the end of the information that is
-	 * currently drawn or not. If needed, then it will redraw the table based on
-	 * the new position.
+	 * Automatic calculation of table row height. This is just a little tricky here as using
+	 * initialisation DataTables has tale the table out of the document, so we need to create
+	 * a new table and insert it into the document, calculate the row height and then whip the
+	 * table out.
 	 *  @returns {void}
 	 *  @private
 	 */
-	"_fnScroll": function ()
+	_calcRowHeight: function ()
 	{
-		var
-			that = this,
-			heights = this.s.heights,
-			iScrollTop = this.dom.scroller.scrollTop,
-			iTopRow;
+		var dt = this.s.dt;
+		var origTable = dt.nTable;
+		var nTable = origTable.cloneNode( false );
+		var tbody = $('<tbody/>').appendTo( nTable );
+		var container = $(
+			'<div class="'+dt.oClasses.sWrapper+' DTS">'+
+				'<div class="'+dt.oClasses.sScrollWrapper+'">'+
+					'<div class="'+dt.oClasses.sScrollBody+'"></div>'+
+				'</div>'+
+			'</div>'
+		);
 
-		if ( this.s.skip ) {
-			return;
-		}
+		// Want 3 rows in the sizing table so :first-child and :last-child
+		// CSS styles don't come into play - take the size of the middle row
+		$('tbody tr:lt(4)', origTable).clone().appendTo( tbody );
+        var rowsCount = $('tr', tbody).length;
 
-		if ( this.s.ingnoreScroll ) {
-			return;
-		}
-
-		/* If the table has been sorted or filtered, then we use the redraw that
-		 * DataTables as done, rather than performing our own
-		 */
-		if ( this.s.dt.bFiltered || this.s.dt.bSorted ) {
-			this.s.lastScrollTop = 0;
-			return;
-		}
-
-		/* Update the table's information display for what is now in the viewport */
-		this._fnInfo();
-
-		/* We don't want to state save on every scroll event - that's heavy
-		 * handed, so use a timeout to update the state saving only when the
-		 * scrolling has finished
-		 */
-		clearTimeout( this.s.stateTO );
-		this.s.stateTO = setTimeout( function () {
-			that.s.dtApi.state.save();
-		}, 250 );
-
-		/* Check if the scroll point is outside the trigger boundary which would required
-		 * a DataTables redraw
-		 */
-		if ( this.s.forceReposition || iScrollTop < this.s.redrawTop || iScrollTop > this.s.redrawBottom ) {
-
-			var preRows = Math.ceil( ((this.s.displayBuffer-1)/2) * this.s.viewportRows );
-
-			iTopRow = parseInt(this._domain( 'physicalToVirtual', iScrollTop ) / heights.row, 10) - preRows;
-			this.s.topRowFloat = this._domain( 'physicalToVirtual', iScrollTop ) / heights.row;
-			this.s.forceReposition = false;
-
-			if ( iTopRow <= 0 ) {
-				/* At the start of the table */
-				iTopRow = 0;
-			}
-			else if ( iTopRow + this.s.dt._iDisplayLength > this.s.dt.fnRecordsDisplay() ) {
-				/* At the end of the table */
-				iTopRow = this.s.dt.fnRecordsDisplay() - this.s.dt._iDisplayLength;
-				if ( iTopRow < 0 ) {
-					iTopRow = 0;
-				}
-			}
-			else if ( iTopRow % 2 !== 0 ) {
-				// For the row-striping classes (odd/even) we want only to start
-				// on evens otherwise the stripes will change between draws and
-				// look rubbish
-				iTopRow++;
-			}
-
-			if ( iTopRow != this.s.dt._iDisplayStart ) {
-				/* Cache the new table position for quick lookups */
-				this.s.tableTop = $(this.s.dt.nTable).offset().top;
-				this.s.tableBottom = $(this.s.dt.nTable).height() + this.s.tableTop;
-
-				var draw =  function () {
-					if ( that.s.scrollDrawReq === null ) {
-						that.s.scrollDrawReq = iScrollTop;
-					}
-
-					that.s.dt._iDisplayStart = iTopRow;
-					that.s.dt.oApi._fnDraw( that.s.dt );
-				};
-
-				/* Do the DataTables redraw based on the calculated start point - note that when
-				 * using server-side processing we introduce a small delay to not DoS the server...
-				 */
-				if ( this.s.dt.oFeatures.bServerSide ) {
-					clearTimeout( this.s.drawTO );
-					this.s.drawTO = setTimeout( draw, this.s.serverWait );
-				}
-				else {
-					draw();
-				}
-
-				if ( this.dom.loader && ! this.s.loaderVisible ) {
-					this.dom.loader.css( 'display', 'block' );
-					this.s.loaderVisible = true;
-				}
-			}
+        if ( rowsCount === 1 ) {
+            tbody.prepend('<tr><td>&#160;</td></tr>');
+            tbody.append('<tr><td>&#160;</td></tr>');
 		}
 		else {
-			this.s.topRowFloat = this.fnPixelsToRow( iScrollTop, false, true );
+            for (; rowsCount < 3; rowsCount++) {
+                tbody.append('<tr><td>&#160;</td></tr>');
+            }
+		}
+	
+		$('div.'+dt.oClasses.sScrollBody, container).append( nTable );
+
+		// If initialised using `dom`, use the holding element as the insert point
+		var insertEl = this.s.dt.nHolding || origTable.parentNode;
+
+		if ( ! $(insertEl).is(':visible') ) {
+			insertEl = 'body';
 		}
 
-		this.s.lastScrollTop = iScrollTop;
-		this.s.stateSaveThrottle();
+		container.appendTo( insertEl );
+		this.s.heights.row = $('tr', tbody).eq(1).outerHeight();
+
+		container.remove();
 	},
-
-
-	/**
-	 * Convert from one domain to another. The physical domain is the actual
-	 * pixel count on the screen, while the virtual is if we had browsers which
-	 * had scrolling containers of infinite height (i.e. the absolute value)
-	 *
-	 *  @param {string} dir Domain transform direction, `virtualToPhysical` or
-	 *    `physicalToVirtual` 
-	 *  @returns {number} Calculated transform
-	 *  @private
-	 */
-	_domain: function ( dir, val )
-	{
-		var heights = this.s.heights;
-		var coeff;
-
-		// If the virtual and physical height match, then we use a linear
-		// transform between the two, allowing the scrollbar to be linear
-		if ( heights.virtual === heights.scroll ) {
-			return val;
-		}
-
-		// Otherwise, we want a non-linear scrollbar to take account of the
-		// redrawing regions at the start and end of the table, otherwise these
-		// can stutter badly - on large tables 30px (for example) scroll might
-		// be hundreds of rows, so the table would be redrawing every few px at
-		// the start and end. Use a simple quadratic to stop this. It does mean
-		// the scrollbar is non-linear, but with such massive data sets, the
-		// scrollbar is going to be a best guess anyway
-		var xMax = (heights.scroll - heights.viewport) / 2;
-		var yMax = (heights.virtual - heights.viewport) / 2;
-
-		coeff = yMax / ( xMax * xMax );
-
-		if ( dir === 'virtualToPhysical' ) {
-			if ( val < yMax ) {
-				return Math.pow(val / coeff, 0.5);
-			}
-			else {
-				val = (yMax*2) - val;
-				return val < 0 ?
-					heights.scroll :
-					(xMax*2) - Math.pow(val / coeff, 0.5);
-			}
-		}
-		else if ( dir === 'physicalToVirtual' ) {
-			if ( val < xMax ) {
-				return val * val * coeff;
-			}
-			else {
-				val = (xMax*2) - val;
-				return val < 0 ?
-					heights.virtual :
-					(yMax*2) - (val * val * coeff);
-			}
-		}
-	},
-
-	/**
-	 * Parse CSS height property string as number
-	 *
-	 * An attempt is made to parse the string as a number. Currently supported units are 'px',
-	 * 'vh', and 'rem'. 'em' is partially supported; it works as long as the parent element's
-	 * font size matches the body element. Zero is returned for unrecognized strings.
-	 *  @param {string} cssHeight CSS height property string
-	 *  @returns {number} height
-	 *  @private
-	 */
-	_parseHeight: function(cssHeight) {
-		var height;
-		var matches = /^([+-]?(?:\d+(?:\.\d+)?|\.\d+))(px|em|rem|vh)$/.exec(cssHeight);
-
-		if (matches === null) {
-			return 0;
-		}
-
-		var value = parseFloat(matches[1]);
-		var unit = matches[2];
-
-		if ( unit === 'px' ) {
-			height = value;
-		}
-		else if ( unit === 'vh' ) {
-			height = ( value / 100 ) * $(window).height();
-		}
-		else if ( unit === 'rem' ) {
-			height = value * parseFloat($(':root').css('font-size'));
-		}
-		else if ( unit === 'em' ) {
-			height = value * parseFloat($('body').css('font-size'));
-		}
-
-		return height ?
-			height :
-			0;
-	},
-
 
 	/**
 	 * Draw callback function which is fired when the DataTable is redrawn. The main function of
@@ -17229,7 +17999,7 @@ $.extend( Scroller.prototype, {
 	 *  @returns {void}
 	 *  @private
 	 */
-	"_fnDrawCallback": function ()
+	_draw: function ()
 	{
 		var
 			that = this,
@@ -17246,25 +18016,16 @@ $.extend( Scroller.prototype, {
 		this.s.skip = true;
 
 		// If paging is reset
-		if ( (this.s.dt.bSorted || this.s.dt.bFiltered) && displayStart === 0 ) {
+		if ( (this.s.dt.bSorted || this.s.dt.bFiltered) && displayStart === 0 && !this.s.dt._drawHold ) {
 			this.s.topRowFloat = 0;
 		}
 
-		// Reposition the scrolling for the updated virtual position if needed
-		if ( displayStart === 0 ) {
-			// Linear calculation at the top of the table
-			iScrollTop = this.s.topRowFloat * heights.row;
-		}
-		else if ( displayStart + displayLen >= displayEnd ) {
-			// Linear calculation that the bottom as well
-			iScrollTop = heights.scroll - ((displayEnd - this.s.topRowFloat) * heights.row);
-		}
-		else {
-			// Domain scaled in the middle
-			iScrollTop = this._domain( 'virtualToPhysical', this.s.topRowFloat * heights.row );
-		}
+		iScrollTop = this.scrollType === 'jump' ?
+			this._domain( 'physicalToVirtual', this.s.topRowFloat * heights.row ) :
+			iScrollTop;
 
-		this.dom.scroller.scrollTop = iScrollTop;
+		// This doesn't work when scrolling with the mouse wheel
+		$(that.dom.scroller).scrollTop(iScrollTop);
 
 		// Store positional information so positional calculations can be based
 		// upon the current table draw position
@@ -17332,7 +18093,7 @@ $.extend( Scroller.prototype, {
 		// needed.  Only add the thread break if bInfo is set
 		if ( this.s.dt.oFeatures.bInfo ) {
 			setTimeout( function () {
-				that._fnInfo.call( that );
+				that._info.call( that );
 			}, 0 );
 		}
 
@@ -17343,82 +18104,63 @@ $.extend( Scroller.prototype, {
 		}
 	},
 
-
 	/**
-	 * Force the scrolling container to have height beyond that of just the
-	 * table that has been drawn so the user can scroll the whole data set.
+	 * Convert from one domain to another. The physical domain is the actual
+	 * pixel count on the screen, while the virtual is if we had browsers which
+	 * had scrolling containers of infinite height (i.e. the absolute value)
 	 *
-	 * Note that if the calculated required scrolling height exceeds a maximum
-	 * value (1 million pixels - hard-coded) the forcing element will be set
-	 * only to that maximum value and virtual / physical domain transforms will
-	 * be used to allow Scroller to display tables of any number of records.
-	 *  @returns {void}
+	 *  @param {string} dir Domain transform direction, `virtualToPhysical` or
+	 *    `physicalToVirtual` 
+	 *  @returns {number} Calculated transform
 	 *  @private
 	 */
-	_fnScrollForce: function ()
+	_domain: function ( dir, val )
 	{
 		var heights = this.s.heights;
-		var max = 1000000;
+		var diff;
+		var magic = 10000; // the point at which the non-linear calculations start to happen
 
-		heights.virtual = heights.row * this.s.dt.fnRecordsDisplay();
-		heights.scroll = heights.virtual;
-
-		if ( heights.scroll > max ) {
-			heights.scroll = max;
+		// If the virtual and physical height match, then we use a linear
+		// transform between the two, allowing the scrollbar to be linear
+		if ( heights.virtual === heights.scroll ) {
+			return val;
 		}
 
-		// Minimum height so there is always a row visible (the 'no rows found'
-		// if reduced to zero filtering)
-		this.dom.force.style.height = heights.scroll > this.s.heights.row ?
-			heights.scroll+'px' :
-			this.s.heights.row+'px';
+		// In the first 10k pixels and the last 10k pixels, we want the scrolling
+		// to be linear. After that it can be non-linear. It would be unusual for
+		// anyone to mouse wheel through that much.
+		if ( val < magic ) {
+			return val;
+		}
+		else if ( dir === 'virtualToPhysical' && val > heights.virtual - magic ) {
+			diff = heights.virtual - val;
+			return heights.scroll - diff;
+		}
+		else if ( dir === 'physicalToVirtual' && val > heights.scroll - magic ) {
+			diff = heights.scroll - val;
+			return heights.virtual - diff;
+		}
+
+		// Otherwise, we want a non-linear scrollbar to take account of the
+		// redrawing regions at the start and end of the table, otherwise these
+		// can stutter badly - on large tables 30px (for example) scroll might
+		// be hundreds of rows, so the table would be redrawing every few px at
+		// the start and end. Use a simple linear eq. to stop this, effectively
+		// causing a kink in the scrolling ratio. It does mean the scrollbar is
+		// non-linear, but with such massive data sets, the scrollbar is going
+		// to be a best guess anyway
+		var xMax = dir === 'virtualToPhysical' ?
+			heights.virtual :
+			heights.scroll;
+		var yMax = dir === 'virtualToPhysical' ?
+			heights.scroll :
+			heights.virtual;
+
+		var m = (yMax - magic) / (xMax - magic);
+		var c = magic - (m*magic);
+
+		return (m*val) + c;
 	},
-
-
-	/**
-	 * Automatic calculation of table row height. This is just a little tricky here as using
-	 * initialisation DataTables has tale the table out of the document, so we need to create
-	 * a new table and insert it into the document, calculate the row height and then whip the
-	 * table out.
-	 *  @returns {void}
-	 *  @private
-	 */
-	"_fnCalcRowHeight": function ()
-	{
-		var dt = this.s.dt;
-		var origTable = dt.nTable;
-		var nTable = origTable.cloneNode( false );
-		var tbody = $('<tbody/>').appendTo( nTable );
-		var container = $(
-			'<div class="'+dt.oClasses.sWrapper+' DTS">'+
-				'<div class="'+dt.oClasses.sScrollWrapper+'">'+
-					'<div class="'+dt.oClasses.sScrollBody+'"></div>'+
-				'</div>'+
-			'</div>'
-		);
-
-		// Want 3 rows in the sizing table so :first-child and :last-child
-		// CSS styles don't come into play - take the size of the middle row
-		$('tbody tr:lt(4)', origTable).clone().appendTo( tbody );
-		while( $('tr', tbody).length < 3 ) {
-			tbody.append( '<tr><td>&nbsp;</td></tr>' );
-		}
-
-		$('div.'+dt.oClasses.sScrollBody, container).append( nTable );
-
-		// If initialised using `dom`, use the holding element as the insert point
-		var insertEl = this.s.dt.nHolding || origTable.parentNode;
-
-		if ( ! $(insertEl).is(':visible') ) {
-			insertEl = 'body';
-		}
-
-		container.appendTo( insertEl );
-		this.s.heights.row = $('tr', tbody).eq(1).outerHeight();
-
-		container.remove();
-	},
-
 
 	/**
 	 * Update any information elements that are controlled by the DataTable based on the scrolling
@@ -17427,7 +18169,7 @@ $.extend( Scroller.prototype, {
 	 *  @returns {void}
 	 *  @private
 	 */
-	"_fnInfo": function ()
+	_info: function ()
 	{
 		if ( !this.s.dt.oFeatures.bInfo )
 		{
@@ -17438,10 +18180,10 @@ $.extend( Scroller.prototype, {
 			dt = this.s.dt,
 			language = dt.oLanguage,
 			iScrollTop = this.dom.scroller.scrollTop,
-			iStart = Math.floor( this.fnPixelsToRow(iScrollTop, false, this.s.ani)+1 ),
+			iStart = Math.floor( this.pixelsToRow(iScrollTop, false, this.s.ani)+1 ),
 			iMax = dt.fnRecordsTotal(),
 			iTotal = dt.fnRecordsDisplay(),
-			iPossibleEnd = Math.ceil( this.fnPixelsToRow(iScrollTop+this.s.heights.viewport, false, this.s.ani) ),
+			iPossibleEnd = Math.ceil( this.pixelsToRow(iScrollTop+this.s.heights.viewport, false, this.s.ani) ),
 			iEnd = iTotal < iPossibleEnd ? iTotal : iPossibleEnd,
 			sStart = dt.fnFormatNumber( iStart ),
 			sEnd = dt.fnFormatNumber( iEnd ),
@@ -17505,6 +18247,210 @@ $.extend( Scroller.prototype, {
 
 		// DT doesn't actually (yet) trigger this event, but it will in future
 		$(dt.nTable).triggerHandler( 'info.dt' );
+	},
+
+	/**
+	 * Parse CSS height property string as number
+	 *
+	 * An attempt is made to parse the string as a number. Currently supported units are 'px',
+	 * 'vh', and 'rem'. 'em' is partially supported; it works as long as the parent element's
+	 * font size matches the body element. Zero is returned for unrecognized strings.
+	 *  @param {string} cssHeight CSS height property string
+	 *  @returns {number} height
+	 *  @private
+	 */
+	_parseHeight: function(cssHeight) {
+		var height;
+		var matches = /^([+-]?(?:\d+(?:\.\d+)?|\.\d+))(px|em|rem|vh)$/.exec(cssHeight);
+
+		if (matches === null) {
+			return 0;
+		}
+
+		var value = parseFloat(matches[1]);
+		var unit = matches[2];
+
+		if ( unit === 'px' ) {
+			height = value;
+		}
+		else if ( unit === 'vh' ) {
+			height = ( value / 100 ) * $(window).height();
+		}
+		else if ( unit === 'rem' ) {
+			height = value * parseFloat($(':root').css('font-size'));
+		}
+		else if ( unit === 'em' ) {
+			height = value * parseFloat($('body').css('font-size'));
+		}
+
+		return height ?
+			height :
+			0;
+	},
+
+	/**
+	 * Scrolling function - fired whenever the scrolling position is changed.
+	 * This method needs to use the stored values to see if the table should be
+	 * redrawn as we are moving towards the end of the information that is
+	 * currently drawn or not. If needed, then it will redraw the table based on
+	 * the new position.
+	 *  @returns {void}
+	 *  @private
+	 */
+	_scroll: function ()
+	{
+		var
+			that = this,
+			heights = this.s.heights,
+			iScrollTop = this.dom.scroller.scrollTop,
+			iTopRow;
+
+		if ( this.s.skip ) {
+			return;
+		}
+
+		if ( this.s.ingnoreScroll ) {
+			return;
+		}
+
+		if ( iScrollTop === this.s.lastScrollTop ) {
+			return;
+		}
+
+		/* If the table has been sorted or filtered, then we use the redraw that
+		 * DataTables as done, rather than performing our own
+		 */
+		if ( this.s.dt.bFiltered || this.s.dt.bSorted ) {
+			this.s.lastScrollTop = 0;
+			return;
+		}
+
+		/* Update the table's information display for what is now in the viewport */
+		this._info();
+
+		/* We don't want to state save on every scroll event - that's heavy
+		 * handed, so use a timeout to update the state saving only when the
+		 * scrolling has finished
+		 */
+		clearTimeout( this.s.stateTO );
+		this.s.stateTO = setTimeout( function () {
+			that.s.dtApi.state.save();
+		}, 250 );
+
+		this.s.scrollType = Math.abs(iScrollTop - this.s.lastScrollTop) > heights.viewport ?
+			'jump' :
+			'cont';
+
+		this.s.topRowFloat = this.s.scrollType === 'cont' ?
+			this.pixelsToRow( iScrollTop, false, false ) :
+			this._domain( 'physicalToVirtual', iScrollTop ) / heights.row;
+
+		if ( this.s.topRowFloat < 0 ) {
+			this.s.topRowFloat = 0;
+		}
+
+		/* Check if the scroll point is outside the trigger boundary which would required
+		 * a DataTables redraw
+		 */
+		if ( this.s.forceReposition || iScrollTop < this.s.redrawTop || iScrollTop > this.s.redrawBottom ) {
+			var preRows = Math.ceil( ((this.s.displayBuffer-1)/2) * this.s.viewportRows );
+
+			iTopRow = parseInt(this.s.topRowFloat, 10) - preRows;
+			this.s.forceReposition = false;
+
+			if ( iTopRow <= 0 ) {
+				/* At the start of the table */
+				iTopRow = 0;
+			}
+			else if ( iTopRow + this.s.dt._iDisplayLength > this.s.dt.fnRecordsDisplay() ) {
+				/* At the end of the table */
+				iTopRow = this.s.dt.fnRecordsDisplay() - this.s.dt._iDisplayLength;
+				if ( iTopRow < 0 ) {
+					iTopRow = 0;
+				}
+			}
+			else if ( iTopRow % 2 !== 0 ) {
+				// For the row-striping classes (odd/even) we want only to start
+				// on evens otherwise the stripes will change between draws and
+				// look rubbish
+				iTopRow++;
+			}
+
+
+			if ( iTopRow != this.s.dt._iDisplayStart ) {
+				/* Cache the new table position for quick lookups */
+				this.s.tableTop = $(this.s.dt.nTable).offset().top;
+				this.s.tableBottom = $(this.s.dt.nTable).height() + this.s.tableTop;
+
+				var draw =  function () {
+					if ( that.s.scrollDrawReq === null ) {
+						that.s.scrollDrawReq = iScrollTop;
+					}
+
+					that.s.dt._iDisplayStart = iTopRow;
+					that.s.dt.oApi._fnDraw( that.s.dt );
+				};
+
+				/* Do the DataTables redraw based on the calculated start point - note that when
+				 * using server-side processing we introduce a small delay to not DoS the server...
+				 */
+				if ( this.s.dt.oFeatures.bServerSide ) {
+					clearTimeout( this.s.drawTO );
+					this.s.drawTO = setTimeout( draw, this.s.serverWait );
+				}
+				else {
+					draw();
+				}
+
+				if ( this.dom.loader && ! this.s.loaderVisible ) {
+					this.dom.loader.css( 'display', 'block' );
+					this.s.loaderVisible = true;
+				}
+			}
+		}
+		else {
+			this.s.topRowFloat = this.pixelsToRow( iScrollTop, false, true );
+		}
+
+		this.s.lastScrollTop = iScrollTop;
+		this.s.stateSaveThrottle();
+
+		if ( this.s.scrollType === 'jump' && this.s.mousedown ) {
+			this.dom.label
+				.html( this.s.dt.fnFormatNumber( parseInt( this.s.topRowFloat, 10 )+1 ) )
+				.css( 'top', iScrollTop + (iScrollTop * heights.labelFactor ) )
+				.css( 'display', 'block' );
+		}
+	},
+
+	/**
+	 * Force the scrolling container to have height beyond that of just the
+	 * table that has been drawn so the user can scroll the whole data set.
+	 *
+	 * Note that if the calculated required scrolling height exceeds a maximum
+	 * value (1 million pixels - hard-coded) the forcing element will be set
+	 * only to that maximum value and virtual / physical domain transforms will
+	 * be used to allow Scroller to display tables of any number of records.
+	 *  @returns {void}
+	 *  @private
+	 */
+	_scrollForce: function ()
+	{
+		var heights = this.s.heights;
+		var max = 1000000;
+
+		heights.virtual = heights.row * this.s.dt.fnRecordsDisplay();
+		heights.scroll = heights.virtual;
+
+		if ( heights.scroll > max ) {
+			heights.scroll = max;
+		}
+
+		// Minimum height so there is always a row visible (the 'no rows found'
+		// if reduced to zero filtering)
+		this.dom.force.style.height = heights.scroll > this.s.heights.row ?
+			heights.scroll+'px' :
+			this.s.heights.row+'px';
 	}
 } );
 
@@ -17521,62 +18467,19 @@ $.extend( Scroller.prototype, {
  *  @name Scroller.defaults
  *  @static
  */
-Scroller.defaults = /** @lends Scroller.defaults */{
+Scroller.defaults = {
 	/**
-	 * Indicate if Scroller show show trace information on the console or not. This can be
-	 * useful when debugging Scroller or if just curious as to what it is doing, but should
-	 * be turned off for production.
-	 *  @type     bool
-	 *  @default  false
+	 * Scroller uses the boundary scaling factor to decide when to redraw the table - which it
+	 * typically does before you reach the end of the currently loaded data set (in order to
+	 * allow the data to look continuous to a user scrolling through the data). If given as 0
+	 * then the table will be redrawn whenever the viewport is scrolled, while 1 would not
+	 * redraw the table until the currently loaded data has all been shown. You will want
+	 * something in the middle - the default factor of 0.5 is usually suitable.
+	 *  @type     float
+	 *  @default  0.5
 	 *  @static
-	 *  @example
-	 *    var oTable = $('#example').dataTable( {
-	 *        "sScrollY": "200px",
-	 *        "sDom": "frtiS",
-	 *        "bDeferRender": true,
-	 *        "oScroller": {
-	 *          "trace": true
-	 *        }
-	 *    } );
 	 */
-	"trace": false,
-
-	/**
-	 * Scroller will attempt to automatically calculate the height of rows for it's internal
-	 * calculations. However the height that is used can be overridden using this parameter.
-	 *  @type     int|string
-	 *  @default  auto
-	 *  @static
-	 *  @example
-	 *    var oTable = $('#example').dataTable( {
-	 *        "sScrollY": "200px",
-	 *        "sDom": "frtiS",
-	 *        "bDeferRender": true,
-	 *        "oScroller": {
-	 *          "rowHeight": 30
-	 *        }
-	 *    } );
-	 */
-	"rowHeight": "auto",
-
-	/**
-	 * When using server-side processing, Scroller will wait a small amount of time to allow
-	 * the scrolling to finish before requesting more data from the server. This prevents
-	 * you from DoSing your own server! The wait time can be configured by this parameter.
-	 *  @type     int
-	 *  @default  200
-	 *  @static
-	 *  @example
-	 *    var oTable = $('#example').dataTable( {
-	 *        "sScrollY": "200px",
-	 *        "sDom": "frtiS",
-	 *        "bDeferRender": true,
-	 *        "oScroller": {
-	 *          "serverWait": 100
-	 *        }
-	 *    } );
-	 */
-	"serverWait": 200,
+	boundaryScale: 0.5,
 
 	/**
 	 * The display buffer is what Scroller uses to calculate how many rows it should pre-fetch
@@ -17591,39 +18494,8 @@ Scroller.defaults = /** @lends Scroller.defaults */{
 	 *  @type     int
 	 *  @default  7
 	 *  @static
-	 *  @example
-	 *    var oTable = $('#example').dataTable( {
-	 *        "sScrollY": "200px",
-	 *        "sDom": "frtiS",
-	 *        "bDeferRender": true,
-	 *        "oScroller": {
-	 *          "displayBuffer": 10
-	 *        }
-	 *    } );
 	 */
-	"displayBuffer": 9,
-
-	/**
-	 * Scroller uses the boundary scaling factor to decide when to redraw the table - which it
-	 * typically does before you reach the end of the currently loaded data set (in order to
-	 * allow the data to look continuous to a user scrolling through the data). If given as 0
-	 * then the table will be redrawn whenever the viewport is scrolled, while 1 would not
-	 * redraw the table until the currently loaded data has all been shown. You will want
-	 * something in the middle - the default factor of 0.5 is usually suitable.
-	 *  @type     float
-	 *  @default  0.5
-	 *  @static
-	 *  @example
-	 *    var oTable = $('#example').dataTable( {
-	 *        "sScrollY": "200px",
-	 *        "sDom": "frtiS",
-	 *        "bDeferRender": true,
-	 *        "oScroller": {
-	 *          "boundaryScale": 0.75
-	 *        }
-	 *    } );
-	 */
-	"boundaryScale": 0.5,
+	displayBuffer: 9,
 
 	/**
 	 * Show (or not) the loading element in the background of the table. Note that you should
@@ -17631,17 +18503,27 @@ Scroller.defaults = /** @lends Scroller.defaults */{
 	 *  @type     boolean
 	 *  @default  false
 	 *  @static
-	 *  @example
-	 *    var oTable = $('#example').dataTable( {
-	 *        "sScrollY": "200px",
-	 *        "sDom": "frtiS",
-	 *        "bDeferRender": true,
-	 *        "oScroller": {
-	 *          "loadingIndicator": true
-	 *        }
-	 *    } );
 	 */
-	"loadingIndicator": false
+	loadingIndicator: false,
+
+	/**
+	 * Scroller will attempt to automatically calculate the height of rows for it's internal
+	 * calculations. However the height that is used can be overridden using this parameter.
+	 *  @type     int|string
+	 *  @default  auto
+	 *  @static
+	 */
+	rowHeight: "auto",
+
+	/**
+	 * When using server-side processing, Scroller will wait a small amount of time to allow
+	 * the scrolling to finish before requesting more data from the server. This prevents
+	 * you from DoSing your own server! The wait time can be configured by this parameter.
+	 *  @type     int
+	 *  @default  200
+	 *  @static
+	 */
+	serverWait: 200
 };
 
 Scroller.oDefaults = Scroller.defaults;
@@ -17659,34 +18541,13 @@ Scroller.oDefaults = Scroller.defaults;
  *  @name      Scroller.version
  *  @static
  */
-Scroller.version = "1.5.1";
+Scroller.version = "2.0.0";
 
 
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Initialisation
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-// Legacy `dom` parameter initialisation support
-if ( typeof $.fn.dataTable == "function" &&
-     typeof $.fn.dataTableExt.fnVersionCheck == "function" &&
-     $.fn.dataTableExt.fnVersionCheck('1.10.0') )
-{
-	$.fn.dataTableExt.aoFeatures.push( {
-		"fnInit": function( oDTSettings ) {
-			var init = oDTSettings.oInit;
-			var opts = init.scroller || init.oScroller || {};
-			
-			new Scroller( oDTSettings, opts );
-		},
-		"cFeature": "S",
-		"sFeature": "Scroller"
-	} );
-}
-else
-{
-	alert( "Warning: Scroller requires DataTables 1.10.0 or greater - www.datatables.net/download");
-}
 
 // Attach a listener to the document which listens for DataTables initialisation
 // events so we can automatically initialise
@@ -17725,7 +18586,7 @@ Api.register( 'scroller().rowToPixels()', function ( rowIdx, intParse, virtual )
 	var ctx = this.context;
 
 	if ( ctx.length && ctx[0].oScroller ) {
-		return ctx[0].oScroller.fnRowToPixels( rowIdx, intParse, virtual );
+		return ctx[0].oScroller.rowToPixels( rowIdx, intParse, virtual );
 	}
 	// undefined
 } );
@@ -17735,7 +18596,7 @@ Api.register( 'scroller().pixelsToRow()', function ( pixels, intParse, virtual )
 	var ctx = this.context;
 
 	if ( ctx.length && ctx[0].oScroller ) {
-		return ctx[0].oScroller.fnPixelsToRow( pixels, intParse, virtual );
+		return ctx[0].oScroller.pixelsToRow( pixels, intParse, virtual );
 	}
 	// undefined
 } );
@@ -17744,7 +18605,7 @@ Api.register( 'scroller().pixelsToRow()', function ( pixels, intParse, virtual )
 Api.register( ['scroller().scrollToRow()', 'scroller.toPosition()'], function ( idx, ani ) {
 	this.iterator( 'table', function ( ctx ) {
 		if ( ctx.oScroller ) {
-			ctx.oScroller.fnScrollToRow( idx, ani );
+			ctx.oScroller.scrollToRow( idx, ani );
 		}
 	} );
 
@@ -17761,7 +18622,7 @@ Api.register( 'row().scrollTo()', function ( ani ) {
 				.indexes()
 				.indexOf( rowIdx );
 
-			ctx.oScroller.fnScrollToRow( displayIdx, ani );
+			ctx.oScroller.scrollToRow( displayIdx, ani );
 		}
 	} );
 
@@ -17771,7 +18632,7 @@ Api.register( 'row().scrollTo()', function ( ani ) {
 Api.register( 'scroller.measure()', function ( redraw ) {
 	this.iterator( 'table', function ( ctx ) {
 		if ( ctx.oScroller ) {
-			ctx.oScroller.fnMeasure( redraw );
+			ctx.oScroller.measure( redraw );
 		}
 	} );
 
@@ -17782,7 +18643,7 @@ Api.register( 'scroller.page()', function() {
 	var ctx = this.context;
 
 	if ( ctx.length && ctx[0].oScroller ) {
-		return ctx[0].oScroller.fnPageInfo();
+		return ctx[0].oScroller.pageInfo();
 	}
 	// undefined
 } );
@@ -87196,7 +88057,7 @@ process.umask = function() { return 0; };
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
- * SimpleBar.js - v4.0.0
+ * SimpleBar.js - v4.1.0
  * Scrollbars, simpler.
  * https://grsmto.github.io/simplebar/
  *
@@ -88411,43 +89272,6 @@ process.umask = function() { return 0; };
       CollectionPrototype.forEach = arrayForEach;
     }
   }
-
-  var scrollbarWidth = createCommonjsModule(function (module, exports) {
-  /*! scrollbarWidth.js v0.1.3 | felixexter | MIT | https://github.com/felixexter/scrollbarWidth */
-  (function (root, factory) {
-  	{
-  		module.exports = factory();
-  	}
-  }(commonjsGlobal, function () {
-
-  	function scrollbarWidth() {
-  		if (typeof document === 'undefined') {
-  			return 0
-  		}
-
-  		var
-  			body = document.body,
-  			box = document.createElement('div'),
-  			boxStyle = box.style,
-  			width;
-
-  		boxStyle.position = 'absolute';
-  		boxStyle.top = boxStyle.left = '-9999px';
-  		boxStyle.width = boxStyle.height = '100px';
-  		boxStyle.overflow = 'scroll';
-
-  		body.appendChild(box);
-
-  		width = box.offsetWidth - box.clientWidth;
-
-  		body.removeChild(box);
-
-  		return width;
-  	}
-
-  	return scrollbarWidth;
-  }));
-  });
 
   /**
    * lodash (Custom Build) <https://lodash.com/>
@@ -90879,6 +91703,24 @@ process.umask = function() { return 0; };
 
   var canUseDom = canUseDOM;
 
+  function scrollbarWidth() {
+    if (typeof document === 'undefined') {
+      return 0;
+    }
+
+    var body = document.body;
+    var box = document.createElement('div');
+    var boxStyle = box.style;
+    boxStyle.position = 'fixed';
+    boxStyle.left = 0;
+    boxStyle.visibility = 'hidden';
+    boxStyle.overflowY = 'scroll';
+    body.appendChild(box);
+    var width = box.getBoundingClientRect().right;
+    body.removeChild(box);
+    return width;
+  }
+
   var SimpleBar =
   /*#__PURE__*/
   function () {
@@ -91680,7 +92522,7 @@ process.umask = function() { return 0; };
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
-* sweetalert2 v8.2.3
+* sweetalert2 v8.13.4
 * Released under the MIT License.
 */
 (function (global, factory) {
@@ -91867,32 +92709,22 @@ var uniqueArray = function uniqueArray(arr) {
   return result;
 };
 /**
+ * Returns the array ob object values (Object.values isn't supported in IE11)
+ * @param obj
+ */
+
+var objectValues = function objectValues(obj) {
+  return Object.keys(obj).map(function (key) {
+    return obj[key];
+  });
+};
+/**
  * Convert NodeList to Array
  * @param nodeList
  */
 
 var toArray = function toArray(nodeList) {
   return Array.prototype.slice.call(nodeList);
-};
-/**
- * Converts `inputOptions` into an array of `[value, label]`s
- * @param inputOptions
- */
-
-var formatInputOptions = function formatInputOptions(inputOptions) {
-  var result = [];
-
-  if (typeof Map !== 'undefined' && inputOptions instanceof Map) {
-    inputOptions.forEach(function (value, key) {
-      result.push([key, value]);
-    });
-  } else {
-    Object.keys(inputOptions).forEach(function (key) {
-      result.push([key, inputOptions[key]]);
-    });
-  }
-
-  return result;
 };
 /**
  * Standardise console warnings
@@ -91927,6 +92759,13 @@ var warnOnce = function warnOnce(message) {
     previousWarnOnceMessages.push(message);
     warn(message);
   }
+};
+/**
+ * Show a one-time console warning about deprecated params/methods
+ */
+
+var warnAboutDepreation = function warnAboutDepreation(deprecatedParam, useInstead) {
+  warnOnce("\"".concat(deprecatedParam, "\" is deprecated and will be removed in the next major release. Please use \"").concat(useInstead, "\" instead."));
 };
 /**
  * If `arg` is a function, call it (with no arguments or context) and return the result.
@@ -91987,7 +92826,7 @@ var prefix = function prefix(items) {
 
   return result;
 };
-var swalClasses = prefix(['container', 'shown', 'height-auto', 'iosfix', 'popup', 'modal', 'no-backdrop', 'toast', 'toast-shown', 'toast-column', 'fade', 'show', 'hide', 'noanimation', 'close', 'title', 'header', 'content', 'actions', 'confirm', 'cancel', 'footer', 'icon', 'icon-text', 'image', 'input', 'file', 'range', 'select', 'radio', 'checkbox', 'label', 'textarea', 'inputerror', 'validation-message', 'progress-steps', 'active-progress-step', 'progress-step', 'progress-step-line', 'loading', 'styled', 'top', 'top-start', 'top-end', 'top-left', 'top-right', 'center', 'center-start', 'center-end', 'center-left', 'center-right', 'bottom', 'bottom-start', 'bottom-end', 'bottom-left', 'bottom-right', 'grow-row', 'grow-column', 'grow-fullscreen', 'rtl']);
+var swalClasses = prefix(['container', 'shown', 'height-auto', 'iosfix', 'popup', 'modal', 'no-backdrop', 'toast', 'toast-shown', 'toast-column', 'fade', 'show', 'hide', 'noanimation', 'close', 'title', 'header', 'content', 'actions', 'confirm', 'cancel', 'footer', 'icon', 'image', 'input', 'file', 'range', 'select', 'radio', 'checkbox', 'label', 'textarea', 'inputerror', 'validation-message', 'progress-steps', 'active-progress-step', 'progress-step', 'progress-step-line', 'loading', 'styled', 'top', 'top-start', 'top-end', 'top-left', 'top-right', 'center', 'center-start', 'center-end', 'center-left', 'center-right', 'bottom', 'bottom-start', 'bottom-end', 'bottom-left', 'bottom-right', 'grow-row', 'grow-column', 'grow-fullscreen', 'rtl']);
 var iconTypes = prefix(['success', 'warning', 'info', 'question', 'error']);
 
 var states = {
@@ -91996,6 +92835,42 @@ var states = {
 var hasClass = function hasClass(elem, className) {
   return elem.classList.contains(className);
 };
+var applyCustomClass = function applyCustomClass(elem, customClass, className) {
+  // Clean up previous custom classes
+  toArray(elem.classList).forEach(function (className) {
+    if (!(objectValues(swalClasses).indexOf(className) !== -1) && !(objectValues(iconTypes).indexOf(className) !== -1)) {
+      elem.classList.remove(className);
+    }
+  });
+
+  if (customClass && customClass[className]) {
+    addClass(elem, customClass[className]);
+  }
+};
+function getInput(content, inputType) {
+  if (!inputType) {
+    return null;
+  }
+
+  switch (inputType) {
+    case 'select':
+    case 'textarea':
+    case 'file':
+      return getChildByClass(content, swalClasses[inputType]);
+
+    case 'checkbox':
+      return content.querySelector(".".concat(swalClasses.checkbox, " input"));
+
+    case 'radio':
+      return content.querySelector(".".concat(swalClasses.radio, " input:checked")) || content.querySelector(".".concat(swalClasses.radio, " input:first-child"));
+
+    case 'range':
+      return content.querySelector(".".concat(swalClasses.range, " input"));
+
+    default:
+      return getChildByClass(content, swalClasses.input);
+  }
+}
 var focusInput = function focusInput(input) {
   input.focus(); // place cursor at end of text in text input
 
@@ -92006,8 +92881,7 @@ var focusInput = function focusInput(input) {
     input.value = val;
   }
 };
-
-var addOrRemoveClass = function addOrRemoveClass(target, classList, add) {
+var toggleClass = function toggleClass(target, classList, condition) {
   if (!target || !classList) {
     return;
   }
@@ -92019,19 +92893,18 @@ var addOrRemoveClass = function addOrRemoveClass(target, classList, add) {
   classList.forEach(function (className) {
     if (target.forEach) {
       target.forEach(function (elem) {
-        add ? elem.classList.add(className) : elem.classList.remove(className);
+        condition ? elem.classList.add(className) : elem.classList.remove(className);
       });
     } else {
-      add ? target.classList.add(className) : target.classList.remove(className);
+      condition ? target.classList.add(className) : target.classList.remove(className);
     }
   });
 };
-
 var addClass = function addClass(target, classList) {
-  addOrRemoveClass(target, classList, true);
+  toggleClass(target, classList, true);
 };
 var removeClass = function removeClass(target, classList) {
-  addOrRemoveClass(target, classList, false);
+  toggleClass(target, classList, false);
 };
 var getChildByClass = function getChildByClass(elem, className) {
   for (var i = 0; i < elem.childNodes.length; i++) {
@@ -92040,17 +92913,38 @@ var getChildByClass = function getChildByClass(elem, className) {
     }
   }
 };
+var applyNumericalStyle = function applyNumericalStyle(elem, property, value) {
+  if (value || parseInt(value) === 0) {
+    elem.style[property] = typeof value === 'number' ? value + 'px' : value;
+  } else {
+    elem.style.removeProperty(property);
+  }
+};
 var show = function show(elem) {
+  var display = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'flex';
   elem.style.opacity = '';
-  elem.style.display = elem.id === swalClasses.content ? 'block' : 'flex';
+  elem.style.display = display;
 };
 var hide = function hide(elem) {
   elem.style.opacity = '';
   elem.style.display = 'none';
+};
+var toggle = function toggle(elem, condition, display) {
+  condition ? show(elem, display) : hide(elem);
 }; // borrowed from jquery $(elem).is(':visible') implementation
 
 var isVisible = function isVisible(elem) {
   return !!(elem && (elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length));
+};
+var isScrollable = function isScrollable(elem) {
+  return !!(elem.scrollHeight > elem.clientHeight);
+}; // borrowed from https://stackoverflow.com/a/46352119
+
+var hasCssAnimation = function hasCssAnimation(elem) {
+  var style = window.getComputedStyle(elem);
+  var animDuration = parseFloat(style.getPropertyValue('animation-duration') || '0');
+  var transDuration = parseFloat(style.getPropertyValue('transition-duration') || '0');
+  return animDuration > 0 || transDuration > 0;
 };
 var contains = function contains(haystack, needle) {
   if (typeof haystack.contains === 'function') {
@@ -92061,7 +92955,6 @@ var contains = function contains(haystack, needle) {
 var getContainer = function getContainer() {
   return document.body.querySelector('.' + swalClasses.container);
 };
-
 var elementBySelector = function elementBySelector(selectorString) {
   var container = getContainer();
   return container ? container.querySelector(selectorString) : null;
@@ -92077,6 +92970,12 @@ var getPopup = function getPopup() {
 var getIcons = function getIcons() {
   var popup = getPopup();
   return toArray(popup.querySelectorAll('.' + swalClasses.icon));
+};
+var getIcon = function getIcon() {
+  var visibleIcon = getIcons().filter(function (icon) {
+    return isVisible(icon);
+  });
+  return visibleIcon.length ? visibleIcon[0] : null;
 };
 var getTitle = function getTitle() {
   return elementByClass(swalClasses.title);
@@ -92101,6 +93000,9 @@ var getCancelButton = function getCancelButton() {
 };
 var getActions = function getActions() {
   return elementByClass(swalClasses.actions);
+};
+var getHeader = function getHeader() {
+  return elementByClass(swalClasses.header);
 };
 var getFooter = function getFooter() {
   return elementByClass(swalClasses.footer);
@@ -92145,33 +93047,30 @@ var isNodeEnv = function isNodeEnv() {
   return typeof window === 'undefined' || typeof document === 'undefined';
 };
 
-var sweetHTML = "\n <div aria-labelledby=\"".concat(swalClasses.title, "\" aria-describedby=\"").concat(swalClasses.content, "\" class=\"").concat(swalClasses.popup, "\" tabindex=\"-1\">\n   <div class=\"").concat(swalClasses.header, "\">\n     <ul class=\"").concat(swalClasses['progress-steps'], "\"></ul>\n     <div class=\"").concat(swalClasses.icon, " ").concat(iconTypes.error, "\">\n       <span class=\"swal2-x-mark\"><span class=\"swal2-x-mark-line-left\"></span><span class=\"swal2-x-mark-line-right\"></span></span>\n     </div>\n     <div class=\"").concat(swalClasses.icon, " ").concat(iconTypes.question, "\">\n       <span class=\"").concat(swalClasses['icon-text'], "\">?</span>\n      </div>\n     <div class=\"").concat(swalClasses.icon, " ").concat(iconTypes.warning, "\">\n       <span class=\"").concat(swalClasses['icon-text'], "\">!</span>\n      </div>\n     <div class=\"").concat(swalClasses.icon, " ").concat(iconTypes.info, "\">\n       <span class=\"").concat(swalClasses['icon-text'], "\">i</span>\n      </div>\n     <div class=\"").concat(swalClasses.icon, " ").concat(iconTypes.success, "\">\n       <div class=\"swal2-success-circular-line-left\"></div>\n       <span class=\"swal2-success-line-tip\"></span> <span class=\"swal2-success-line-long\"></span>\n       <div class=\"swal2-success-ring\"></div> <div class=\"swal2-success-fix\"></div>\n       <div class=\"swal2-success-circular-line-right\"></div>\n     </div>\n     <img class=\"").concat(swalClasses.image, "\" />\n     <h2 class=\"").concat(swalClasses.title, "\" id=\"").concat(swalClasses.title, "\"></h2>\n     <button type=\"button\" class=\"").concat(swalClasses.close, "\">\xD7</button>\n   </div>\n   <div class=\"").concat(swalClasses.content, "\">\n     <div id=\"").concat(swalClasses.content, "\"></div>\n     <input class=\"").concat(swalClasses.input, "\" />\n     <input type=\"file\" class=\"").concat(swalClasses.file, "\" />\n     <div class=\"").concat(swalClasses.range, "\">\n       <input type=\"range\" />\n       <output></output>\n     </div>\n     <select class=\"").concat(swalClasses.select, "\"></select>\n     <div class=\"").concat(swalClasses.radio, "\"></div>\n     <label for=\"").concat(swalClasses.checkbox, "\" class=\"").concat(swalClasses.checkbox, "\">\n       <input type=\"checkbox\" />\n       <span class=\"").concat(swalClasses.label, "\"></span>\n     </label>\n     <textarea class=\"").concat(swalClasses.textarea, "\"></textarea>\n     <div class=\"").concat(swalClasses['validation-message'], "\" id=\"").concat(swalClasses['validation-message'], "\"></div>\n   </div>\n   <div class=\"").concat(swalClasses.actions, "\">\n     <button type=\"button\" class=\"").concat(swalClasses.confirm, "\">OK</button>\n     <button type=\"button\" class=\"").concat(swalClasses.cancel, "\">Cancel</button>\n   </div>\n   <div class=\"").concat(swalClasses.footer, "\">\n   </div>\n </div>\n").replace(/(^|\n)\s*/g, '');
-/*
- * Add modal + backdrop to DOM
- */
+var sweetHTML = "\n <div aria-labelledby=\"".concat(swalClasses.title, "\" aria-describedby=\"").concat(swalClasses.content, "\" class=\"").concat(swalClasses.popup, "\" tabindex=\"-1\">\n   <div class=\"").concat(swalClasses.header, "\">\n     <ul class=\"").concat(swalClasses['progress-steps'], "\"></ul>\n     <div class=\"").concat(swalClasses.icon, " ").concat(iconTypes.error, "\">\n       <span class=\"swal2-x-mark\"><span class=\"swal2-x-mark-line-left\"></span><span class=\"swal2-x-mark-line-right\"></span></span>\n     </div>\n     <div class=\"").concat(swalClasses.icon, " ").concat(iconTypes.question, "\"></div>\n     <div class=\"").concat(swalClasses.icon, " ").concat(iconTypes.warning, "\"></div>\n     <div class=\"").concat(swalClasses.icon, " ").concat(iconTypes.info, "\"></div>\n     <div class=\"").concat(swalClasses.icon, " ").concat(iconTypes.success, "\">\n       <div class=\"swal2-success-circular-line-left\"></div>\n       <span class=\"swal2-success-line-tip\"></span> <span class=\"swal2-success-line-long\"></span>\n       <div class=\"swal2-success-ring\"></div> <div class=\"swal2-success-fix\"></div>\n       <div class=\"swal2-success-circular-line-right\"></div>\n     </div>\n     <img class=\"").concat(swalClasses.image, "\" />\n     <h2 class=\"").concat(swalClasses.title, "\" id=\"").concat(swalClasses.title, "\"></h2>\n     <button type=\"button\" class=\"").concat(swalClasses.close, "\">&times;</button>\n   </div>\n   <div class=\"").concat(swalClasses.content, "\">\n     <div id=\"").concat(swalClasses.content, "\"></div>\n     <input class=\"").concat(swalClasses.input, "\" />\n     <input type=\"file\" class=\"").concat(swalClasses.file, "\" />\n     <div class=\"").concat(swalClasses.range, "\">\n       <input type=\"range\" />\n       <output></output>\n     </div>\n     <select class=\"").concat(swalClasses.select, "\"></select>\n     <div class=\"").concat(swalClasses.radio, "\"></div>\n     <label for=\"").concat(swalClasses.checkbox, "\" class=\"").concat(swalClasses.checkbox, "\">\n       <input type=\"checkbox\" />\n       <span class=\"").concat(swalClasses.label, "\"></span>\n     </label>\n     <textarea class=\"").concat(swalClasses.textarea, "\"></textarea>\n     <div class=\"").concat(swalClasses['validation-message'], "\" id=\"").concat(swalClasses['validation-message'], "\"></div>\n   </div>\n   <div class=\"").concat(swalClasses.actions, "\">\n     <button type=\"button\" class=\"").concat(swalClasses.confirm, "\">OK</button>\n     <button type=\"button\" class=\"").concat(swalClasses.cancel, "\">Cancel</button>\n   </div>\n   <div class=\"").concat(swalClasses.footer, "\">\n   </div>\n </div>\n").replace(/(^|\n)\s*/g, '');
 
-var init = function init(params) {
-  // Clean up the old popup if it exists
-  var c = getContainer();
+var resetOldContainer = function resetOldContainer() {
+  var oldContainer = getContainer();
 
-  if (c) {
-    c.parentNode.removeChild(c);
-    removeClass([document.documentElement, document.body], [swalClasses['no-backdrop'], swalClasses['toast-shown'], swalClasses['has-column']]);
-  }
-  /* istanbul ignore if */
-
-
-  if (isNodeEnv()) {
-    error('SweetAlert2 requires document to initialize');
+  if (!oldContainer) {
     return;
   }
 
-  var container = document.createElement('div');
-  container.className = swalClasses.container;
-  container.innerHTML = sweetHTML;
-  var targetElement = typeof params.target === 'string' ? document.querySelector(params.target) : params.target;
-  targetElement.appendChild(container);
-  var popup = getPopup();
+  oldContainer.parentNode.removeChild(oldContainer);
+  removeClass([document.documentElement, document.body], [swalClasses['no-backdrop'], swalClasses['toast-shown'], swalClasses['has-column']]);
+};
+
+var oldInputVal; // IE11 workaround, see #1109 for details
+
+var resetValidationMessage = function resetValidationMessage(e) {
+  if (Swal.isVisible() && oldInputVal !== e.target.value) {
+    Swal.resetValidationMessage();
+  }
+
+  oldInputVal = e.target.value;
+};
+
+var addInputChangeListeners = function addInputChangeListeners() {
   var content = getContent();
   var input = getChildByClass(content, swalClasses.input);
   var file = getChildByClass(content, swalClasses.file);
@@ -92179,30 +93078,7 @@ var init = function init(params) {
   var rangeOutput = content.querySelector(".".concat(swalClasses.range, " output"));
   var select = getChildByClass(content, swalClasses.select);
   var checkbox = content.querySelector(".".concat(swalClasses.checkbox, " input"));
-  var textarea = getChildByClass(content, swalClasses.textarea); // a11y
-
-  popup.setAttribute('role', params.toast ? 'alert' : 'dialog');
-  popup.setAttribute('aria-live', params.toast ? 'polite' : 'assertive');
-
-  if (!params.toast) {
-    popup.setAttribute('aria-modal', 'true');
-  } // RTL
-
-
-  if (window.getComputedStyle(targetElement).direction === 'rtl') {
-    addClass(getContainer(), swalClasses.rtl);
-  }
-
-  var oldInputVal; // IE11 workaround, see #1109 for details
-
-  var resetValidationMessage = function resetValidationMessage(e) {
-    if (Swal.isVisible() && oldInputVal !== e.target.value) {
-      Swal.resetValidationMessage();
-    }
-
-    oldInputVal = e.target.value;
-  };
-
+  var textarea = getChildByClass(content, swalClasses.textarea);
   input.oninput = resetValidationMessage;
   file.onchange = resetValidationMessage;
   select.onchange = resetValidationMessage;
@@ -92218,33 +93094,73 @@ var init = function init(params) {
     resetValidationMessage(e);
     range.nextSibling.value = range.value;
   };
+};
 
-  return popup;
+var getTarget = function getTarget(target) {
+  return typeof target === 'string' ? document.querySelector(target) : target;
+};
+
+var setupAccessibility = function setupAccessibility(params) {
+  var popup = getPopup();
+  popup.setAttribute('role', params.toast ? 'alert' : 'dialog');
+  popup.setAttribute('aria-live', params.toast ? 'polite' : 'assertive');
+
+  if (!params.toast) {
+    popup.setAttribute('aria-modal', 'true');
+  }
+};
+
+var setupRTL = function setupRTL(targetElement) {
+  if (window.getComputedStyle(targetElement).direction === 'rtl') {
+    addClass(getContainer(), swalClasses.rtl);
+  }
+};
+/*
+ * Add modal + backdrop to DOM
+ */
+
+
+var init = function init(params) {
+  // Clean up the old popup container if it exists
+  resetOldContainer();
+  /* istanbul ignore if */
+
+  if (isNodeEnv()) {
+    error('SweetAlert2 requires document to initialize');
+    return;
+  }
+
+  var container = document.createElement('div');
+  container.className = swalClasses.container;
+  container.innerHTML = sweetHTML;
+  var targetElement = getTarget(params.target);
+  targetElement.appendChild(container);
+  setupAccessibility(params);
+  setupRTL(targetElement);
+  addInputChangeListeners();
 };
 
 var parseHtmlToContainer = function parseHtmlToContainer(param, target) {
-  if (!param) {
-    return hide(target);
-  } // DOM element
-
-
+  // DOM element
   if (param instanceof HTMLElement) {
     target.appendChild(param); // JQuery element(s)
   } else if (_typeof(param) === 'object') {
-    target.innerHTML = '';
-
-    if (0 in param) {
-      for (var i = 0; i in param; i++) {
-        target.appendChild(param[i].cloneNode(true));
-      }
-    } else {
-      target.appendChild(param.cloneNode(true));
-    }
+    handleJqueryElem(target, param); // Plain string
   } else if (param) {
     target.innerHTML = param;
   }
+};
 
-  show(target);
+var handleJqueryElem = function handleJqueryElem(target, elem) {
+  target.innerHTML = '';
+
+  if (0 in elem) {
+    for (var i = 0; i in elem; i++) {
+      target.appendChild(elem[i].cloneNode(true));
+    }
+  } else {
+    target.appendChild(elem.cloneNode(true));
+  }
 };
 
 var animationEndEvent = function () {
@@ -92263,7 +93179,7 @@ var animationEndEvent = function () {
   };
 
   for (var i in transEndEventNames) {
-    if (transEndEventNames.hasOwnProperty(i) && typeof testEl.style[i] !== 'undefined') {
+    if (Object.prototype.hasOwnProperty.call(transEndEventNames, i) && typeof testEl.style[i] !== 'undefined') {
       return transEndEventNames[i];
     }
   }
@@ -92290,7 +93206,36 @@ var measureScrollbar = function measureScrollbar() {
   return scrollbarWidth;
 };
 
-var renderActions = function renderActions(params) {
+function handleButtonsStyling(confirmButton, cancelButton, params) {
+  addClass([confirmButton, cancelButton], swalClasses.styled); // Buttons background colors
+
+  if (params.confirmButtonColor) {
+    confirmButton.style.backgroundColor = params.confirmButtonColor;
+  }
+
+  if (params.cancelButtonColor) {
+    cancelButton.style.backgroundColor = params.cancelButtonColor;
+  } // Loading state
+
+
+  var confirmButtonBackgroundColor = window.getComputedStyle(confirmButton).getPropertyValue('background-color');
+  confirmButton.style.borderLeftColor = confirmButtonBackgroundColor;
+  confirmButton.style.borderRightColor = confirmButtonBackgroundColor;
+}
+
+function renderButton(button, buttonType, params) {
+  toggle(button, params['showC' + buttonType.substring(1) + 'Button'], 'inline-block');
+  button.innerHTML = params[buttonType + 'ButtonText']; // Set caption text
+
+  button.setAttribute('aria-label', params[buttonType + 'ButtonAriaLabel']); // ARIA label
+  // Add buttons custom classes
+
+  button.className = swalClasses[buttonType];
+  applyCustomClass(button, params.customClass, buttonType + 'Button');
+  addClass(button, params[buttonType + 'ButtonClass']);
+}
+
+var renderActions = function renderActions(instance, params) {
   var actions = getActions();
   var confirmButton = getConfirmButton();
   var cancelButton = getCancelButton(); // Actions (buttons) wrapper
@@ -92299,49 +93244,17 @@ var renderActions = function renderActions(params) {
     hide(actions);
   } else {
     show(actions);
-  } // Cancel button
+  } // Custom class
 
 
-  if (params.showCancelButton) {
-    cancelButton.style.display = 'inline-block';
-  } else {
-    hide(cancelButton);
-  } // Confirm button
+  applyCustomClass(actions, params.customClass, 'actions'); // Render confirm button
 
+  renderButton(confirmButton, 'confirm', params); // render Cancel Button
 
-  if (params.showConfirmButton) {
-    confirmButton.style.removeProperty('display');
-  } else {
-    hide(confirmButton);
-  } // Edit text on confirm and cancel buttons
-
-
-  confirmButton.innerHTML = params.confirmButtonText;
-  cancelButton.innerHTML = params.cancelButtonText; // ARIA labels for confirm and cancel buttons
-
-  confirmButton.setAttribute('aria-label', params.confirmButtonAriaLabel);
-  cancelButton.setAttribute('aria-label', params.cancelButtonAriaLabel); // Add buttons custom classes
-
-  confirmButton.className = swalClasses.confirm;
-  addClass(confirmButton, params.confirmButtonClass);
-  cancelButton.className = swalClasses.cancel;
-  addClass(cancelButton, params.cancelButtonClass); // Buttons styling
+  renderButton(cancelButton, 'cancel', params);
 
   if (params.buttonsStyling) {
-    addClass([confirmButton, cancelButton], swalClasses.styled); // Buttons background colors
-
-    if (params.confirmButtonColor) {
-      confirmButton.style.backgroundColor = params.confirmButtonColor;
-    }
-
-    if (params.cancelButtonColor) {
-      cancelButton.style.backgroundColor = params.cancelButtonColor;
-    } // Loading state
-
-
-    var confirmButtonBackgroundColor = window.getComputedStyle(confirmButton).getPropertyValue('background-color');
-    confirmButton.style.borderLeftColor = confirmButtonBackgroundColor;
-    confirmButton.style.borderRightColor = confirmButtonBackgroundColor;
+    handleButtonsStyling(confirmButton, cancelButton, params);
   } else {
     removeClass([confirmButton, cancelButton], swalClasses.styled);
     confirmButton.style.backgroundColor = confirmButton.style.borderLeftColor = confirmButton.style.borderRightColor = '';
@@ -92349,121 +93262,454 @@ var renderActions = function renderActions(params) {
   }
 };
 
-var renderContent = function renderContent(params) {
-  var content = getContent().querySelector('#' + swalClasses.content); // Content as HTML
+function handleBackdropParam(container, backdrop) {
+  if (typeof backdrop === 'string') {
+    container.style.background = backdrop;
+  } else if (!backdrop) {
+    addClass([document.documentElement, document.body], swalClasses['no-backdrop']);
+  }
+}
 
-  if (params.html) {
-    parseHtmlToContainer(params.html, content); // Content as plain text
-  } else if (params.text) {
-    content.textContent = params.text;
-    show(content);
+function handlePositionParam(container, position) {
+  if (position in swalClasses) {
+    addClass(container, swalClasses[position]);
   } else {
-    hide(content);
+    warn('The "position" parameter is not valid, defaulting to "center"');
+    addClass(container, swalClasses.center);
+  }
+}
+
+function handleGrowParam(container, grow) {
+  if (grow && typeof grow === 'string') {
+    var growClass = 'grow-' + grow;
+
+    if (growClass in swalClasses) {
+      addClass(container, swalClasses[growClass]);
+    }
+  }
+}
+
+var renderContainer = function renderContainer(instance, params) {
+  var container = getContainer();
+
+  if (!container) {
+    return;
+  }
+
+  handleBackdropParam(container, params.backdrop);
+
+  if (!params.backdrop && params.allowOutsideClick) {
+    warn('"allowOutsideClick" parameter requires `backdrop` parameter to be set to `true`');
+  }
+
+  handlePositionParam(container, params.position);
+  handleGrowParam(container, params.grow); // Custom class
+
+  applyCustomClass(container, params.customClass, 'container');
+
+  if (params.customContainerClass) {
+    // @deprecated
+    addClass(container, params.customContainerClass);
   }
 };
 
-var renderIcon = function renderIcon(params) {
+/**
+ * This module containts `WeakMap`s for each effectively-"private  property" that a `Swal` has.
+ * For example, to set the private property "foo" of `this` to "bar", you can `privateProps.foo.set(this, 'bar')`
+ * This is the approach that Babel will probably take to implement private methods/fields
+ *   https://github.com/tc39/proposal-private-methods
+ *   https://github.com/babel/babel/pull/7555
+ * Once we have the changes from that PR in Babel, and our core class fits reasonable in *one module*
+ *   then we can use that language feature.
+ */
+var privateProps = {
+  promise: new WeakMap(),
+  innerParams: new WeakMap(),
+  domCache: new WeakMap()
+};
+
+var inputTypes = ['input', 'file', 'range', 'select', 'radio', 'checkbox', 'textarea'];
+var renderInput = function renderInput(instance, params) {
+  var content = getContent();
+  var innerParams = privateProps.innerParams.get(instance);
+  var rerender = !innerParams || params.input !== innerParams.input;
+  inputTypes.forEach(function (inputType) {
+    var inputClass = swalClasses[inputType];
+    var inputContainer = getChildByClass(content, inputClass); // set attributes
+
+    setAttributes(inputType, params.inputAttributes); // set class
+
+    setClass(inputContainer, inputClass, params);
+
+    if (rerender) {
+      hide(inputContainer);
+    }
+  });
+
+  if (params.input && rerender) {
+    showInput(params);
+  }
+};
+
+var showInput = function showInput(params) {
+  if (!renderInputType[params.input]) {
+    return error("Unexpected type of input! Expected \"text\", \"email\", \"password\", \"number\", \"tel\", \"select\", \"radio\", \"checkbox\", \"textarea\", \"file\" or \"url\", got \"".concat(params.input, "\""));
+  }
+
+  var input = renderInputType[params.input](params);
+  show(input);
+};
+
+var removeAttributes = function removeAttributes(input) {
+  for (var i = 0; i < input.attributes.length; i++) {
+    var attrName = input.attributes[i].name;
+
+    if (!(['type', 'value', 'style'].indexOf(attrName) !== -1)) {
+      input.removeAttribute(attrName);
+    }
+  }
+};
+
+var setAttributes = function setAttributes(inputType, inputAttributes) {
+  var input = getInput(getContent(), inputType);
+
+  if (!input) {
+    return;
+  }
+
+  removeAttributes(input);
+
+  for (var attr in inputAttributes) {
+    // Do not set a placeholder for <input type="range">
+    // it'll crash Edge, #1298
+    if (inputType === 'range' && attr === 'placeholder') {
+      continue;
+    }
+
+    input.setAttribute(attr, inputAttributes[attr]);
+  }
+};
+
+var setClass = function setClass(inputContainer, inputClass, params) {
+  inputContainer.className = inputClass;
+
+  if (params.inputClass) {
+    addClass(inputContainer, params.inputClass);
+  }
+
+  if (params.customClass) {
+    addClass(inputContainer, params.customClass.input);
+  }
+};
+
+var setInputPlaceholder = function setInputPlaceholder(input, params) {
+  if (!input.placeholder || params.inputPlaceholder) {
+    input.placeholder = params.inputPlaceholder;
+  }
+};
+
+var renderInputType = {};
+
+renderInputType.text = renderInputType.email = renderInputType.password = renderInputType.number = renderInputType.tel = renderInputType.url = function (params) {
+  var input = getChildByClass(getContent(), swalClasses.input);
+
+  if (typeof params.inputValue === 'string' || typeof params.inputValue === 'number') {
+    input.value = params.inputValue;
+  } else if (!isPromise(params.inputValue)) {
+    warn("Unexpected type of inputValue! Expected \"string\", \"number\" or \"Promise\", got \"".concat(_typeof(params.inputValue), "\""));
+  }
+
+  setInputPlaceholder(input, params);
+  input.type = params.input;
+  return input;
+};
+
+renderInputType.file = function (params) {
+  var input = getChildByClass(getContent(), swalClasses.file);
+  setInputPlaceholder(input, params);
+  input.type = params.input;
+  return input;
+};
+
+renderInputType.range = function (params) {
+  var range = getChildByClass(getContent(), swalClasses.range);
+  var rangeInput = range.querySelector('input');
+  var rangeOutput = range.querySelector('output');
+  rangeInput.value = params.inputValue;
+  rangeInput.type = params.input;
+  rangeOutput.value = params.inputValue;
+  return range;
+};
+
+renderInputType.select = function (params) {
+  var select = getChildByClass(getContent(), swalClasses.select);
+  select.innerHTML = '';
+
+  if (params.inputPlaceholder) {
+    var placeholder = document.createElement('option');
+    placeholder.innerHTML = params.inputPlaceholder;
+    placeholder.value = '';
+    placeholder.disabled = true;
+    placeholder.selected = true;
+    select.appendChild(placeholder);
+  }
+
+  return select;
+};
+
+renderInputType.radio = function () {
+  var radio = getChildByClass(getContent(), swalClasses.radio);
+  radio.innerHTML = '';
+  return radio;
+};
+
+renderInputType.checkbox = function (params) {
+  var checkbox = getChildByClass(getContent(), swalClasses.checkbox);
+  var checkboxInput = getInput(getContent(), 'checkbox');
+  checkboxInput.type = 'checkbox';
+  checkboxInput.value = 1;
+  checkboxInput.id = swalClasses.checkbox;
+  checkboxInput.checked = Boolean(params.inputValue);
+  var label = checkbox.querySelector('span');
+  label.innerHTML = params.inputPlaceholder;
+  return checkbox;
+};
+
+renderInputType.textarea = function (params) {
+  var textarea = getChildByClass(getContent(), swalClasses.textarea);
+  textarea.value = params.inputValue;
+  setInputPlaceholder(textarea, params);
+  return textarea;
+};
+
+var renderContent = function renderContent(instance, params) {
+  var content = getContent().querySelector('#' + swalClasses.content); // Content as HTML
+
+  if (params.html) {
+    parseHtmlToContainer(params.html, content);
+    show(content, 'block'); // Content as plain text
+  } else if (params.text) {
+    content.textContent = params.text;
+    show(content, 'block'); // No content
+  } else {
+    hide(content);
+  }
+
+  renderInput(instance, params); // Custom class
+
+  applyCustomClass(getContent(), params.customClass, 'content');
+};
+
+var renderFooter = function renderFooter(instance, params) {
+  var footer = getFooter();
+  toggle(footer, params.footer);
+
+  if (params.footer) {
+    parseHtmlToContainer(params.footer, footer);
+  } // Custom class
+
+
+  applyCustomClass(footer, params.customClass, 'footer');
+};
+
+var renderCloseButton = function renderCloseButton(instance, params) {
+  var closeButton = getCloseButton(); // Custom class
+
+  applyCustomClass(closeButton, params.customClass, 'closeButton');
+  toggle(closeButton, params.showCloseButton);
+  closeButton.setAttribute('aria-label', params.closeButtonAriaLabel);
+};
+
+var renderIcon = function renderIcon(instance, params) {
+  var innerParams = privateProps.innerParams.get(instance); // if the icon with the given type already rendered,
+  // apply the custom class without re-rendering the icon
+
+  if (innerParams && params.type === innerParams.type && getIcon()) {
+    applyCustomClass(getIcon(), params.customClass, 'icon');
+    return;
+  }
+
+  hideAllIcons();
+
+  if (!params.type) {
+    return;
+  }
+
+  adjustSuccessIconBackgoundColor();
+
+  if (Object.keys(iconTypes).indexOf(params.type) !== -1) {
+    var icon = elementBySelector(".".concat(swalClasses.icon, ".").concat(iconTypes[params.type]));
+    show(icon); // Custom class
+
+    applyCustomClass(icon, params.customClass, 'icon'); // Animate icon
+
+    toggleClass(icon, "swal2-animate-".concat(params.type, "-icon"), params.animation);
+  } else {
+    error("Unknown type! Expected \"success\", \"error\", \"warning\", \"info\" or \"question\", got \"".concat(params.type, "\""));
+  }
+};
+
+var hideAllIcons = function hideAllIcons() {
   var icons = getIcons();
 
   for (var i = 0; i < icons.length; i++) {
     hide(icons[i]);
   }
+}; // Adjust success icon background color to match the popup background color
 
-  if (params.type) {
-    if (Object.keys(iconTypes).indexOf(params.type) !== -1) {
-      var icon = Swal.getPopup().querySelector(".".concat(swalClasses.icon, ".").concat(iconTypes[params.type]));
-      show(icon); // Animate icon
 
-      if (params.animation) {
-        addClass(icon, "swal2-animate-".concat(params.type, "-icon"));
-      }
-    } else {
-      error("Unknown type! Expected \"success\", \"error\", \"warning\", \"info\" or \"question\", got \"".concat(params.type, "\""));
-    }
+var adjustSuccessIconBackgoundColor = function adjustSuccessIconBackgoundColor() {
+  var popup = getPopup();
+  var popupBackgroundColor = window.getComputedStyle(popup).getPropertyValue('background-color');
+  var successIconParts = popup.querySelectorAll('[class^=swal2-success-circular-line], .swal2-success-fix');
+
+  for (var i = 0; i < successIconParts.length; i++) {
+    successIconParts[i].style.backgroundColor = popupBackgroundColor;
   }
 };
 
-var renderImage = function renderImage(params) {
+var renderImage = function renderImage(instance, params) {
   var image = getImage();
 
-  if (params.imageUrl) {
-    image.setAttribute('src', params.imageUrl);
-    image.setAttribute('alt', params.imageAlt);
-    show(image);
+  if (!params.imageUrl) {
+    return hide(image);
+  }
 
-    if (params.imageWidth) {
-      image.setAttribute('width', params.imageWidth);
-    } else {
-      image.removeAttribute('width');
-    }
+  show(image); // Src, alt
 
-    if (params.imageHeight) {
-      image.setAttribute('height', params.imageHeight);
-    } else {
-      image.removeAttribute('height');
-    }
+  image.setAttribute('src', params.imageUrl);
+  image.setAttribute('alt', params.imageAlt); // Width, height
 
-    image.className = swalClasses.image;
+  applyNumericalStyle(image, 'width', params.imageWidth);
+  applyNumericalStyle(image, 'height', params.imageHeight); // Class
 
-    if (params.imageClass) {
-      addClass(image, params.imageClass);
-    }
-  } else {
-    hide(image);
+  image.className = swalClasses.image;
+  applyCustomClass(image, params.customClass, 'image');
+
+  if (params.imageClass) {
+    addClass(image, params.imageClass);
   }
 };
 
-var renderProgressSteps = function renderProgressSteps(params) {
+var createStepElement = function createStepElement(step) {
+  var stepEl = document.createElement('li');
+  addClass(stepEl, swalClasses['progress-step']);
+  stepEl.innerHTML = step;
+  return stepEl;
+};
+
+var createLineElement = function createLineElement(params) {
+  var lineEl = document.createElement('li');
+  addClass(lineEl, swalClasses['progress-step-line']);
+
+  if (params.progressStepsDistance) {
+    lineEl.style.width = params.progressStepsDistance;
+  }
+
+  return lineEl;
+};
+
+var renderProgressSteps = function renderProgressSteps(instance, params) {
   var progressStepsContainer = getProgressSteps();
-  var currentProgressStep = parseInt(params.currentProgressStep === null ? Swal.getQueueStep() : params.currentProgressStep, 10);
 
-  if (params.progressSteps && params.progressSteps.length) {
-    show(progressStepsContainer);
-    progressStepsContainer.innerHTML = '';
+  if (!params.progressSteps || params.progressSteps.length === 0) {
+    return hide(progressStepsContainer);
+  }
 
-    if (currentProgressStep >= params.progressSteps.length) {
-      warn('Invalid currentProgressStep parameter, it should be less than progressSteps.length ' + '(currentProgressStep like JS arrays starts from 0)');
+  show(progressStepsContainer);
+  progressStepsContainer.innerHTML = '';
+  var currentProgressStep = parseInt(params.currentProgressStep === null ? Swal.getQueueStep() : params.currentProgressStep);
+
+  if (currentProgressStep >= params.progressSteps.length) {
+    warn('Invalid currentProgressStep parameter, it should be less than progressSteps.length ' + '(currentProgressStep like JS arrays starts from 0)');
+  }
+
+  params.progressSteps.forEach(function (step, index) {
+    var stepEl = createStepElement(step);
+    progressStepsContainer.appendChild(stepEl);
+
+    if (index === currentProgressStep) {
+      addClass(stepEl, swalClasses['active-progress-step']);
     }
 
-    params.progressSteps.forEach(function (step, index) {
-      var stepEl = document.createElement('li');
-      addClass(stepEl, swalClasses['progress-step']);
-      stepEl.innerHTML = step;
-
-      if (index === currentProgressStep) {
-        addClass(stepEl, swalClasses['active-progress-step']);
-      }
-
-      progressStepsContainer.appendChild(stepEl);
-
-      if (index !== params.progressSteps.length - 1) {
-        var line = document.createElement('li');
-        addClass(line, swalClasses['progress-step-line']);
-
-        if (params.progressStepsDistance) {
-          line.style.width = params.progressStepsDistance;
-        }
-
-        progressStepsContainer.appendChild(line);
-      }
-    });
-  } else {
-    hide(progressStepsContainer);
-  }
+    if (index !== params.progressSteps.length - 1) {
+      var lineEl = createLineElement(step);
+      progressStepsContainer.appendChild(lineEl);
+    }
+  });
 };
 
-var renderTitle = function renderTitle(params) {
+var renderTitle = function renderTitle(instance, params) {
   var title = getTitle();
+  toggle(title, params.title || params.titleText);
+
+  if (params.title) {
+    parseHtmlToContainer(params.title, title);
+  }
 
   if (params.titleText) {
     title.innerText = params.titleText;
-  } else if (params.title) {
-    if (typeof params.title === 'string') {
-      params.title = params.title.split('\n').join('<br />');
-    }
+  } // Custom class
 
-    parseHtmlToContainer(params.title, title);
-  }
+
+  applyCustomClass(title, params.customClass, 'title');
+};
+
+var renderHeader = function renderHeader(instance, params) {
+  var header = getHeader(); // Custom class
+
+  applyCustomClass(header, params.customClass, 'header'); // Progress steps
+
+  renderProgressSteps(instance, params); // Icon
+
+  renderIcon(instance, params); // Image
+
+  renderImage(instance, params); // Title
+
+  renderTitle(instance, params); // Close button
+
+  renderCloseButton(instance, params);
+};
+
+var renderPopup = function renderPopup(instance, params) {
+  var popup = getPopup(); // Width
+
+  applyNumericalStyle(popup, 'width', params.width); // Padding
+
+  applyNumericalStyle(popup, 'padding', params.padding); // Background
+
+  if (params.background) {
+    popup.style.background = params.background;
+  } // Default Class
+
+
+  popup.className = swalClasses.popup;
+
+  if (params.toast) {
+    addClass([document.documentElement, document.body], swalClasses['toast-shown']);
+    addClass(popup, swalClasses.toast);
+  } else {
+    addClass(popup, swalClasses.modal);
+  } // Custom class
+
+
+  applyCustomClass(popup, params.customClass, 'popup');
+
+  if (typeof params.customClass === 'string') {
+    addClass(popup, params.customClass);
+  } // CSS animation
+
+
+  toggleClass(popup, swalClasses.noanimation, !params.animation);
+};
+
+var render = function render(instance, params) {
+  renderPopup(instance, params);
+  renderContainer(instance, params);
+  renderHeader(instance, params);
+  renderContent(instance, params);
+  renderActions(instance, params);
+  renderFooter(instance, params);
 };
 
 /*
@@ -92478,14 +93724,14 @@ var isVisible$1 = function isVisible$$1() {
  */
 
 var clickConfirm = function clickConfirm() {
-  return getConfirmButton().click();
+  return getConfirmButton() && getConfirmButton().click();
 };
 /*
  * Global function to click 'Cancel' button
  */
 
 var clickCancel = function clickCancel() {
-  return getCancelButton().click();
+  return getCancelButton() && getCancelButton().click();
 };
 
 function fire() {
@@ -92551,9 +93797,10 @@ var queue = function queue(steps) {
   var Swal = this;
   currentSteps = steps;
 
-  var resetQueue = function resetQueue() {
+  var resetAndResolve = function resetAndResolve(resolve, value) {
     currentSteps = [];
     document.body.removeAttribute('data-swal2-queue-step');
+    resolve(value);
   };
 
   var queueResult = [];
@@ -92566,15 +93813,13 @@ var queue = function queue(steps) {
             queueResult.push(result.value);
             step(i + 1, callback);
           } else {
-            resetQueue();
-            resolve({
+            resetAndResolve(resolve, {
               dismiss: result.dismiss
             });
           }
         });
       } else {
-        resetQueue();
-        resolve({
+        resetAndResolve(resolve, {
           value: queueResult
         });
       }
@@ -92635,20 +93880,25 @@ var showLoading = function showLoading() {
 };
 
 var RESTORE_FOCUS_TIMEOUT = 100;
+var DISPOSE_SWAL_TIMEOUT = 36000;
 
 var globalState = {};
+var focusPreviousActiveElement = function focusPreviousActiveElement() {
+  if (globalState.previousActiveElement && globalState.previousActiveElement.focus) {
+    globalState.previousActiveElement.focus();
+    globalState.previousActiveElement = null;
+  } else if (document.body) {
+    document.body.focus();
+  }
+}; // Restore previous active (focused) element
+
+
 var restoreActiveElement = function restoreActiveElement() {
   return new Promise(function (resolve) {
     var x = window.scrollX;
     var y = window.scrollY;
     globalState.restoreFocusTimeout = setTimeout(function () {
-      if (globalState.previousActiveElement && globalState.previousActiveElement.focus) {
-        globalState.previousActiveElement.focus();
-        globalState.previousActiveElement = null;
-      } else if (document.body) {
-        document.body.focus();
-      }
-
+      focusPreviousActiveElement();
       resolve();
     }, RESTORE_FOCUS_TIMEOUT); // issues/900
 
@@ -92776,7 +94026,14 @@ var defaultParams = {
   onClose: null,
   scrollbarPadding: true
 };
-var deprecatedParams = [];
+var updatableParams = ['title', 'titleText', 'text', 'html', 'type', 'customClass', 'showConfirmButton', 'showCancelButton', 'confirmButtonText', 'confirmButtonAriaLabel', 'confirmButtonColor', 'confirmButtonClass', 'cancelButtonText', 'cancelButtonAriaLabel', 'cancelButtonColor', 'cancelButtonClass', 'buttonsStyling', 'reverseButtons', 'imageUrl', 'imageWidth', 'imageHeigth', 'imageAlt', 'imageClass', 'progressSteps', 'currentProgressStep'];
+var deprecatedParams = {
+  customContainerClass: 'customClass',
+  confirmButtonClass: 'customClass',
+  cancelButtonClass: 'customClass',
+  imageClass: 'customClass',
+  inputClass: 'customClass'
+};
 var toastIncompatibleParams = ['allowOutsideClick', 'allowEnterKey', 'backdrop', 'focusConfirm', 'focusCancel', 'heightAuto', 'keydownListenerCapture'];
 /**
  * Is valid parameter
@@ -92784,7 +94041,7 @@ var toastIncompatibleParams = ['allowOutsideClick', 'allowEnterKey', 'backdrop',
  */
 
 var isValidParameter = function isValidParameter(paramName) {
-  return defaultParams.hasOwnProperty(paramName);
+  return Object.prototype.hasOwnProperty.call(defaultParams, paramName);
 };
 /**
  * Is valid parameter for Swal.update() method
@@ -92792,7 +94049,7 @@ var isValidParameter = function isValidParameter(paramName) {
  */
 
 var isUpdatableParameter = function isUpdatableParameter(paramName) {
-  return ['title', 'titleText', 'text', 'html', 'type', 'showConfirmButton', 'showCancelButton', 'confirmButtonText', 'confirmButtonAriaLabel', 'confirmButtonColor', 'confirmButtonClass', 'cancelButtonText', 'cancelButtonAriaLabel', 'cancelButtonColor', 'cancelButtonClass', 'buttonsStyling', 'reverseButtons', 'imageUrl', 'imageWidth', 'imageHeigth', 'imageAlt', 'imageClass', 'progressSteps', 'currentProgressStep'].indexOf(paramName) !== -1;
+  return updatableParams.indexOf(paramName) !== -1;
 };
 /**
  * Is deprecated parameter
@@ -92800,7 +94057,25 @@ var isUpdatableParameter = function isUpdatableParameter(paramName) {
  */
 
 var isDeprecatedParameter = function isDeprecatedParameter(paramName) {
-  return deprecatedParams.indexOf(paramName) !== -1;
+  return deprecatedParams[paramName];
+};
+
+var checkIfParamIsValid = function checkIfParamIsValid(param) {
+  if (!isValidParameter(param)) {
+    warn("Unknown parameter \"".concat(param, "\""));
+  }
+};
+
+var checkIfToastParamIsValid = function checkIfToastParamIsValid(param) {
+  if (toastIncompatibleParams.indexOf(param) !== -1) {
+    warn("The parameter \"".concat(param, "\" is incompatible with toasts"));
+  }
+};
+
+var checkIfParamIsDeprecated = function checkIfParamIsDeprecated(param) {
+  if (isDeprecatedParameter(param)) {
+    warnAboutDepreation(param, isDeprecatedParameter(param));
+  }
 };
 /**
  * Show relevant warnings for given params
@@ -92808,19 +94083,16 @@ var isDeprecatedParameter = function isDeprecatedParameter(paramName) {
  * @param params
  */
 
+
 var showWarningsForParams = function showWarningsForParams(params) {
   for (var param in params) {
-    if (!isValidParameter(param)) {
-      warn("Unknown parameter \"".concat(param, "\""));
+    checkIfParamIsValid(param);
+
+    if (params.toast) {
+      checkIfToastParamIsValid(param);
     }
 
-    if (params.toast && toastIncompatibleParams.indexOf(param) !== -1) {
-      warn("The parameter \"".concat(param, "\" is incompatible with toasts"));
-    }
-
-    if (isDeprecatedParameter(param)) {
-      warnOnce("The parameter \"".concat(param, "\" is deprecated and will be removed in the next major release."));
-    }
+    checkIfParamIsDeprecated();
   }
 };
 
@@ -92839,11 +94111,13 @@ var staticMethods = Object.freeze({
 	getTitle: getTitle,
 	getContent: getContent,
 	getImage: getImage,
+	getIcon: getIcon,
 	getIcons: getIcons,
 	getCloseButton: getCloseButton,
 	getActions: getActions,
 	getConfirmButton: getConfirmButton,
 	getCancelButton: getCancelButton,
+	getHeader: getHeader,
 	getFooter: getFooter,
 	getFocusableElements: getFocusableElements,
 	getValidationMessage: getValidationMessage,
@@ -92863,21 +94137,6 @@ var staticMethods = Object.freeze({
 	increaseTimer: increaseTimer,
 	isTimerRunning: isTimerRunning
 });
-
-/**
- * This module containts `WeakMap`s for each effectively-"private  property" that a `Swal` has.
- * For example, to set the private property "foo" of `this` to "bar", you can `privateProps.foo.set(this, 'bar')`
- * This is the approach that Babel will probably take to implement private methods/fields
- *   https://github.com/tc39/proposal-private-methods
- *   https://github.com/babel/babel/pull/7555
- * Once we have the changes from that PR in Babel, and our core class fits reasonable in *one module*
- *   then we can use that language feature.
- */
-var privateProps = {
-  promise: new WeakMap(),
-  innerParams: new WeakMap(),
-  domCache: new WeakMap()
-};
 
 /**
  * Enables buttons and hide loader.
@@ -92902,33 +94161,10 @@ function hideLoading() {
   domCache.cancelButton.disabled = false;
 }
 
-function getInput(inputType) {
-  var innerParams = privateProps.innerParams.get(this);
-  var domCache = privateProps.domCache.get(this);
-  inputType = inputType || innerParams.input;
-
-  if (!inputType) {
-    return null;
-  }
-
-  switch (inputType) {
-    case 'select':
-    case 'textarea':
-    case 'file':
-      return getChildByClass(domCache.content, swalClasses[inputType]);
-
-    case 'checkbox':
-      return domCache.popup.querySelector(".".concat(swalClasses.checkbox, " input"));
-
-    case 'radio':
-      return domCache.popup.querySelector(".".concat(swalClasses.radio, " input:checked")) || domCache.popup.querySelector(".".concat(swalClasses.radio, " input:first-child"));
-
-    case 'range':
-      return domCache.popup.querySelector(".".concat(swalClasses.range, " input"));
-
-    default:
-      return getChildByClass(domCache.content, swalClasses.input);
-  }
+function getInput$1(instance) {
+  var innerParams = privateProps.innerParams.get(instance || this);
+  var domCache = privateProps.domCache.get(instance || this);
+  return getInput(domCache.content, innerParams.input);
 }
 
 var fixScrollbar = function fixScrollbar() {
@@ -92960,9 +94196,29 @@ var iOSfix = function iOSfix() {
     var offset = document.body.scrollTop;
     document.body.style.top = offset * -1 + 'px';
     addClass(document.body, swalClasses.iosfix);
+    lockBodyScroll();
   }
 };
+
+var lockBodyScroll = function lockBodyScroll() {
+  // #1246
+  var container = getContainer();
+  var preventTouchMove;
+
+  container.ontouchstart = function (e) {
+    preventTouchMove = e.target === container || !isScrollable(container) && e.target.tagName !== 'INPUT' // #1603
+    ;
+  };
+
+  container.ontouchmove = function (e) {
+    if (preventTouchMove) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  };
+};
 /* istanbul ignore next */
+
 
 var undoIOSfix = function undoIOSfix() {
   if (hasClass(document.body, swalClasses.iosfix)) {
@@ -93053,69 +94309,102 @@ var privateMethods = {
  * Instance method to close sweetAlert
  */
 
-function close(resolveValue) {
-  var container = getContainer();
-  var popup = getPopup();
-  var innerParams = privateProps.innerParams.get(this);
-  var swalPromiseResolve = privateMethods.swalPromiseResolve.get(this);
-  var onClose = innerParams.onClose;
-  var onAfterClose = innerParams.onAfterClose;
+function removePopupAndResetState(container, isToast, onAfterClose) {
+  if (isToast) {
+    triggerOnAfterClose(onAfterClose);
+  } else {
+    restoreActiveElement().then(function () {
+      return triggerOnAfterClose(onAfterClose);
+    });
+    globalState.keydownTarget.removeEventListener('keydown', globalState.keydownHandler, {
+      capture: globalState.keydownListenerCapture
+    });
+    globalState.keydownHandlerAdded = false;
+  }
 
-  if (!popup) {
+  if (container.parentNode) {
+    container.parentNode.removeChild(container);
+  }
+
+  if (isModal()) {
+    undoScrollbar();
+    undoIOSfix();
+    undoIEfix();
+    unsetAriaHidden();
+  }
+
+  removeBodyClasses();
+}
+
+function removeBodyClasses() {
+  removeClass([document.documentElement, document.body], [swalClasses.shown, swalClasses['height-auto'], swalClasses['no-backdrop'], swalClasses['toast-shown'], swalClasses['toast-column']]);
+}
+
+function disposeSwal() {
+  // Unset this.params so GC will dispose it (#1569)
+  delete this.params; // Unset globalState props so GC will dispose globalState (#1569)
+
+  delete globalState.keydownHandler;
+  delete globalState.keydownTarget; // Unset WeakMaps so GC will be able to dispose them (#1569)
+
+  unsetWeakMaps(privateProps);
+  unsetWeakMaps(privateMethods);
+}
+
+function close(resolveValue) {
+  var popup = getPopup();
+
+  if (!popup || hasClass(popup, swalClasses.hide)) {
     return;
   }
 
-  if (onClose !== null && typeof onClose === 'function') {
-    onClose(popup);
-  }
-
+  var innerParams = privateProps.innerParams.get(this);
+  var swalPromiseResolve = privateMethods.swalPromiseResolve.get(this);
+  var onClose = innerParams.onClose,
+      onAfterClose = innerParams.onAfterClose;
   removeClass(popup, swalClasses.show);
   addClass(popup, swalClasses.hide);
+  handlePopupAnimation(popup, onAfterClose);
 
-  var removePopupAndResetState = function removePopupAndResetState() {
-    if (!isToast()) {
-      restoreActiveElement().then(function () {
-        return triggerOnAfterClose(onAfterClose);
-      });
-      globalState.keydownTarget.removeEventListener('keydown', globalState.keydownHandler, {
-        capture: globalState.keydownListenerCapture
-      });
-      globalState.keydownHandlerAdded = false;
-    } else {
-      triggerOnAfterClose(onAfterClose);
-    }
-
-    if (container.parentNode) {
-      container.parentNode.removeChild(container);
-    }
-
-    removeClass([document.documentElement, document.body], [swalClasses.shown, swalClasses['height-auto'], swalClasses['no-backdrop'], swalClasses['toast-shown'], swalClasses['toast-column']]);
-
-    if (isModal()) {
-      undoScrollbar();
-      undoIOSfix();
-      undoIEfix();
-      unsetAriaHidden();
-    }
-  }; // If animation is supported, animate
-
-
-  if (animationEndEvent && !hasClass(popup, swalClasses.noanimation)) {
-    popup.addEventListener(animationEndEvent, function swalCloseEventFinished() {
-      popup.removeEventListener(animationEndEvent, swalCloseEventFinished);
-
-      if (hasClass(popup, swalClasses.hide)) {
-        removePopupAndResetState();
-      }
-    });
-  } else {
-    // Otherwise, remove immediately
-    removePopupAndResetState();
+  if (onClose !== null && typeof onClose === 'function') {
+    onClose(popup);
   } // Resolve Swal promise
 
 
   swalPromiseResolve(resolveValue || {});
+  globalState.deferDisposalTimer = setTimeout(disposeSwal.bind(this), DISPOSE_SWAL_TIMEOUT);
 }
+
+var handlePopupAnimation = function handlePopupAnimation(popup, onAfterClose) {
+  var container = getContainer(); // If animation is supported, animate
+
+  var animationIsSupported = animationEndEvent && hasCssAnimation(popup);
+
+  if (animationIsSupported) {
+    animatePopup(popup, container, onAfterClose);
+  } else {
+    // Otherwise, remove immediately
+    removePopupAndResetState(container, isToast(), onAfterClose);
+  }
+};
+
+var animatePopup = function animatePopup(popup, container, onAfterClose) {
+  globalState.swalClosing = true;
+  globalState.swalCloseEventFinishedCallback = removePopupAndResetState.bind(null, container, isToast(), onAfterClose);
+  popup.addEventListener(animationEndEvent, function (e) {
+    if (e.target === popup && globalState.swalClosing) {
+      delete globalState.swalClosing;
+      globalState.swalCloseEventFinishedCallback();
+      delete globalState.swalCloseEventFinishedCallback;
+    }
+  });
+};
+
+var unsetWeakMaps = function unsetWeakMaps(obj) {
+  for (var i in obj) {
+    obj[i] = new WeakMap();
+  }
+};
 
 var triggerOnAfterClose = function triggerOnAfterClose(onAfterClose) {
   if (onAfterClose !== null && typeof onAfterClose === 'function') {
@@ -93125,27 +94414,14 @@ var triggerOnAfterClose = function triggerOnAfterClose(onAfterClose) {
   }
 };
 
-function enableButtons() {
-  var domCache = privateProps.domCache.get(this);
-  domCache.confirmButton.disabled = false;
-  domCache.cancelButton.disabled = false;
+function setButtonsDisabled(instance, buttons, disabled) {
+  var domCache = privateProps.domCache.get(instance);
+  buttons.forEach(function (button) {
+    domCache[button].disabled = disabled;
+  });
 }
-function disableButtons() {
-  var domCache = privateProps.domCache.get(this);
-  domCache.confirmButton.disabled = true;
-  domCache.cancelButton.disabled = true;
-}
-function enableConfirmButton() {
-  var domCache = privateProps.domCache.get(this);
-  domCache.confirmButton.disabled = false;
-}
-function disableConfirmButton() {
-  var domCache = privateProps.domCache.get(this);
-  domCache.confirmButton.disabled = true;
-}
-function enableInput() {
-  var input = this.getInput();
 
+function setInputDisabled(input, disabled) {
   if (!input) {
     return false;
   }
@@ -93155,29 +94431,34 @@ function enableInput() {
     var radios = radiosContainer.querySelectorAll('input');
 
     for (var i = 0; i < radios.length; i++) {
-      radios[i].disabled = false;
+      radios[i].disabled = disabled;
     }
   } else {
-    input.disabled = false;
+    input.disabled = disabled;
   }
 }
+
+function enableButtons() {
+  setButtonsDisabled(this, ['confirmButton', 'cancelButton'], false);
+}
+function disableButtons() {
+  setButtonsDisabled(this, ['confirmButton', 'cancelButton'], true);
+} // @deprecated
+
+function enableConfirmButton() {
+  warnAboutDepreation('Swal.disableConfirmButton()', "Swal.getConfirmButton().removeAttribute('disabled')");
+  setButtonsDisabled(this, ['confirmButton'], false);
+} // @deprecated
+
+function disableConfirmButton() {
+  warnAboutDepreation('Swal.enableConfirmButton()', "Swal.getConfirmButton().setAttribute('disabled', '')");
+  setButtonsDisabled(this, ['confirmButton'], true);
+}
+function enableInput() {
+  return setInputDisabled(this.getInput(), false);
+}
 function disableInput() {
-  var input = this.getInput();
-
-  if (!input) {
-    return false;
-  }
-
-  if (input && input.type === 'radio') {
-    var radiosContainer = input.parentNode.parentNode;
-    var radios = radiosContainer.querySelectorAll('input');
-
-    for (var i = 0; i < radios.length; i++) {
-      radios[i].disabled = true;
-    }
-  } else {
-    input.disabled = true;
-  }
+  return setInputDisabled(this.getInput(), true);
 }
 
 function showValidationMessage(error) {
@@ -93197,7 +94478,7 @@ function showValidationMessage(error) {
   }
 } // Hide block with validation message
 
-function resetValidationMessage() {
+function resetValidationMessage$1() {
   var domCache = privateProps.domCache.get(this);
 
   if (domCache.validationMessage) {
@@ -93214,18 +94495,20 @@ function resetValidationMessage() {
 }
 
 function getProgressSteps$1() {
+  warnAboutDepreation('Swal.getProgressSteps()', "const swalInstance = Swal.fire({progressSteps: ['1', '2', '3']}); const progressSteps = swalInstance.params.progressSteps");
   var innerParams = privateProps.innerParams.get(this);
   return innerParams.progressSteps;
 }
 function setProgressSteps(progressSteps) {
+  warnAboutDepreation('Swal.setProgressSteps()', 'Swal.update()');
   var innerParams = privateProps.innerParams.get(this);
 
   var updatedParams = _extends({}, innerParams, {
     progressSteps: progressSteps
   });
 
+  renderProgressSteps(this, updatedParams);
   privateProps.innerParams.set(this, updatedParams);
-  renderProgressSteps(updatedParams);
 }
 function showProgressSteps() {
   var domCache = privateProps.domCache.get(this);
@@ -93236,84 +94519,88 @@ function hideProgressSteps() {
   hide(domCache.progressSteps);
 }
 
-var Timer = function Timer(callback, delay) {
-  _classCallCheck(this, Timer);
+var Timer =
+/*#__PURE__*/
+function () {
+  function Timer(callback, delay) {
+    _classCallCheck(this, Timer);
 
-  var id,
-      started,
-      remaining = delay;
-  this.running = false;
+    this.callback = callback;
+    this.remaining = delay;
+    this.running = false;
+    this.start();
+  }
 
-  this.start = function () {
-    if (!this.running) {
-      this.running = true;
-      started = new Date();
-      id = setTimeout(callback, remaining);
+  _createClass(Timer, [{
+    key: "start",
+    value: function start() {
+      if (!this.running) {
+        this.running = true;
+        this.started = new Date();
+        this.id = setTimeout(this.callback, this.remaining);
+      }
+
+      return this.remaining;
     }
+  }, {
+    key: "stop",
+    value: function stop() {
+      if (this.running) {
+        this.running = false;
+        clearTimeout(this.id);
+        this.remaining -= new Date() - this.started;
+      }
 
-    return remaining;
-  };
-
-  this.stop = function () {
-    if (this.running) {
-      this.running = false;
-      clearTimeout(id);
-      remaining -= new Date() - started;
+      return this.remaining;
     }
+  }, {
+    key: "increase",
+    value: function increase(n) {
+      var running = this.running;
 
-    return remaining;
-  };
+      if (running) {
+        this.stop();
+      }
 
-  this.increase = function (n) {
-    var running = this.running;
+      this.remaining += n;
 
-    if (running) {
-      this.stop();
+      if (running) {
+        this.start();
+      }
+
+      return this.remaining;
     }
+  }, {
+    key: "getTimerLeft",
+    value: function getTimerLeft() {
+      if (this.running) {
+        this.stop();
+        this.start();
+      }
 
-    remaining += n;
-
-    if (running) {
-      this.start();
+      return this.remaining;
     }
-
-    return remaining;
-  };
-
-  this.getTimerLeft = function () {
-    if (this.running) {
-      this.stop();
-      this.start();
+  }, {
+    key: "isRunning",
+    value: function isRunning() {
+      return this.running;
     }
+  }]);
 
-    return remaining;
-  };
-
-  this.isRunning = function () {
-    return this.running;
-  };
-
-  this.start();
-};
+  return Timer;
+}();
 
 var defaultInputValidators = {
   email: function email(string, validationMessage) {
-    return /^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9-]{2,24}$/.test(string) ? Promise.resolve() : Promise.resolve(validationMessage ? validationMessage : 'Invalid email address');
+    return /^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9-]{2,24}$/.test(string) ? Promise.resolve() : Promise.resolve(validationMessage || 'Invalid email address');
   },
   url: function url(string, validationMessage) {
     // taken from https://stackoverflow.com/a/3809435 with a small change from #1306
-    return /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,63}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)$/.test(string) ? Promise.resolve() : Promise.resolve(validationMessage ? validationMessage : 'Invalid URL');
+    return /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,63}\b([-a-zA-Z0-9@:%_+.~#?&/=]*)$/.test(string) ? Promise.resolve() : Promise.resolve(validationMessage || 'Invalid URL');
   }
 };
 
-/**
- * Set type, text and actions on popup
- *
- * @param params
- * @returns {boolean}
- */
-
-function setParameters(params) {
+function setDefaultInputValidators(params) {
   // Use default `inputValidator` for supported input types if not provided
   if (!params.inputValidator) {
     Object.keys(defaultInputValidators).forEach(function (key) {
@@ -93321,141 +94608,55 @@ function setParameters(params) {
         params.inputValidator = defaultInputValidators[key];
       }
     });
-  } // Determine if the custom target element is valid
-
-
-  if (!params.target || typeof params.target === 'string' && !document.querySelector(params.target) || typeof params.target !== 'string' && !params.target.appendChild) {
-    warn('Target parameter is not valid, defaulting to "body"');
-    params.target = 'body';
-  } // Animation
-
-
-  if (typeof params.animation === 'function') {
-    params.animation = params.animation.call();
-  }
-
-  var popup;
-  var oldPopup = getPopup();
-  var targetElement = typeof params.target === 'string' ? document.querySelector(params.target) : params.target; // If the model target has changed, refresh the popup
-
-  if (oldPopup && targetElement && oldPopup.parentNode !== targetElement.parentNode) {
-    popup = init(params);
-  } else {
-    popup = oldPopup || init(params);
-  } // Set popup width
-
-
-  if (params.width) {
-    popup.style.width = typeof params.width === 'number' ? params.width + 'px' : params.width;
-  } // Set popup padding
-
-
-  if (params.padding) {
-    popup.style.padding = typeof params.padding === 'number' ? params.padding + 'px' : params.padding;
-  } // Set popup background
-
-
-  if (params.background) {
-    popup.style.background = params.background;
-  }
-
-  var popupBackgroundColor = window.getComputedStyle(popup).getPropertyValue('background-color');
-  var successIconParts = popup.querySelectorAll('[class^=swal2-success-circular-line], .swal2-success-fix');
-
-  for (var i = 0; i < successIconParts.length; i++) {
-    successIconParts[i].style.backgroundColor = popupBackgroundColor;
-  }
-
-  var container = getContainer();
-  var closeButton = getCloseButton();
-  var footer = getFooter(); // Title
-
-  renderTitle(params); // Content
-
-  renderContent(params); // Backdrop
-
-  if (typeof params.backdrop === 'string') {
-    getContainer().style.background = params.backdrop;
-  } else if (!params.backdrop) {
-    addClass([document.documentElement, document.body], swalClasses['no-backdrop']);
-  }
-
-  if (!params.backdrop && params.allowOutsideClick) {
-    warn('"allowOutsideClick" parameter requires `backdrop` parameter to be set to `true`');
-  } // Position
-
-
-  if (params.position in swalClasses) {
-    addClass(container, swalClasses[params.position]);
-  } else {
-    warn('The "position" parameter is not valid, defaulting to "center"');
-    addClass(container, swalClasses.center);
-  } // Grow
-
-
-  if (params.grow && typeof params.grow === 'string') {
-    var growClass = 'grow-' + params.grow;
-
-    if (growClass in swalClasses) {
-      addClass(container, swalClasses[growClass]);
-    }
-  } // Close button
-
-
-  if (params.showCloseButton) {
-    closeButton.setAttribute('aria-label', params.closeButtonAriaLabel);
-    show(closeButton);
-  } else {
-    hide(closeButton);
-  } // Default Class
-
-
-  popup.className = swalClasses.popup;
-
-  if (params.toast) {
-    addClass([document.documentElement, document.body], swalClasses['toast-shown']);
-    addClass(popup, swalClasses.toast);
-  } else {
-    addClass(popup, swalClasses.modal);
-  } // Custom Class
-
-
-  if (params.customClass) {
-    addClass(popup, params.customClass);
-  }
-
-  if (params.customContainerClass) {
-    addClass(container, params.customContainerClass);
-  } // Progress steps
-
-
-  renderProgressSteps(params); // Icon
-
-  renderIcon(params); // Image
-
-  renderImage(params); // Actions (buttons)
-
-  renderActions(params); // Footer
-
-  parseHtmlToContainer(params.footer, footer); // CSS animation
-
-  if (params.animation === true) {
-    removeClass(popup, swalClasses.noanimation);
-  } else {
-    addClass(popup, swalClasses.noanimation);
-  } // showLoaderOnConfirm && preConfirm
-
-
-  if (params.showLoaderOnConfirm && !params.preConfirm) {
-    warn('showLoaderOnConfirm is set to true, but preConfirm is not defined.\n' + 'showLoaderOnConfirm should be used together with preConfirm, see usage example:\n' + 'https://sweetalert2.github.io/#ajax-request');
   }
 }
 
+function validateCustomTargetElement(params) {
+  // Determine if the custom target element is valid
+  if (!params.target || typeof params.target === 'string' && !document.querySelector(params.target) || typeof params.target !== 'string' && !params.target.appendChild) {
+    warn('Target parameter is not valid, defaulting to "body"');
+    params.target = 'body';
+  }
+}
+/**
+ * Set type, text and actions on popup
+ *
+ * @param params
+ * @returns {boolean}
+ */
+
+
+function setParameters(params) {
+  setDefaultInputValidators(params); // showLoaderOnConfirm && preConfirm
+
+  if (params.showLoaderOnConfirm && !params.preConfirm) {
+    warn('showLoaderOnConfirm is set to true, but preConfirm is not defined.\n' + 'showLoaderOnConfirm should be used together with preConfirm, see usage example:\n' + 'https://sweetalert2.github.io/#ajax-request');
+  } // params.animation will be actually used in renderPopup.js
+  // but in case when params.animation is a function, we need to call that function
+  // before popup (re)initialization, so it'll be possible to check Swal.isVisible()
+  // inside the params.animation function
+
+
+  params.animation = callIfFunction(params.animation);
+  validateCustomTargetElement(params); // Replace newlines with <br> in title
+
+  if (typeof params.title === 'string') {
+    params.title = params.title.split('\n').join('<br />');
+  }
+
+  init(params);
+}
+
+function swalOpenAnimationFinished(popup, container) {
+  popup.removeEventListener(animationEndEvent, swalOpenAnimationFinished);
+  container.style.overflowY = 'auto';
+}
 /**
  * Open popup, add necessary classes and styles, fix scrollbar
  *
  * @param {Array} params
  */
+
 
 var openPopup = function openPopup(params) {
   var container = getContainer();
@@ -93468,20 +94669,13 @@ var openPopup = function openPopup(params) {
   if (params.animation) {
     addClass(popup, swalClasses.show);
     addClass(container, swalClasses.fade);
-    removeClass(popup, swalClasses.hide);
-  } else {
-    removeClass(popup, swalClasses.fade);
   }
 
   show(popup); // scrolling is 'hidden' until animation is done, after that 'auto'
 
-  container.style.overflowY = 'hidden';
-
-  if (animationEndEvent && !hasClass(popup, swalClasses.noanimation)) {
-    popup.addEventListener(animationEndEvent, function swalCloseEventFinished() {
-      popup.removeEventListener(animationEndEvent, swalCloseEventFinished);
-      container.style.overflowY = 'auto';
-    });
+  if (animationEndEvent && hasCssAnimation(popup)) {
+    container.style.overflowY = 'hidden';
+    popup.addEventListener(animationEndEvent, swalOpenAnimationFinished.bind(null, popup, container));
   } else {
     container.style.overflowY = 'auto';
   }
@@ -93517,16 +94711,131 @@ var openPopup = function openPopup(params) {
   }
 };
 
+var handleInputOptions = function handleInputOptions(instance, params) {
+  var content = getContent();
+
+  var processInputOptions = function processInputOptions(inputOptions) {
+    return populateInputOptions[params.input](content, formatInputOptions(inputOptions), params);
+  };
+
+  if (isPromise(params.inputOptions)) {
+    showLoading();
+    params.inputOptions.then(function (inputOptions) {
+      instance.hideLoading();
+      processInputOptions(inputOptions);
+    });
+  } else if (_typeof(params.inputOptions) === 'object') {
+    processInputOptions(params.inputOptions);
+  } else {
+    error("Unexpected type of inputOptions! Expected object, Map or Promise, got ".concat(_typeof(params.inputOptions)));
+  }
+};
+var handleInputValue = function handleInputValue(instance, params) {
+  var input = instance.getInput();
+  hide(input);
+  params.inputValue.then(function (inputValue) {
+    input.value = params.input === 'number' ? parseFloat(inputValue) || 0 : inputValue + '';
+    show(input);
+    input.focus();
+    instance.hideLoading();
+  })["catch"](function (err) {
+    error('Error in inputValue promise: ' + err);
+    input.value = '';
+    show(input);
+    input.focus();
+    instance.hideLoading();
+  });
+};
+var populateInputOptions = {
+  select: function select(content, inputOptions, params) {
+    var select = getChildByClass(content, swalClasses.select);
+    inputOptions.forEach(function (inputOption) {
+      var optionValue = inputOption[0];
+      var optionLabel = inputOption[1];
+      var option = document.createElement('option');
+      option.value = optionValue;
+      option.innerHTML = optionLabel;
+
+      if (params.inputValue.toString() === optionValue.toString()) {
+        option.selected = true;
+      }
+
+      select.appendChild(option);
+    });
+    select.focus();
+  },
+  radio: function radio(content, inputOptions, params) {
+    var radio = getChildByClass(content, swalClasses.radio);
+    inputOptions.forEach(function (inputOption) {
+      var radioValue = inputOption[0];
+      var radioLabel = inputOption[1];
+      var radioInput = document.createElement('input');
+      var radioLabelElement = document.createElement('label');
+      radioInput.type = 'radio';
+      radioInput.name = swalClasses.radio;
+      radioInput.value = radioValue;
+
+      if (params.inputValue.toString() === radioValue.toString()) {
+        radioInput.checked = true;
+      }
+
+      var label = document.createElement('span');
+      label.innerHTML = radioLabel;
+      label.className = swalClasses.label;
+      radioLabelElement.appendChild(radioInput);
+      radioLabelElement.appendChild(label);
+      radio.appendChild(radioLabelElement);
+    });
+    var radios = radio.querySelectorAll('input');
+
+    if (radios.length) {
+      radios[0].focus();
+    }
+  }
+  /**
+   * Converts `inputOptions` into an array of `[value, label]`s
+   * @param inputOptions
+   */
+
+};
+
+var formatInputOptions = function formatInputOptions(inputOptions) {
+  var result = [];
+
+  if (typeof Map !== 'undefined' && inputOptions instanceof Map) {
+    inputOptions.forEach(function (value, key) {
+      result.push([key, value]);
+    });
+  } else {
+    Object.keys(inputOptions).forEach(function (key) {
+      result.push([key, inputOptions[key]]);
+    });
+  }
+
+  return result;
+};
+
 function _main(userParams) {
   var _this = this;
 
-  showWarningsForParams(userParams);
+  showWarningsForParams(userParams); // Check if there is another Swal closing
+
+  if (globalState.swalClosing) {
+    delete globalState.swalClosing;
+    globalState.swalCloseEventFinishedCallback();
+    delete globalState.swalCloseEventFinishedCallback;
+  } // Check if there is a swal disposal defer timer
+
+
+  if (globalState.deferDisposalTimer) {
+    clearTimeout(globalState.deferDisposalTimer);
+    delete globalState.deferDisposalTimer;
+  }
 
   var innerParams = _extends({}, defaultParams, userParams);
 
   setParameters(innerParams);
-  Object.freeze(innerParams);
-  privateProps.innerParams.set(this, innerParams); // clear the previous timer
+  Object.freeze(innerParams); // clear the previous timer
 
   if (globalState.timeout) {
     globalState.timeout.stop();
@@ -93547,6 +94856,8 @@ function _main(userParams) {
     progressSteps: getProgressSteps()
   };
   privateProps.domCache.set(this, domCache);
+  render(this, innerParams);
+  privateProps.innerParams.set(this, innerParams);
   var constructor = this.constructor;
   return new Promise(function (resolve) {
     // functions to handle all closings/dismissals
@@ -93639,7 +94950,7 @@ function _main(userParams) {
       switch (e.type) {
         case 'click':
           // Clicked 'confirm'
-          if (targetedConfirm && constructor.isVisible()) {
+          if (targetedConfirm) {
             _this.disableButtons();
 
             if (innerParams.input) {
@@ -93673,7 +94984,7 @@ function _main(userParams) {
               confirm(true);
             } // Clicked 'cancel'
 
-          } else if (targetedCancel && constructor.isVisible()) {
+          } else if (targetedCancel) {
             _this.disableButtons();
 
             dismissWith(constructor.DismissReason.cancel);
@@ -93831,7 +95142,7 @@ function _main(userParams) {
       }
     };
 
-    if (globalState.keydownHandlerAdded) {
+    if (globalState.keydownTarget && globalState.keydownHandlerAdded) {
       globalState.keydownTarget.removeEventListener('keydown', globalState.keydownHandler, {
         capture: globalState.keydownListenerCapture
       });
@@ -93861,242 +95172,13 @@ function _main(userParams) {
       addClass(document.body, swalClasses['toast-column']);
     } else {
       removeClass(document.body, swalClasses['toast-column']);
-    } // inputs
+    } // inputOptions, inputValue
 
-
-    var inputTypes = ['input', 'file', 'range', 'select', 'radio', 'checkbox', 'textarea'];
-
-    var setInputPlaceholder = function setInputPlaceholder(input) {
-      if (!input.placeholder || innerParams.inputPlaceholder) {
-        input.placeholder = innerParams.inputPlaceholder;
-      }
-    };
-
-    var input;
-
-    for (var _i3 = 0; _i3 < inputTypes.length; _i3++) {
-      var inputClass = swalClasses[inputTypes[_i3]];
-      var inputContainer = getChildByClass(domCache.content, inputClass);
-      input = _this.getInput(inputTypes[_i3]); // set attributes
-
-      if (input) {
-        for (var j in input.attributes) {
-          if (input.attributes.hasOwnProperty(j)) {
-            var attrName = input.attributes[j].name;
-
-            if (attrName !== 'type' && attrName !== 'value') {
-              input.removeAttribute(attrName);
-            }
-          }
-        }
-
-        for (var attr in innerParams.inputAttributes) {
-          // Do not set a placeholder for <input type="range">
-          // it'll crash Edge, #1298
-          if (inputTypes[_i3] === 'range' && attr === 'placeholder') {
-            continue;
-          }
-
-          input.setAttribute(attr, innerParams.inputAttributes[attr]);
-        }
-      } // set class
-
-
-      inputContainer.className = inputClass;
-
-      if (innerParams.inputClass) {
-        addClass(inputContainer, innerParams.inputClass);
-      }
-
-      hide(inputContainer);
-    }
-
-    var populateInputOptions;
-
-    switch (innerParams.input) {
-      case 'text':
-      case 'email':
-      case 'password':
-      case 'number':
-      case 'tel':
-      case 'url':
-        {
-          input = getChildByClass(domCache.content, swalClasses.input);
-
-          if (typeof innerParams.inputValue === 'string' || typeof innerParams.inputValue === 'number') {
-            input.value = innerParams.inputValue;
-          } else if (!isPromise(innerParams.inputValue)) {
-            warn("Unexpected type of inputValue! Expected \"string\", \"number\" or \"Promise\", got \"".concat(_typeof(innerParams.inputValue), "\""));
-          }
-
-          setInputPlaceholder(input);
-          input.type = innerParams.input;
-          show(input);
-          break;
-        }
-
-      case 'file':
-        {
-          input = getChildByClass(domCache.content, swalClasses.file);
-          setInputPlaceholder(input);
-          input.type = innerParams.input;
-          show(input);
-          break;
-        }
-
-      case 'range':
-        {
-          var range = getChildByClass(domCache.content, swalClasses.range);
-          var rangeInput = range.querySelector('input');
-          var rangeOutput = range.querySelector('output');
-          rangeInput.value = innerParams.inputValue;
-          rangeInput.type = innerParams.input;
-          rangeOutput.value = innerParams.inputValue;
-          show(range);
-          break;
-        }
-
-      case 'select':
-        {
-          var select = getChildByClass(domCache.content, swalClasses.select);
-          select.innerHTML = '';
-
-          if (innerParams.inputPlaceholder) {
-            var placeholder = document.createElement('option');
-            placeholder.innerHTML = innerParams.inputPlaceholder;
-            placeholder.value = '';
-            placeholder.disabled = true;
-            placeholder.selected = true;
-            select.appendChild(placeholder);
-          }
-
-          populateInputOptions = function populateInputOptions(inputOptions) {
-            inputOptions.forEach(function (inputOption) {
-              var optionValue = inputOption[0];
-              var optionLabel = inputOption[1];
-              var option = document.createElement('option');
-              option.value = optionValue;
-              option.innerHTML = optionLabel;
-
-              if (innerParams.inputValue.toString() === optionValue.toString()) {
-                option.selected = true;
-              }
-
-              select.appendChild(option);
-            });
-            show(select);
-            select.focus();
-          };
-
-          break;
-        }
-
-      case 'radio':
-        {
-          var radio = getChildByClass(domCache.content, swalClasses.radio);
-          radio.innerHTML = '';
-
-          populateInputOptions = function populateInputOptions(inputOptions) {
-            inputOptions.forEach(function (inputOption) {
-              var radioValue = inputOption[0];
-              var radioLabel = inputOption[1];
-              var radioInput = document.createElement('input');
-              var radioLabelElement = document.createElement('label');
-              radioInput.type = 'radio';
-              radioInput.name = swalClasses.radio;
-              radioInput.value = radioValue;
-
-              if (innerParams.inputValue.toString() === radioValue.toString()) {
-                radioInput.checked = true;
-              }
-
-              var label = document.createElement('span');
-              label.innerHTML = radioLabel;
-              label.className = swalClasses.label;
-              radioLabelElement.appendChild(radioInput);
-              radioLabelElement.appendChild(label);
-              radio.appendChild(radioLabelElement);
-            });
-            show(radio);
-            var radios = radio.querySelectorAll('input');
-
-            if (radios.length) {
-              radios[0].focus();
-            }
-          };
-
-          break;
-        }
-
-      case 'checkbox':
-        {
-          var checkbox = getChildByClass(domCache.content, swalClasses.checkbox);
-
-          var checkboxInput = _this.getInput('checkbox');
-
-          checkboxInput.type = 'checkbox';
-          checkboxInput.value = 1;
-          checkboxInput.id = swalClasses.checkbox;
-          checkboxInput.checked = Boolean(innerParams.inputValue);
-          var label = checkbox.querySelector('span');
-          label.innerHTML = innerParams.inputPlaceholder;
-          show(checkbox);
-          break;
-        }
-
-      case 'textarea':
-        {
-          var textarea = getChildByClass(domCache.content, swalClasses.textarea);
-          textarea.value = innerParams.inputValue;
-          setInputPlaceholder(textarea);
-          show(textarea);
-          break;
-        }
-
-      case null:
-        {
-          break;
-        }
-
-      default:
-        error("Unexpected type of input! Expected \"text\", \"email\", \"password\", \"number\", \"tel\", \"select\", \"radio\", \"checkbox\", \"textarea\", \"file\" or \"url\", got \"".concat(innerParams.input, "\""));
-        break;
-    }
 
     if (innerParams.input === 'select' || innerParams.input === 'radio') {
-      var processInputOptions = function processInputOptions(inputOptions) {
-        return populateInputOptions(formatInputOptions(inputOptions));
-      };
-
-      if (isPromise(innerParams.inputOptions)) {
-        constructor.showLoading();
-        innerParams.inputOptions.then(function (inputOptions) {
-          _this.hideLoading();
-
-          processInputOptions(inputOptions);
-        });
-      } else if (_typeof(innerParams.inputOptions) === 'object') {
-        processInputOptions(innerParams.inputOptions);
-      } else {
-        error("Unexpected type of inputOptions! Expected object, Map or Promise, got ".concat(_typeof(innerParams.inputOptions)));
-      }
+      handleInputOptions(_this, innerParams);
     } else if (['text', 'email', 'number', 'tel', 'textarea'].indexOf(innerParams.input) !== -1 && isPromise(innerParams.inputValue)) {
-      constructor.showLoading();
-      hide(input);
-      innerParams.inputValue.then(function (inputValue) {
-        input.value = innerParams.input === 'number' ? parseFloat(inputValue) || 0 : inputValue + '';
-        show(input);
-        input.focus();
-
-        _this.hideLoading();
-      }).catch(function (err) {
-        error('Error in inputValue promise: ' + err);
-        input.value = '';
-        show(input);
-        input.focus();
-
-        _this.hideLoading();
-      });
+      handleInputValue(_this, innerParams);
     }
 
     openPopup(innerParams);
@@ -94121,7 +95203,7 @@ function _main(userParams) {
 }
 
 /**
- * Updates popup options.
+ * Updates popup parameters.
  */
 
 function update(params) {
@@ -94131,26 +95213,22 @@ function update(params) {
     if (Swal.isUpdatableParameter(param)) {
       validUpdatableParams[param] = params[param];
     } else {
-      warn("Invalid parameter to update: \"".concat(param, "\". Updatable params are listed here: TODO (@limonte) add link"));
+      warn("Invalid parameter to update: \"".concat(param, "\". Updatable params are listed here: https://github.com/sweetalert2/sweetalert2/blob/master/src/utils/params.js"));
     }
   });
   var innerParams = privateProps.innerParams.get(this);
 
-  var updatedParams = _extends({}, innerParams, validUpdatableParams); // Actions
+  var updatedParams = _extends({}, innerParams, validUpdatableParams);
 
-
-  renderActions(updatedParams); // Content
-
-  renderContent(updatedParams); // Icon
-
-  renderIcon(updatedParams); // Image
-
-  renderImage(updatedParams); // Progress steps
-
-  renderProgressSteps(updatedParams); // Title
-
-  renderTitle(updatedParams);
+  render(this, updatedParams);
   privateProps.innerParams.set(this, updatedParams);
+  Object.defineProperties(this, {
+    params: {
+      value: _extends({}, this.params, params),
+      writable: false,
+      enumerable: true
+    }
+  });
 }
 
 
@@ -94158,7 +95236,7 @@ function update(params) {
 var instanceMethods = Object.freeze({
 	hideLoading: hideLoading,
 	disableLoading: hideLoading,
-	getInput: getInput,
+	getInput: getInput$1,
 	close: close,
 	closePopup: close,
 	closeModal: close,
@@ -94170,7 +95248,7 @@ var instanceMethods = Object.freeze({
 	enableInput: enableInput,
 	disableInput: disableInput,
 	showValidationMessage: showValidationMessage,
-	resetValidationMessage: resetValidationMessage,
+	resetValidationMessage: resetValidationMessage$1,
 	getProgressSteps: getProgressSteps$1,
 	setProgressSteps: setProgressSteps,
 	showProgressSteps: showProgressSteps,
@@ -94207,7 +95285,8 @@ function SweetAlert() {
     params: {
       value: outerParams,
       writable: false,
-      enumerable: true
+      enumerable: true,
+      configurable: true
     }
   });
 
@@ -94222,9 +95301,9 @@ SweetAlert.prototype.then = function (onFulfilled) {
   return promise.then(onFulfilled);
 };
 
-SweetAlert.prototype.finally = function (onFinally) {
+SweetAlert.prototype["finally"] = function (onFinally) {
   var promise = privateProps.promise.get(this);
-  return promise.finally(onFinally);
+  return promise["finally"](onFinally);
 }; // Assign instance methods from src/instanceMethods/*.js to prototype
 
 
@@ -94244,17 +95323,17 @@ Object.keys(instanceMethods).forEach(function (key) {
   };
 });
 SweetAlert.DismissReason = DismissReason;
-SweetAlert.version = '8.2.3';
+SweetAlert.version = '8.13.4';
 
 var Swal = SweetAlert;
-Swal.default = Swal;
+Swal["default"] = Swal;
 
 return Swal;
 
 })));
-if (typeof window !== 'undefined' && window.Sweetalert2){  window.swal = window.sweetAlert = window.Swal = window.SweetAlert = window.Sweetalert2}
+if (typeof this !== 'undefined' && this.Sweetalert2){  this.swal = this.sweetAlert = this.Swal = this.SweetAlert = this.Sweetalert2}
 
-"undefined"!=typeof document&&function(e,t){var n=e.createElement("style");if(e.getElementsByTagName("head")[0].appendChild(n),n.styleSheet)n.styleSheet.disabled||(n.styleSheet.cssText=t);else try{n.innerHTML=t}catch(e){n.innerText=t}}(document,"@-webkit-keyframes swal2-show{0%{-webkit-transform:scale(.7);transform:scale(.7)}45%{-webkit-transform:scale(1.05);transform:scale(1.05)}80%{-webkit-transform:scale(.95);transform:scale(.95)}100%{-webkit-transform:scale(1);transform:scale(1)}}@keyframes swal2-show{0%{-webkit-transform:scale(.7);transform:scale(.7)}45%{-webkit-transform:scale(1.05);transform:scale(1.05)}80%{-webkit-transform:scale(.95);transform:scale(.95)}100%{-webkit-transform:scale(1);transform:scale(1)}}@-webkit-keyframes swal2-hide{0%{-webkit-transform:scale(1);transform:scale(1);opacity:1}100%{-webkit-transform:scale(.5);transform:scale(.5);opacity:0}}@keyframes swal2-hide{0%{-webkit-transform:scale(1);transform:scale(1);opacity:1}100%{-webkit-transform:scale(.5);transform:scale(.5);opacity:0}}@-webkit-keyframes swal2-animate-success-line-tip{0%{top:1.1875em;left:.0625em;width:0}54%{top:1.0625em;left:.125em;width:0}70%{top:2.1875em;left:-.375em;width:3.125em}84%{top:3em;left:1.3125em;width:1.0625em}100%{top:2.8125em;left:.875em;width:1.5625em}}@keyframes swal2-animate-success-line-tip{0%{top:1.1875em;left:.0625em;width:0}54%{top:1.0625em;left:.125em;width:0}70%{top:2.1875em;left:-.375em;width:3.125em}84%{top:3em;left:1.3125em;width:1.0625em}100%{top:2.8125em;left:.875em;width:1.5625em}}@-webkit-keyframes swal2-animate-success-line-long{0%{top:3.375em;right:2.875em;width:0}65%{top:3.375em;right:2.875em;width:0}84%{top:2.1875em;right:0;width:3.4375em}100%{top:2.375em;right:.5em;width:2.9375em}}@keyframes swal2-animate-success-line-long{0%{top:3.375em;right:2.875em;width:0}65%{top:3.375em;right:2.875em;width:0}84%{top:2.1875em;right:0;width:3.4375em}100%{top:2.375em;right:.5em;width:2.9375em}}@-webkit-keyframes swal2-rotate-success-circular-line{0%{-webkit-transform:rotate(-45deg);transform:rotate(-45deg)}5%{-webkit-transform:rotate(-45deg);transform:rotate(-45deg)}12%{-webkit-transform:rotate(-405deg);transform:rotate(-405deg)}100%{-webkit-transform:rotate(-405deg);transform:rotate(-405deg)}}@keyframes swal2-rotate-success-circular-line{0%{-webkit-transform:rotate(-45deg);transform:rotate(-45deg)}5%{-webkit-transform:rotate(-45deg);transform:rotate(-45deg)}12%{-webkit-transform:rotate(-405deg);transform:rotate(-405deg)}100%{-webkit-transform:rotate(-405deg);transform:rotate(-405deg)}}@-webkit-keyframes swal2-animate-error-x-mark{0%{margin-top:1.625em;-webkit-transform:scale(.4);transform:scale(.4);opacity:0}50%{margin-top:1.625em;-webkit-transform:scale(.4);transform:scale(.4);opacity:0}80%{margin-top:-.375em;-webkit-transform:scale(1.15);transform:scale(1.15)}100%{margin-top:0;-webkit-transform:scale(1);transform:scale(1);opacity:1}}@keyframes swal2-animate-error-x-mark{0%{margin-top:1.625em;-webkit-transform:scale(.4);transform:scale(.4);opacity:0}50%{margin-top:1.625em;-webkit-transform:scale(.4);transform:scale(.4);opacity:0}80%{margin-top:-.375em;-webkit-transform:scale(1.15);transform:scale(1.15)}100%{margin-top:0;-webkit-transform:scale(1);transform:scale(1);opacity:1}}@-webkit-keyframes swal2-animate-error-icon{0%{-webkit-transform:rotateX(100deg);transform:rotateX(100deg);opacity:0}100%{-webkit-transform:rotateX(0);transform:rotateX(0);opacity:1}}@keyframes swal2-animate-error-icon{0%{-webkit-transform:rotateX(100deg);transform:rotateX(100deg);opacity:0}100%{-webkit-transform:rotateX(0);transform:rotateX(0);opacity:1}}body.swal2-toast-shown .swal2-container{background-color:transparent}body.swal2-toast-shown .swal2-container.swal2-shown{background-color:transparent}body.swal2-toast-shown .swal2-container.swal2-top{top:0;right:auto;bottom:auto;left:50%;-webkit-transform:translateX(-50%);transform:translateX(-50%)}body.swal2-toast-shown .swal2-container.swal2-top-end,body.swal2-toast-shown .swal2-container.swal2-top-right{top:0;right:0;bottom:auto;left:auto}body.swal2-toast-shown .swal2-container.swal2-top-left,body.swal2-toast-shown .swal2-container.swal2-top-start{top:0;right:auto;bottom:auto;left:0}body.swal2-toast-shown .swal2-container.swal2-center-left,body.swal2-toast-shown .swal2-container.swal2-center-start{top:50%;right:auto;bottom:auto;left:0;-webkit-transform:translateY(-50%);transform:translateY(-50%)}body.swal2-toast-shown .swal2-container.swal2-center{top:50%;right:auto;bottom:auto;left:50%;-webkit-transform:translate(-50%,-50%);transform:translate(-50%,-50%)}body.swal2-toast-shown .swal2-container.swal2-center-end,body.swal2-toast-shown .swal2-container.swal2-center-right{top:50%;right:0;bottom:auto;left:auto;-webkit-transform:translateY(-50%);transform:translateY(-50%)}body.swal2-toast-shown .swal2-container.swal2-bottom-left,body.swal2-toast-shown .swal2-container.swal2-bottom-start{top:auto;right:auto;bottom:0;left:0}body.swal2-toast-shown .swal2-container.swal2-bottom{top:auto;right:auto;bottom:0;left:50%;-webkit-transform:translateX(-50%);transform:translateX(-50%)}body.swal2-toast-shown .swal2-container.swal2-bottom-end,body.swal2-toast-shown .swal2-container.swal2-bottom-right{top:auto;right:0;bottom:0;left:auto}body.swal2-toast-column .swal2-toast{flex-direction:column;align-items:stretch}body.swal2-toast-column .swal2-toast .swal2-actions{flex:1;align-self:stretch;height:2.2em;margin-top:.3125em}body.swal2-toast-column .swal2-toast .swal2-loading{justify-content:center}body.swal2-toast-column .swal2-toast .swal2-input{height:2em;margin:.3125em auto;font-size:1em}body.swal2-toast-column .swal2-toast .swal2-validation-message{font-size:1em}.swal2-popup.swal2-toast{flex-direction:row;align-items:center;width:auto;padding:.625em;box-shadow:0 0 .625em #d9d9d9;overflow-y:hidden}.swal2-popup.swal2-toast .swal2-header{flex-direction:row}.swal2-popup.swal2-toast .swal2-title{flex-grow:1;justify-content:flex-start;margin:0 .6em;font-size:1em}.swal2-popup.swal2-toast .swal2-footer{margin:.5em 0 0;padding:.5em 0 0;font-size:.8em}.swal2-popup.swal2-toast .swal2-close{position:initial;width:.8em;height:.8em;line-height:.8}.swal2-popup.swal2-toast .swal2-content{justify-content:flex-start;font-size:1em}.swal2-popup.swal2-toast .swal2-icon{width:2em;min-width:2em;height:2em;margin:0}.swal2-popup.swal2-toast .swal2-icon-text{font-size:2em;font-weight:700;line-height:1em}.swal2-popup.swal2-toast .swal2-icon.swal2-success .swal2-success-ring{width:2em;height:2em}.swal2-popup.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line]{top:.875em;width:1.375em}.swal2-popup.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=left]{left:.3125em}.swal2-popup.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=right]{right:.3125em}.swal2-popup.swal2-toast .swal2-actions{height:auto;margin:0 .3125em}.swal2-popup.swal2-toast .swal2-styled{margin:0 .3125em;padding:.3125em .625em;font-size:1em}.swal2-popup.swal2-toast .swal2-styled:focus{box-shadow:0 0 0 .0625em #fff,0 0 0 .125em rgba(50,100,150,.4)}.swal2-popup.swal2-toast .swal2-success{border-color:#a5dc86}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-circular-line]{position:absolute;width:2em;height:2.8125em;-webkit-transform:rotate(45deg);transform:rotate(45deg);border-radius:50%}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-circular-line][class$=left]{top:-.25em;left:-.9375em;-webkit-transform:rotate(-45deg);transform:rotate(-45deg);-webkit-transform-origin:2em 2em;transform-origin:2em 2em;border-radius:4em 0 0 4em}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-circular-line][class$=right]{top:-.25em;left:.9375em;-webkit-transform-origin:0 2em;transform-origin:0 2em;border-radius:0 4em 4em 0}.swal2-popup.swal2-toast .swal2-success .swal2-success-ring{width:2em;height:2em}.swal2-popup.swal2-toast .swal2-success .swal2-success-fix{top:0;left:.4375em;width:.4375em;height:2.6875em}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-line]{height:.3125em}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-line][class$=tip]{top:1.125em;left:.1875em;width:.75em}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-line][class$=long]{top:.9375em;right:.1875em;width:1.375em}.swal2-popup.swal2-toast.swal2-show{-webkit-animation:showSweetToast .5s;animation:showSweetToast .5s}.swal2-popup.swal2-toast.swal2-hide{-webkit-animation:hideSweetToast .2s forwards;animation:hideSweetToast .2s forwards}.swal2-popup.swal2-toast .swal2-animate-success-icon .swal2-success-line-tip{-webkit-animation:animate-toast-success-tip .75s;animation:animate-toast-success-tip .75s}.swal2-popup.swal2-toast .swal2-animate-success-icon .swal2-success-line-long{-webkit-animation:animate-toast-success-long .75s;animation:animate-toast-success-long .75s}@-webkit-keyframes showSweetToast{0%{-webkit-transform:translateY(-.625em) rotateZ(2deg);transform:translateY(-.625em) rotateZ(2deg);opacity:0}33%{-webkit-transform:translateY(0) rotateZ(-2deg);transform:translateY(0) rotateZ(-2deg);opacity:.5}66%{-webkit-transform:translateY(.3125em) rotateZ(2deg);transform:translateY(.3125em) rotateZ(2deg);opacity:.7}100%{-webkit-transform:translateY(0) rotateZ(0);transform:translateY(0) rotateZ(0);opacity:1}}@keyframes showSweetToast{0%{-webkit-transform:translateY(-.625em) rotateZ(2deg);transform:translateY(-.625em) rotateZ(2deg);opacity:0}33%{-webkit-transform:translateY(0) rotateZ(-2deg);transform:translateY(0) rotateZ(-2deg);opacity:.5}66%{-webkit-transform:translateY(.3125em) rotateZ(2deg);transform:translateY(.3125em) rotateZ(2deg);opacity:.7}100%{-webkit-transform:translateY(0) rotateZ(0);transform:translateY(0) rotateZ(0);opacity:1}}@-webkit-keyframes hideSweetToast{0%{opacity:1}33%{opacity:.5}100%{-webkit-transform:rotateZ(1deg);transform:rotateZ(1deg);opacity:0}}@keyframes hideSweetToast{0%{opacity:1}33%{opacity:.5}100%{-webkit-transform:rotateZ(1deg);transform:rotateZ(1deg);opacity:0}}@-webkit-keyframes animate-toast-success-tip{0%{top:.5625em;left:.0625em;width:0}54%{top:.125em;left:.125em;width:0}70%{top:.625em;left:-.25em;width:1.625em}84%{top:1.0625em;left:.75em;width:.5em}100%{top:1.125em;left:.1875em;width:.75em}}@keyframes animate-toast-success-tip{0%{top:.5625em;left:.0625em;width:0}54%{top:.125em;left:.125em;width:0}70%{top:.625em;left:-.25em;width:1.625em}84%{top:1.0625em;left:.75em;width:.5em}100%{top:1.125em;left:.1875em;width:.75em}}@-webkit-keyframes animate-toast-success-long{0%{top:1.625em;right:1.375em;width:0}65%{top:1.25em;right:.9375em;width:0}84%{top:.9375em;right:0;width:1.125em}100%{top:.9375em;right:.1875em;width:1.375em}}@keyframes animate-toast-success-long{0%{top:1.625em;right:1.375em;width:0}65%{top:1.25em;right:.9375em;width:0}84%{top:.9375em;right:0;width:1.125em}100%{top:.9375em;right:.1875em;width:1.375em}}body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown){overflow:hidden}body.swal2-height-auto{height:auto!important}body.swal2-no-backdrop .swal2-shown{top:auto;right:auto;bottom:auto;left:auto;background-color:transparent}body.swal2-no-backdrop .swal2-shown>.swal2-modal{box-shadow:0 0 10px rgba(0,0,0,.4)}body.swal2-no-backdrop .swal2-shown.swal2-top{top:0;left:50%;-webkit-transform:translateX(-50%);transform:translateX(-50%)}body.swal2-no-backdrop .swal2-shown.swal2-top-left,body.swal2-no-backdrop .swal2-shown.swal2-top-start{top:0;left:0}body.swal2-no-backdrop .swal2-shown.swal2-top-end,body.swal2-no-backdrop .swal2-shown.swal2-top-right{top:0;right:0}body.swal2-no-backdrop .swal2-shown.swal2-center{top:50%;left:50%;-webkit-transform:translate(-50%,-50%);transform:translate(-50%,-50%)}body.swal2-no-backdrop .swal2-shown.swal2-center-left,body.swal2-no-backdrop .swal2-shown.swal2-center-start{top:50%;left:0;-webkit-transform:translateY(-50%);transform:translateY(-50%)}body.swal2-no-backdrop .swal2-shown.swal2-center-end,body.swal2-no-backdrop .swal2-shown.swal2-center-right{top:50%;right:0;-webkit-transform:translateY(-50%);transform:translateY(-50%)}body.swal2-no-backdrop .swal2-shown.swal2-bottom{bottom:0;left:50%;-webkit-transform:translateX(-50%);transform:translateX(-50%)}body.swal2-no-backdrop .swal2-shown.swal2-bottom-left,body.swal2-no-backdrop .swal2-shown.swal2-bottom-start{bottom:0;left:0}body.swal2-no-backdrop .swal2-shown.swal2-bottom-end,body.swal2-no-backdrop .swal2-shown.swal2-bottom-right{right:0;bottom:0}.swal2-container{display:flex;position:fixed;top:0;right:0;bottom:0;left:0;flex-direction:row;align-items:center;justify-content:center;padding:10px;background-color:transparent;z-index:1060;overflow-x:hidden;-webkit-overflow-scrolling:touch}.swal2-container.swal2-top{align-items:flex-start}.swal2-container.swal2-top-left,.swal2-container.swal2-top-start{align-items:flex-start;justify-content:flex-start}.swal2-container.swal2-top-end,.swal2-container.swal2-top-right{align-items:flex-start;justify-content:flex-end}.swal2-container.swal2-center{align-items:center}.swal2-container.swal2-center-left,.swal2-container.swal2-center-start{align-items:center;justify-content:flex-start}.swal2-container.swal2-center-end,.swal2-container.swal2-center-right{align-items:center;justify-content:flex-end}.swal2-container.swal2-bottom{align-items:flex-end}.swal2-container.swal2-bottom-left,.swal2-container.swal2-bottom-start{align-items:flex-end;justify-content:flex-start}.swal2-container.swal2-bottom-end,.swal2-container.swal2-bottom-right{align-items:flex-end;justify-content:flex-end}.swal2-container.swal2-bottom-end>:first-child,.swal2-container.swal2-bottom-left>:first-child,.swal2-container.swal2-bottom-right>:first-child,.swal2-container.swal2-bottom-start>:first-child,.swal2-container.swal2-bottom>:first-child{margin-top:auto}.swal2-container.swal2-grow-fullscreen>.swal2-modal{display:flex!important;flex:1;align-self:stretch;justify-content:center}.swal2-container.swal2-grow-row>.swal2-modal{display:flex!important;flex:1;align-content:center;justify-content:center}.swal2-container.swal2-grow-column{flex:1;flex-direction:column}.swal2-container.swal2-grow-column.swal2-bottom,.swal2-container.swal2-grow-column.swal2-center,.swal2-container.swal2-grow-column.swal2-top{align-items:center}.swal2-container.swal2-grow-column.swal2-bottom-left,.swal2-container.swal2-grow-column.swal2-bottom-start,.swal2-container.swal2-grow-column.swal2-center-left,.swal2-container.swal2-grow-column.swal2-center-start,.swal2-container.swal2-grow-column.swal2-top-left,.swal2-container.swal2-grow-column.swal2-top-start{align-items:flex-start}.swal2-container.swal2-grow-column.swal2-bottom-end,.swal2-container.swal2-grow-column.swal2-bottom-right,.swal2-container.swal2-grow-column.swal2-center-end,.swal2-container.swal2-grow-column.swal2-center-right,.swal2-container.swal2-grow-column.swal2-top-end,.swal2-container.swal2-grow-column.swal2-top-right{align-items:flex-end}.swal2-container.swal2-grow-column>.swal2-modal{display:flex!important;flex:1;align-content:center;justify-content:center}.swal2-container:not(.swal2-top):not(.swal2-top-start):not(.swal2-top-end):not(.swal2-top-left):not(.swal2-top-right):not(.swal2-center-start):not(.swal2-center-end):not(.swal2-center-left):not(.swal2-center-right):not(.swal2-bottom):not(.swal2-bottom-start):not(.swal2-bottom-end):not(.swal2-bottom-left):not(.swal2-bottom-right):not(.swal2-grow-fullscreen)>.swal2-modal{margin:auto}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){.swal2-container .swal2-modal{margin:0!important}}.swal2-container.swal2-fade{transition:background-color .1s}.swal2-container.swal2-shown{background-color:rgba(0,0,0,.4)}.swal2-popup{display:none;position:relative;flex-direction:column;justify-content:center;width:32em;max-width:100%;padding:1.25em;border-radius:.3125em;background:#fff;font-family:inherit;font-size:1rem;box-sizing:border-box}.swal2-popup:focus{outline:0}.swal2-popup.swal2-loading{overflow-y:hidden}.swal2-popup .swal2-header{display:flex;flex-direction:column;align-items:center}.swal2-popup .swal2-title{display:block;position:relative;max-width:100%;margin:0 0 .4em;padding:0;color:#595959;font-size:1.875em;font-weight:600;text-align:center;text-transform:none;word-wrap:break-word}.swal2-popup .swal2-actions{flex-wrap:wrap;align-items:center;justify-content:center;margin:1.25em auto 0;z-index:1}.swal2-popup .swal2-actions:not(.swal2-loading) .swal2-styled[disabled]{opacity:.4}.swal2-popup .swal2-actions:not(.swal2-loading) .swal2-styled:hover{background-image:linear-gradient(rgba(0,0,0,.1),rgba(0,0,0,.1))}.swal2-popup .swal2-actions:not(.swal2-loading) .swal2-styled:active{background-image:linear-gradient(rgba(0,0,0,.2),rgba(0,0,0,.2))}.swal2-popup .swal2-actions.swal2-loading .swal2-styled.swal2-confirm{width:2.5em;height:2.5em;margin:.46875em;padding:0;border:.25em solid transparent;border-radius:100%;border-color:transparent;background-color:transparent!important;color:transparent;cursor:default;box-sizing:border-box;-webkit-animation:swal2-rotate-loading 1.5s linear 0s infinite normal;animation:swal2-rotate-loading 1.5s linear 0s infinite normal;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.swal2-popup .swal2-actions.swal2-loading .swal2-styled.swal2-cancel{margin-right:30px;margin-left:30px}.swal2-popup .swal2-actions.swal2-loading :not(.swal2-styled).swal2-confirm::after{display:inline-block;width:15px;height:15px;margin-left:5px;border:3px solid #999;border-radius:50%;border-right-color:transparent;box-shadow:1px 1px 1px #fff;content:'';-webkit-animation:swal2-rotate-loading 1.5s linear 0s infinite normal;animation:swal2-rotate-loading 1.5s linear 0s infinite normal}.swal2-popup .swal2-styled{margin:.3125em;padding:.625em 2em;font-weight:500;box-shadow:none}.swal2-popup .swal2-styled:not([disabled]){cursor:pointer}.swal2-popup .swal2-styled.swal2-confirm{border:0;border-radius:.25em;background:initial;background-color:#3085d6;color:#fff;font-size:1.0625em}.swal2-popup .swal2-styled.swal2-cancel{border:0;border-radius:.25em;background:initial;background-color:#aaa;color:#fff;font-size:1.0625em}.swal2-popup .swal2-styled:focus{outline:0;box-shadow:0 0 0 2px #fff,0 0 0 4px rgba(50,100,150,.4)}.swal2-popup .swal2-styled::-moz-focus-inner{border:0}.swal2-popup .swal2-footer{justify-content:center;margin:1.25em 0 0;padding:1em 0 0;border-top:1px solid #eee;color:#545454;font-size:1em}.swal2-popup .swal2-image{max-width:100%;margin:1.25em auto}.swal2-popup .swal2-close{position:absolute;top:0;right:0;justify-content:center;width:1.2em;height:1.2em;padding:0;transition:color .1s ease-out;border:none;border-radius:0;outline:initial;background:0 0;color:#ccc;font-family:serif;font-size:2.5em;line-height:1.2;cursor:pointer;overflow:hidden}.swal2-popup .swal2-close:hover{-webkit-transform:none;transform:none;color:#f27474}.swal2-popup>.swal2-checkbox,.swal2-popup>.swal2-file,.swal2-popup>.swal2-input,.swal2-popup>.swal2-radio,.swal2-popup>.swal2-select,.swal2-popup>.swal2-textarea{display:none}.swal2-popup .swal2-content{justify-content:center;margin:0;padding:0;color:#545454;font-size:1.125em;font-weight:300;line-height:normal;z-index:1;word-wrap:break-word}.swal2-popup #swal2-content{text-align:center}.swal2-popup .swal2-checkbox,.swal2-popup .swal2-file,.swal2-popup .swal2-input,.swal2-popup .swal2-radio,.swal2-popup .swal2-select,.swal2-popup .swal2-textarea{margin:1em auto}.swal2-popup .swal2-file,.swal2-popup .swal2-input,.swal2-popup .swal2-textarea{width:100%;transition:border-color .3s,box-shadow .3s;border:1px solid #d9d9d9;border-radius:.1875em;background:inherit;font-size:1.125em;box-shadow:inset 0 1px 1px rgba(0,0,0,.06);box-sizing:border-box}.swal2-popup .swal2-file.swal2-inputerror,.swal2-popup .swal2-input.swal2-inputerror,.swal2-popup .swal2-textarea.swal2-inputerror{border-color:#f27474!important;box-shadow:0 0 2px #f27474!important}.swal2-popup .swal2-file:focus,.swal2-popup .swal2-input:focus,.swal2-popup .swal2-textarea:focus{border:1px solid #b4dbed;outline:0;box-shadow:0 0 3px #c4e6f5}.swal2-popup .swal2-file::-webkit-input-placeholder,.swal2-popup .swal2-input::-webkit-input-placeholder,.swal2-popup .swal2-textarea::-webkit-input-placeholder{color:#ccc}.swal2-popup .swal2-file:-ms-input-placeholder,.swal2-popup .swal2-input:-ms-input-placeholder,.swal2-popup .swal2-textarea:-ms-input-placeholder{color:#ccc}.swal2-popup .swal2-file::-ms-input-placeholder,.swal2-popup .swal2-input::-ms-input-placeholder,.swal2-popup .swal2-textarea::-ms-input-placeholder{color:#ccc}.swal2-popup .swal2-file::placeholder,.swal2-popup .swal2-input::placeholder,.swal2-popup .swal2-textarea::placeholder{color:#ccc}.swal2-popup .swal2-range{margin:1em auto;background:inherit}.swal2-popup .swal2-range input{width:80%}.swal2-popup .swal2-range output{width:20%;font-weight:600;text-align:center}.swal2-popup .swal2-range input,.swal2-popup .swal2-range output{height:2.625em;padding:0;font-size:1.125em;line-height:2.625em}.swal2-popup .swal2-input{height:2.625em;padding:0 .75em}.swal2-popup .swal2-input[type=number]{max-width:10em}.swal2-popup .swal2-file{background:inherit;font-size:1.125em}.swal2-popup .swal2-textarea{height:6.75em;padding:.75em}.swal2-popup .swal2-select{min-width:50%;max-width:100%;padding:.375em .625em;background:inherit;color:#545454;font-size:1.125em}.swal2-popup .swal2-checkbox,.swal2-popup .swal2-radio{align-items:center;justify-content:center;background:inherit}.swal2-popup .swal2-checkbox label,.swal2-popup .swal2-radio label{margin:0 .6em;font-size:1.125em}.swal2-popup .swal2-checkbox input,.swal2-popup .swal2-radio input{margin:0 .4em}.swal2-popup .swal2-validation-message{display:none;align-items:center;justify-content:center;padding:.625em;background:#f0f0f0;color:#666;font-size:1em;font-weight:300;overflow:hidden}.swal2-popup .swal2-validation-message::before{display:inline-block;width:1.5em;min-width:1.5em;height:1.5em;margin:0 .625em;border-radius:50%;background-color:#f27474;color:#fff;font-weight:600;line-height:1.5em;text-align:center;content:'!';zoom:normal}@supports (-ms-accelerator:true){.swal2-range input{width:100%!important}.swal2-range output{display:none}}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){.swal2-range input{width:100%!important}.swal2-range output{display:none}}@-moz-document url-prefix(){.swal2-close:focus{outline:2px solid rgba(50,100,150,.4)}}.swal2-icon{position:relative;justify-content:center;width:5em;height:5em;margin:1.25em auto 1.875em;border:.25em solid transparent;border-radius:50%;line-height:5em;cursor:default;box-sizing:content-box;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;zoom:normal}.swal2-icon-text{font-size:3.75em}.swal2-icon.swal2-error{border-color:#f27474}.swal2-icon.swal2-error .swal2-x-mark{position:relative;flex-grow:1}.swal2-icon.swal2-error [class^=swal2-x-mark-line]{display:block;position:absolute;top:2.3125em;width:2.9375em;height:.3125em;border-radius:.125em;background-color:#f27474}.swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=left]{left:1.0625em;-webkit-transform:rotate(45deg);transform:rotate(45deg)}.swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=right]{right:1em;-webkit-transform:rotate(-45deg);transform:rotate(-45deg)}.swal2-icon.swal2-warning{border-color:#facea8;color:#f8bb86}.swal2-icon.swal2-info{border-color:#9de0f6;color:#3fc3ee}.swal2-icon.swal2-question{border-color:#c9dae1;color:#87adbd}.swal2-icon.swal2-success{border-color:#a5dc86}.swal2-icon.swal2-success [class^=swal2-success-circular-line]{position:absolute;width:3.75em;height:7.5em;-webkit-transform:rotate(45deg);transform:rotate(45deg);border-radius:50%}.swal2-icon.swal2-success [class^=swal2-success-circular-line][class$=left]{top:-.4375em;left:-2.0635em;-webkit-transform:rotate(-45deg);transform:rotate(-45deg);-webkit-transform-origin:3.75em 3.75em;transform-origin:3.75em 3.75em;border-radius:7.5em 0 0 7.5em}.swal2-icon.swal2-success [class^=swal2-success-circular-line][class$=right]{top:-.6875em;left:1.875em;-webkit-transform:rotate(-45deg);transform:rotate(-45deg);-webkit-transform-origin:0 3.75em;transform-origin:0 3.75em;border-radius:0 7.5em 7.5em 0}.swal2-icon.swal2-success .swal2-success-ring{position:absolute;top:-.25em;left:-.25em;width:100%;height:100%;border:.25em solid rgba(165,220,134,.3);border-radius:50%;z-index:2;box-sizing:content-box}.swal2-icon.swal2-success .swal2-success-fix{position:absolute;top:.5em;left:1.625em;width:.4375em;height:5.625em;-webkit-transform:rotate(-45deg);transform:rotate(-45deg);z-index:1}.swal2-icon.swal2-success [class^=swal2-success-line]{display:block;position:absolute;height:.3125em;border-radius:.125em;background-color:#a5dc86;z-index:2}.swal2-icon.swal2-success [class^=swal2-success-line][class$=tip]{top:2.875em;left:.875em;width:1.5625em;-webkit-transform:rotate(45deg);transform:rotate(45deg)}.swal2-icon.swal2-success [class^=swal2-success-line][class$=long]{top:2.375em;right:.5em;width:2.9375em;-webkit-transform:rotate(-45deg);transform:rotate(-45deg)}.swal2-progress-steps{align-items:center;margin:0 0 1.25em;padding:0;background:inherit;font-weight:600}.swal2-progress-steps li{display:inline-block;position:relative}.swal2-progress-steps .swal2-progress-step{width:2em;height:2em;border-radius:2em;background:#3085d6;color:#fff;line-height:2em;text-align:center;z-index:20}.swal2-progress-steps .swal2-progress-step.swal2-active-progress-step{background:#3085d6}.swal2-progress-steps .swal2-progress-step.swal2-active-progress-step~.swal2-progress-step{background:inherit;color:#fff}.swal2-progress-steps .swal2-progress-step.swal2-active-progress-step~.swal2-progress-step-line{background:inherit}.swal2-progress-steps .swal2-progress-step-line{width:2.5em;height:.4em;margin:0 -1px;background:#3085d6;z-index:10}[class^=swal2]{-webkit-tap-highlight-color:transparent}.swal2-show{-webkit-animation:swal2-show .3s;animation:swal2-show .3s}.swal2-show.swal2-noanimation{-webkit-animation:none;animation:none}.swal2-hide{-webkit-animation:swal2-hide .15s forwards;animation:swal2-hide .15s forwards}.swal2-hide.swal2-noanimation{-webkit-animation:none;animation:none}.swal2-rtl .swal2-close{right:auto;left:0}.swal2-animate-success-icon .swal2-success-line-tip{-webkit-animation:swal2-animate-success-line-tip .75s;animation:swal2-animate-success-line-tip .75s}.swal2-animate-success-icon .swal2-success-line-long{-webkit-animation:swal2-animate-success-line-long .75s;animation:swal2-animate-success-line-long .75s}.swal2-animate-success-icon .swal2-success-circular-line-right{-webkit-animation:swal2-rotate-success-circular-line 4.25s ease-in;animation:swal2-rotate-success-circular-line 4.25s ease-in}.swal2-animate-error-icon{-webkit-animation:swal2-animate-error-icon .5s;animation:swal2-animate-error-icon .5s}.swal2-animate-error-icon .swal2-x-mark{-webkit-animation:swal2-animate-error-x-mark .5s;animation:swal2-animate-error-x-mark .5s}@-webkit-keyframes swal2-rotate-loading{0%{-webkit-transform:rotate(0);transform:rotate(0)}100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}@keyframes swal2-rotate-loading{0%{-webkit-transform:rotate(0);transform:rotate(0)}100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}@media print{body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown){overflow-y:scroll!important}body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown)>[aria-hidden=true]{display:none}body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) .swal2-container{position:initial!important}}");
+"undefined"!=typeof document&&function(e,t){var n=e.createElement("style");if(e.getElementsByTagName("head")[0].appendChild(n),n.styleSheet)n.styleSheet.disabled||(n.styleSheet.cssText=t);else try{n.innerHTML=t}catch(e){n.innerText=t}}(document,"@charset \"UTF-8\";@-webkit-keyframes swal2-show{0%{-webkit-transform:scale(.7);transform:scale(.7)}45%{-webkit-transform:scale(1.05);transform:scale(1.05)}80%{-webkit-transform:scale(.95);transform:scale(.95)}100%{-webkit-transform:scale(1);transform:scale(1)}}@keyframes swal2-show{0%{-webkit-transform:scale(.7);transform:scale(.7)}45%{-webkit-transform:scale(1.05);transform:scale(1.05)}80%{-webkit-transform:scale(.95);transform:scale(.95)}100%{-webkit-transform:scale(1);transform:scale(1)}}@-webkit-keyframes swal2-hide{0%{-webkit-transform:scale(1);transform:scale(1);opacity:1}100%{-webkit-transform:scale(.5);transform:scale(.5);opacity:0}}@keyframes swal2-hide{0%{-webkit-transform:scale(1);transform:scale(1);opacity:1}100%{-webkit-transform:scale(.5);transform:scale(.5);opacity:0}}@-webkit-keyframes swal2-animate-success-line-tip{0%{top:1.1875em;left:.0625em;width:0}54%{top:1.0625em;left:.125em;width:0}70%{top:2.1875em;left:-.375em;width:3.125em}84%{top:3em;left:1.3125em;width:1.0625em}100%{top:2.8125em;left:.875em;width:1.5625em}}@keyframes swal2-animate-success-line-tip{0%{top:1.1875em;left:.0625em;width:0}54%{top:1.0625em;left:.125em;width:0}70%{top:2.1875em;left:-.375em;width:3.125em}84%{top:3em;left:1.3125em;width:1.0625em}100%{top:2.8125em;left:.875em;width:1.5625em}}@-webkit-keyframes swal2-animate-success-line-long{0%{top:3.375em;right:2.875em;width:0}65%{top:3.375em;right:2.875em;width:0}84%{top:2.1875em;right:0;width:3.4375em}100%{top:2.375em;right:.5em;width:2.9375em}}@keyframes swal2-animate-success-line-long{0%{top:3.375em;right:2.875em;width:0}65%{top:3.375em;right:2.875em;width:0}84%{top:2.1875em;right:0;width:3.4375em}100%{top:2.375em;right:.5em;width:2.9375em}}@-webkit-keyframes swal2-rotate-success-circular-line{0%{-webkit-transform:rotate(-45deg);transform:rotate(-45deg)}5%{-webkit-transform:rotate(-45deg);transform:rotate(-45deg)}12%{-webkit-transform:rotate(-405deg);transform:rotate(-405deg)}100%{-webkit-transform:rotate(-405deg);transform:rotate(-405deg)}}@keyframes swal2-rotate-success-circular-line{0%{-webkit-transform:rotate(-45deg);transform:rotate(-45deg)}5%{-webkit-transform:rotate(-45deg);transform:rotate(-45deg)}12%{-webkit-transform:rotate(-405deg);transform:rotate(-405deg)}100%{-webkit-transform:rotate(-405deg);transform:rotate(-405deg)}}@-webkit-keyframes swal2-animate-error-x-mark{0%{margin-top:1.625em;-webkit-transform:scale(.4);transform:scale(.4);opacity:0}50%{margin-top:1.625em;-webkit-transform:scale(.4);transform:scale(.4);opacity:0}80%{margin-top:-.375em;-webkit-transform:scale(1.15);transform:scale(1.15)}100%{margin-top:0;-webkit-transform:scale(1);transform:scale(1);opacity:1}}@keyframes swal2-animate-error-x-mark{0%{margin-top:1.625em;-webkit-transform:scale(.4);transform:scale(.4);opacity:0}50%{margin-top:1.625em;-webkit-transform:scale(.4);transform:scale(.4);opacity:0}80%{margin-top:-.375em;-webkit-transform:scale(1.15);transform:scale(1.15)}100%{margin-top:0;-webkit-transform:scale(1);transform:scale(1);opacity:1}}@-webkit-keyframes swal2-animate-error-icon{0%{-webkit-transform:rotateX(100deg);transform:rotateX(100deg);opacity:0}100%{-webkit-transform:rotateX(0);transform:rotateX(0);opacity:1}}@keyframes swal2-animate-error-icon{0%{-webkit-transform:rotateX(100deg);transform:rotateX(100deg);opacity:0}100%{-webkit-transform:rotateX(0);transform:rotateX(0);opacity:1}}body.swal2-toast-shown .swal2-container{background-color:transparent}body.swal2-toast-shown .swal2-container.swal2-shown{background-color:transparent}body.swal2-toast-shown .swal2-container.swal2-top{top:0;right:auto;bottom:auto;left:50%;-webkit-transform:translateX(-50%);transform:translateX(-50%)}body.swal2-toast-shown .swal2-container.swal2-top-end,body.swal2-toast-shown .swal2-container.swal2-top-right{top:0;right:0;bottom:auto;left:auto}body.swal2-toast-shown .swal2-container.swal2-top-left,body.swal2-toast-shown .swal2-container.swal2-top-start{top:0;right:auto;bottom:auto;left:0}body.swal2-toast-shown .swal2-container.swal2-center-left,body.swal2-toast-shown .swal2-container.swal2-center-start{top:50%;right:auto;bottom:auto;left:0;-webkit-transform:translateY(-50%);transform:translateY(-50%)}body.swal2-toast-shown .swal2-container.swal2-center{top:50%;right:auto;bottom:auto;left:50%;-webkit-transform:translate(-50%,-50%);transform:translate(-50%,-50%)}body.swal2-toast-shown .swal2-container.swal2-center-end,body.swal2-toast-shown .swal2-container.swal2-center-right{top:50%;right:0;bottom:auto;left:auto;-webkit-transform:translateY(-50%);transform:translateY(-50%)}body.swal2-toast-shown .swal2-container.swal2-bottom-left,body.swal2-toast-shown .swal2-container.swal2-bottom-start{top:auto;right:auto;bottom:0;left:0}body.swal2-toast-shown .swal2-container.swal2-bottom{top:auto;right:auto;bottom:0;left:50%;-webkit-transform:translateX(-50%);transform:translateX(-50%)}body.swal2-toast-shown .swal2-container.swal2-bottom-end,body.swal2-toast-shown .swal2-container.swal2-bottom-right{top:auto;right:0;bottom:0;left:auto}body.swal2-toast-column .swal2-toast{-webkit-box-orient:vertical;-webkit-box-direction:normal;flex-direction:column;-webkit-box-align:stretch;align-items:stretch}body.swal2-toast-column .swal2-toast .swal2-actions{-webkit-box-flex:1;flex:1;align-self:stretch;height:2.2em;margin-top:.3125em}body.swal2-toast-column .swal2-toast .swal2-loading{-webkit-box-pack:center;justify-content:center}body.swal2-toast-column .swal2-toast .swal2-input{height:2em;margin:.3125em auto;font-size:1em}body.swal2-toast-column .swal2-toast .swal2-validation-message{font-size:1em}.swal2-popup.swal2-toast{-webkit-box-orient:horizontal;-webkit-box-direction:normal;flex-direction:row;-webkit-box-align:center;align-items:center;width:auto;padding:.625em;overflow-y:hidden;box-shadow:0 0 .625em #d9d9d9}.swal2-popup.swal2-toast .swal2-header{-webkit-box-orient:horizontal;-webkit-box-direction:normal;flex-direction:row}.swal2-popup.swal2-toast .swal2-title{-webkit-box-flex:1;flex-grow:1;-webkit-box-pack:start;justify-content:flex-start;margin:0 .6em;font-size:1em}.swal2-popup.swal2-toast .swal2-footer{margin:.5em 0 0;padding:.5em 0 0;font-size:.8em}.swal2-popup.swal2-toast .swal2-close{position:static;width:.8em;height:.8em;line-height:.8}.swal2-popup.swal2-toast .swal2-content{-webkit-box-pack:start;justify-content:flex-start;font-size:1em}.swal2-popup.swal2-toast .swal2-icon{width:2em;min-width:2em;height:2em;margin:0}.swal2-popup.swal2-toast .swal2-icon::before{display:-webkit-box;display:flex;-webkit-box-align:center;align-items:center;font-size:2em;font-weight:700}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){.swal2-popup.swal2-toast .swal2-icon::before{font-size:.25em}}.swal2-popup.swal2-toast .swal2-icon.swal2-success .swal2-success-ring{width:2em;height:2em}.swal2-popup.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line]{top:.875em;width:1.375em}.swal2-popup.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=left]{left:.3125em}.swal2-popup.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=right]{right:.3125em}.swal2-popup.swal2-toast .swal2-actions{flex-basis:auto!important;height:auto;margin:0 .3125em}.swal2-popup.swal2-toast .swal2-styled{margin:0 .3125em;padding:.3125em .625em;font-size:1em}.swal2-popup.swal2-toast .swal2-styled:focus{box-shadow:0 0 0 .0625em #fff,0 0 0 .125em rgba(50,100,150,.4)}.swal2-popup.swal2-toast .swal2-success{border-color:#a5dc86}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-circular-line]{position:absolute;width:1.6em;height:3em;-webkit-transform:rotate(45deg);transform:rotate(45deg);border-radius:50%}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-circular-line][class$=left]{top:-.8em;left:-.5em;-webkit-transform:rotate(-45deg);transform:rotate(-45deg);-webkit-transform-origin:2em 2em;transform-origin:2em 2em;border-radius:4em 0 0 4em}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-circular-line][class$=right]{top:-.25em;left:.9375em;-webkit-transform-origin:0 1.5em;transform-origin:0 1.5em;border-radius:0 4em 4em 0}.swal2-popup.swal2-toast .swal2-success .swal2-success-ring{width:2em;height:2em}.swal2-popup.swal2-toast .swal2-success .swal2-success-fix{top:0;left:.4375em;width:.4375em;height:2.6875em}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-line]{height:.3125em}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-line][class$=tip]{top:1.125em;left:.1875em;width:.75em}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-line][class$=long]{top:.9375em;right:.1875em;width:1.375em}.swal2-popup.swal2-toast.swal2-show{-webkit-animation:swal2-toast-show .5s;animation:swal2-toast-show .5s}.swal2-popup.swal2-toast.swal2-hide{-webkit-animation:swal2-toast-hide .1s forwards;animation:swal2-toast-hide .1s forwards}.swal2-popup.swal2-toast .swal2-animate-success-icon .swal2-success-line-tip{-webkit-animation:swal2-toast-animate-success-line-tip .75s;animation:swal2-toast-animate-success-line-tip .75s}.swal2-popup.swal2-toast .swal2-animate-success-icon .swal2-success-line-long{-webkit-animation:swal2-toast-animate-success-line-long .75s;animation:swal2-toast-animate-success-line-long .75s}@-webkit-keyframes swal2-toast-show{0%{-webkit-transform:translateY(-.625em) rotateZ(2deg);transform:translateY(-.625em) rotateZ(2deg)}33%{-webkit-transform:translateY(0) rotateZ(-2deg);transform:translateY(0) rotateZ(-2deg)}66%{-webkit-transform:translateY(.3125em) rotateZ(2deg);transform:translateY(.3125em) rotateZ(2deg)}100%{-webkit-transform:translateY(0) rotateZ(0);transform:translateY(0) rotateZ(0)}}@keyframes swal2-toast-show{0%{-webkit-transform:translateY(-.625em) rotateZ(2deg);transform:translateY(-.625em) rotateZ(2deg)}33%{-webkit-transform:translateY(0) rotateZ(-2deg);transform:translateY(0) rotateZ(-2deg)}66%{-webkit-transform:translateY(.3125em) rotateZ(2deg);transform:translateY(.3125em) rotateZ(2deg)}100%{-webkit-transform:translateY(0) rotateZ(0);transform:translateY(0) rotateZ(0)}}@-webkit-keyframes swal2-toast-hide{100%{-webkit-transform:rotateZ(1deg);transform:rotateZ(1deg);opacity:0}}@keyframes swal2-toast-hide{100%{-webkit-transform:rotateZ(1deg);transform:rotateZ(1deg);opacity:0}}@-webkit-keyframes swal2-toast-animate-success-line-tip{0%{top:.5625em;left:.0625em;width:0}54%{top:.125em;left:.125em;width:0}70%{top:.625em;left:-.25em;width:1.625em}84%{top:1.0625em;left:.75em;width:.5em}100%{top:1.125em;left:.1875em;width:.75em}}@keyframes swal2-toast-animate-success-line-tip{0%{top:.5625em;left:.0625em;width:0}54%{top:.125em;left:.125em;width:0}70%{top:.625em;left:-.25em;width:1.625em}84%{top:1.0625em;left:.75em;width:.5em}100%{top:1.125em;left:.1875em;width:.75em}}@-webkit-keyframes swal2-toast-animate-success-line-long{0%{top:1.625em;right:1.375em;width:0}65%{top:1.25em;right:.9375em;width:0}84%{top:.9375em;right:0;width:1.125em}100%{top:.9375em;right:.1875em;width:1.375em}}@keyframes swal2-toast-animate-success-line-long{0%{top:1.625em;right:1.375em;width:0}65%{top:1.25em;right:.9375em;width:0}84%{top:.9375em;right:0;width:1.125em}100%{top:.9375em;right:.1875em;width:1.375em}}body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown){overflow:hidden}body.swal2-height-auto{height:auto!important}body.swal2-no-backdrop .swal2-shown{top:auto;right:auto;bottom:auto;left:auto;max-width:calc(100% - .625em * 2);background-color:transparent}body.swal2-no-backdrop .swal2-shown>.swal2-modal{box-shadow:0 0 10px rgba(0,0,0,.4)}body.swal2-no-backdrop .swal2-shown.swal2-top{top:0;left:50%;-webkit-transform:translateX(-50%);transform:translateX(-50%)}body.swal2-no-backdrop .swal2-shown.swal2-top-left,body.swal2-no-backdrop .swal2-shown.swal2-top-start{top:0;left:0}body.swal2-no-backdrop .swal2-shown.swal2-top-end,body.swal2-no-backdrop .swal2-shown.swal2-top-right{top:0;right:0}body.swal2-no-backdrop .swal2-shown.swal2-center{top:50%;left:50%;-webkit-transform:translate(-50%,-50%);transform:translate(-50%,-50%)}body.swal2-no-backdrop .swal2-shown.swal2-center-left,body.swal2-no-backdrop .swal2-shown.swal2-center-start{top:50%;left:0;-webkit-transform:translateY(-50%);transform:translateY(-50%)}body.swal2-no-backdrop .swal2-shown.swal2-center-end,body.swal2-no-backdrop .swal2-shown.swal2-center-right{top:50%;right:0;-webkit-transform:translateY(-50%);transform:translateY(-50%)}body.swal2-no-backdrop .swal2-shown.swal2-bottom{bottom:0;left:50%;-webkit-transform:translateX(-50%);transform:translateX(-50%)}body.swal2-no-backdrop .swal2-shown.swal2-bottom-left,body.swal2-no-backdrop .swal2-shown.swal2-bottom-start{bottom:0;left:0}body.swal2-no-backdrop .swal2-shown.swal2-bottom-end,body.swal2-no-backdrop .swal2-shown.swal2-bottom-right{right:0;bottom:0}.swal2-container{display:-webkit-box;display:flex;position:fixed;z-index:1060;top:0;right:0;bottom:0;left:0;-webkit-box-orient:horizontal;-webkit-box-direction:normal;flex-direction:row;-webkit-box-align:center;align-items:center;-webkit-box-pack:center;justify-content:center;padding:.625em;overflow-x:hidden;background-color:transparent;-webkit-overflow-scrolling:touch}.swal2-container.swal2-top{-webkit-box-align:start;align-items:flex-start}.swal2-container.swal2-top-left,.swal2-container.swal2-top-start{-webkit-box-align:start;align-items:flex-start;-webkit-box-pack:start;justify-content:flex-start}.swal2-container.swal2-top-end,.swal2-container.swal2-top-right{-webkit-box-align:start;align-items:flex-start;-webkit-box-pack:end;justify-content:flex-end}.swal2-container.swal2-center{-webkit-box-align:center;align-items:center}.swal2-container.swal2-center-left,.swal2-container.swal2-center-start{-webkit-box-align:center;align-items:center;-webkit-box-pack:start;justify-content:flex-start}.swal2-container.swal2-center-end,.swal2-container.swal2-center-right{-webkit-box-align:center;align-items:center;-webkit-box-pack:end;justify-content:flex-end}.swal2-container.swal2-bottom{-webkit-box-align:end;align-items:flex-end}.swal2-container.swal2-bottom-left,.swal2-container.swal2-bottom-start{-webkit-box-align:end;align-items:flex-end;-webkit-box-pack:start;justify-content:flex-start}.swal2-container.swal2-bottom-end,.swal2-container.swal2-bottom-right{-webkit-box-align:end;align-items:flex-end;-webkit-box-pack:end;justify-content:flex-end}.swal2-container.swal2-bottom-end>:first-child,.swal2-container.swal2-bottom-left>:first-child,.swal2-container.swal2-bottom-right>:first-child,.swal2-container.swal2-bottom-start>:first-child,.swal2-container.swal2-bottom>:first-child{margin-top:auto}.swal2-container.swal2-grow-fullscreen>.swal2-modal{display:-webkit-box!important;display:flex!important;-webkit-box-flex:1;flex:1;align-self:stretch;-webkit-box-pack:center;justify-content:center}.swal2-container.swal2-grow-row>.swal2-modal{display:-webkit-box!important;display:flex!important;-webkit-box-flex:1;flex:1;align-content:center;-webkit-box-pack:center;justify-content:center}.swal2-container.swal2-grow-column{-webkit-box-flex:1;flex:1;-webkit-box-orient:vertical;-webkit-box-direction:normal;flex-direction:column}.swal2-container.swal2-grow-column.swal2-bottom,.swal2-container.swal2-grow-column.swal2-center,.swal2-container.swal2-grow-column.swal2-top{-webkit-box-align:center;align-items:center}.swal2-container.swal2-grow-column.swal2-bottom-left,.swal2-container.swal2-grow-column.swal2-bottom-start,.swal2-container.swal2-grow-column.swal2-center-left,.swal2-container.swal2-grow-column.swal2-center-start,.swal2-container.swal2-grow-column.swal2-top-left,.swal2-container.swal2-grow-column.swal2-top-start{-webkit-box-align:start;align-items:flex-start}.swal2-container.swal2-grow-column.swal2-bottom-end,.swal2-container.swal2-grow-column.swal2-bottom-right,.swal2-container.swal2-grow-column.swal2-center-end,.swal2-container.swal2-grow-column.swal2-center-right,.swal2-container.swal2-grow-column.swal2-top-end,.swal2-container.swal2-grow-column.swal2-top-right{-webkit-box-align:end;align-items:flex-end}.swal2-container.swal2-grow-column>.swal2-modal{display:-webkit-box!important;display:flex!important;-webkit-box-flex:1;flex:1;align-content:center;-webkit-box-pack:center;justify-content:center}.swal2-container:not(.swal2-top):not(.swal2-top-start):not(.swal2-top-end):not(.swal2-top-left):not(.swal2-top-right):not(.swal2-center-start):not(.swal2-center-end):not(.swal2-center-left):not(.swal2-center-right):not(.swal2-bottom):not(.swal2-bottom-start):not(.swal2-bottom-end):not(.swal2-bottom-left):not(.swal2-bottom-right):not(.swal2-grow-fullscreen)>.swal2-modal{margin:auto}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){.swal2-container .swal2-modal{margin:0!important}}.swal2-container.swal2-fade{-webkit-transition:background-color .1s;transition:background-color .1s}.swal2-container.swal2-shown{background-color:rgba(0,0,0,.4)}.swal2-popup{display:none;position:relative;box-sizing:border-box;-webkit-box-orient:vertical;-webkit-box-direction:normal;flex-direction:column;-webkit-box-pack:center;justify-content:center;width:32em;max-width:100%;padding:1.25em;border:none;border-radius:.3125em;background:#fff;font-family:inherit;font-size:1rem}.swal2-popup:focus{outline:0}.swal2-popup.swal2-loading{overflow-y:hidden}.swal2-header{display:-webkit-box;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;flex-direction:column;-webkit-box-align:center;align-items:center}.swal2-title{position:relative;max-width:100%;margin:0 0 .4em;padding:0;color:#595959;font-size:1.875em;font-weight:600;text-align:center;text-transform:none;word-wrap:break-word}.swal2-actions{z-index:1;flex-wrap:wrap;-webkit-box-align:center;align-items:center;-webkit-box-pack:center;justify-content:center;width:100%;margin:1.25em auto 0}.swal2-actions:not(.swal2-loading) .swal2-styled[disabled]{opacity:.4}.swal2-actions:not(.swal2-loading) .swal2-styled:hover{background-image:-webkit-gradient(linear,left top,left bottom,from(rgba(0,0,0,.1)),to(rgba(0,0,0,.1)));background-image:linear-gradient(rgba(0,0,0,.1),rgba(0,0,0,.1))}.swal2-actions:not(.swal2-loading) .swal2-styled:active{background-image:-webkit-gradient(linear,left top,left bottom,from(rgba(0,0,0,.2)),to(rgba(0,0,0,.2)));background-image:linear-gradient(rgba(0,0,0,.2),rgba(0,0,0,.2))}.swal2-actions.swal2-loading .swal2-styled.swal2-confirm{box-sizing:border-box;width:2.5em;height:2.5em;margin:.46875em;padding:0;-webkit-animation:swal2-rotate-loading 1.5s linear 0s infinite normal;animation:swal2-rotate-loading 1.5s linear 0s infinite normal;border:.25em solid transparent;border-radius:100%;border-color:transparent;background-color:transparent!important;color:transparent;cursor:default;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.swal2-actions.swal2-loading .swal2-styled.swal2-cancel{margin-right:30px;margin-left:30px}.swal2-actions.swal2-loading :not(.swal2-styled).swal2-confirm::after{content:\"\";display:inline-block;width:15px;height:15px;margin-left:5px;-webkit-animation:swal2-rotate-loading 1.5s linear 0s infinite normal;animation:swal2-rotate-loading 1.5s linear 0s infinite normal;border:3px solid #999;border-radius:50%;border-right-color:transparent;box-shadow:1px 1px 1px #fff}.swal2-styled{margin:.3125em;padding:.625em 2em;box-shadow:none;font-weight:500}.swal2-styled:not([disabled]){cursor:pointer}.swal2-styled.swal2-confirm{border:0;border-radius:.25em;background:initial;background-color:#3085d6;color:#fff;font-size:1.0625em}.swal2-styled.swal2-cancel{border:0;border-radius:.25em;background:initial;background-color:#aaa;color:#fff;font-size:1.0625em}.swal2-styled:focus{outline:0;box-shadow:0 0 0 2px #fff,0 0 0 4px rgba(50,100,150,.4)}.swal2-styled::-moz-focus-inner{border:0}.swal2-footer{-webkit-box-pack:center;justify-content:center;margin:1.25em 0 0;padding:1em 0 0;border-top:1px solid #eee;color:#545454;font-size:1em}.swal2-image{max-width:100%;margin:1.25em auto}.swal2-close{position:absolute;z-index:2;top:0;right:0;-webkit-box-pack:center;justify-content:center;width:1.2em;height:1.2em;padding:0;overflow:hidden;-webkit-transition:color .1s ease-out;transition:color .1s ease-out;border:none;border-radius:0;outline:initial;background:0 0;color:#ccc;font-family:serif;font-size:2.5em;line-height:1.2;cursor:pointer}.swal2-close:hover{-webkit-transform:none;transform:none;background:0 0;color:#f27474}.swal2-content{z-index:1;-webkit-box-pack:center;justify-content:center;margin:0;padding:0;color:#545454;font-size:1.125em;font-weight:300;line-height:normal;text-align:center;word-wrap:break-word}.swal2-checkbox,.swal2-file,.swal2-input,.swal2-radio,.swal2-select,.swal2-textarea{margin:1em auto}.swal2-file,.swal2-input,.swal2-textarea{box-sizing:border-box;width:100%;-webkit-transition:border-color .3s,box-shadow .3s;transition:border-color .3s,box-shadow .3s;border:1px solid #d9d9d9;border-radius:.1875em;background:inherit;box-shadow:inset 0 1px 1px rgba(0,0,0,.06);color:inherit;font-size:1.125em}.swal2-file.swal2-inputerror,.swal2-input.swal2-inputerror,.swal2-textarea.swal2-inputerror{border-color:#f27474!important;box-shadow:0 0 2px #f27474!important}.swal2-file:focus,.swal2-input:focus,.swal2-textarea:focus{border:1px solid #b4dbed;outline:0;box-shadow:0 0 3px #c4e6f5}.swal2-file::-webkit-input-placeholder,.swal2-input::-webkit-input-placeholder,.swal2-textarea::-webkit-input-placeholder{color:#ccc}.swal2-file::-moz-placeholder,.swal2-input::-moz-placeholder,.swal2-textarea::-moz-placeholder{color:#ccc}.swal2-file:-ms-input-placeholder,.swal2-input:-ms-input-placeholder,.swal2-textarea:-ms-input-placeholder{color:#ccc}.swal2-file::-ms-input-placeholder,.swal2-input::-ms-input-placeholder,.swal2-textarea::-ms-input-placeholder{color:#ccc}.swal2-file::placeholder,.swal2-input::placeholder,.swal2-textarea::placeholder{color:#ccc}.swal2-range{margin:1em auto;background:inherit}.swal2-range input{width:80%}.swal2-range output{width:20%;color:inherit;font-weight:600;text-align:center}.swal2-range input,.swal2-range output{height:2.625em;padding:0;font-size:1.125em;line-height:2.625em}.swal2-input{height:2.625em;padding:0 .75em}.swal2-input[type=number]{max-width:10em}.swal2-file{background:inherit;font-size:1.125em}.swal2-textarea{height:6.75em;padding:.75em}.swal2-select{min-width:50%;max-width:100%;padding:.375em .625em;background:inherit;color:inherit;font-size:1.125em}.swal2-checkbox,.swal2-radio{-webkit-box-align:center;align-items:center;-webkit-box-pack:center;justify-content:center;background:inherit;color:inherit}.swal2-checkbox label,.swal2-radio label{margin:0 .6em;font-size:1.125em}.swal2-checkbox input,.swal2-radio input{margin:0 .4em}.swal2-validation-message{display:none;-webkit-box-align:center;align-items:center;-webkit-box-pack:center;justify-content:center;padding:.625em;overflow:hidden;background:#f0f0f0;color:#666;font-size:1em;font-weight:300}.swal2-validation-message::before{content:\"!\";display:inline-block;width:1.5em;min-width:1.5em;height:1.5em;margin:0 .625em;zoom:normal;border-radius:50%;background-color:#f27474;color:#fff;font-weight:600;line-height:1.5em;text-align:center}@supports (-ms-accelerator:true){.swal2-range input{width:100%!important}.swal2-range output{display:none}}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){.swal2-range input{width:100%!important}.swal2-range output{display:none}}@-moz-document url-prefix(){.swal2-close:focus{outline:2px solid rgba(50,100,150,.4)}}.swal2-icon{position:relative;box-sizing:content-box;-webkit-box-pack:center;justify-content:center;width:5em;height:5em;margin:1.25em auto 1.875em;zoom:normal;border:.25em solid transparent;border-radius:50%;font-family:inherit;line-height:5em;cursor:default;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.swal2-icon::before{display:-webkit-box;display:flex;-webkit-box-align:center;align-items:center;height:92%;font-size:3.75em}.swal2-icon.swal2-error{border-color:#f27474}.swal2-icon.swal2-error .swal2-x-mark{position:relative;-webkit-box-flex:1;flex-grow:1}.swal2-icon.swal2-error [class^=swal2-x-mark-line]{display:block;position:absolute;top:2.3125em;width:2.9375em;height:.3125em;border-radius:.125em;background-color:#f27474}.swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=left]{left:1.0625em;-webkit-transform:rotate(45deg);transform:rotate(45deg)}.swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=right]{right:1em;-webkit-transform:rotate(-45deg);transform:rotate(-45deg)}.swal2-icon.swal2-warning{border-color:#facea8;color:#f8bb86}.swal2-icon.swal2-warning::before{content:\"!\"}.swal2-icon.swal2-info{border-color:#9de0f6;color:#3fc3ee}.swal2-icon.swal2-info::before{content:\"i\"}.swal2-icon.swal2-question{border-color:#c9dae1;color:#87adbd}.swal2-icon.swal2-question::before{content:\"?\"}.swal2-icon.swal2-question.swal2-arabic-question-mark::before{content:\"؟\"}.swal2-icon.swal2-success{border-color:#a5dc86}.swal2-icon.swal2-success [class^=swal2-success-circular-line]{position:absolute;width:3.75em;height:7.5em;-webkit-transform:rotate(45deg);transform:rotate(45deg);border-radius:50%}.swal2-icon.swal2-success [class^=swal2-success-circular-line][class$=left]{top:-.4375em;left:-2.0635em;-webkit-transform:rotate(-45deg);transform:rotate(-45deg);-webkit-transform-origin:3.75em 3.75em;transform-origin:3.75em 3.75em;border-radius:7.5em 0 0 7.5em}.swal2-icon.swal2-success [class^=swal2-success-circular-line][class$=right]{top:-.6875em;left:1.875em;-webkit-transform:rotate(-45deg);transform:rotate(-45deg);-webkit-transform-origin:0 3.75em;transform-origin:0 3.75em;border-radius:0 7.5em 7.5em 0}.swal2-icon.swal2-success .swal2-success-ring{position:absolute;z-index:2;top:-.25em;left:-.25em;box-sizing:content-box;width:100%;height:100%;border:.25em solid rgba(165,220,134,.3);border-radius:50%}.swal2-icon.swal2-success .swal2-success-fix{position:absolute;z-index:1;top:.5em;left:1.625em;width:.4375em;height:5.625em;-webkit-transform:rotate(-45deg);transform:rotate(-45deg)}.swal2-icon.swal2-success [class^=swal2-success-line]{display:block;position:absolute;z-index:2;height:.3125em;border-radius:.125em;background-color:#a5dc86}.swal2-icon.swal2-success [class^=swal2-success-line][class$=tip]{top:2.875em;left:.875em;width:1.5625em;-webkit-transform:rotate(45deg);transform:rotate(45deg)}.swal2-icon.swal2-success [class^=swal2-success-line][class$=long]{top:2.375em;right:.5em;width:2.9375em;-webkit-transform:rotate(-45deg);transform:rotate(-45deg)}.swal2-progress-steps{-webkit-box-align:center;align-items:center;margin:0 0 1.25em;padding:0;background:inherit;font-weight:600}.swal2-progress-steps li{display:inline-block;position:relative}.swal2-progress-steps .swal2-progress-step{z-index:20;width:2em;height:2em;border-radius:2em;background:#3085d6;color:#fff;line-height:2em;text-align:center}.swal2-progress-steps .swal2-progress-step.swal2-active-progress-step{background:#3085d6}.swal2-progress-steps .swal2-progress-step.swal2-active-progress-step~.swal2-progress-step{background:#add8e6;color:#fff}.swal2-progress-steps .swal2-progress-step.swal2-active-progress-step~.swal2-progress-step-line{background:#add8e6}.swal2-progress-steps .swal2-progress-step-line{z-index:10;width:2.5em;height:.4em;margin:0 -1px;background:#3085d6}[class^=swal2]{-webkit-tap-highlight-color:transparent}.swal2-show{-webkit-animation:swal2-show .3s;animation:swal2-show .3s}.swal2-show.swal2-noanimation{-webkit-animation:none;animation:none}.swal2-hide{-webkit-animation:swal2-hide .15s forwards;animation:swal2-hide .15s forwards}.swal2-hide.swal2-noanimation{-webkit-animation:none;animation:none}.swal2-rtl .swal2-close{right:auto;left:0}.swal2-animate-success-icon .swal2-success-line-tip{-webkit-animation:swal2-animate-success-line-tip .75s;animation:swal2-animate-success-line-tip .75s}.swal2-animate-success-icon .swal2-success-line-long{-webkit-animation:swal2-animate-success-line-long .75s;animation:swal2-animate-success-line-long .75s}.swal2-animate-success-icon .swal2-success-circular-line-right{-webkit-animation:swal2-rotate-success-circular-line 4.25s ease-in;animation:swal2-rotate-success-circular-line 4.25s ease-in}.swal2-animate-error-icon{-webkit-animation:swal2-animate-error-icon .5s;animation:swal2-animate-error-icon .5s}.swal2-animate-error-icon .swal2-x-mark{-webkit-animation:swal2-animate-error-x-mark .5s;animation:swal2-animate-error-x-mark .5s}@-webkit-keyframes swal2-rotate-loading{0%{-webkit-transform:rotate(0);transform:rotate(0)}100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}@keyframes swal2-rotate-loading{0%{-webkit-transform:rotate(0);transform:rotate(0)}100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}@media print{body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown){overflow-y:scroll!important}body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown)>[aria-hidden=true]{display:none}body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) .swal2-container{position:static!important}}");
 
 /***/ }),
 
@@ -94416,7 +95495,10 @@ __webpack_require__(/*! air-datepicker/dist/js/datepicker */ "./node_modules/air
 __webpack_require__(/*! air-datepicker/dist/js/i18n/datepicker.en */ "./node_modules/air-datepicker/dist/js/i18n/datepicker.en.js"); // datepicker range
 
 
-__webpack_require__(/*! daterangepicker/daterangepicker.js */ "./node_modules/daterangepicker/daterangepicker.js"); // moment
+__webpack_require__(/*! daterangepicker/daterangepicker.js */ "./node_modules/daterangepicker/daterangepicker.js"); // Admin lte
+
+
+__webpack_require__(/*! admin-lte/dist/js/adminlte.js */ "./node_modules/admin-lte/dist/js/adminlte.js"); // moment
 
 
 window.moment = __webpack_require__(/*! moment/moment.js */ "./node_modules/moment/moment.js"); // Sweetalert2
