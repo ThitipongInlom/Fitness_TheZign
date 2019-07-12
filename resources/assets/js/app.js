@@ -12,5 +12,7 @@ require('admin-lte/dist/js/adminlte.js');
 window.moment = require('moment/moment.js');
 // Sweetalert2
 window.swal = require('sweetalert2');
+// Toastr
+window.Toastr = require('toastr/toastr');
 // Simplebar
 window.SimpleBar = require('simplebar/dist/simplebar.js');

@@ -43,6 +43,7 @@
         "moment": "^2.24.0",
         "package.json": "^2.0.1",
         "simplebar": "^4.1.0",
-        "sweetalert2": "^8.13.4"
+        "sweetalert2": "^8.13.4",
+        "toastr": "^2.1.4"
     }
 }

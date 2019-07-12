@@ -148,7 +148,7 @@
 
     <!-- Modal -->
     <div class="modal fade" id="AddUsermodel" tabindex="-1" role="dialog" aria-labelledby="AddUsermodel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog " role="document" id="AddUsermodelsize">
             <div class="modal-content">
                 <div class="modal-header bg-primary" style="padding: 0.7rem;">
                     <h5 class="modal-title">เพิ่มลูกค้า</h5>
@@ -157,7 +157,8 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div align="left">
+                    <div class="row">
+                    <div class="col-md-12" id="col_adduser_model_main">
                       <form id="FormAdd_User">
                         <div class="form-group formmaginsetnone row">
                           <label for="Code_Add" class="col-sm-3 col-form-label">Code :</label>
@@ -272,6 +273,24 @@
                           <button class="btn btn-sm btn-danger" id="read_card" onclick="Getdatacard();" disabled><span id="read_card_text">Insert ID Card</span></button>
                         </div>
                       </div>
+                    </div>
+                    <div id="col_adduser_model_sub">
+                      <div class="card">
+                        <div class="card-body"> 
+                            <p>ข้อมูลบัตรประชาชน</p>
+                            <div class="text-center">
+                              <img src="" class="rounded border" width="100" id="addmodel_card_img">
+                            </div>
+                            <hr>
+                            <div id="addmode_card_idnumber"></div>
+                            <div id="addmodel_card_name"></div>
+                            <div id="addmodel_card_address"></div>
+                        </div>
+                      </div>
+                      <div class="text-center">
+                        <button class="btn btn-sm btn-danger" onclick="hide_card();">ปิดข้อมูลบัตร</button>
+                      </div>
+                    </div>
                     </div>
                 </div>
             </div>

@@ -1,4 +1,23 @@
 $(document).ready(function () {
+    // Toastr Options
+    Toastr.options = {
+        "closeButton": true,
+        "debug": false,
+        "newestOnTop": true,
+        "progressBar": true,
+        "positionClass": "toast-top-right",
+        "preventDuplicates": false,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "3000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+    $("#col_adduser_model_sub").hide();
     Backtotop();
     // Set Remove 
     setInterval(() => {
@@ -13,6 +32,12 @@ $(document).ready(function () {
                     $("#read_card").removeAttr('disabled');
                     $("#read_card_text").html('Import Data');
                 } else if (data.status == 'Remove') {
+                    $("#col_adduser_model_sub").hide();
+                    $("#AddUsermodelsize").removeClass('modal-lg');
+                    $("#col_adduser_model_sub").removeClass('col-md-4');
+                    $("#col_adduser_model_main").addClass('col-md-12');
+                    $("#col_adduser_model_main").removeClass('col-md-8');
+
                     $("#read_card").removeClass('btn-primary');
                     $("#read_card").addClass('btn-danger');
                     $("#read_card").attr('disabled', 'disabled');
@@ -151,6 +176,14 @@ $('#searchTableDisplay').on('click', function (e) {
     TableDisplay.draw();
     e.preventDefault();
 });
+
+var hide_card = function hide_card() {
+    $("#col_adduser_model_sub").hide();
+    $("#AddUsermodelsize").removeClass('modal-lg');
+    $("#col_adduser_model_sub").removeClass('col-md-4');
+    $("#col_adduser_model_main").addClass('col-md-12');
+    $("#col_adduser_model_main").removeClass('col-md-8');
+}
 
 var AddUsermodel = function AddUsermodel() {
     // Show Modal
@@ -360,6 +393,11 @@ var onchange_discount_add = function onchange_discount_add(e) {
 }
 
 $('#AddUsermodel').on('hidden.bs.modal', function (e) {
+    $("#col_adduser_model_sub").hide();
+    $("#AddUsermodelsize").removeClass('modal-lg');
+    $("#col_adduser_model_sub").removeClass('col-md-4');
+    $("#col_adduser_model_main").addClass('col-md-12');
+    $("#col_adduser_model_main").removeClass('col-md-8');
     $("#Code_Add").val('');
     $("#Name_Add").val('');
     $("#Start_Add").val('');
@@ -571,7 +609,6 @@ var remember_reconnent_airlink = function remember_reconnent_airlink() {
         success: function (callback) {
             $("#ViewDataUser").modal('hide');
             TableDisplay.draw();
-            console.log(callback);
         }
     });
 }
@@ -583,18 +620,29 @@ var Getdatacard = function Getdatacard() {
         crossDomain: true,
         success: function (data) {
             if (data.status == 'Remove') {
-                alert('กรุณาใส่ บัตรประชาชน');
+                Toastr["info"]('กรุณาใส่ บัตรประชาชน');
             } else if (data.status == 'Inserted') {
-                alert('กำลังอ่าน บัตรประชาชน กรุณารอซักครู่');
+                Toastr["info"]('กำลังอ่าน บัตรประชาชน กรุณารอซักครู่');
                 setTimeout(function () {
                     Getdatacard();
                 }, 3000);
             } else if (data.status == 'Reading') {
-                alert('กำลังอ่าน บัตรประชาชน กรุณารอซักครู่');
+                Toastr["info"]('กำลังอ่าน บัตรประชาชน กรุณารอซักครู่');
                 setTimeout(function () {
                     Getdatacard();
                 }, 3000);
             } else if (data.status == 'Success') {
+                $("#col_adduser_model_sub").show();
+                $("#AddUsermodelsize").addClass('modal-lg');
+                $("#col_adduser_model_sub").addClass('col-md-4');
+                $("#col_adduser_model_main").removeClass('col-md-12');
+                $("#col_adduser_model_main").addClass('col-md-8');
+
+                $("#addmodel_card_img").attr('src', data.photo);
+                $("#addmode_card_idnumber").html('เลขประจำตัว : ' + data.citizenId);
+                $("#addmodel_card_name").html('ชื่อ-นามสกุล : '+ data.firstNameTH + ' ' + data.lastNameTH);
+                $("#addmodel_card_address").html('ที่อยู่ : ' + data.address);
+
                 var newdate = new Date(data.birthday);
                 var date = newdate.getDate();
                 var month = newdate.getMonth() + 1;
@@ -607,11 +655,11 @@ var Getdatacard = function Getdatacard() {
                 $("#card_end_add").val(data.expire);
                 $("#card_img_add").val(data.photo);
                 $("#gender").val(data.gender);
-                alert('ใส่ข้อมูล เสร็จสิ้น');
+                Toastr["info"]('ใส่ข้อมูล เสร็จสิ้น');
             }
         },
         error: function () {
-            alert('กรุณา เปิด รัน Service Card');
+            Toastr["error"]('กรุณา เปิด รัน Service Card');
         }
     });
 }

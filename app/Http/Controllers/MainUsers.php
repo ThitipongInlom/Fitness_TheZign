@@ -178,8 +178,8 @@ class MainUsers extends Controller
         $View  = "<div class='row'>";
         $View .= "<div class='col-md-9'>";
         $View .= "<div class='card'>
-        <div class='card-header'>
-            <h5 class='card-title'>ข้อมูลทั่วไปของคุณ: $row->name</h5>
+        <div class='card-header' style='padding: 5px 5px;'>
+            <h5>ข้อมูลทั่วไปของคุณ: $row->name</h5>
         </div>
           <input type='hidden' id='model_code_viewdata' value='$row->code'>
           <div class='card-body table-responsive p-0'>
