@@ -77,7 +77,8 @@ class Controller extends BaseController
         "email" => "$email",
         "username" => "$user",
         "password" => "$remakepassword",
-        "status" => "$status",
+        "access_rights_member" => "$status",
+        "access_rights_setting" => "$status",
         "remember_token" => "$token",
         "created_at" => "$today",
         "updated_at" => "$today"

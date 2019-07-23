@@ -82,6 +82,7 @@
                           <div class="sk-cube4 sk-cube"></div>
                           <div class="sk-cube3 sk-cube"></div>
                         </div>
+                        <h5 class="text-center">กำลังโหลดข้อมูล.....</h5>
                       </div>
                     </div>
                   </div>
@@ -124,6 +125,7 @@
                             <div class="sk-cube4 sk-cube"></div>
                             <div class="sk-cube3 sk-cube"></div>
                           </div>
+                          <h5 class="text-center">กำลังโหลดข้อมูล.....</h5>
                         </div>
                     </div>
                   </div>
@@ -167,6 +169,7 @@
                           <div class="sk-cube4 sk-cube"></div>
                           <div class="sk-cube3 sk-cube"></div>
                         </div>
+                        <h5 class="text-center">กำลังโหลดข้อมูล.....</h5>
                       </div>
                     </div>
                   </div>
@@ -207,6 +210,7 @@
                           <div class="sk-cube4 sk-cube"></div>
                           <div class="sk-cube3 sk-cube"></div>
                         </div>
+                        <h5 class="text-center">กำลังโหลดข้อมูล.....</h5>
                       </div>
                     </div>
                   </div>

@@ -21,6 +21,7 @@ class Report extends Controller
 
   public function Report_tab_1(Request $request)
   {
+    ini_set('max_execution_time', 300);
     $range_date = explode(" - ", $request->post('range_date'));
     $reformat_start = date('Y-m-d', strtotime(str_replace('/', '-', $range_date[0])));
     $reformat_end   = date('Y-m-d', strtotime(str_replace('/', '-', $range_date[1])));

@@ -26,7 +26,7 @@
         </div>
         <!-- /.login-logo -->
         <div class="card">
-            <div class="card-body login-card-body">
+            <div class="card-body">
                 <p class="login-box-msg">ลงชื่อเข้าใช้เพื่อเริ่มต้นเซสชันของคุณ</p>
                 <form action="{{ url('/Do_login') }}" method="post" accept-charset="utf-8">
                     @csrf
