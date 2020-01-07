@@ -33,10 +33,11 @@
         <div class="card">
             <div class="card-body">
                 <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                    <a class="nav-link active" id="v-pills-menu1-tab" data-toggle="pill" href="#v-pills-menu1" role="tab" aria-controls="v-pills-menu1" aria-selected="true">ตั้งค่าประเภท</a>
-                    <a class="nav-link" id="v-pills-menu2-tab" data-toggle="pill" href="#v-pills-menu2" role="tab" aria-controls="v-pills-menu2" aria-selected="false">คั้งค่าคลาส</a>
-                    <a class="nav-link" id="v-pills-menu3-tab" data-toggle="pill" href="#v-pills-menu3" role="tab" aria-controls="v-pills-menu3" aria-selected="false">คั้งค่าตารางคลาส</a>
+                    <a class="nav-link active" id="v-pills-menu1-tab" data-toggle="pill" href="#v-pills-menu1" role="tab" aria-controls="v-pills-menu1" aria-selected="true">ตั้งค่าต่อ Member</a>
+                    <a class="nav-link" id="v-pills-menu2-tab" data-toggle="pill" href="#v-pills-menu2" role="tab" aria-controls="v-pills-menu2" aria-selected="false">ข้อมูลพนักงาน</a>
+                    <a class="nav-link" id="v-pills-menu3-tab" data-toggle="pill" href="#v-pills-menu3" role="tab" aria-controls="v-pills-menu3" aria-selected="false">ตั้งค่าตารางคลาส</a>
                     <a class="nav-link" id="v-pills-menu4-tab" data-toggle="pill" href="#v-pills-menu4" role="tab" aria-controls="v-pills-menu4" aria-selected="false">ตั้งค่า API</a>
+                    <a class="nav-link" id="v-pills-menu4-tab" data-toggle="pill" href="#v-pills-menu5" role="tab" aria-controls="v-pills-menu5" aria-selected="false">ตั้งค่าไอเท็ม</a>
                 </div>
             </div>
         </div>
@@ -46,8 +47,13 @@
             <div class="card-body">
                 <div class="tab-content" id="v-pills-tabContent">
                     <div class="tab-pane fade show active" id="v-pills-menu1" role="tabpanel" aria-labelledby="v-pills-menu1-tab">
-                        <div align="right">
-                            <button class="btn btn-sm btn-success" onclick="Add_type();" data-toggle="tooltip" data-placement="left" title="เพิ่มข้อมูล ประเภท">เพิ่มข้อมูล</button>
+                        <div class="clearfix mb-1">
+                            <div class="float-left">
+                                <h4>ตั้งค่าต่อ Member</h4>
+                            </div>
+                            <div class="float-right">
+                                <button class="btn btn-sm btn-success" onclick="Add_type();" data-toggle="tooltip" data-placement="left" title="เพิ่มข้อมูล ประเภท">เพิ่มข้อมูล</button>
+                            </div>
                         </div>
                         <table class="table table-sm dt-responsive nowrap  row-border table-bordered table-hover" width="100%" id="Table_type">
                             <thead>
@@ -63,24 +69,16 @@
                                     <th>ตัวช่วย</th>
                                 </tr>
                             </thead>
-                            <tfoot>
-                                <tr>
-                                    <th>Type</th>
-                                    <th>ชื่อประเภท</th>
-                                    <th>จำนวนวัน</th>
-                                    <th>จำนวนเดือน</th>
-                                    <th>จำนวนปี</th>
-                                    <th>ราคา</th>
-                                    <th>สิทธ์</th>
-                                    <th>สถานะ</th>
-                                    <th>ตัวช่วย</th>
-                                </tr>
-                            </tfoot>
                         </table>             
                     </div>
                     <div class="tab-pane fade" id="v-pills-menu2" role="tabpanel" aria-labelledby="v-pills-menu2-tab">
-                        <div align="right" style="padding-bottom: 5px;">
-                            <button class="btn btn-sm btn-success" onclick="Add_trainner_emp();" data-toggle="tooltip" data-placement="left" title="เพิ่มข้อมูล Trainner">เพิ่มข้อมูล</button>
+                        <div class="clearfix mb-1">
+                            <div class="float-left">
+                                <h4>ข้อมูลพนักงาน PT,LG</h4>
+                            </div>
+                            <div class="float-right">
+                                <button class="btn btn-sm btn-success" onclick="Add_trainner_emp();" data-toggle="tooltip" data-placement="left" title="เพิ่มข้อมูล Trainner">เพิ่มข้อมูล</button>
+                            </div>
                         </div>
                         <table class="table table-sm dt-responsive nowrap  row-border table-bordered table-hover" width="100%" id="Table_trainner_emp">
                             <thead>
@@ -90,18 +88,16 @@
                                     <th>ตัวช่วย</th>
                                 </tr>
                             </thead>
-                            <tfoot>
-                                <tr>
-                                    <th>ชื่อ นามสกุล Trainner</th>
-                                    <th>เทรนเนอร์ประเภท</th>
-                                    <th>ตัวช่วย</th>
-                                </tr>
-                            </tfoot>
                         </table>
                     </div>
                     <div class="tab-pane fade" id="v-pills-menu3" role="tabpanel" aria-labelledby="v-pills-menu3-tab">
-                        <div align="right" style="padding-bottom: 5px;">
-                            <button class="btn btn-sm btn-success" onclick="Add_trainner();" data-toggle="tooltip" data-placement="left" title="เพิ่มข้อมูล รายการ Trainner">เพิ่มข้อมูล</button>
+                        <div class="clearfix mb-1">
+                            <div class="float-left">
+                                <h4>ตั้งค่าตารางคลาส</h4>
+                            </div>
+                            <div class="float-right">
+                                <button class="btn btn-sm btn-success" onclick="Add_trainner();" data-toggle="tooltip" data-placement="left" title="เพิ่มข้อมูล รายการ Trainner">เพิ่มข้อมูล</button>
+                            </div>
                         </div>
                         <table class="table table-sm dt-responsive nowrap  row-border table-bordered table-hover" width="100%" id="Table_trainner">
                             <thead>
@@ -114,16 +110,6 @@
                                     <th>ตัวช่วย</th>
                                 </tr>
                             </thead>
-                            <tfoot>
-                                <tr>
-                                    <th>ชื่อ นามสกุล</th>
-                                    <th>ชื่อประเภท</th>
-                                    <th>วันที่สอนประจำ</th>
-                                    <th>วันที่ทำการสอน</th>
-                                    <th>เวลาที่สอน</th>
-                                    <th>ตัวช่วย</th>
-                                </tr>
-                            </tfoot>
                         </table>
                     </div>
                     <div class="tab-pane fade" id="v-pills-menu4" role="tabpanel" aria-labelledby="v-pills-menu4-tab">
@@ -194,7 +180,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="inputGroup-sizing-default">Password :</span>
                                         </div>
-                                        <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" value="{{ $api_row->password }}">
+                                        <input type="password" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" value="{{ $api_row->password }}">
                                         </div>
                                     </div>
                                 </div>
@@ -213,6 +199,27 @@
                                 </div>
                             </div>
                         </div> 
+                    </div>
+                    <div class="tab-pane fade" id="v-pills-menu5" role="tabpanel" aria-labelledby="v-pills-menu5-tab">
+                        <div class="clearfix mb-2">
+                            <div c lass="float-left">
+                                <h4>ตั้งค่าไอเท็ม</h4>
+                            </div>
+                            <div class="float-right">
+                                <button class="btn btn-sm btn-success" onclick="Add_Item();" data-toggle="tooltip" data-placement="left" title="เพิ่มข้อมูล ไอเท็ม">เพิ่มข้อมูล</button>
+                            </div>
+                        </div>
+                        <table class="table table-sm dt-responsive nowrap  row-border table-bordered table-hover" width="100%" id="Table_item">
+                            <thead>
+                                <tr>
+                                    <th>ชื่อรายการ</th>
+                                    <th>ชื่อประเภท</th>
+                                    <th>จำนวน</th>
+                                    <th>ราคา</th>
+                                    <th>ตัวช่วย</th>
+                                </tr>
+                            </thead>
+                        </table>
                     </div>
                 </div>
             </div>

@@ -359,6 +359,34 @@ var Edit_Other = function Edit_Other(e) {
     });
 }
 
+var Life_ring = function Life_ring(e) {
+    // Modal Show
+    $('#Life_ring').modal('show');
+    $("body").css("padding-right", "0");
+    // Data SetToSend
+    var Fake_table_id = $(e).attr('fake_table_id');
+    // Create From Data
+    var Data = new FormData();
+    // Data Put Array
+    Data.append('Fake_table_id', Fake_table_id);
+    // Ajax To Send
+    $.ajax({
+        url: 'Life_ring',
+        type: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        dataType: 'text',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: Data,
+        success: function (res) {
+            console.log(res);
+        }
+    });
+}
+
 var Delete_item = function Delete_item(e) {
     // Data SetToSend
     var Fake_table_id = $(e).attr('fake_table_id');

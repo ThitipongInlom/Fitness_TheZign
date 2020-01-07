@@ -1180,7 +1180,7 @@ class MainUsers extends Controller
 
     public function Generate_Code_User($DateStart)
     {
-          $Formatdate =date('ym', strtotime($DateStart));
+          $Formatdate = date('ym', strtotime($DateStart));
           $users = DB::table('member')
                    ->select('code')
                    ->where( 'code', 'like', ''.$Formatdate.'%')
@@ -1615,56 +1615,88 @@ class MainUsers extends Controller
       foreach ($Data_240 as $key => $row) {
         $Username_Code = $row->wifiusername;
         $Password = $row->wifipassword;
-        $username = $request->session()->get('Login.username');
         $Valid = date("Y-m-d",strtotime($row->expire))."T23:59:59";
         $Expired = strftime("%B %d %Y",strtotime($row->expire))." 23:59:59";
         // ดึงข้อมูลจาก Airlink จากการตรวจสอบ Code
         $Username_Airlink_H = DB::connection('apimysql')->table("voucher")->where('username', '=' , $row->code)->count();
         if ($Username_Airlink_H == '1') {
-        // ถ้ามี Username ใน Airlink
+          // ถ้ามี Username ใน Airlink
           $yes++;
         }else{
-        // ถ้าไม่มี Username ใน Ailink
-        // Check Connect Status
-        $Connect_Status = DB::table('connect')->where('connect_id', '1')->get();
-        foreach ($Connect_Status as $key => $row) {
-          $Data_Connect_Status = $row->connect_detail;
-        }
-        if ($Data_Connect_Status == '0') {
-        // Delete UserName radcheck
-        DB::connection('apimysql')->table("radcheck")
-            ->where('username' , $Username_Code)->delete();
-        // Insert UserName radcheck
-        DB::connection('apimysql')->table("radcheck")->insert([
-            ['username' => $Username_Code, 'attribute' => 'Password', 'op' => ':=', 'value' => $Password],
-            ['username' => $Username_Code, 'attribute' => 'Expiration', 'op' => ':=', 'value' => $Expired],
-            ['username' => $Username_Code, 'attribute' => 'Auth-Type', 'op' => ':=', 'value' => 'Local']]);
-        // Insert UserName radreply
-        DB::connection('apimysql')->table("radreply")->insert([
-            ['username' => $Username_Code, 'attribute' => 'WISPr-Bandwidth-Max-Down', 'op' => ':=', 'value' => $Down],
-            ['username' => $Username_Code, 'attribute' => 'WISPr-Bandwidth-Max-Up', 'op' => ':=', 'value' => $Up],
-            ['username' => $Username_Code, 'attribute' => 'WISPr-Redirection-URL', 'op' => ':=', 'value' => $Re_url]]);
-        // Insert UserName radusergroup
-        DB::connection('apimysql')->table("radusergroup")->insert([
-            ['username' => $Username_Code, 'groupname' => $Group, 'priority' => '1']]);
-        // Insert Username voucher
-        DB::connection('apimysql')->table("voucher")->insert([ 
-            ['username' => $Username_Code,
-             'password' => $Password,
-             'billingplan' => $Billplan,
-             'created_by' => $username,
-             'IdleTimeout' => $Idle,
-             'valid_until' => $Valid,
-             'isprinted' => '0',
-             'profile' => 'a:1:{s:9:"firstname";s:18:"Auto_Generate_wifi";s:8:"lastname";s:0:"";}',
-             'encryption' => 'clear',
-             'money' => '0']]);
-        }
+          // ถ้าไม่มี Username ใน Ailink
+          // Check Connect Status
+          $Connect_Status = DB::table('connect')->where('connect_id', '1')->get();
+          foreach ($Connect_Status as $key => $row) {
+            $Data_Connect_Status = $row->connect_detail;
+          }
+          if ($Data_Connect_Status == '0') {
+            // Delete UserName radcheck
+            DB::connection('apimysql')->table("radcheck")
+                ->where('username' , $Username_Code)->delete();
+            // Insert UserName radcheck
+            DB::connection('apimysql')->table("radcheck")->insert([
+                ['username' => $Username_Code, 'attribute' => 'Password', 'op' => ':=', 'value' => $Password],
+                ['username' => $Username_Code, 'attribute' => 'Expiration', 'op' => ':=', 'value' => $Expired],
+                ['username' => $Username_Code, 'attribute' => 'Auth-Type', 'op' => ':=', 'value' => 'Local']]);
+            // Insert UserName radreply
+            DB::connection('apimysql')->table("radreply")->insert([
+                ['username' => $Username_Code, 'attribute' => 'WISPr-Bandwidth-Max-Down', 'op' => ':=', 'value' => $Down],
+                ['username' => $Username_Code, 'attribute' => 'WISPr-Bandwidth-Max-Up', 'op' => ':=', 'value' => $Up],
+                ['username' => $Username_Code, 'attribute' => 'WISPr-Redirection-URL', 'op' => ':=', 'value' => $Re_url]]);
+            // Insert UserName radusergroup
+            DB::connection('apimysql')->table("radusergroup")->insert([
+                ['username' => $Username_Code, 'groupname' => $Group, 'priority' => '1']]);
+            // Delete UserName voucher
+            DB::connection('apimysql')->table("voucher")
+                ->where('username' , $Username_Code)->delete();
+            // Insert Username voucher
+            DB::connection('apimysql')->table("voucher")->insert([ 
+                ['username' => $Username_Code,
+                'password' => $Password,
+                'billingplan' => $Billplan,
+                'created_by' => 'AutoGen',
+                'IdleTimeout' => $Idle,
+                'valid_until' => $Valid,
+                'isprinted' => '0',
+                'profile' => 'a:1:{s:9:"firstname";s:18:"Auto_Generate_wifi";s:8:"lastname";s:0:"";}',
+                'encryption' => 'clear',
+                'money' => '0']]);
+          }
           $no++;
         }
       }
       echo 'มีuser ทั้งหมด '. $yes; echo '<br>';
       echo 'ไม่มีuser ทั้งหมด '. $no;
+    }
+
+    public function Auto_Genpassword_airlink(Request $request)
+    {
+      date_default_timezone_set("Asia/Bangkok");
+      // connect DB
+      $Airlink = $this->Set_DB_Airlink();
+      $Connect_Status = DB::table('connect')->where('connect_id', '1')->value('connect_detail');
+      $Data_240 = DB::table('member')
+                    ->select('*')
+                    ->where('type_detail', '<>', 'Hotel')
+                    ->where('status', 'Active')
+                    ->where('wifipassword', '<>', '')
+                    ->get();
+      if ($Connect_Status == '0') {
+        foreach ($Data_240 as $key => $row) {
+            $code_airlink_pass = DB::connection('apimysql')->table("voucher")->where('username', $row->wifiusername)->value('password');
+            if ($code_airlink_pass == '') {
+                $Valid = date("Y-m-d",strtotime($row->expire))."T23:59:59";
+                $Expired = strftime("%B %d %Y",strtotime($row->expire))." 23:59:59";
+                echo 'Code '. $row->wifiusername .' | ไม่มี User Airlink <br>';
+            }else {
+                if ($code_airlink_pass != $row->wifipassword) {
+                    DB::table('member')->where('code', $row->wifiusername)
+                                       ->update(['wifipassword' => $code_airlink_pass]);
+                    echo $row->wifiusername.' | แก้ไขแล้ว <br>';
+                }
+            }
+        }
+      }
     }
 
 

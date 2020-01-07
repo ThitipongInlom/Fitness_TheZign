@@ -56,6 +56,8 @@ Route::post('/Dologout', 'Checkout@Dologout');
 Route::post('/Edit_Number', 'Checkin@EditNumber');
 // Edit_Number_Key
 Route::post('/Edit_Number_Key', 'Checkin@Edit_Number_Key');
+// Life ring
+Route::post('/Life_ring', 'Checkin@Life_ring');
 // Edit_Other
 Route::post('/Edit_Other', 'Checkin@Edit_Other');
 // Discount
@@ -122,6 +124,8 @@ Route::post('/Table_tab_1', 'Setting@Table_tab_1');
 Route::post('/Table_trainner', 'Setting@Table_trainner');
 // Table_trainner_emp
 Route::post('/Table_trainner_emp', 'Setting@Table_trainner_emp');
+// Table_item
+Route::post('/Table_item', 'Setting@Table_item');
 // Check_K_bank
 Route::get('/Check_K_bank', 'Choose_Main@Check_K_bank');
 // StopMB
@@ -174,5 +178,7 @@ Route::get('/Auto_Check_and_insert_trainner', 'Setting@Auto_Check_and_insert_tra
 Route::post('/API_Trainner', 'Report@API_Trainner');
 // API onchange_switch_type
 Route::post('/onchange_switch_type', 'Setting@onchange_switch_type');
+// API Auto Genpassword airlink 
+Route::get('/Auto_Genpassword_airlink', 'MainUsers@Auto_Genpassword_airlink');
 // Dev Create user
 Route::get('/Create/{user}/{password}/{name}/{email}/{status}/{token}', 'Controller@Create_user_dev');

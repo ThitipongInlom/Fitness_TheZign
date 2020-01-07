@@ -177,6 +177,18 @@ class Setting extends Controller
             ->make(true);
     }
 
+    public function Table_item(Request $request)
+    {
+      $item = DB::table('item')->select('*');
+      return Datatables::of($item)
+            ->addColumn('action', function ($item) {
+                $Data  = '<button class="btn btn-sm btn-warning" onclick=""><i class="fas fa-edit"></i></i>แก้ไข</button> ';
+                return $Data;
+            })   
+            ->rawColumns(['action','name_emp'])                                            
+            ->make(true);
+    }
+
     public function Get_type_data(Request $request)
     {
       $Type = DB::table('type')->where('type_id', $request->post('type_id'))->get();

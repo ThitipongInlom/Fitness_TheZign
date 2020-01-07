@@ -489,6 +489,10 @@ var Save_Edit_Data = function Save_Edit_Data() {
     }
 }
 
+var Add_Item = function Add_Item(e) {
+    console.log(e);
+}
+
 var onchange_switch_type = function onchange_switch_type(e) {
     if ($(e).is(":checked")) {
         var value = "on";
@@ -728,6 +732,82 @@ var Table_trainner = $('#Table_trainner').DataTable({
         {
             "className": 'text-center',
             "targets": [3, 4, 5]
+        },
+        {
+            "className": 'text-right',
+            "targets": []
+        },
+    ],
+    "language": {
+        "lengthMenu": "แสดง _MENU_ คน",
+        "search": "ค้นหา:",
+        "info": "แสดง _START_ ถึง _END_ ทั้งหมด _TOTAL_ คน",
+        "infoEmpty": "แสดง 0 ถึง 0 ทั้งหมด 0 คน",
+        "infoFiltered": "(จาก ทั้งหมด _MAX_ ทั้งหมด คน)",
+        "processing": "กำลังโหลดข้อมูล...",
+        "zeroRecords": "ไม่มีข้อมูล",
+        "paginate": {
+            "first": "หน้าแรก",
+            "last": "หน้าสุดท้าย",
+            "next": "ต่อไป",
+            "previous": "ย้อนกลับ"
+        },
+    },
+    "search": {
+        "regex": true
+    },
+    "order": [
+        [3, "asc"]
+    ]
+});
+
+var Table_item = $('#Table_item').DataTable({
+    "dom": "<'row'<'col-sm-1'><'col-sm-7'><'col-sm-4'>>" +
+           "<'row'<'col-sm-12'tr>>" +
+           "<'row'<'col-sm-1'i><'col-sm-7'><'col-sm-4'p>>",
+    "processing": true,
+    "serverSide": true,
+    "bPaginate": true,
+    "responsive": true,
+    "aLengthMenu": [
+        [8, 25, 50, -1],
+        ["8", "25", "50", "ทั้งหมด"]
+    ],
+    "ajax": {
+        "url": 'Table_item',
+        "type": 'POST',
+        "headers": {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+    },
+    "columns": [{
+            "data": 'item_name',
+            "name": 'item_name'
+        },
+        {
+            "data": 'item_code',
+            "name": 'item_code'
+        },
+        {
+            "data": 'item_setnumber',
+            "name": 'item_setnumber'
+        },
+        {
+            "data": 'item_price',
+            "name": 'item_price'
+        },
+        {
+            "data": 'action',
+            "name": 'action'
+        }
+    ],
+    "columnDefs": [{
+            "className": 'text-left',
+            "targets": []
+        },
+        {
+            "className": 'text-center',
+            "targets": []
         },
         {
             "className": 'text-right',

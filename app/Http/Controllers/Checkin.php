@@ -455,6 +455,12 @@ class Checkin extends Controller
         }else{
           $Data .= "<td>$DataDisplay->Fake_sum</td>";  
         }
+      }elseif ($DataDisplay->Fake_itemcodetype == 'L') {
+        if($DataDisplay->Fake_sum == '1') {
+          $Data .= "<td>รอเลือกหมายเลขห่วงยาง</td>"; 
+        }else{
+          $Data .= "<td>ห่วงยางหมายเลข $DataDisplay->Fake_sum#</td>";  
+        }
       }else{
         $Data .= "<td>$DataDisplay->Fake_sum $Itemtypcode</td>";
       }
@@ -483,6 +489,9 @@ class Checkin extends Controller
         }elseif ($DataDisplay->Fake_itemcodetype == 'O') {
           $Data .= "<button class='btn btn-sm btn-primary' onclick='Edit_Other(this);' fake_table_id='$DataDisplay->id'><i class='fas fa-exclamation-triangle'></i></button>
                     <button class='btn btn-sm btn-danger' onclick='Delete_item(this);' fake_table_id='$DataDisplay->id'><i class='fas fa-trash'></i></button>";         
+        }elseif ($DataDisplay->Fake_itemcodetype == 'L') {
+          $Data .= "<button class='btn btn-sm btn-primary' onclick='Life_ring(this);' fake_table_id='$DataDisplay->id'><i class='far fa-life-ring'></i></button>
+                    <button class='btn btn-sm btn-danger' onclick='Delete_item(this);' fake_table_id='$DataDisplay->id'><i class='fas fa-trash'></i></button>";      
         }
         // ItemCodeType != T
         else{
@@ -752,7 +761,7 @@ class Checkin extends Controller
         }
         $From .= "</div>
           <hr>
-          <button class='btn btn-primary' Fake_table_id='$Fake_table_id' onclick='Foronchangenumkey(this);'>ยืนยันเปลี่ยนหมายเลขกุญแจ</button>
+          <button class='btn btn-sm btn-primary' Fake_table_id='$Fake_table_id' onclick='Foronchangenumkey(this);'>ยืนยันเปลี่ยนหมายเลขกุญแจ</button>
           </div>
           </div>";
         // Show Json
@@ -784,7 +793,7 @@ class Checkin extends Controller
         }
         $From .= "</div>
           <hr>
-          <button class='btn btn-primary' Fake_table_id='$Fake_table_id' onclick='ForonEdit_Other(this);'>ยืนยันเปลี่ยนรายละเอียด</button>
+          <button class='btn btn-sm btn-primary' Fake_table_id='$Fake_table_id' onclick='ForonEdit_Other(this);'>ยืนยันเปลี่ยนรายละเอียด</button>
           </div>
           </div>";
         // Show Json
@@ -929,9 +938,6 @@ class Checkin extends Controller
           </table>
           </div>
           </div>";
-        if($CheckHaveHistory > 5) {
-          $Table .= "<button class='btn btn-sm btn-primary btn-block' set_limit='0' onclick='History(this);'>ดูข้อมูลทั้งหมด</button>";
-          }
         }
         $Table .= '</div>';
         }else{
@@ -1223,6 +1229,14 @@ class Checkin extends Controller
         // Show Json
         $array = array('Table' => $Table,'Row' => $row);
         echo json_encode($array);
+    }
+
+    public function Life_ring(Request $request)
+    {
+      date_default_timezone_set("Asia/Bangkok");
+      //$Life_ring_data = DB::table('fake_table')->where('id', $Fake_id)->get();
+      print_r($request->post());
+      $data = "";
     }
 
     public function Display_select_trainner_emp_model(Request $request)

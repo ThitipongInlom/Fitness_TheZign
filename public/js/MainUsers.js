@@ -640,7 +640,7 @@ var Getdatacard = function Getdatacard() {
 
                 $("#addmodel_card_img").attr('src', data.photo);
                 $("#addmode_card_idnumber").html('เลขประจำตัว : ' + data.citizenId);
-                $("#addmodel_card_name").html('ชื่อ-นามสกุล : '+ data.firstNameTH + ' ' + data.lastNameTH);
+                $("#addmodel_card_name").html('ชื่อ-นามสกุล : '+ data.firstNameEN + ' ' + data.lastNameEN);
                 $("#addmodel_card_address").html('ที่อยู่ : ' + data.address);
 
                 var newdate = new Date(data.birthday);
@@ -648,7 +648,7 @@ var Getdatacard = function Getdatacard() {
                 var month = newdate.getMonth() + 1;
                 var year = newdate.getFullYear();
                 $("#Birthday_Add").val(date + '/' + month + '/' + year);
-                $("#Name_Add").val(data.firstNameTH + ' ' + data.lastNameTH);
+                $("#Name_Add").val(data.firstNameEN + ' ' + data.lastNameEN);
                 $("#Address_Add").val(data.address);
                 $("#id_card_add").val(data.citizenId);
                 $("#card_start_add").val(data.issue);
