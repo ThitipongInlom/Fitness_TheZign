@@ -264,6 +264,7 @@ class MainUsers extends Controller
                   <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">รหัสWiFiลูกค้า</a>
                   <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">ประวัติการใช้บริการ</a>
                   <a class="nav-item nav-link" id="nav-editprofile-tab" data-toggle="tab" href="#nav-editprofile" role="tab" aria-controls="nav-editprofile" aria-selected="false">แก้ไขข้อมูลูกค้า</a>
+                  <a class="nav-item nav-link" id="nav-document-tab" data-toggle="tab" href="#nav-document" role="tab" aria-controls="nav-document" aria-selected="false">เอกสารแน็บไฟล์</a>
                   </div>
                   </nav>';
 
@@ -449,6 +450,30 @@ class MainUsers extends Controller
                   <div align='center'><button class='btn btn-success btn-sm' onclick='editmember();'>อัพเดต</button></div>
                   </div>";
 
+        $View .=  "<div class='tab-pane fade' id='nav-document' role='tabpanel' aria-labelledby='nav-document-tab'>
+                    <div class='row mt-2'>
+                      <div class='col-md-12'>
+                        <div class='text-center'>
+                          <div class='upload-btn-wrapper' data-toggle='tooltip' data-placement='bottom' title='เพิ่มรูปภาพ เอกสาร'>
+                            <button class='btn btn-sm btn-success' data-toggle='tooltip' data-placement='bottom' title='เพิ่มรูปภาพ เอกสาร'>เพิ่มรูปภาพ เอกสาร</button>
+                            <input type='file' id='modal_document_member_image' onchange='Upload_member_image_document();'>
+                          </div>
+
+                          <div class='upload-btn-wrapper' data-toggle='tooltip' data-placement='bottom' title='เพิ่มไฟล์ เอกสาร<'>
+                            <button class='btn btn-sm btn-primary' data-toggle='tooltip' data-placement='bottom' title='เพิ่มไฟล์ เอกสาร<'>เพิ่มไฟล์ เอกสาร</button>
+                            <input type='file' id='modal_document_member_file' onchange='myFunction();'>
+                          </div>
+                        </div>
+                        <table class='table table-sm table-bordered mt-2' width='100%'>
+                          <tr align='center'>
+                            <th>ชื่อไฟล์</th>
+                            <th>เครื่องมือ</th>
+                          </tr>
+                        </table>
+                      </div>
+                    </div>       
+                  </div>";
+
         $View .= "</div>";
         $View .= "</div>";
         $View .= "</div>";
@@ -575,6 +600,12 @@ class MainUsers extends Controller
       }
       $ResArray = ['text' => $Code];
       return \Response::json($ResArray);
+    }
+
+    public function Upload_member_document(Request $request)
+    {
+      $Code = $request->post('Code');
+      $Image = $request->file('Img');
     }
 
     public static function GetTypeData()

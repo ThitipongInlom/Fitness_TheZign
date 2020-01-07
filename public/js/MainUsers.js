@@ -663,3 +663,26 @@ var Getdatacard = function Getdatacard() {
         }
     });
 }
+
+var Upload_member_image_document = function Upload_member_image_document() {
+    var Img = $("#modal_document_member_image").prop('files')[0];
+    var Code = $("#model_code_viewdata").val();
+    var Data = new FormData();
+    Data.append('Img', Img);
+    Data.append('Code', Code);
+    $.ajax({
+        url: 'Upload_member_document',
+        type: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        dataType: 'text',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: Data,
+        success: function (callback) {
+            console.log(callback);
+        }
+    });
+}

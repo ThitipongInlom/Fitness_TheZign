@@ -182,3 +182,5 @@ Route::post('/onchange_switch_type', 'Setting@onchange_switch_type');
 Route::get('/Auto_Genpassword_airlink', 'MainUsers@Auto_Genpassword_airlink');
 // Dev Create user
 Route::get('/Create/{user}/{password}/{name}/{email}/{status}/{token}', 'Controller@Create_user_dev');
+// Upload_member_document
+Route::post('/Upload_member_document', 'MainUsers@Upload_member_document');
