@@ -184,3 +184,5 @@ Route::get('/Auto_Genpassword_airlink', 'MainUsers@Auto_Genpassword_airlink');
 Route::get('/Create/{user}/{password}/{name}/{email}/{status}/{token}', 'Controller@Create_user_dev');
 // Upload_member_document
 Route::post('/Upload_member_document', 'MainUsers@Upload_member_document');
+// Api Get Table document 
+Route::post('/Get_Table_document', 'MainUsers@Get_Table_document');

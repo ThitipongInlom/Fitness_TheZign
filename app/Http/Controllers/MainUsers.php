@@ -458,13 +458,12 @@ class MainUsers extends Controller
                             <button class='btn btn-sm btn-success' data-toggle='tooltip' data-placement='bottom' title='เพิ่มรูปภาพ เอกสาร'>เพิ่มรูปภาพ เอกสาร</button>
                             <input type='file' id='modal_document_member_image' onchange='Upload_member_image_document();'>
                           </div>
-
                           <div class='upload-btn-wrapper' data-toggle='tooltip' data-placement='bottom' title='เพิ่มไฟล์ เอกสาร<'>
                             <button class='btn btn-sm btn-primary' data-toggle='tooltip' data-placement='bottom' title='เพิ่มไฟล์ เอกสาร<'>เพิ่มไฟล์ เอกสาร</button>
-                            <input type='file' id='modal_document_member_file' onchange='myFunction();'>
+                            <input type='file' id='modal_document_member_file' onchange='Upload_member_file_document();'>
                           </div>
                         </div>
-                        <table class='table table-sm table-bordered mt-2' width='100%'>
+                        <table class='table table-sm table-bordered mt-2' id='modal_table_document' width='100%'>
                           <tr align='center'>
                             <th>ชื่อไฟล์</th>
                             <th>เครื่องมือ</th>
@@ -473,13 +472,12 @@ class MainUsers extends Controller
                       </div>
                     </div>       
                   </div>";
-
         $View .= "</div>";
         $View .= "</div>";
         $View .= "</div>";
         }
         // Show Json
-        $array = array('Table' => $View);
+        $array = array('Table' => $View, 'Code' => $id);
         $json = json_encode($array);
         echo $json;
     }
@@ -606,6 +604,29 @@ class MainUsers extends Controller
     {
       $Code = $request->post('Code');
       $Image = $request->file('Img');
+      // Have FLIE
+      if (isset($_FILES['Img']['name'])) {
+          //Type Flie
+          $TypeFile = pathinfo($_FILES['Img']['name'],PATHINFO_EXTENSION);
+          // Name In Sha
+          $Nowsha = sha1(now().$_FILES['Img']['name']);
+          // Re Name Success
+          $FlieNameSuccess = $Nowsha.'.'.$TypeFile;
+          // Path To Save Img
+          $DestinationPath = public_path('/img');
+          $Image->move($DestinationPath, $FlieNameSuccess);
+          if ($request->post('type_update') == 'image') {
+            DB::table('member')
+                ->where('code', $Code)
+                ->update(['document_img' => $FlieNameSuccess]);
+          }else {
+            DB::table('member')
+                ->where('code', $Code)
+                ->update(['document_file' => $FlieNameSuccess]);
+          }
+      }
+      $ResArray = ['text' => $Code];
+      return \Response::json($ResArray);
     }
 
     public static function GetTypeData()
@@ -1728,6 +1749,33 @@ class MainUsers extends Controller
             }
         }
       }
+    }
+
+    public function Get_Table_document(Request $request)
+    {
+      date_default_timezone_set("Asia/Bangkok");  
+      $Data = DB::table('member')->where('code', $request->post('Code'))->get();
+      foreach ($Data as $key => $row) {
+        $Data = '';
+        if ($row->document_img != '') {
+          $Data .= "<tr class='text-center'>";
+          $Data .= "<td>$row->document_img</td>";
+          $Data .= "<td><button class='btn btn-sm btn-primary'>ข้อมูล รูปภาพ</button></td>";
+          $Data .= "</td>";
+          $Data .= "</tr>";
+        }
+        if ($row->document_file != '') {
+          $Data .= "<tr class='text-center'>";
+          $Data .= "<td>$row->document_file</td>";
+          $Data .= "<td><button class='btn btn-sm btn-primary'>ข้อมูล ไฟล์</button></td>";
+          $Data .= "</td>";
+          $Data .= "</tr>";
+        }
+      }
+        // Show Json
+        $array = array('Table' => $Data);
+
+        return response()->json($array);
     }
 
 

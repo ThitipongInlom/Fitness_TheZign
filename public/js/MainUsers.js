@@ -223,6 +223,7 @@ var ViewData = function ViewData(e) {
                 container: '#date_modal_start',
                 autoClose: true,
             });
+            Modal_table_document(res.Code);
             // IF Click Change
             $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
                 if (e.target.hash == '#nav-contact') {
@@ -667,9 +668,11 @@ var Getdatacard = function Getdatacard() {
 var Upload_member_image_document = function Upload_member_image_document() {
     var Img = $("#modal_document_member_image").prop('files')[0];
     var Code = $("#model_code_viewdata").val();
+    var type_update = 'image';
     var Data = new FormData();
     Data.append('Img', Img);
     Data.append('Code', Code);
+    Data.append('type_update', type_update);
     $.ajax({
         url: 'Upload_member_document',
         type: 'POST',
@@ -683,6 +686,53 @@ var Upload_member_image_document = function Upload_member_image_document() {
         data: Data,
         success: function (callback) {
             console.log(callback);
+        }
+    });
+}
+
+var Upload_member_file_document = function Upload_member_file_document() {
+    var Img = $("#modal_document_member_file").prop('files')[0];
+    var Code = $("#model_code_viewdata").val();
+    var type_update = 'file';
+    var Data = new FormData();
+    Data.append('Img', Img);
+    Data.append('Code', Code);
+    Data.append('type_update', type_update);
+
+    $.ajax({
+        url: 'Upload_member_document',
+        type: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        dataType: 'text',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: Data,
+        success: function (callback) {
+            console.log(callback);
+        }
+    });
+}
+
+var Modal_table_document = function modal_table_document(Code) {
+    var Data = new FormData();
+    Data.append('Code', Code);
+
+    $.ajax({
+        url: 'Get_Table_document',
+        type: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        dataType: 'json',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: Data,
+        success: function (callback) {
+            $("#modal_table_document").append(callback.Table);
         }
     });
 }
