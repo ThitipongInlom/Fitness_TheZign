@@ -1384,6 +1384,11 @@ class MainUsers extends Controller
               ->where('package_id', $package_detail_id)
               ->update(['main_package_id' => $idpackage]);
           }
+          if (empty($request->post('Discount_Add'))) {
+              $alldis = "0";
+          }else {
+              $alldis = $request->post('Discount_Add');
+          }
           // Insert To DB Member
           $ID_New_Code = DB::table('member')->insertGetId([
           'code' =>    $request->post('Code_Add'),
@@ -1397,7 +1402,7 @@ class MainUsers extends Controller
           'status' => 'Active',
           'daystop' => $StopMB,
           'fullprice' => $request->post('Price_full_Add'),
-          'alldis' => $request->post('Discount_Add'),
+          'alldis' => $alldis,
           'remark' => $request->post('Remark_Add'),
           'resultprice' => $request->post('Price_total_Add'),
           'user_seting' => $username,
@@ -1440,7 +1445,7 @@ class MainUsers extends Controller
           'status' => 'Active',
           'daystop' => $StopMB,
           'fullprice' => $request->post('Price_full_Add'),
-          'alldis' => $request->post('Discount_Add'),
+          'alldis' => $alldis,
           'remark' => $request->post('Remark_Add'),
           'resultprice' => $request->post('Price_total_Add'),
           'user_seting' => $username,
@@ -1512,8 +1517,7 @@ class MainUsers extends Controller
               */
           }else{
               // Delete UserName radcheck
-              DB::connection('apimysql')->table("radcheck")
-              ->where('username' , $Username_Code)->delete();
+              DB::connection('apimysql')->table("radcheck")->where('username' , $Username_Code)->delete();
               // Insert UserName radcheck
               DB::connection('apimysql')->table("radcheck")->insert([
                   ['username' => $Username_Code, 'attribute' => 'Password', 'op' => ':=', 'value' => $Password],
@@ -1568,8 +1572,6 @@ class MainUsers extends Controller
         $post_data = '';
         // Set Array
         $post_data = array();
-        $post_data['firstname']     = $Name;
-        $post_data['lastname']      = '';
         $user_data['firstname']     = $Name;
         $user_data['lastname']      = '';
         $user_data['surename']      = '';
