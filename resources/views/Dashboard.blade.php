@@ -70,11 +70,11 @@
                 </div>
             </div>
             <!-- sliders -->
-            <div class="col-lg-3 col-6" >
+            <div class="col-lg-3 col-6" onclick="Covid();">
                 <div class="small-box bg-info shadow" style="cursor: pointer;">
                     <div class="inner">
-                        <h3 class="text-white" style="cursor: pointer;">Wait</h3>
-                        <p class="text-white" style="cursor: pointer;">รออัพเดต</p>
+                        <h3 class="text-white" style="cursor: pointer;">Covid</h3>
+                        <p class="text-white" style="cursor: pointer;">เพิ่มจำนวนวันเนื่องจาก Covid</p>
                     </div>
                     <div class="icon" style="transition: all 0.3s linear;
                                              position: absolute;
@@ -192,9 +192,16 @@
             alert('ไม่มีสิทธ์การเข้าการใช้งานส่วนนี้');
         }
     }
-    var Setting = function Setting(){
+    var Setting = function Setting() {
         if ({{ Session::get('Login.access_rights_setting') }} == '0') {
             window.location = "{{ url('/Setting') }}";
+        }else {
+            alert('ไม่มีสิทธ์การเข้าการใช้งานส่วนนี้');
+        }
+    }
+    var Covid = function Covid() {
+        if ({{ Session::get('Login.access_rights_setting') }} == '0') {
+            window.location = "{{ url('/MainCovid') }}";
         }else {
             alert('ไม่มีสิทธ์การเข้าการใช้งานส่วนนี้');
         }

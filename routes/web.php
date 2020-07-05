@@ -8,6 +8,8 @@ Route::get('/', function () {
 Route::get('/MainCheck', 'Main_Check@MainCheck');
 // Fitness MainUsers
 Route::get('/MainUsers', 'MainUsers@MainUsers');
+// Fitness MainUsers
+Route::get('/MainCovid', 'MainCovid@MainCovid');
 // Check In Page
 Route::get('/CheckIn', 'Checkin@CheckInPage');
 // Check In Processor
@@ -86,6 +88,8 @@ Route::post('/Modal_History_Package_Useing_Display', 'Checkin@Modal_History_Pack
 Route::post('/DeleteOnusePackage', 'Checkin@DeleteOnusePackage');
 // Data Table
 Route::post('/DataTable', 'MainUsers@Data');
+// Data Table Covid
+Route::post('/DataTableCovid', 'MainCovid@Data');
 // VoidItem
 Route::post('/VoidItem', 'Checkin@VoidItem');
 // VoidItem_modal

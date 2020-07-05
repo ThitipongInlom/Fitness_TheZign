@@ -20,8 +20,8 @@ class Main_Check extends Controller
 	public function TableOnline()
 	{
 		$DataCode = DB::table('main_table')
-									->select(DB::raw('*, LEFT(Name, 10) AS Nameshot'))
-									->where('Status', 'IN')->get();
+			->select(DB::raw('*, LEFT(Name, 10) AS Nameshot'))
+			->where('Status', 'IN')->get();
 		// Table
 		$Table = '
             <table class="table table-sm animated bounceIn" id="TableOnlineDatatable">
