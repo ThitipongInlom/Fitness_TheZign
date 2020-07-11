@@ -27,18 +27,6 @@
       	cursor: pointer;
       	display: none;
       }
-      .upload-btn-wrapper {
-        position: relative;
-        overflow: hidden;
-        display: inline-block;
-      }
-      .upload-btn-wrapper input[type=file] {
-        font-size: 100px;
-        position: absolute;
-        left: 0;
-        top: 0;
-        opacity: 0;
-      }
       .formmaginsetnone{
         margin-bottom: 0rem !important;
       }
@@ -380,11 +368,38 @@
                 </div>
                 <div class="modal-body">
                     <div class="row" align="center">
-
+                      <div class="col-md-12">
+                        <div class="form-group formmaginsetnone row">
+                          <label for="Start_Add_covid" class="col-sm-4 col-form-label">วันที่เริ่มต่ออายุ :</label>
+                          <div class="col-sm-8">
+                              <div class="input-group">
+                                <input type="text" data-toggle="datepicker" data-date-format='dd/mm/yyyy' class="form-control form-control-sm" id="Start_Add_covid" placeholder="วันที่ต่ออายุ">
+                                <div class="input-group-append">
+                                  <button type="button" class="btn btn-sm btn-outline-secondary docs-datepicker-trigger" disabled="">
+                                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                                  </button>
+                                </div>
+                              </div>
+                          </div>
+                        </div>        
+                        <div class="form-group formmaginsetnone row">
+                          <label for="Start_Add_covid" class="col-sm-4 col-form-label">เลือกจำนวนเดือน :</label>
+                          <div class="col-sm-8">
+                              <div class="input-group">
+                                <select class="custom-select custom-select-sm" id="Type_covid" onchange="Calculate_Day_covid(this);">
+                                  <option selected value="0">เลือกจำนวนเดือน</option>
+                                  <option value="3">3 เดือน</option>
+                                  <option value="4">4 เดือน</option>
+                                </select>
+                              </div>
+                          </div>
+                        </div>   
+                      </div>
                     </div>
                     <hr>
                     <div align="center">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">ปิด</button>
+                        <button type="button" class="btn btn-sm btn-success">ยืนยัน</button>
+                        <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal">ปิด</button>
                     </div>
                 </div>
             </div>

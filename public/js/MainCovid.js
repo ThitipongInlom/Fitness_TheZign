@@ -329,8 +329,17 @@ var ViewData_Covid = function ViewData_Covid(e) {
     // Show Modal
     $("#Covid_modal").modal('show');
     $("body").css("padding-right", "0");
+    $('[data-toggle="datepicker"]').datepicker({
+        language: 'en',
+        autoClose: true,
+    });
     var id = $(e).attr('id');
     console.log(id);
+    console.log($(e).attr('data'));
+}
+
+var Calculate_Day_covid = function Calculate_Day_covid(e) {
+    console.log($("#Type_covid").val())
 }
 
 // Upload Img User

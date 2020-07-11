@@ -47,15 +47,20 @@ class MainCovid extends Controller
                   "birthday",
                   "Img",
                   "id_card",
+                  "document_img",
+                  "document_file",
+                  "covid_returnday",
                 ]);
       return Datatables::of($users)
       ->filter(function ($query) use ($request) {
           if ($request->has('searchingcode')) {
               if ($request->get('searchingselect') == 'Active') {
                 $query->where('expire', '>', "2020-03-30");
+                $query->where('covid_returnday', '=' , null);
                 $query->where('code', 'not like', "H%");
               if($request->get('searchingcode') != null){
                 $query->where('expire', '>', "2020-03-30");
+                $query->where('covid_returnday', '=' , null);
                 $query->where('code', 'like', "%{$request->get('searchingcode')}%");
                 $query->orWhere('name', 'like', "%{$request->get('searchingcode')}%");   
               }            
@@ -132,8 +137,11 @@ class MainCovid extends Controller
         return $plus_day->format("%a days");
       })
       ->addColumn('action', function ($users) {
-          $Data  = '<button class="btn btn-sm btn-success" id="'.$users->code.'" onclick="ViewData_Covid(this)" data-toggle="tooltip" data-placement="left" title="ดูข้อมูล Code : '.$users->code.'"><i class="fas fa-search"></i>View</button> ';
-          return $Data;
+        $date1 = date_create("2020-03-30");
+        $date2 = date_create($users->expire);
+        $plus_day = date_diff($date1,$date2);
+        $Data  = '<button class="btn btn-sm btn-success" expire="'.$users->expire.'" data="'.$plus_day->format("%a").'" id="'.$users->code.'" onclick="ViewData_Covid(this)" data-toggle="tooltip" data-placement="left" title="ดูข้อมูล Code : '.$users->code.'"><i class="fas fa-search"></i>View</button> ';
+        return $Data;
       })
       ->rawColumns(['status','action'])
       ->make(true);
