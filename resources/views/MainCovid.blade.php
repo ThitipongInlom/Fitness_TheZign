@@ -398,7 +398,7 @@
                     </div>
                     <hr>
                     <div align="center">
-                        <button type="button" class="btn btn-sm btn-success">ยืนยัน</button>
+                        <button type="button" class="btn btn-sm btn-success" id="save_data_covid" onclick="Save_Viewdata_Covid(this)">ยืนยัน</button>
                         <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal">ปิด</button>
                     </div>
                 </div>

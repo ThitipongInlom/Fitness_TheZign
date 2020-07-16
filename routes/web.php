@@ -106,6 +106,8 @@ Route::post('/Uploadimguser', 'MainUsers@Uploadimguser');
 Route::post('/Model_code_viewdata', 'MainUsers@Model_code_viewdata');
 // Calculate_Day
 Route::post('/Calculate_Day', 'MainUsers@Calculate_Day');
+// Calculate_Day_Covid
+Route::post('/Save_Viewdata_Covid', 'MainCovid@Save_Viewdata_Covid');
 // GenerateWiFi
 Route::post('/GenerateWiFi', 'MainUsers@GenerateWiFi');
 // Report Tab 1

@@ -55,12 +55,16 @@ class MainCovid extends Controller
       ->filter(function ($query) use ($request) {
           if ($request->has('searchingcode')) {
               if ($request->get('searchingselect') == 'Active') {
-                $query->where('expire', '>', "2020-03-30");
+                $query->where('expire', '>', "2020-03-14");
+                $query->where('start', '<', "2020-03-14");
                 $query->where('covid_returnday', '=' , null);
+                $query->where('type', '<>', '1D');
                 $query->where('code', 'not like', "H%");
               if($request->get('searchingcode') != null){
-                $query->where('expire', '>', "2020-03-30");
+                $query->where('expire', '>', "2020-03-14");
+                $query->where('start', '<', "2020-03-14");
                 $query->where('covid_returnday', '=' , null);
+                $query->where('type', '<>', '1D');
                 $query->where('code', 'like', "%{$request->get('searchingcode')}%");
                 $query->orWhere('name', 'like', "%{$request->get('searchingcode')}%");   
               }            
@@ -131,19 +135,81 @@ class MainCovid extends Controller
           return $rebirthday;
       })
       ->addColumn('covid_plusday', function ($users) {
-        $date1 = date_create("2020-03-30");
-        $date2 = date_create($users->expire);
-        $plus_day = date_diff($date1,$date2);
+        $plus_day = date_diff(date_create("2020-03-14"),date_create($users->expire));
         return $plus_day->format("%a days");
       })
       ->addColumn('action', function ($users) {
-        $date1 = date_create("2020-03-30");
-        $date2 = date_create($users->expire);
-        $plus_day = date_diff($date1,$date2);
-        $Data  = '<button class="btn btn-sm btn-success" expire="'.$users->expire.'" data="'.$plus_day->format("%a").'" id="'.$users->code.'" onclick="ViewData_Covid(this)" data-toggle="tooltip" data-placement="left" title="ดูข้อมูล Code : '.$users->code.'"><i class="fas fa-search"></i>View</button> ';
+        $plus_day = date_diff(date_create("2020-03-14"),date_create($users->expire));
+        $Data  = '<button class="btn btn-sm btn-success" start="'.$users->start.'"  expire="'.$users->expire.'" data="'.$plus_day->format("%a").'" id="'.$users->code.'" onclick="ViewData_Covid(this)" data-toggle="tooltip" data-placement="left" title="ดูข้อมูล Code : '.$users->code.'"><i class="fas fa-search"></i>View</button> ';
         return $Data;
       })
       ->rawColumns(['status','action'])
       ->make(true);
   }
+
+  public function Save_Viewdata_Covid(Request $request)
+  {
+    if($request->post('month_covid') == '3') {
+      $covid_days = "90";
+    }else if ($request->post('month_covid') == '4') {
+      $covid_days = "120";
+    }else {
+      $covid_days = "0";
+    }
+
+    $new_covid_days = $request->post('days') + $covid_days;
+
+    $start_covid = str_replace('/', '-', $request->post('start_covid'));
+    $start_covid_date = date('Y-m-d', strtotime($start_covid));
+
+    $date_new = strtotime($start_covid_date);
+    $date_new = strtotime("+".$new_covid_days."day", $date_new);
+    $date_new = date('Y-m-d', $date_new);
+    // ต่อายุการใช้งาน Covid
+    DB::table('member')
+    ->where('code', $request->post('member_id'))
+    ->update(['expire' => $date_new, 'covid_returnday' => 'Y']);
+    $this->Insert_Member_Detail($request->post('member_id'),'ผลกระทบ Covid', $date_new, $request->post('month_covid')."M");
+    // Show Json
+    $array = array('Code' => $request->post('member_id'));
+    $json = json_encode($array);
+    echo $json;
+  }
+
+    public function Insert_Member_Detail($Code,$Note,$covid_expire,$covid_type)
+    {
+        date_default_timezone_set("Asia/Bangkok");
+        $username = Session::get('Login.username');
+        $Today = date("Y-m-d h:i:s");
+        $Data = DB::table('member')->where('code', $Code)->get();
+        foreach ($Data as $key => $row) {
+          $Data_Type = DB::table('type')->where('type_code', $row->type)->get();
+          foreach ($Data_Type as $key => $Type) {
+            $commitment = $Type->type_commitment;
+          }
+          // Insert To DB Member_Detail
+          DB::table('member_detail')->insert([
+          'code' =>      $row->code,
+          'name' =>      $row->name,
+          'start' =>     $row->start,
+          'expire' =>    $covid_expire,
+          'phone' =>     $row->phone,
+          'type' =>      $covid_type,
+          'address' =>   $row->address,
+          'status' =>    $row->status,
+          'daystop' =>   '0',
+          'fullprice' => '0',
+          'alldis' =>    '0',
+          'remark' =>    $row->remark,
+          'resultprice' => '0',
+          'user_seting' => $username,
+          'today' => $Today,
+          'typestatus' => $Note,
+          'type_commitment' => $commitment,
+          'birthday' => $row->birthday,
+          ]);
+        }
+        return;
+    }
+
 }

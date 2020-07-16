@@ -333,12 +333,56 @@ var ViewData_Covid = function ViewData_Covid(e) {
         language: 'en',
         autoClose: true,
     });
-    var id = $(e).attr('id');
-    console.log(id);
-    console.log($(e).attr('data'));
+    
+    $("#save_data_covid").attr('days', $(e).attr('data'))
+    $("#save_data_covid").attr('start', $(e).attr('start'))
+    $("#save_data_covid").attr('expire', $(e).attr('expire'))
+    $("#save_data_covid").attr('member_id', $(e).attr('id'))
+    console.log(e);
+    $('#Covid_modal').on('hidden.bs.modal', function (e) {
+        $("#Type_covid").val('0');
+        $("#Start_Add_covid").val('');
+    });
+}
+
+var Save_Viewdata_Covid = function Save_Viewdata_Covid(e) {
+    console.log('Save Covid Data Date')
+    if ($("#Type_covid").val() != "0") {
+        var Data = new FormData();
+        Data.append('days', $(e).attr('days'));
+        Data.append('start', $(e).attr('start'));
+        Data.append('expire', $(e).attr('expire'));
+        Data.append('month_covid', $("#Type_covid").val());
+        Data.append('start_covid', $("#Start_Add_covid").val());
+        Data.append('member_id', $(e).attr('member_id'));
+        $.ajax({
+            url: 'Save_Viewdata_Covid',
+            type: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            dataType: 'text',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: Data,
+            success: function (callback) {
+                $('#TableDisplay').DataTable().draw();
+                $("#Covid_modal").modal('hide');
+            }
+        });
+    }else {
+        Toastr["error"]('กรุณา เลือกจำนวนเดือน');
+    }
 }
 
 var Calculate_Day_covid = function Calculate_Day_covid(e) {
+    if ($("#Start_Add_covid").val() != "") {
+
+    }else {
+        Toastr["error"]('กรุณา เลือกวันที่ ก่อน เลือกจำนวนเดือน');
+        $("#Type_covid").val('0');
+    }
     console.log($("#Type_covid").val())
 }
 
