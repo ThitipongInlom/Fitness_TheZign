@@ -55,14 +55,14 @@ class MainCovid extends Controller
       ->filter(function ($query) use ($request) {
           if ($request->has('searchingcode')) {
               if ($request->get('searchingselect') == 'Active') {
-                $query->where('expire', '>', "2020-03-14");
-                $query->where('start', '<', "2020-03-14");
+                $query->where('expire', '>', "2020-03-19");
+                $query->where('start', '<', "2020-03-19");
                 $query->where('covid_returnday', '=' , null);
                 $query->where('type', '<>', '1D');
                 $query->where('code', 'not like', "H%");
               if($request->get('searchingcode') != null){
-                $query->where('expire', '>', "2020-03-14");
-                $query->where('start', '<', "2020-03-14");
+                $query->where('expire', '>', "2020-03-19");
+                $query->where('start', '<', "2020-03-19");
                 $query->where('covid_returnday', '=' , null);
                 $query->where('type', '<>', '1D');
                 $query->where('code', 'like', "%{$request->get('searchingcode')}%");
@@ -149,12 +149,21 @@ class MainCovid extends Controller
 
   public function Save_Viewdata_Covid(Request $request)
   {
-    if($request->post('month_covid') == '3') {
+    if ($request->post('month_covid') == '15') {
+      $covid_days = "15";
+      $covid_month = "15D";
+    }else if ($request->post('month_covid') == '1') {
+      $covid_days = "30";
+      $covid_month = "1M";
+    }else if($request->post('month_covid') == '3') {
       $covid_days = "90";
+      $covid_month = "3M";
     }else if ($request->post('month_covid') == '4') {
       $covid_days = "120";
+      $covid_month = "4M";
     }else {
       $covid_days = "0";
+      $covid_month = "0";
     }
 
     $new_covid_days = $request->post('days') + $covid_days;
@@ -169,7 +178,7 @@ class MainCovid extends Controller
     DB::table('member')
     ->where('code', $request->post('member_id'))
     ->update(['expire' => $date_new, 'covid_returnday' => 'Y']);
-    $this->Insert_Member_Detail($request->post('member_id'),'ผลกระทบ Covid', $date_new, $request->post('month_covid')."M");
+    $this->Insert_Member_Detail($request->post('member_id'),'ผลกระทบ Covid', $date_new, $covid_month);
     // Show Json
     $array = array('Code' => $request->post('member_id'));
     $json = json_encode($array);
