@@ -135,11 +135,11 @@ class MainCovid extends Controller
           return $rebirthday;
       })
       ->addColumn('covid_plusday', function ($users) {
-        $plus_day = date_diff(date_create("2020-03-14"),date_create($users->expire));
+        $plus_day = date_diff(date_create("2020-03-19"),date_create($users->expire));
         return $plus_day->format("%a days");
       })
       ->addColumn('action', function ($users) {
-        $plus_day = date_diff(date_create("2020-03-14"),date_create($users->expire));
+        $plus_day = date_diff(date_create("2020-03-19"),date_create($users->expire));
         $Data  = '<button class="btn btn-sm btn-success" start="'.$users->start.'"  expire="'.$users->expire.'" data="'.$plus_day->format("%a").'" id="'.$users->code.'" onclick="ViewData_Covid(this)" data-toggle="tooltip" data-placement="left" title="ดูข้อมูล Code : '.$users->code.'"><i class="fas fa-search"></i>View</button> ';
         return $Data;
       })
@@ -149,7 +149,10 @@ class MainCovid extends Controller
 
   public function Save_Viewdata_Covid(Request $request)
   {
-    if ($request->post('month_covid') == '15') {
+    if ($request->post('month_covid') == '0D') {
+      $covid_days = "0";
+      $covid_month = "0D";
+    }else if ($request->post('month_covid') == '15') {
       $covid_days = "15";
       $covid_month = "15D";
     }else if ($request->post('month_covid') == '1') {
@@ -163,7 +166,7 @@ class MainCovid extends Controller
       $covid_month = "4M";
     }else {
       $covid_days = "0";
-      $covid_month = "0";
+      $covid_month = "0D";
     }
 
     $new_covid_days = $request->post('days') + $covid_days;
@@ -177,15 +180,19 @@ class MainCovid extends Controller
     // ต่อายุการใช้งาน Covid
     DB::table('member')
     ->where('code', $request->post('member_id'))
-    ->update(['expire' => $date_new, 'covid_returnday' => 'Y']);
-    $this->Insert_Member_Detail($request->post('member_id'),'ผลกระทบ Covid', $date_new, $covid_month);
+    ->update([
+        'start' => $start_covid_date,
+        'expire' => $date_new, 
+        'covid_returnday' => 'Y'
+    ]);
+    $this->Insert_Member_Detail($request->post('member_id'),'ผลกระทบ Covid', $date_new, $covid_month,$start_covid_date);
     // Show Json
     $array = array('Code' => $request->post('member_id'));
     $json = json_encode($array);
     echo $json;
   }
 
-    public function Insert_Member_Detail($Code,$Note,$covid_expire,$covid_type)
+    public function Insert_Member_Detail($Code,$Note,$covid_expire,$covid_type,$start_covid_date)
     {
         date_default_timezone_set("Asia/Bangkok");
         $username = Session::get('Login.username');
@@ -200,7 +207,7 @@ class MainCovid extends Controller
           DB::table('member_detail')->insert([
           'code' =>      $row->code,
           'name' =>      $row->name,
-          'start' =>     $row->start,
+          'start' =>     $start_covid_date,
           'expire' =>    $covid_expire,
           'phone' =>     $row->phone,
           'type' =>      $covid_type,

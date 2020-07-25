@@ -388,6 +388,7 @@
                               <div class="input-group">
                                 <select class="custom-select custom-select-sm" id="Type_covid" onchange="Calculate_Day_covid(this);">
                                   <option selected value="0">เลือกจำนวนเดือน</option>
+                                  <option value="0D">0 วัน</option>
                                   <option value="15">15 วัน</option>
                                   <option value="1">1 เดือน</option>
                                   <option value="3">3 เดือน</option>
