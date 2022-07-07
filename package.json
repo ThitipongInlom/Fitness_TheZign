@@ -40,7 +40,7 @@
         "daterangepicker": "^3.0.5",
         "icheck-bootstrap": "^3.0.1",
         "jquery.redirect": "^1.1.4",
-        "moment": "^2.24.0",
+        "moment": "^2.29.4",
         "package.json": "^2.0.1",
         "simplebar": "^4.1.0",
         "sweetalert2": "^8.13.4",
